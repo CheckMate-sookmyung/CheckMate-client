@@ -1,9 +1,9 @@
-import { number } from 'prop-types';
 import * as S from './AttendancePage.style';
 
 const AttendancePage = () => {
   const studentId = Array.from({ length: 7 }, (_, index) => index + 1);
-  const numberList = Array.from({ length: 12 }, (_, index) => index + 1);
+  const numberList1 = Array.from({ length: 5 }, (_, index) => index + 1);
+  const numberList2 = Array.from({ length: 4 }, (_, index) => index + 6);
 
   return (
     <S.Container>
@@ -14,9 +14,15 @@ const AttendancePage = () => {
         ))}
       </S.StudentIdContainer>
       <S.NumberList>
-        {numberList.map((number) => (
-          <S.Number key={number}>{number}</S.Number>
+        {numberList1.map((number, index) => (
+          <S.Number key={index}>{number}</S.Number>
         ))}
+        <S.Number key="backspace">{'<'}</S.Number>
+        {numberList2.map((number, index) => (
+          <S.Number key={index}>{number}</S.Number>
+        ))}
+        <S.Number key="confirm">{'0'}</S.Number>
+        <S.ConfirmNumber key="confirm">{'확인'}</S.ConfirmNumber>
       </S.NumberList>
     </S.Container>
   );

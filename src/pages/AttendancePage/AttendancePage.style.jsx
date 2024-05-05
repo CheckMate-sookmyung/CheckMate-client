@@ -17,12 +17,14 @@ export const StudentIdContainer = styled.div`
 `;
 
 export const StudentId = styled.div`
+  --box-size: 60px;
+
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 60px;
-  height: 60px;
+  width: var(--box-size);
+  height: var(--box-size);
   border-radius: 4px;
   background-color: #f9f9f9;
   font-size: 28px;
@@ -39,7 +41,6 @@ export const NumberList = styled.div`
 
 export const Number = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
   width: calc(16.666% - 2px);
@@ -48,4 +49,10 @@ export const Number = styled.div`
   font-size: 50px;
   font-weight: 600;
   color: #ffffff;
+`;
+
+export const ConfirmNumber = styled(Number)`
+  background-color: #1040b9;
+  color: white;
+  font-size: 40px;
 `;
