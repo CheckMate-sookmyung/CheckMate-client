@@ -5,7 +5,7 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  width: fit-content;
+  width: 100%;
 `;
 
 export const Circle = styled.div`
@@ -24,4 +24,5 @@ export const Circle = styled.div`
 export const Label = styled.span`
   color: #ffffff;
   font-size: 14px;
+  text-align: center;
 `;
