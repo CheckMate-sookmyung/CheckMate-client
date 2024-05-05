@@ -24,5 +24,6 @@ export const Circle = styled.div`
 export const Label = styled.span`
   color: #ffffff;
   font-size: 14px;
+  font-weight: 400;
   text-align: center;
 `;

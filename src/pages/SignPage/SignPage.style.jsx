@@ -7,7 +7,7 @@ export const Container = styled.div`
   align-items: center;
 `;
 
-export const Header = styled.h2`
+export const Title = styled.h2`
   display: flex;
   justify-content: center;
   margin: 40px auto;
