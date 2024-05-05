@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div``;
 
-export const Header = styled.h2`
+export const Title = styled.h2`
   display: flex;
   justify-content: center;
   margin: 40px auto;

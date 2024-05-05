@@ -7,7 +7,7 @@ const AttendancePage = () => {
 
   return (
     <S.Container>
-      <S.Header>학번을 입력해주세요.</S.Header>
+      <S.Title>학번을 입력해주세요.</S.Title>
       <S.StudentIdContainer>
         {studentId.map((number) => (
           <S.StudentId key={number}>{}</S.StudentId>

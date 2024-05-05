@@ -4,6 +4,7 @@ import Step from '../Step/Step';
 export const Container = styled.div`
   display: flex;
   justify-content: space-between;
+  width: 100%;
 `;
 
 export const StepItem = styled.div`
