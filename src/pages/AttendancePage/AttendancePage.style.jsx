@@ -33,7 +33,7 @@ export const StudentId = styled.div`
 
 export const NumberList = styled.div`
   display: flex;
-  margin: 60px auto;
+  margin: 50px auto;
   flex-wrap: wrap;
   gap: 2px;
   max-width: calc(150px * 6 + 10px * 5);
@@ -52,7 +52,8 @@ export const Number = styled.div`
 `;
 
 export const ConfirmNumber = styled(Number)`
-  background-color: #1040b9;
+  background-color: ${({ isSevenDigits }) =>
+    isSevenDigits ? '#1040b9' : '#888888'};
   color: white;
   font-size: 40px;
 `;
