@@ -1,2 +1,2 @@
-export { default as AttendancePage } from './AttendancePage';
-export { default as SignPage } from './SignPage';
+export { default as AttendanceStudentIdPage } from './AttendanceStudentIdPage';
+export { default as AttendanceSignPage } from './AttendanceSignPage';
