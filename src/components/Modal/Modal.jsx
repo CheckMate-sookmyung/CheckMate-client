@@ -1,35 +1,66 @@
+import PropTypes from 'prop-types';
 import * as S from './Modal.style';
-import { CheckBoxIcon } from '../../icons';
+import { CheckBoxIcon, CheckboxCheckedIcon } from '../../icons';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
-const Modal = () => {
+const Modal = ({ name, major, studentId, eventName }) => {
+  const [isChecked, setIsChecked] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleCheckBoxInputChange = (event) => {
+    setIsChecked(event.target.checked);
+  };
+
+  const handleCompletedButtonClick = () => {
+    navigate('/attendance/sign');
+  };
+
   return (
     <S.ReviewLayout>
-      <S.Title>조영서님이 맞으십니까?</S.Title>
+      <S.Title>
+        <strong>{name}</strong>님이 맞으십니까?
+      </S.Title>
       <S.ContentContainer>
         <S.Content>
           <S.ContentTitle>학과</S.ContentTitle>
-          <S.ContentDescription>
-            소프트웨어학부 컴퓨터과학전공
-          </S.ContentDescription>
+          <S.ContentDescription>{major}</S.ContentDescription>
         </S.Content>
         <S.Content>
           <S.ContentTitle>학번</S.ContentTitle>
-          <S.ContentDescription>2110423</S.ContentDescription>
+          <S.ContentDescription>{studentId}</S.ContentDescription>
         </S.Content>
         <S.Content>
           <S.ContentTitle>행사</S.ContentTitle>
-          <S.ContentDescription>
-            LINE 개발자가 알려주는 React 입문
-          </S.ContentDescription>
+          <S.ContentDescription>{eventName}</S.ContentDescription>
         </S.Content>
       </S.ContentContainer>
-      <S.CheckContainer>
-        <CheckBoxIcon />
+      <S.CheckBoxLabel htmlFor="confirm">
+        <S.CheckBoxInput
+          id="confirm"
+          type="checkbox"
+          name="confirm"
+          onChange={handleCheckBoxInputChange}
+        />
+        {isChecked ? <CheckboxCheckedIcon /> : <CheckBoxIcon />}
         <S.CheckContent>네, 본인이 맞습니다.</S.CheckContent>
-      </S.CheckContainer>
-      <S.CompletedButton>서명하러 하기</S.CompletedButton>
+      </S.CheckBoxLabel>
+      <S.CompletedButton
+        disabled={!isChecked}
+        onClick={handleCompletedButtonClick}
+      >
+        서명하러 하기
+      </S.CompletedButton>
     </S.ReviewLayout>
   );
+};
+
+Modal.propTypes = {
+  name: PropTypes.string.isRequired,
+  major: PropTypes.string.isRequired,
+  studentId: PropTypes.number.isRequired,
+  eventName: PropTypes.string.isRequired,
 };
 
 export default Modal;

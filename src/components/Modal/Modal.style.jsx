@@ -13,11 +13,15 @@ export const ReviewLayout = styled.div`
 
 export const Title = styled.h1`
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
   padding: 40px;
   width: 100%;
   font-size: 40px;
+
+  & > strong {
+    color: #3665df;
+  }
 `;
 
 export const ContentContainer = styled.div`
@@ -44,10 +48,17 @@ export const ContentDescription = styled.span`
   font-size: 16px;
 `;
 
-export const CheckContainer = styled.div`
+export const CheckContainer = styled.div``;
+
+export const CheckBoxLabel = styled.label`
+  position: relative;
   display: flex;
   gap: 10px;
   padding: 30px;
+`;
+
+export const CheckBoxInput = styled.input`
+  position: absolute;
 `;
 
 export const CheckContent = styled.span`
@@ -62,4 +73,8 @@ export const CompletedButton = styled.button`
   font-size: 28px;
   font-weight: 600;
   color: #ffffff;
+
+  &:disabled {
+    background: #c8c8c8;
+  }
 `;

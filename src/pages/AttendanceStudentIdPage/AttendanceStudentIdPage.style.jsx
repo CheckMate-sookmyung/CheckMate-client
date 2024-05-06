@@ -53,7 +53,7 @@ export const Number = styled.div`
 
 export const ConfirmNumber = styled(Number)`
   background-color: ${({ isSevenDigits }) =>
-    isSevenDigits ? '#1040b9' : '#888888'};
+    isSevenDigits ? '#1040b9' : '#c8c8c8'};
   color: white;
   font-size: 40px;
 `;
