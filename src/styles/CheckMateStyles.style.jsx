@@ -35,7 +35,7 @@ export const checkMateStyles = css`
   select,
   meter,
   progress {
-    appearance: none;
+    /* appearance: none; */
   }
 
   b {
