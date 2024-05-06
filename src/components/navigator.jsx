@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import dot from "../utils/bluedot.png";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import dot from '../icons/registerPage/dot.svg';
 
 export default function Navigator() {
   const [isSelect, setIsSelected] = useState(false);
@@ -13,32 +13,23 @@ export default function Navigator() {
     <>
       <Background>
         <NavWrapper>
-          <MainMenu style={{ marginTop: "6px" }}>행사 관리 시스템</MainMenu>
+          <MainMenu style={{ marginTop: '6px' }}>행사 관리 시스템</MainMenu>
           <NavCenter>
             <div>
               <Bluedot>
-                <img
-                  src={dot}
-                  alt=''
-                />
+                <img src={dot} alt="" />
               </Bluedot>
               <MainMenu>행사 등록</MainMenu>
             </div>
             <div>
               <Bluedot>
-                <img
-                  src={dot}
-                  alt=''
-                />
+                <img src={dot} alt="" />
               </Bluedot>
               <MainMenu>진행중인 행사</MainMenu>
             </div>
             <div>
               <Bluedot>
-                <img
-                  src={dot}
-                  alt=''
-                />
+                <img src={dot} alt="" />
               </Bluedot>
               <MainMenu>지난 행사</MainMenu>
             </div>
@@ -94,7 +85,6 @@ const LogButton = styled.button`
   width: 86px;
   height: 30px;
   margin-top: 6px;
+  border: 2px #1f5fa9 solid;
   border-radius: 4px;
-  border-width: 2px;
-  border-color: #1f5fa9;
 `;
