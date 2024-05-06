@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import * as S from './AttendancePage.style';
+import * as S from './AttendanceStudentIdPage.style';
 import { AttendanceHeader } from '../../components';
+import { useNavigate } from 'react-router-dom';
 
-const AttendancePage = () => {
+const AttendanceStudentIdPage = () => {
   const [enteredNumbers, setEnteredNumbers] = useState([]);
+  const navigate = useNavigate();
 
   const studentId = Array.from({ length: 7 }, (_, index) => index + 1);
   const numberList1 = Array.from({ length: 5 }, (_, index) => index + 1);
@@ -15,7 +17,7 @@ const AttendancePage = () => {
     if (number === '<') {
       setEnteredNumbers(enteredNumbers.slice(0, -1));
     } else if (number === '확인') {
-      // 확인 기능
+      navigate('/attendance/sign');
     } else {
       if (enteredNumbers.length < 7) {
         setEnteredNumbers([...enteredNumbers, number]);
@@ -64,4 +66,4 @@ const AttendancePage = () => {
   );
 };
 
-export default AttendancePage;
+export default AttendanceStudentIdPage;
