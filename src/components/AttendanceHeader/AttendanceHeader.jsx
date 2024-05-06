@@ -10,7 +10,7 @@ const AttendanceHeader = ({ event }) => {
       </S.CloseIconContainer>
       <S.ContentContainer>
         <S.Title>{`[${event}] 출석체크`}</S.Title>
-        <Stepper stepLabelList={['QR코드', '학번 입력', '전자 서명']} />
+        <Stepper stepLabelList={['학번 입력', '전자 서명', '출석완료']} />
       </S.ContentContainer>
     </S.Container>
   );
