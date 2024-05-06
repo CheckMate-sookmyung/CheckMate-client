@@ -27,7 +27,7 @@ export const CompletedButton = styled.button`
   height: 62px;
   margin: 40px auto;
   border-radius: 4px;
-  background: linear-gradient(150deg, #3665df 30%, #91b2f1);
+  background: linear-gradient(150deg, #3665df 10%, #91b2f1);
   font-size: 28px;
   font-weight: 600;
   color: #ffffff;
