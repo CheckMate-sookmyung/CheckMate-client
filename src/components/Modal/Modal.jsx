@@ -18,7 +18,7 @@ const Modal = ({ name, major, studentId, eventName }) => {
   };
 
   return (
-    <S.ReviewLayout>
+    <S.ModalLayout>
       <S.Title>
         <strong>{name}</strong>님이 맞으십니까?
       </S.Title>
@@ -52,7 +52,7 @@ const Modal = ({ name, major, studentId, eventName }) => {
       >
         서명하러 하기
       </S.CompletedButton>
-    </S.ReviewLayout>
+    </S.ModalLayout>
   );
 };
 

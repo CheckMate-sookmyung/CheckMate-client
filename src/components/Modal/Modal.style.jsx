@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
-export const ReviewLayout = styled.div`
+export const ModalLayout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
   width: 800px;
   height: 460px;
-  border: 1px solid black;
+  border: 1px solid black; /* 추후 삭제하기 */
   border-radius: 12px;
 `;
 
