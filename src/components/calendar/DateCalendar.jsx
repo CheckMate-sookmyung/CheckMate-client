@@ -14,6 +14,10 @@ export default function CustomCalendar(props) {
     setSelectedDate(date);
   };
 
+  const decideDate = () => {
+    onClose(moment(selectedDate).format('YYYY-MM-DD'));
+  };
+
   return (
     <S.CalendarContainer>
       <S.CalendarTitle>
@@ -45,7 +49,9 @@ export default function CustomCalendar(props) {
           view === 'month' && date.getDay() === 0 ? 'sunday' : null
         }
       />
-      <S.SelectedButton>{selectedDate.toDateString()}</S.SelectedButton>
+      <S.SelectedButton onClick={() => decideDate()}>
+        {selectedDate.toDateString()}
+      </S.SelectedButton>
     </S.CalendarContainer>
   );
 }

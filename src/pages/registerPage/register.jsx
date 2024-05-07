@@ -6,17 +6,57 @@ import { MdAccessAlarm } from 'react-icons/md';
 import DateCalendar from '../../components/calendar/DateCalendar';
 
 export default function Register() {
-  const [selectedImage, setSelectedImage] = useState([]);
+  const [eventTitle, setEventTitle] = useState('');
+  const [eventDescription, setEventDescription] = useState('');
+  const [eventDate, setEventDate] = useState(new Date());
+  // const [eventTime, setEventTime] = useState('');
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedExcel, setSelectedExcel] = useState(null);
   const [dateCalendar, setDateCalendar] = useState(false);
 
-  const onSelectFile = (e) => {
-    e.preventDefault();
-    e.persist();
+  const handleImageChange = (event) => {
+    const image = event.target.files[0];
+    setSelectedImage(image);
+    console.log(image.name);
+  };
+
+  const handleExcelChange = (event) => {
+    const excel = event.target.files[0];
+    setSelectedExcel(excel);
+    console.log(excel.name);
+  };
+
+  const handleEventDate = (date) => {
+    setEventDate(date);
   };
 
   const OpenCalendar = () => {
     setDateCalendar(true);
-    console.log('clicked');
+  };
+
+  const registerEvent = () => {
+    if (!eventTitle || !eventDescription || !selectedImage || !selectedExcel) {
+      alert('모든 카테고리를 채워주세요.');
+    }
+
+    const formData = new FormData();
+    formData.append('eventTitle', eventTitle);
+    formData.append('eventDescription', eventDescription);
+    formData.append('selectedImage', selectedImage);
+    formData.append('selectedExcel', selectedExcel);
+
+    // axios
+    //   .post('', formData, {
+    //     headers: {
+    //       'Content-Type': 'multipart/form-data',
+    //     },
+    //   })
+    //   .then((response) => {
+    //     alert('행사가 등록되었습니다');
+    //   })
+    //   .catch((error) => {
+    //     console.error('행사 등록 실패:', error);
+    //   });
   };
 
   return (
@@ -34,11 +74,17 @@ export default function Register() {
                 width="600px"
                 height="56px"
                 placeholder="행사명을 입력하세요."
+                value={eventTitle}
+                onChange={(e) => setEventTitle(e.target.value)}
               />
             </FormItem>
             <FormItem>
               <PrimaryText>행사 설명</PrimaryText>
-              <ContentInput placeholder="행사에 대해 설명해주세요." />
+              <ContentInput
+                placeholder="행사에 대해 설명해주세요."
+                value={eventDescription}
+                onChange={(e) => setEventDescription(e.target.value)}
+              />
             </FormItem>
             <FormItem>
               <PrimaryText>행사 일정</PrimaryText>
@@ -72,7 +118,6 @@ export default function Register() {
                   />
                 </div>
               </div>
-              {dateCalendar && <DateCalendar />}
               {dateCalendar ? <DateCalendar onClose={setDateCalendar} /> : null}
             </FormItem>
             <FormItem>
@@ -145,10 +190,17 @@ export default function Register() {
                 <PrimaryInput
                   width="400px"
                   height="56px"
-                  placeholder="이미지(.png, .jpeg, .pdf) 파일 첨부"
+                  placeholder={
+                    selectedImage
+                      ? selectedImage.name
+                      : '이미지 (.png, .jpeg, .pdf) 파일 첨부'
+                  }
                   readOnly
                 />
-                <ChoiceButton accept=".png, .jpeg, .pdf" />
+                <ChoiceButton
+                  accept=".png, .jpeg, .pdf, .xlsx"
+                  onChange={handleImageChange}
+                />
                 <ChoiceButtonLabel>파일 선택</ChoiceButtonLabel>
               </TwoBoxWrapper>
             </FormItem>
@@ -158,16 +210,21 @@ export default function Register() {
                 <PrimaryInput
                   width="400px"
                   height="56px"
-                  placeholder="엑셀 (.xlsx) 파일 첨부"
+                  placeholder={
+                    selectedExcel ? selectedExcel.name : '엑셀(.xlsx) 파일 첨부'
+                  }
                   readOnly
                 />
-                <ChoiceButton accept=".xls, .xlsx" />
+                <ChoiceButton
+                  accept=".xlsx, .xls"
+                  onChange={handleExcelChange}
+                />
                 <ChoiceButtonLabel>파일 선택</ChoiceButtonLabel>
               </TwoBoxWrapper>
             </FormItem>
             <FormItem>
               <TwoBoxWrapper>
-                <PrimaryText>안내 메일 발송 여부</PrimaryText>
+                <PrimaryText2>안내 메일 발송 여부</PrimaryText2>
                 <Preview>미리보기</Preview>
               </TwoBoxWrapper>
             </FormItem>
@@ -179,7 +236,7 @@ export default function Register() {
             </FormItem>
             <FormItem>
               <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <BlueButton>등록하기</BlueButton>
+                <BlueButton onClick={registerEvent}>등록하기</BlueButton>
               </div>
             </FormItem>
           </ContentsWrapper>
@@ -239,9 +296,12 @@ const FormItem = styled.div`
   margin-bottom: 30px;
 `;
 
-const PrimaryText = styled.p`
+const PrimaryText2 = styled.p`
   font-size: 20px;
   font-weight: 700;
+`;
+
+const PrimaryText = styled(PrimaryText2)`
   margin-bottom: 20px;
 `;
 
@@ -254,21 +314,6 @@ const PrimaryInput = styled.input`
   box-sizing: border-box;
   &:focus {
     outline: none;
-  }
-`;
-
-const Calendar = styled.input.attrs({ type: 'button' })`
-  position: absolute;
-  right: 0;
-  width: 26px;
-  height: 26px;
-  margin: 15px;
-  cursor: pointer;
-  svg {
-    fill: #007bff; /* 아이콘 색상 */
-    width: 20px; /* 아이콘 너비 */
-    height: 20px; /* 아이콘 높이 */
-    /* 추가적인 스타일들... */
   }
 `;
 
@@ -286,13 +331,6 @@ const ContentInput = styled.textarea`
 `;
 
 const ChoiceButton = styled.input.attrs({ type: 'file', id: 'ChoiceButton' })`
-  color: #1f5fa9;
-  border-radius: 4px;
-  border: 1px solid #1f5fa9;
-  background-color: white;
-  width: 181px;
-  height: 50px;
-  cursor: pointer;
   display: none;
 `;
 
@@ -322,7 +360,6 @@ const Preview = styled.button`
   background-color: #1f5fa9;
   width: 70px;
   height: 24px;
-  margin-bottom: 20px;
   cursor: pointer;
 `;
 
