@@ -3,12 +3,12 @@ import Navigator from '../../components/navigator';
 import styled from 'styled-components';
 import { FaRegCalendarAlt } from 'react-icons/fa';
 import { MdAccessAlarm } from 'react-icons/md';
-import DateCalendar from '../../components/calendar/DateCalendar';
+import DateCalendar from '../../components/Calendar/DateCalendar';
 
 export default function Register() {
   const [eventTitle, setEventTitle] = useState('');
   const [eventDescription, setEventDescription] = useState('');
-  const [eventDate, setEventDate] = useState(new Date());
+  const [eventDate, setEventDate] = useState('');
   // const [eventTime, setEventTime] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedExcel, setSelectedExcel] = useState(null);
@@ -26,13 +26,16 @@ export default function Register() {
     console.log(excel.name);
   };
 
-  const handleEventDate = (date) => {
-    setEventDate(date);
-  };
-
-  const OpenCalendar = () => {
+  const openCalendar = () => {
     setDateCalendar(true);
   };
+
+  const closeCalendar = (selectedDate) => {
+    setEventDate(selectedDate);
+    setDateCalendar(false);
+  };
+
+  const handleDateClose = (selectedDate) => {};
 
   const registerEvent = () => {
     if (!eventTitle || !eventDescription || !selectedImage || !selectedExcel) {
@@ -105,7 +108,7 @@ export default function Register() {
                   <PrimaryInput
                     width="400px"
                     height="56px"
-                    placeholder="행사 일정 선택"
+                    placeholder={eventDate ? eventDate : '행사 일정 선택'}
                     readOnly
                   />
                   <FaRegCalendarAlt
@@ -114,11 +117,11 @@ export default function Register() {
                       right: '20px',
                       cursor: 'pointer',
                     }}
-                    onClick={() => OpenCalendar()}
+                    onClick={() => openCalendar()}
                   />
                 </div>
               </div>
-              {dateCalendar ? <DateCalendar onClose={setDateCalendar} /> : null}
+              {dateCalendar && <DateCalendar onClose={closeCalendar} />}
             </FormItem>
             <FormItem>
               <PrimaryText>행사 시간</PrimaryText>
@@ -187,39 +190,33 @@ export default function Register() {
             <FormItem>
               <PrimaryText>포스터</PrimaryText>
               <TwoBoxWrapper>
-                <PrimaryInput
-                  width="400px"
-                  height="56px"
+                <PrimaryInput1
                   placeholder={
                     selectedImage
                       ? selectedImage.name
                       : '이미지 (.png, .jpeg, .pdf) 파일 첨부'
                   }
-                  readOnly
                 />
-                <ChoiceButton
-                  accept=".png, .jpeg, .pdf, .xlsx"
+                <ChoiceButton1
+                  accept=".png, .jpeg, .pdf"
                   onChange={handleImageChange}
                 />
-                <ChoiceButtonLabel>파일 선택</ChoiceButtonLabel>
+                <ChoiceButtonLabel1>파일 선택</ChoiceButtonLabel1>
               </TwoBoxWrapper>
             </FormItem>
             <FormItem>
               <PrimaryText>출석 명단</PrimaryText>
               <TwoBoxWrapper>
-                <PrimaryInput
-                  width="400px"
-                  height="56px"
+                <PrimaryInput2
                   placeholder={
                     selectedExcel ? selectedExcel.name : '엑셀(.xlsx) 파일 첨부'
                   }
-                  readOnly
                 />
-                <ChoiceButton
+                <ChoiceButton2
                   accept=".xlsx, .xls"
                   onChange={handleExcelChange}
                 />
-                <ChoiceButtonLabel>파일 선택</ChoiceButtonLabel>
+                <ChoiceButtonLabel2>파일 선택</ChoiceButtonLabel2>
               </TwoBoxWrapper>
             </FormItem>
             <FormItem>
@@ -317,6 +314,20 @@ const PrimaryInput = styled.input`
   }
 `;
 
+const PrimaryInput1 = styled(PrimaryInput)`
+  width: 400px;
+  height: 56px;
+  &:read-only {
+  }
+`;
+
+const PrimaryInput2 = styled(PrimaryInput)`
+  width: 400px;
+  height: 56px;
+  &:read-only {
+  }
+`;
+
 const ContentInput = styled.textarea`
   width: 800px;
   height: 260px;
@@ -330,11 +341,28 @@ const ContentInput = styled.textarea`
   }
 `;
 
-const ChoiceButton = styled.input.attrs({ type: 'file', id: 'ChoiceButton' })`
+const ChoiceButton1 = styled.input.attrs({ type: 'file', id: 'ChoiceButton1' })`
   display: none;
 `;
 
-const ChoiceButtonLabel = styled.label.attrs({ htmlFor: 'ChoiceButton' })`
+const ChoiceButton2 = styled.input.attrs({ type: 'file', id: 'ChoiceButton2' })`
+  display: none;
+`;
+
+const ChoiceButtonLabel1 = styled.label.attrs({ htmlFor: 'ChoiceButton1' })`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1f5fa9;
+  border-radius: 4px;
+  border: 1px solid #1f5fa9;
+  background-color: white;
+  width: 181px;
+  height: 50px;
+  cursor: pointer;
+`;
+
+const ChoiceButtonLabel2 = styled.label.attrs({ htmlFor: 'ChoiceButton2' })`
   display: flex;
   align-items: center;
   justify-content: center;
