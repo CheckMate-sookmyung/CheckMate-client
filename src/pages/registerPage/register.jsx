@@ -17,13 +17,11 @@ export default function Register() {
   const handleImageChange = (event) => {
     const image = event.target.files[0];
     setSelectedImage(image);
-    console.log(image.name);
   };
 
   const handleExcelChange = (event) => {
     const excel = event.target.files[0];
     setSelectedExcel(excel);
-    console.log(excel.name);
   };
 
   const openCalendar = () => {
