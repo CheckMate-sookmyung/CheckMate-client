@@ -46,7 +46,7 @@ const EventCard = ({ title, date }) => {
       <CardPoster></CardPoster>
       <CardTitle>{title}</CardTitle>
       <DateWrapper>
-        <p>진행일정</p>
+        <p>진행 일정</p>
         <CardDay>{formattedDate}</CardDay>
       </DateWrapper>
       <BlueButton onClick={() => console.log('출석 체크')}>

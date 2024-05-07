@@ -94,6 +94,12 @@ export const StyledCalendar = styled(Calendar)`
     margin-bottom: 1em;
   }
 
+  .react-calendar__navigation__label > span {
+    font-size: 20px;
+    font-weight: 600;
+    color: black;
+  }
+
   .react-calendar__navigation button {
   }
 
