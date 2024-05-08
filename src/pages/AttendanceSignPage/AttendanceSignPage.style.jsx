@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
@@ -15,20 +15,26 @@ export const Title = styled.h2`
   font-weight: 700;
 `;
 
-export const SignPad = styled.div`
-  width: 600px;
-  height: 350px;
-  border-radius: 4px;
-  background-color: #f9f9f9;
-`;
-
 export const CompletedButton = styled.button`
   width: 300px;
   height: 62px;
   margin: 40px auto;
   border-radius: 4px;
-  background: linear-gradient(150deg, #3665df 10%, #91b2f1);
   font-size: 28px;
   font-weight: 600;
   color: #ffffff;
+
+  ${(props) =>
+    props.disabled &&
+    css`
+      background-color: #c8c8c8;
+      cursor: not-allowed;
+    `}
+
+  ${(props) =>
+    !props.disabled &&
+    css`
+      background: linear-gradient(150deg, #3665df 10%, #91b2f1);
+      cursor: pointer;
+    `}
 `;
