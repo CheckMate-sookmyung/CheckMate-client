@@ -1,27 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import BackgroundPage from '../../components/Background/BackgroundPage';
-
-const eventDataFromServer = [
-  {
-    id: 1,
-    title: '라인 개발자가 알려주는 리액트 입문',
-    date: new Date('2024.05.11'),
-  },
-  { id: 2, title: '숙명 sw star 특강 시리즈', date: new Date('2024.05.18') },
-  {
-    id: 3,
-    title: 'sw 인플루언서 역량 강화 프로그램',
-    date: new Date('2024.05.26'),
-  },
-];
+import axios from 'axios';
+const REACT_BASE_URL = 'http://3.37.229.221/api/v1';
+const USER_ID = 100;
 
 export default function CurrentEvent() {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      setEvents(eventDataFromServer);
+      try {
+        const response = await axios.get(
+          `${REACT_BASE_URL}/event/list/${USER_ID}`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'ngrok-skip-browser-warning': '69420',
+            },
+          },
+        );
+        console.log('response : ', response);
+
+        const parsedEvents = response.data.map((event) => ({
+          id: event.eventId,
+          title: event.eventTitle,
+          poster: event.eventImage,
+          // date: new Date(event.eventDate),
+        }));
+
+        setEvents(parsedEvents);
+      } catch (error) {
+        console.error(error);
+      }
     };
 
     fetchData();
@@ -31,23 +42,30 @@ export default function CurrentEvent() {
     <BackgroundPage title={'진행 중인 행사'}>
       <EventCardList>
         {events.map((event) => (
-          <EventCard key={event.id} title={event.title} date={event.date} />
+          <EventCard
+            key={event.id}
+            title={event.title}
+            // date={event.date}
+            poster={event.poster}
+          />
         ))}
       </EventCardList>
     </BackgroundPage>
   );
 }
 
-const EventCard = ({ title, date }) => {
-  const formattedDate = `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
+const EventCard = ({ title, poster }) => {
+  // const formattedDate = `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
 
   return (
     <CardWrapper>
-      <CardPoster></CardPoster>
+      <CardPoster>
+        <img src={poster} alt="event_poster" />
+      </CardPoster>
       <CardTitle>{title}</CardTitle>
       <DateWrapper>
         <p>진행 일정</p>
-        <CardDay>{formattedDate}</CardDay>
+        {/* <CardDay>{formattedDate}</CardDay> */}
       </DateWrapper>
       <BlueButton onClick={() => console.log('출석 체크')}>
         출석 체크
@@ -58,7 +76,11 @@ const EventCard = ({ title, date }) => {
 
 const EventCardList = styled.div`
   display: flex;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 1200px;
+  height: 100vh;
 `;
 
 const CardWrapper = styled.div`
@@ -67,7 +89,7 @@ const CardWrapper = styled.div`
   width: 320px;
   height: 490px;
   padding: 12px;
-  margin: 40px;
+  margin: 20px;
   box-shadow:
     rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
@@ -83,12 +105,14 @@ const CardPoster = styled.div`
   display: flex;
   width: 296px;
   height: 300px;
+  overflow: auto;
 `;
 
 const CardTitle = styled.p`
   font-size: 18px;
   font-weight: 700;
   height: 80px;
+  margin: 15px 0px;
 `;
 
 const DateWrapper = styled.div`
