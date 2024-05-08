@@ -1,10 +1,27 @@
 import PropTypes from 'prop-types';
 import * as S from './AttendanceSignPage.style';
 import { AttendanceHeader } from '../../components';
+import SignatureCanvas from 'react-signature-canvas';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const SAMPLE_NAME = '조영서';
 
 const AttendanceSignPage = () => {
+  const [isSigned, setIsSigned] = useState(false);
+  let signaturePad = null;
+  const navigate = useNavigate();
+
+  const handleInputChange = () => {
+    navigate('/attendance/student-id'); //(임시) 서명 입력 후 발생할 이벤트 넣기
+  };
+
+  const handleSignature = () => {
+    if (!isSigned) {
+      setIsSigned(true);
+    }
+  };
+
   return (
     <S.Container>
       <AttendanceHeader
@@ -12,8 +29,27 @@ const AttendanceSignPage = () => {
         activeStep={1}
       />
       <S.Title>{`${SAMPLE_NAME}님의 서명을 입력하세요.`}</S.Title>
-      <S.SignPad></S.SignPad>
-      <S.CompletedButton>입력 완료</S.CompletedButton>
+
+      <SignatureCanvas
+        penColor="black"
+        canvasProps={{
+          className: 'sigCanvas',
+          width: 600,
+          height: 350,
+          style: {
+            borderRadius: '4px',
+            backgroundColor: '#f0eeee',
+          },
+        }}
+        ref={(ref) => {
+          signaturePad = ref;
+        }}
+        onEnd={handleSignature}
+      />
+
+      <S.CompletedButton onClick={handleInputChange} disabled={!isSigned}>
+        입력 완료
+      </S.CompletedButton>
     </S.Container>
   );
 };
