@@ -70,6 +70,7 @@ const AttendanceStudentIdPage = () => {
           {'확인'}
         </S.ConfirmNumber>
       </S.NumberList>
+      {isOpen && <S.ModalOverlay />}
       <Modal
         name="홍길동"
         major="컴과"
