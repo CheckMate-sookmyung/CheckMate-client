@@ -1,14 +1,21 @@
 import styled from 'styled-components';
 
 export const ModalLayout = styled.div`
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  width: 800px;
+  width: 100%;
   height: 460px;
   border: 1px solid black; /* 추후 삭제하기 */
   border-radius: 12px;
+  background-color: #ffffff;
 `;
 
 export const Title = styled.h1`

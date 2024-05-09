@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import * as S from './AttendanceStudentIdPage.style';
 import { AttendanceHeader } from '../../components';
-import { useNavigate } from 'react-router-dom';
+import Modal from '../../components/Modal';
 
 const AttendanceStudentIdPage = () => {
   const [enteredNumbers, setEnteredNumbers] = useState([]);
-  const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
 
   const studentId = Array.from({ length: 7 }, (_, index) => index + 1);
   const numberList1 = Array.from({ length: 5 }, (_, index) => index + 1);
@@ -17,12 +17,20 @@ const AttendanceStudentIdPage = () => {
     if (number === '<') {
       setEnteredNumbers(enteredNumbers.slice(0, -1));
     } else if (number === '확인') {
-      navigate('/attendance/sign');
+      openModal();
     } else {
       if (enteredNumbers.length < 7) {
         setEnteredNumbers([...enteredNumbers, number]);
       }
     }
+  };
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
   };
 
   return (
@@ -62,6 +70,14 @@ const AttendanceStudentIdPage = () => {
           {'확인'}
         </S.ConfirmNumber>
       </S.NumberList>
+      <Modal
+        name="홍길동"
+        major="컴과"
+        studentId="2110423"
+        eventName="즐거운 리액트"
+        isOpen={isOpen}
+        onClose={closeModal}
+      />
     </S.Container>
   );
 };
