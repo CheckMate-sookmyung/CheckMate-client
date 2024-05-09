@@ -38,3 +38,14 @@ export const CompletedButton = styled.button`
       cursor: pointer;
     `}
 `;
+
+// 모달 열릴 때 회색 불투명한 레이어 스타일
+export const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+`;

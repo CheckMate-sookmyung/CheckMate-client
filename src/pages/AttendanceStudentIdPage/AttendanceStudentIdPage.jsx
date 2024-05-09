@@ -12,14 +12,15 @@ const AttendanceStudentIdPage = () => {
   const numberList2 = Array.from({ length: 4 }, (_, index) => index + 6);
 
   const isSevenDigits = enteredNumbers.length === 7;
+  const isConfirmEnabled = isSevenDigits;
 
   const handleNumberClick = (number) => {
     if (number === '<') {
       setEnteredNumbers(enteredNumbers.slice(0, -1));
-    } else if (number === '확인') {
+    } else if (number === '확인' && isConfirmEnabled) {
       openModal();
     } else {
-      if (enteredNumbers.length < 7) {
+      if (enteredNumbers.length < 7 && number !== '확인') {
         setEnteredNumbers([...enteredNumbers, number]);
       }
     }
@@ -66,10 +67,12 @@ const AttendanceStudentIdPage = () => {
           key="confirm"
           onClick={() => handleNumberClick('확인')}
           isSevenDigits={isSevenDigits}
+          disabled={!isConfirmEnabled}
         >
           {'확인'}
         </S.ConfirmNumber>
       </S.NumberList>
+      {isOpen && <S.ModalOverlay />}
       <Modal
         name="홍길동"
         major="컴과"

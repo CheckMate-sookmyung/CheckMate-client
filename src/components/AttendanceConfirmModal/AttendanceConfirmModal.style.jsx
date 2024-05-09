@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 
 export const ModalLayout = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -10,8 +15,8 @@ export const ModalLayout = styled.div`
   margin: 0 auto;
   width: 800px;
   height: 460px;
-  border: 1px solid black; /* 추후 삭제하기 */
   border-radius: 12px;
+  background-color: #ffffff;
 `;
 
 export const Content = styled.h1`
