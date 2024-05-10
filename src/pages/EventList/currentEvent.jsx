@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import BackgroundPage from '../../components/Background/BackgroundPage';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-const REACT_BASE_URL = 'http://3.37.229.221/api/v1';
+import { axiosInstance } from '../../axios';
 const USER_ID = 500;
 
 export default function CurrentEvent() {
@@ -12,13 +12,8 @@ export default function CurrentEvent() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${REACT_BASE_URL}/event/list/${USER_ID}`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          },
+        const response = await axiosInstance.get(
+          `/api/v1/event/list/${USER_ID}`,
         );
         console.log('response : ', response);
 

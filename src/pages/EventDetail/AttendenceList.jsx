@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { axiosInstance } from '../../axios';
 
-const REACT_BASE_URL = 'http://3.37.229.221/api/v1';
 const USER_ID = 500;
 const EVENT_ID = 1102;
 
@@ -12,13 +12,8 @@ const AttendanceList = ({ onClose }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${REACT_BASE_URL}/event/list/${USER_ID}/${EVENT_ID}`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          },
+        const response = await axiosInstance.get(
+          `/api/v1/event/list/${USER_ID}/${EVENT_ID}`,
         );
         console.log('response: ', response.data);
 
