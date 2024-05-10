@@ -1,1 +1,1 @@
-export { default } from './attendanceService';
+export * from './attendanceService';
