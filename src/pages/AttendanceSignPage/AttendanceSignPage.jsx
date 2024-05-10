@@ -17,7 +17,7 @@ const AttendanceSignPage = () => {
   const handleInputChange = () => {
     const signatureImage = signatureRef.current.toDataURL(); // 서명을 이미지로 변환
     console.log(signatureImage);
-    openModal(); //서명 입력 후 발생할 이벤트 넣기
+    openModal(); //서명 입력 후 출석 완료 창 띄우기
   };
 
   const handleSignature = () => {
@@ -37,10 +37,11 @@ const AttendanceSignPage = () => {
   return (
     <S.Container>
       <AttendanceHeader
-        event="LINE 개발자가 알려주는 React 입문"
+        event="AI & ML Ops Foundation (입문과정)"
         activeStep={1}
       />
-      <S.Title>{`${SAMPLE_NAME}님의 서명을 입력하세요.`}</S.Title>
+      <S.Title>{`서명을 입력하세요.`}</S.Title>
+      {/* <S.Title>{`${SAMPLE_NAME}님의 서명을 입력하세요.`}</S.Title> */}
 
       <SignatureCanvas
         penColor="black"
