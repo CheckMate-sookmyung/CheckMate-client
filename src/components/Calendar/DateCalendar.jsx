@@ -1,21 +1,28 @@
 import React, { useState } from 'react';
 import * as S from './DateCalendarStyle';
-import moment from 'moment/moment';
-import 'moment/locale/ko';
 import { IoClose } from 'react-icons/io5';
 
-moment.locale('ko');
-
-export default function CustomCalendar(props) {
-  const { onClose } = props;
+export default function DateCalendar({ onClose, onSubmit }) {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const year = selectedDate.getFullYear();
+  const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+  const day = String(selectedDate.getDate()).padStart(2, '0');
+  const dayOfWeek = ['일', '월', '화', '수', '목', '금', '토'][
+    selectedDate.getDay()
+  ];
+  const formattedDate = `${year}.${month}.${day}(${dayOfWeek})`;
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
 
   const decideDate = () => {
-    onClose(moment(selectedDate).format('YYYY-MM-DD'));
+    const formattedDateString = `${year}-${month}-${day}`;
+    onClose(formattedDateString);
+  };
+
+  const handleClose = () => {
+    onClose(false);
   };
 
   return (
@@ -23,19 +30,15 @@ export default function CustomCalendar(props) {
       <S.CalendarTitle>
         행사 일정 선택
         <S.CloseWrapper>
-          <IoClose
-            onClick={() => {
-              onClose(false);
-            }}
-          />
+          <IoClose onClick={handleClose} />
         </S.CloseWrapper>
       </S.CalendarTitle>
       <S.StyledCalendar
         onChange={handleDateChange}
         value={selectedDate}
         showNeighboringMonth={false}
-        nextLabe={null}
-        prevLabe={null}
+        nextLabel={null}
+        prevLabel={null}
         next2Label={null}
         prev2Label={null}
         nextAriaLabe={null}
@@ -44,13 +47,13 @@ export default function CustomCalendar(props) {
         minDate={new Date()}
         minDetail="month"
         maxDetail="month"
-        formatDay={(locale, date) => moment(date).format('DD')}
+        formatDay={(locale, date) => String(date.getDate()).padStart(2, '0')}
         tileClassName={({ date, view }) =>
           view === 'month' && date.getDay() === 0 ? 'sunday' : null
         }
       />
-      <S.SelectedButton onClick={() => decideDate()}>
-        {selectedDate.toDateString()}
+      <S.SelectedButton onClick={decideDate}>
+        {formattedDate} 일정 등록
       </S.SelectedButton>
     </S.CalendarContainer>
   );

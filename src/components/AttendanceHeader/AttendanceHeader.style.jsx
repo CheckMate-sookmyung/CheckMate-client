@@ -13,7 +13,7 @@ export const Container = styled.div`
   color: #ffffff;
 `;
 
-export const CloseIconContainer = styled.div`
+export const CloseIconAnchor = styled.a`
   position: absolute;
   top: 10px;
   right: 10px;
