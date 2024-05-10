@@ -4,11 +4,6 @@ import { CheckBoxIcon, CheckboxCheckedIcon } from '../../icons';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Portal from '../Portal/Portal';
-import axios from 'axios';
-const REACT_BASE_URL = 'http://3.37.229.221/api/v1';
-const USER_ID = 100;
-const EVENT_ID = 2;
-const STUDENT_ID = 516; //출석안됨
 
 const Modal = ({ name, major, studentId, isOpen, onClose }) => {
   const [isChecked, setIsChecked] = useState(false);
@@ -19,23 +14,8 @@ const Modal = ({ name, major, studentId, isOpen, onClose }) => {
   };
 
   const handleCompletedButtonClick = async () => {
-    try {
-      const response = await axios.get(
-        `${REACT_BASE_URL}/attendance/check/${USER_ID}/${EVENT_ID}/${STUDENT_ID}`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            // 'ngrok-skip-browser-warning': '69420',
-          },
-        },
-      );
-      console.log(response.data);
-
-      onClose();
-      navigate('/attendance/sign');
-    } catch (error) {
-      console.error('미성에러', error);
-    }
+    onClose();
+    navigate('/attendance/sign');
   };
 
   if (!isOpen) {
