@@ -4,20 +4,38 @@ import { CheckBoxIcon, CheckboxCheckedIcon } from '../../icons';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Portal from '../Portal/Portal';
+import axios from 'axios';
+const REACT_BASE_URL = 'http://3.37.229.221/api/v1';
+const USER_ID = 100;
+const EVENT_ID = 2;
+const STUDENT_ID = 516; //출석안됨
 
 const Modal = ({ name, major, studentId, isOpen, onClose }) => {
   const [isChecked, setIsChecked] = useState(false);
-
   const navigate = useNavigate();
 
   const handleCheckBoxInputChange = (event) => {
     setIsChecked(event.target.checked);
   };
 
-  const handleCompletedButtonClick = () => {
-    navigate('/attendance/sign');
+  const handleCompletedButtonClick = async () => {
+    try {
+      const response = await axios.get(
+        `${REACT_BASE_URL}/attendance/check/${USER_ID}/${EVENT_ID}/${STUDENT_ID}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            // 'ngrok-skip-browser-warning': '69420',
+          },
+        },
+      );
+      console.log(response.data);
 
-    onClose();
+      onClose();
+      navigate('/attendance/sign');
+    } catch (error) {
+      console.error('미성에러', error);
+    }
   };
 
   if (!isOpen) {
@@ -64,7 +82,9 @@ const Modal = ({ name, major, studentId, isOpen, onClose }) => {
 Modal.propTypes = {
   name: PropTypes.string.isRequired,
   major: PropTypes.string.isRequired,
-  studentId: PropTypes.number.isRequired,
+  studentId: PropTypes.string.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default Modal;

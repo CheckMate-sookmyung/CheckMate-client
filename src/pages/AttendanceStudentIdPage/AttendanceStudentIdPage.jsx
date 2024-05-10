@@ -76,8 +76,7 @@ const AttendanceStudentIdPage = () => {
       <Modal
         name="홍길동"
         major="컴과"
-        studentId="2110423"
-        eventName="즐거운 리액트"
+        studentId={enteredNumbers.join('')}
         isOpen={isOpen}
         onClose={closeModal}
       />
