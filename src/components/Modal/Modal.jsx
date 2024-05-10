@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Portal from '../Portal/Portal';
 
-const Modal = ({ name, major, studentId, eventName, isOpen, onClose }) => {
+const Modal = ({ name, major, studentId, isOpen, onClose }) => {
   const [isChecked, setIsChecked] = useState(false);
 
   const navigate = useNavigate();
@@ -39,10 +39,6 @@ const Modal = ({ name, major, studentId, eventName, isOpen, onClose }) => {
             <S.ContentTitle>학번</S.ContentTitle>
             <S.ContentDescription>{studentId}</S.ContentDescription>
           </S.Content>
-          <S.Content>
-            <S.ContentTitle>행사</S.ContentTitle>
-            <S.ContentDescription>{eventName}</S.ContentDescription>
-          </S.Content>
         </S.ContentContainer>
         <S.CheckBoxLabel htmlFor="confirm">
           <S.CheckBoxInput
@@ -69,7 +65,6 @@ Modal.propTypes = {
   name: PropTypes.string.isRequired,
   major: PropTypes.string.isRequired,
   studentId: PropTypes.number.isRequired,
-  eventName: PropTypes.string.isRequired,
 };
 
 export default Modal;
