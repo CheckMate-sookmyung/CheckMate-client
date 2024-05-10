@@ -6,9 +6,9 @@ import PropTypes from 'prop-types';
 const AttendanceHeader = ({ event, activeStep }) => {
   return (
     <S.Container>
-      <S.CloseIconContainer>
+      <S.CloseIconAnchor href="/currentevent">
         <CloseIcon />
-      </S.CloseIconContainer>
+      </S.CloseIconAnchor>
       <S.ContentContainer>
         <S.Title>{`[${event}] 출석체크`}</S.Title>
         <Stepper
