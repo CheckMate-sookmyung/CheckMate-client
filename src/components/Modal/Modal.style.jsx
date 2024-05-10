@@ -1,14 +1,19 @@
 import styled from 'styled-components';
 
 export const ModalLayout = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
   width: 800px;
   height: 460px;
-  border: 1px solid black; /* 추후 삭제하기 */
   border-radius: 12px;
+  background-color: #ffffff;
 `;
 
 export const Title = styled.h1`
@@ -54,6 +59,7 @@ export const CheckBoxLabel = styled.label`
   position: relative;
   display: flex;
   gap: 10px;
+  margin: 10px;
   padding: 30px;
 `;
 
@@ -62,7 +68,7 @@ export const CheckBoxInput = styled.input`
 `;
 
 export const CheckContent = styled.span`
-  font-size: 16px;
+  font-size: 20px;
 `;
 
 export const CompletedButton = styled.button`
