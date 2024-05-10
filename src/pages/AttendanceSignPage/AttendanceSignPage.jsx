@@ -3,18 +3,21 @@ import * as S from './AttendanceSignPage.style';
 import { AttendanceHeader, AttendanceConfirmModal } from '../../components';
 import SignatureCanvas from 'react-signature-canvas';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 const SAMPLE_NAME = '조영서';
 
 const AttendanceSignPage = () => {
   const [isSigned, setIsSigned] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  let signaturePad = null;
+  const signatureRef = useRef(null);
+
   const navigate = useNavigate();
 
   const handleInputChange = () => {
-    openModal(); //서명 입력 후 출석 완료 모달 창 뜨기
+    const signatureImage = signatureRef.current.toDataURL(); // 서명을 이미지로 변환
+    console.log(signatureImage);
+    openModal(); //서명 입력 후 발생할 이벤트 넣기
   };
 
   const handleSignature = () => {
@@ -50,21 +53,13 @@ const AttendanceSignPage = () => {
             backgroundColor: '#f0eeee',
           },
         }}
-        ref={(ref) => {
-          signaturePad = ref;
-        }}
+        ref={signatureRef}
         onEnd={handleSignature}
       />
 
       <S.CompletedButton onClick={handleInputChange} disabled={!isSigned}>
         입력 완료
       </S.CompletedButton>
-      {isOpen && (
-        <>
-          <S.ModalOverlay />
-          <AttendanceConfirmModal isOpen={isOpen} onClose={closeModal} />
-        </>
-      )}
     </S.Container>
   );
 };
