@@ -63,9 +63,12 @@ const EventCard = ({ title, poster, date }) => {
     navigate('/eventDetail');
   };
 
+  const attendanceCheck = () => {
+    navigate('/attendance/student-id');
+  };
   return (
-    <CardWrapper onClick={handleDetail}>
-      <CardPoster>
+    <CardWrapper>
+      <CardPoster onClick={handleDetail}>
         <img src={poster} alt="event_poster" />
       </CardPoster>
       <CardTitle>{title}</CardTitle>
@@ -73,9 +76,7 @@ const EventCard = ({ title, poster, date }) => {
         <p>진행 일정</p>
         <CardDay>{date}</CardDay>
       </DateWrapper>
-      <BlueButton onClick={() => console.log('출석 체크')}>
-        출석 체크
-      </BlueButton>
+      <BlueButton onClick={attendanceCheck}>출석 체크</BlueButton>
     </CardWrapper>
   );
 };
