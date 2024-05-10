@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import BackgroundPage from '../../components/Background/BackgroundPage';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 const REACT_BASE_URL = 'http://3.37.229.221/api/v1';
-const USER_ID = 100;
+const USER_ID = 500;
 
 export default function CurrentEvent() {
   const [events, setEvents] = useState([]);
@@ -16,7 +17,6 @@ export default function CurrentEvent() {
           {
             headers: {
               'Content-Type': 'application/json',
-              // 'ngrok-skip-browser-warning': '69420',
             },
           },
         );
@@ -26,7 +26,7 @@ export default function CurrentEvent() {
           id: event.eventId,
           title: event.eventTitle,
           poster: event.eventImage,
-          // date: new Date(event.eventDate),
+          date: event.eventSchedules[0],
         }));
 
         setEvents(parsedEvents);
@@ -45,7 +45,7 @@ export default function CurrentEvent() {
           <EventCard
             key={event.id}
             title={event.title}
-            // date={event.date}
+            date={event.date}
             poster={event.poster}
           />
         ))}
@@ -54,18 +54,24 @@ export default function CurrentEvent() {
   );
 }
 
-const EventCard = ({ title, poster }) => {
+const EventCard = ({ title, poster, date }) => {
   // const formattedDate = `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
 
+  const navigate = useNavigate();
+
+  const handleDetail = () => {
+    navigate('/eventDetail');
+  };
+
   return (
-    <CardWrapper>
+    <CardWrapper onClick={handleDetail}>
       <CardPoster>
         <img src={poster} alt="event_poster" />
       </CardPoster>
       <CardTitle>{title}</CardTitle>
       <DateWrapper>
         <p>진행 일정</p>
-        {/* <CardDay>{formattedDate}</CardDay> */}
+        <CardDay>{date}</CardDay>
       </DateWrapper>
       <BlueButton onClick={() => console.log('출석 체크')}>
         출석 체크
@@ -105,7 +111,7 @@ const CardPoster = styled.div`
   display: flex;
   width: 296px;
   height: 300px;
-  overflow: auto;
+  overflow: clip;
 `;
 
 const CardTitle = styled.p`

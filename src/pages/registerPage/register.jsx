@@ -54,28 +54,46 @@ export default function Register() {
 
     const formData = new FormData();
 
+    // const event = {
+    //   eventTitle: eventTitle,
+    //   eventDetail: eventDetail,
+    //   alarmRequest: alarmRequest,
+    // };
+
     const event = {
-      eventTitle: eventTitle,
-      eventDetail: eventDetail,
-      alarmRequest: alarmRequest,
+      eventTitle: '테스트 이벤트',
+      eventDetail: '이벤트 상세 설명입니다.',
+      alarmRequest: true,
+      eventSchedules: [
+        {
+          eventDate: '2024-05-07',
+          eventStartTime: '09:00',
+          eventEndTime: '12:00',
+        },
+        {
+          eventDate: '2024-05-08',
+          eventStartTime: '14:00',
+          eventEndTime: '16:00',
+        },
+      ],
     };
 
-    const eventSchedules = {
-      eventDate: eventDate,
-      eventStartTime: eventStartTime,
-      eventEndTime: eventEndTime,
-    };
+    // const eventSchedules = {
+    //   eventDate: eventDate,
+    //   eventStartTime: eventStartTime,
+    //   eventEndTime: eventEndTime,
+    // };
 
     formData.append('event', JSON.stringify(event));
-    formData.append('eventSchedules', JSON.stringify(eventSchedules));
+    // formData.append('eventSchedules', JSON.stringify(eventSchedules));
     formData.append('eventImage', eventImage);
     formData.append('attendanceListFile', attendanceListFile);
+    console.log(attendanceListFile);
 
     axios
       .post(`${REACT_BASE_URL}/event/register/${USER_ID}`, formData, {
         headers: {
-          'content-Type': 'multipart/form-data',
-          'ngrok-skip-browser-warning': '69420',
+          'Content-Type': 'multipart/form-data',
         },
       })
       .then((response) => {
