@@ -59,6 +59,7 @@ export const CheckBoxLabel = styled.label`
   position: relative;
   display: flex;
   gap: 10px;
+  margin: 10px;
   padding: 30px;
 `;
 
@@ -67,7 +68,7 @@ export const CheckBoxInput = styled.input`
 `;
 
 export const CheckContent = styled.span`
-  font-size: 16px;
+  font-size: 20px;
 `;
 
 export const CompletedButton = styled.button`

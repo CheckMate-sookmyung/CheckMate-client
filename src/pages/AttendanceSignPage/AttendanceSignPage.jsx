@@ -3,18 +3,45 @@ import * as S from './AttendanceSignPage.style';
 import { AttendanceHeader, AttendanceConfirmModal } from '../../components';
 import SignatureCanvas from 'react-signature-canvas';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import axios from 'axios';
 
-const SAMPLE_NAME = '조영서';
+const REACT_BASE_URL = 'http://3.37.229.221/api/v1';
+const USER_ID = 100;
+const EVENT_ID = 2;
+// const STUDENT_ID = 516; //출석안됨
 
-const AttendanceSignPage = () => {
+const AttendanceSignPage = ({ userId, eventId, studentInfoId }) => {
   const [isSigned, setIsSigned] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  let signaturePad = null;
+  const signatureRef = useRef(null);
+
   const navigate = useNavigate();
 
-  const handleInputChange = () => {
-    openModal(); //서명 입력 후 출석 완료 모달 창 뜨기
+  const handleInputChange = async () => {
+    const signatureImage = signatureRef.current.toDataURL();
+    // console.log(signatureImage);
+
+    try {
+      const formData = new FormData();
+      formData.append('signature', signatureImage);
+
+      await axios.post(
+        `${REACT_BASE_URL}/attendance/sign/${USER_ID}/802/753`,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            // 'ngrok-skip-browser-warning': '69420',
+          },
+        },
+        // `${REACT_BASE_URL}/attendance/sign/${USER_ID}/${EVENT_ID}/${studentInfoId}`,
+        formData,
+      );
+
+      openModal(); // 서명 입력 후 출석 완료 창 띄우기
+    } catch (error) {
+      console.error('서명 전송 에러', error);
+    }
   };
 
   const handleSignature = () => {
@@ -34,10 +61,11 @@ const AttendanceSignPage = () => {
   return (
     <S.Container>
       <AttendanceHeader
-        event="LINE 개발자가 알려주는 React 입문"
+        event="AI & ML Ops Foundation (입문과정)"
         activeStep={1}
       />
-      <S.Title>{`${SAMPLE_NAME}님의 서명을 입력하세요.`}</S.Title>
+      <S.Title>{`서명을 입력하세요.`}</S.Title>
+      {/* <S.Title>{`${SAMPLE_NAME}님의 서명을 입력하세요.`}</S.Title> */}
 
       <SignatureCanvas
         penColor="black"
@@ -50,27 +78,21 @@ const AttendanceSignPage = () => {
             backgroundColor: '#f0eeee',
           },
         }}
-        ref={(ref) => {
-          signaturePad = ref;
-        }}
+        ref={signatureRef}
         onEnd={handleSignature}
       />
 
       <S.CompletedButton onClick={handleInputChange} disabled={!isSigned}>
         입력 완료
       </S.CompletedButton>
-      {isOpen && (
-        <>
-          <S.ModalOverlay />
-          <AttendanceConfirmModal isOpen={isOpen} onClose={closeModal} />
-        </>
-      )}
     </S.Container>
   );
 };
 
 AttendanceSignPage.propTypes = {
-  name: PropTypes.string.isRequired,
+  userId: PropTypes.string.isRequired,
+  eventId: PropTypes.string.isRequired,
+  studentInfoId: PropTypes.string.isRequired,
 };
 
 export default AttendanceSignPage;

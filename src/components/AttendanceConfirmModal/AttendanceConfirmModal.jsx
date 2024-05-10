@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { AttendanceConfirmIcon } from '../../icons';
 import { useNavigate } from 'react-router-dom';
 
-const name = '조영서';
+// const name = '조영서';
 
 const AttendanceConfirmModal = ({ onClose }) => {
   const navigate = useNavigate();
@@ -18,7 +18,8 @@ const AttendanceConfirmModal = ({ onClose }) => {
     <S.ModalLayout>
       <AttendanceConfirmIcon />
       <S.Content>
-        <strong>{name}</strong>님 출석 완료!
+        출석 완료!
+        {/* <strong>{name}</strong>님 출석 완료! */}
       </S.Content>
       <S.ConfirmButton onClick={handleConfirmButtonClick}>확인</S.ConfirmButton>
     </S.ModalLayout>

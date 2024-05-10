@@ -36,7 +36,7 @@ const AttendanceStudentIdPage = () => {
 
   return (
     <S.Container>
-      <AttendanceHeader event="LINE 개발자가 알려주는 React 입문" />
+      <AttendanceHeader event="AI & ML Ops Foundation (입문과정)" />
       <S.Title>학번을 입력해주세요.</S.Title>
       <S.StudentIdContainer>
         {studentId.map((index) => (
@@ -76,8 +76,7 @@ const AttendanceStudentIdPage = () => {
       <Modal
         name="홍길동"
         major="컴과"
-        studentId="2110423"
-        eventName="즐거운 리액트"
+        studentId={enteredNumbers.join('')}
         isOpen={isOpen}
         onClose={closeModal}
       />
