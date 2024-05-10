@@ -6,9 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useRef } from 'react';
 import { postAttendanceSign } from '../../services';
 import { useSessionStorages } from '../../hooks';
-import { EVENT_ID } from '../../constants';
-
-const USER_ID = 100;
+import { USER_ID, EVENT_ID } from '../../constants';
 
 const AttendanceSignPage = () => {
   const [isSigned, setIsSigned] = useState(false);
@@ -18,8 +16,6 @@ const AttendanceSignPage = () => {
   const { studentInfoId, studentName } = JSON.parse(
     getSessionStorage('attendance'),
   );
-
-  const navigate = useNavigate();
 
   const handleCompletedButtonClick = async () => {
     const signatureImageFile = await fetch(signatureRef.current.toDataURL());
