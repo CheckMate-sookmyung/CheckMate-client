@@ -4,24 +4,30 @@ import styled from 'styled-components';
 import { FaRegCalendarAlt } from 'react-icons/fa';
 import { MdAccessAlarm } from 'react-icons/md';
 import DateCalendar from '../../components/Calendar/DateCalendar';
+import axios from 'axios';
+
+const REACT_BASE_URL = 'http://3.37.229.221/api/v1';
+const USER_ID = 100;
 
 export default function Register() {
   const [eventTitle, setEventTitle] = useState('');
-  const [eventDescription, setEventDescription] = useState('');
+  const [eventDetail, setEventDetail] = useState('');
   const [eventDate, setEventDate] = useState('');
-  // const [eventTime, setEventTime] = useState('');
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [selectedExcel, setSelectedExcel] = useState(null);
+  const [eventStartTime, setEventStartTime] = useState('9:00');
+  const [eventEndTime, setEventEndTime] = useState('21:00');
+  const [eventImage, setEventImage] = useState(null);
+  const [attendanceListFile, setAttendanceListFile] = useState(null);
   const [dateCalendar, setDateCalendar] = useState(false);
+  const [alarmRequest, setAlarmRequest] = useState(true);
 
   const handleImageChange = (event) => {
     const image = event.target.files[0];
-    setSelectedImage(image);
+    setEventImage(image);
   };
 
   const handleExcelChange = (event) => {
     const excel = event.target.files[0];
-    setSelectedExcel(excel);
+    setAttendanceListFile(excel);
   };
 
   const openCalendar = () => {
@@ -33,31 +39,52 @@ export default function Register() {
     setDateCalendar(false);
   };
 
-  const handleDateClose = (selectedDate) => {};
-
-  const registerEvent = () => {
-    if (!eventTitle || !eventDescription || !selectedImage || !selectedExcel) {
+  const registerEvent = (e) => {
+    e.preventDefault();
+    if (
+      !eventTitle ||
+      !eventDetail ||
+      !eventDate ||
+      !eventImage ||
+      !attendanceListFile
+    ) {
       alert('모든 카테고리를 채워주세요.');
+      return;
     }
 
     const formData = new FormData();
-    formData.append('eventTitle', eventTitle);
-    formData.append('eventDescription', eventDescription);
-    formData.append('selectedImage', selectedImage);
-    formData.append('selectedExcel', selectedExcel);
 
-    // axios
-    //   .post('', formData, {
-    //     headers: {
-    //       'Content-Type': 'multipart/form-data',
-    //     },
-    //   })
-    //   .then((response) => {
-    //     alert('행사가 등록되었습니다');
-    //   })
-    //   .catch((error) => {
-    //     console.error('행사 등록 실패:', error);
-    //   });
+    const event = {
+      eventTitle: eventTitle,
+      eventDetail: eventDetail,
+      alarmRequest: alarmRequest,
+    };
+
+    const eventSchedules = {
+      eventDate: eventDate,
+      eventStartTime: eventStartTime,
+      eventEndTime: eventEndTime,
+    };
+
+    formData.append('event', JSON.stringify(event));
+    formData.append('eventSchedules', JSON.stringify(eventSchedules));
+    formData.append('eventImage', eventImage);
+    formData.append('attendanceListFile', attendanceListFile);
+
+    axios
+      .post(`${REACT_BASE_URL}/event/register/${USER_ID}`, formData, {
+        headers: {
+          'content-Type': 'multipart/form-data',
+          'ngrok-skip-browser-warning': '69420',
+        },
+      })
+      .then((response) => {
+        console.log('행사 등록 성공');
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error('행사 등록 실패:', error);
+      });
   };
 
   return (
@@ -69,66 +96,32 @@ export default function Register() {
         </BodyWrapper>
         <FormWrapper>
           <ContentsWrapper>
-            <FormItem>
-              <PrimaryText>행사명</PrimaryText>
-              <PrimaryInput
-                width="600px"
-                height="56px"
-                placeholder="행사명을 입력하세요."
-                value={eventTitle}
-                onChange={(e) => setEventTitle(e.target.value)}
-              />
-            </FormItem>
-            <FormItem>
-              <PrimaryText>행사 설명</PrimaryText>
-              <ContentInput
-                placeholder="행사에 대해 설명해주세요."
-                value={eventDescription}
-                onChange={(e) => setEventDescription(e.target.value)}
-              />
-            </FormItem>
-            <FormItem>
-              <PrimaryText>행사 일정</PrimaryText>
-              <div
-                style={{
-                  position: 'relative',
-                  display: 'flex',
-                  width: '400px',
-                }}
-              >
+            <form>
+              <FormItem>
+                <PrimaryText>행사명</PrimaryText>
+                <PrimaryInput
+                  width="600px"
+                  height="56px"
+                  placeholder="행사명을 입력하세요."
+                  value={eventTitle}
+                  onChange={(e) => setEventTitle(e.target.value)}
+                />
+              </FormItem>
+              <FormItem>
+                <PrimaryText>행사 설명</PrimaryText>
+                <ContentInput
+                  placeholder="행사에 대해 설명해주세요."
+                  value={eventDetail}
+                  onChange={(e) => setEventDetail(e.target.value)}
+                />
+              </FormItem>
+              <FormItem>
+                <PrimaryText>행사 일정</PrimaryText>
                 <div
                   style={{
                     position: 'relative',
                     display: 'flex',
-                    alignItems: 'center',
-                  }}
-                >
-                  <PrimaryInput
-                    width="400px"
-                    height="56px"
-                    placeholder={eventDate ? eventDate : '행사 일정 선택'}
-                    readOnly
-                  />
-                  <FaRegCalendarAlt
-                    style={{
-                      position: 'absolute',
-                      right: '20px',
-                      cursor: 'pointer',
-                    }}
-                    onClick={() => openCalendar()}
-                  />
-                </div>
-              </div>
-              {dateCalendar && <DateCalendar onClose={closeCalendar} />}
-            </FormItem>
-            <FormItem>
-              <PrimaryText>행사 시간</PrimaryText>
-              <TwoBoxWrapper>
-                <div
-                  style={{
-                    position: 'relative',
-                    display: 'flex',
-                    width: '280px',
+                    width: '400px',
                   }}
                 >
                   <div
@@ -139,101 +132,145 @@ export default function Register() {
                     }}
                   >
                     <PrimaryInput
-                      width="280px"
+                      width="400px"
                       height="56px"
-                      placeholder="행사 일정 선택"
+                      placeholder={eventDate ? eventDate : '행사 일정 선택'}
                       readOnly
                     />
-                    <MdAccessAlarm
+                    <FaRegCalendarAlt
                       style={{
                         position: 'absolute',
                         right: '20px',
                         cursor: 'pointer',
                       }}
+                      onClick={() => openCalendar()}
                     />
                   </div>
                 </div>
-                <p>~</p>
-                <div
-                  style={{
-                    position: 'relative',
-                    display: 'flex',
-                    width: '280px',
-                  }}
-                >
+                {dateCalendar && <DateCalendar onClose={closeCalendar} />}
+              </FormItem>
+              <FormItem>
+                <PrimaryText>행사 시간</PrimaryText>
+                <TwoBoxWrapper>
                   <div
                     style={{
                       position: 'relative',
                       display: 'flex',
-                      alignItems: 'center',
+                      width: '280px',
                     }}
                   >
-                    <PrimaryInput
-                      width="280px"
-                      height="56px"
-                      placeholder="행사 일정 선택"
-                      readOnly
-                    />
-                    <MdAccessAlarm
+                    <div
                       style={{
-                        position: 'absolute',
-                        right: '20px',
-                        cursor: 'pointer',
+                        position: 'relative',
+                        display: 'flex',
+                        alignItems: 'center',
                       }}
-                    />
+                    >
+                      <PrimaryInput
+                        width="280px"
+                        height="56px"
+                        placeholder={
+                          eventStartTime ? eventStartTime : '행사 시작 시간'
+                        }
+                        value="9:00"
+                        readOnly
+                      />
+                      <MdAccessAlarm
+                        style={{
+                          position: 'absolute',
+                          right: '20px',
+                          cursor: 'pointer',
+                        }}
+                      />
+                    </div>
                   </div>
+                  <p>~</p>
+                  <div
+                    style={{
+                      position: 'relative',
+                      display: 'flex',
+                      width: '280px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        position: 'relative',
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <PrimaryInput
+                        width="280px"
+                        height="56px"
+                        placeholder={
+                          eventEndTime ? eventEndTime : '행사 종료 시간'
+                        }
+                        value="21:00"
+                        readOnly
+                      />
+                      <MdAccessAlarm
+                        style={{
+                          position: 'absolute',
+                          right: '20px',
+                          cursor: 'pointer',
+                        }}
+                      />
+                    </div>
+                  </div>
+                </TwoBoxWrapper>
+              </FormItem>
+              <FormItem>
+                <PrimaryText>포스터</PrimaryText>
+                <TwoBoxWrapper>
+                  <PrimaryInput1
+                    placeholder={
+                      eventImage
+                        ? eventImage.name
+                        : '이미지 (.png, .jpeg, .pdf) 파일 첨부'
+                    }
+                  />
+                  <ChoiceButton1
+                    accept=".png, .jpeg, .pdf"
+                    onChange={handleImageChange}
+                  />
+                  <ChoiceButtonLabel1>파일 선택</ChoiceButtonLabel1>
+                </TwoBoxWrapper>
+              </FormItem>
+              <FormItem>
+                <PrimaryText>출석 명단</PrimaryText>
+                <TwoBoxWrapper>
+                  <PrimaryInput2
+                    placeholder={
+                      attendanceListFile
+                        ? attendanceListFile.name
+                        : '엑셀(.xlsx) 파일 첨부'
+                    }
+                  />
+                  <ChoiceButton2
+                    accept=".xlsx, .xls"
+                    onChange={handleExcelChange}
+                  />
+                  <ChoiceButtonLabel2>파일 선택</ChoiceButtonLabel2>
+                </TwoBoxWrapper>
+              </FormItem>
+              <FormItem>
+                <TwoBoxWrapper>
+                  <PrimaryText2>안내 메일 발송 여부</PrimaryText2>
+                  <Preview>미리보기</Preview>
+                </TwoBoxWrapper>
+              </FormItem>
+              <FormItem>
+                <GrayBox>
+                  <MailCheck />
+                  <MailAgree>메일 발송에 동의합니다.</MailAgree>
+                </GrayBox>
+              </FormItem>
+              <FormItem>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <BlueButton onClick={registerEvent}>등록하기</BlueButton>
                 </div>
-              </TwoBoxWrapper>
-            </FormItem>
-            <FormItem>
-              <PrimaryText>포스터</PrimaryText>
-              <TwoBoxWrapper>
-                <PrimaryInput1
-                  placeholder={
-                    selectedImage
-                      ? selectedImage.name
-                      : '이미지 (.png, .jpeg, .pdf) 파일 첨부'
-                  }
-                />
-                <ChoiceButton1
-                  accept=".png, .jpeg, .pdf"
-                  onChange={handleImageChange}
-                />
-                <ChoiceButtonLabel1>파일 선택</ChoiceButtonLabel1>
-              </TwoBoxWrapper>
-            </FormItem>
-            <FormItem>
-              <PrimaryText>출석 명단</PrimaryText>
-              <TwoBoxWrapper>
-                <PrimaryInput2
-                  placeholder={
-                    selectedExcel ? selectedExcel.name : '엑셀(.xlsx) 파일 첨부'
-                  }
-                />
-                <ChoiceButton2
-                  accept=".xlsx, .xls"
-                  onChange={handleExcelChange}
-                />
-                <ChoiceButtonLabel2>파일 선택</ChoiceButtonLabel2>
-              </TwoBoxWrapper>
-            </FormItem>
-            <FormItem>
-              <TwoBoxWrapper>
-                <PrimaryText2>안내 메일 발송 여부</PrimaryText2>
-                <Preview>미리보기</Preview>
-              </TwoBoxWrapper>
-            </FormItem>
-            <FormItem>
-              <GrayBox>
-                <MailCheck />
-                <MailAgree>메일 발송에 동의합니다.</MailAgree>
-              </GrayBox>
-            </FormItem>
-            <FormItem>
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <BlueButton onClick={registerEvent}>등록하기</BlueButton>
-              </div>
-            </FormItem>
+              </FormItem>
+            </form>
           </ContentsWrapper>
         </FormWrapper>
       </Background>
@@ -307,6 +344,9 @@ const PrimaryInput = styled.input`
   border: 1px solid #ccc;
   padding-left: 15px;
   box-sizing: border-box;
+  &::placeholder {
+    color: gray;
+  }
   &:focus {
     outline: none;
   }
@@ -315,15 +355,11 @@ const PrimaryInput = styled.input`
 const PrimaryInput1 = styled(PrimaryInput)`
   width: 400px;
   height: 56px;
-  &:read-only {
-  }
 `;
 
 const PrimaryInput2 = styled(PrimaryInput)`
   width: 400px;
   height: 56px;
-  &:read-only {
-  }
 `;
 
 const ContentInput = styled.textarea`
