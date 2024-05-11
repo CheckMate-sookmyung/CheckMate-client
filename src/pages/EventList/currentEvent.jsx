@@ -4,7 +4,7 @@ import BackgroundPage from '../../components/Background/BackgroundPage';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { axiosInstance } from '../../axios';
-const USER_ID = 500;
+const USER_ID = 100;
 
 export default function CurrentEvent() {
   const [events, setEvents] = useState([]);

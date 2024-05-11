@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { axiosInstance } from '../../axios';
 
-const USER_ID = 500;
+const USER_ID = 100;
 const EVENT_ID = 1102;
 
 const AttendanceList = ({ onClose }) => {
