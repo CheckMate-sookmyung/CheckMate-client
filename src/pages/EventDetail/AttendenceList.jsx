@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { axiosInstance } from '../../axios';
 
-const USER_ID = 100;
+const USER_ID = 500;
 const EVENT_ID = 1102;
 
 const AttendanceList = ({ onClose }) => {
@@ -27,7 +27,7 @@ const AttendanceList = ({ onClose }) => {
             name: student.studentName,
             number: student.studentNumber,
             major: student.major,
-            attendance: student.attendance ? '출석 완료' : '출석 미완료',
+            attendance: student.attendance ? '출석 완료' : '',
             sign: student.sign,
           }),
         );
@@ -65,10 +65,23 @@ const StudentListItem = ({ student }) => {
         <ListFont>{student.name}</ListFont>
         <ListFont>{student.number}</ListFont>
         <ListFont>{student.attendance}</ListFont>
+        <SignWrapper>
+          <StudentSign src={student.sign} alt="" />
+        </SignWrapper>
       </Fontwrapper>
     </StudentListWrapper>
   );
 };
+
+const StudentSign = styled.img`
+  max-width: 70px;
+  max-height: 70px;
+`;
+
+const SignWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -94,7 +107,6 @@ const ModalContent = styled.div`
 
 const DataContent = styled.div`
   margin-top: 40px;
-
   columns: 2;
 `;
 
