@@ -71,7 +71,7 @@ const Background = styled.div`
 
 const DetailWrapper = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   gap: 300px;
 `;

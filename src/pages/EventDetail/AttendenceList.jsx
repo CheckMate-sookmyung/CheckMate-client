@@ -14,6 +14,11 @@ const AttendanceList = ({ onClose }) => {
       try {
         const response = await axiosInstance.get(
           `/api/v1/event/list/${USER_ID}/${EVENT_ID}`,
+          {
+            header: {
+              'ngrok-skip-browser-warning': '69420',
+            },
+          },
         );
         console.log('response: ', response.data);
 
@@ -80,7 +85,7 @@ const ModalBackground = styled.div`
 
 const ModalContent = styled.div`
   width: 60%;
-  height: 80%;
+  height: auto;
   justify-content: center;
   background-color: white;
   border-radius: 20px;
@@ -89,7 +94,6 @@ const ModalContent = styled.div`
 
 const DataContent = styled.div`
   margin-top: 40px;
-  justify-content: space-evenly;
 
   columns: 2;
 `;
