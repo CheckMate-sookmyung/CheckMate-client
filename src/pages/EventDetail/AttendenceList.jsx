@@ -13,24 +13,21 @@ const AttendanceList = ({ onClose }) => {
     const fetchData = async () => {
       try {
         const response = await axiosInstance.get(
-          `/api/v1/event/list/${USER_ID}/${EVENT_ID}`,
+          `/api/v1/event/attendancelist/${USER_ID}/${EVENT_ID}`,
           {
-            header: {
-              'ngrok-skip-browser-warning': '69420',
-            },
+            header: {},
           },
         );
         console.log('response: ', response.data);
 
-        const parsedStudents = response.data[0].attendanceListResponseDtos.map(
-          (student) => ({
+        const parsedStudents =
+          response.data.result[0].attendanceListResponseDtos.map((student) => ({
             name: student.studentName,
             number: student.studentNumber,
             major: student.major,
             attendance: student.attendance ? '출석 완료' : '',
             sign: student.sign,
-          }),
-        );
+          }));
 
         setStudentList(parsedStudents);
       } catch (error) {
