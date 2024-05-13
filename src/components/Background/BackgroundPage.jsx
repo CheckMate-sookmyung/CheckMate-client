@@ -1,11 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import Navigator from '../navigator';
 
 export default function BackgroundPage({ title, children }) {
   return (
     <Container>
-      <Navigator />
       <Background>
         <BodyWrapper>
           <Title>{title}</Title>
