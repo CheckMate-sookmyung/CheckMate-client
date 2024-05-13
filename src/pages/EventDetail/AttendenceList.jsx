@@ -1,10 +1,7 @@
 import styled from 'styled-components';
-import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { axiosInstance } from '../../axios';
-
-const USER_ID = 500;
-const EVENT_ID = 1102;
+import { EVENT_ID, USER_ID } from '../../constants';
 
 const AttendanceList = ({ onClose }) => {
   const [studentList, setStudentList] = useState([]);
