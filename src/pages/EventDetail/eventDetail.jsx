@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navigator from '../../components/navigator';
 import styled from 'styled-components';
 import AttendenceList from './AttendenceList';
+import { USER_ID, EVENT_ID } from '../../constants';
+import { axiosInstance } from '../../axios';
 
 export default function EventDetail() {
   const [showList, setShowList] = useState(false);
+  const [parsedEvents, setParsedEvents] = useState(null);
 
   const handleList = () => {
     setShowList(true);
@@ -14,47 +17,49 @@ export default function EventDetail() {
     setShowList(false);
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.get(
+          `/api/v1/event/detail/${USER_ID}/${EVENT_ID}`,
+        );
+
+        const eventData = response.data.result;
+        if (eventData) {
+          const parsedEvent = {
+            title: eventData.eventTitle,
+            detail: eventData.eventDetail,
+            poster: eventData.eventImage,
+          };
+          setParsedEvents(parsedEvent);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <Navigator />
       <Background>
         <DetailWrapper>
-          <CheckList onClick={handleList}>출석 명단 확인</CheckList>
-          {showList && <AttendenceList onClose={handleClose} />}
           <ColumnBox>
-            <EventTitle>
-              [AI & ML Ops Foundation (입문과정)] 출석체크
-            </EventTitle>
-            <BoxWrapper>
-              <BlueBox>
-                <BlueBoxTitle>행사 설명</BlueBoxTitle>
-                <BlueBoxContent>
-                  {/* 콘텐츠 받기 */}
-                  Gen AI에 입문하는 학생들을 위해 현직 전문가가 직접 이론과 실습
-                  기초과정을 강의함
-                  <br />
-                  프로그램 개요 가. 프로그램명: AI & ML Ops Foundation
-                  (입문과정)
-                  <br />
-                  나. 내용: GenAI에 입문하는 학생들을 위해 현직 전문가가 직접
-                  이론과 실습 기초과정을 강의함
-                  <br />
-                  다. 일시: 24-05-03(월) ~ 24-05-19(일) 1) 05-03(금):
-                  오리엔테이션 (오프라인) 2) 05-04(토) ~ 10(금): 온라인 사전교육
-                  기간 3) 05-11(토), 19(일): 오프라인 교육 기간 **모두 참석
-                  가능한 학생만 신청해 주시기 바랍니다.**
-                  <br />
-                  라. 장소: SM-MOOC, 숙명여자대학교, AWS 본사 (역삼 센터필드
-                  18층)
-                  <br />
-                  마. 모집: 참여학과 재학생 30명
-                  <br />
-                  바. 강사: 3명 (보조강사 2명 포함)
-                  <br />
-                  사. 특전: 마일리지 8,000점
-                </BlueBoxContent>
-              </BlueBox>
-            </BoxWrapper>
+            {parsedEvents && (
+              <>
+                <EventTitle>{parsedEvents.title}</EventTitle>
+                <BoxWrapper>
+                  <BlueBox>
+                    <BlueBoxTitle>행사 설명</BlueBoxTitle>
+                    <BlueBoxContent>{parsedEvents.detail}</BlueBoxContent>
+                  </BlueBox>
+                </BoxWrapper>
+                <CheckList onClick={handleList}>출석 명단 확인</CheckList>
+                {showList && <AttendenceList onClose={handleClose} />}
+              </>
+            )}
           </ColumnBox>
         </DetailWrapper>
       </Background>
@@ -71,7 +76,6 @@ const Background = styled.div`
 
 const DetailWrapper = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
   gap: 300px;
 `;
