@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import BackgroundPage from '../../components/Background/BackgroundPage';
-import axios from 'axios';
+import { USER_ID } from '../../constants';
 import { useNavigate } from 'react-router-dom';
 import { axiosInstance } from '../../axios';
-const USER_ID = 100;
 
 export default function CurrentEvent() {
   const [events, setEvents] = useState([]);
@@ -15,9 +14,8 @@ export default function CurrentEvent() {
         const response = await axiosInstance.get(
           `/api/v1/event/list/${USER_ID}`,
         );
-        console.log('response : ', response);
 
-        const parsedEvents = response.data.map((event) => ({
+        const parsedEvents = response.data.result.map((event) => ({
           id: event.eventId,
           title: event.eventTitle,
           poster: event.eventImage,
@@ -50,20 +48,19 @@ export default function CurrentEvent() {
 }
 
 const EventCard = ({ title, poster, date }) => {
-  // const formattedDate = `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
-
   const navigate = useNavigate();
 
   const handleDetail = () => {
     navigate('/eventDetail');
   };
 
-  const attendanceCheck = () => {
+  const attendanceCheck = (event) => {
+    event.stopPropagation();
     navigate('/attendance/student-id');
   };
   return (
-    <CardWrapper>
-      <CardPoster onClick={handleDetail}>
+    <CardWrapper onClick={handleDetail}>
+      <CardPoster>
         <img src={poster} alt="event_poster" />
       </CardPoster>
       <CardTitle>{title}</CardTitle>
@@ -107,7 +104,8 @@ const CardPoster = styled.div`
   display: flex;
   width: 296px;
   height: 300px;
-  overflow: clip;
+  overflow: auto;
+  justify-content: center;
 `;
 
 const CardTitle = styled.p`

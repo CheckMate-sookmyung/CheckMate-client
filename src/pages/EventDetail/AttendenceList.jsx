@@ -1,10 +1,7 @@
 import styled from 'styled-components';
-import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { axiosInstance } from '../../axios';
-
-const USER_ID = 100;
-const EVENT_ID = 1102;
+import { EVENT_ID, USER_ID } from '../../constants';
 
 const AttendanceList = ({ onClose }) => {
   const [studentList, setStudentList] = useState([]);
@@ -13,24 +10,21 @@ const AttendanceList = ({ onClose }) => {
     const fetchData = async () => {
       try {
         const response = await axiosInstance.get(
-          `/api/v1/event/list/${USER_ID}/${EVENT_ID}`,
+          `/api/v1/event/attendancelist/${USER_ID}/${EVENT_ID}`,
           {
-            header: {
-              'ngrok-skip-browser-warning': '69420',
-            },
+            header: {},
           },
         );
         console.log('response: ', response.data);
 
-        const parsedStudents = response.data[0].attendanceListResponseDtos.map(
-          (student) => ({
+        const parsedStudents =
+          response.data.result[0].attendanceListResponseDtos.map((student) => ({
             name: student.studentName,
             number: student.studentNumber,
             major: student.major,
-            attendance: student.attendance ? '출석 완료' : '출석 미완료',
+            attendance: student.attendance ? '출석 완료' : '',
             sign: student.sign,
-          }),
-        );
+          }));
 
         setStudentList(parsedStudents);
       } catch (error) {
@@ -65,10 +59,23 @@ const StudentListItem = ({ student }) => {
         <ListFont>{student.name}</ListFont>
         <ListFont>{student.number}</ListFont>
         <ListFont>{student.attendance}</ListFont>
+        <SignWrapper>
+          <StudentSign src={student.sign} alt="" />
+        </SignWrapper>
       </Fontwrapper>
     </StudentListWrapper>
   );
 };
+
+const StudentSign = styled.img`
+  max-width: 70px;
+  max-height: 70px;
+`;
+
+const SignWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -94,7 +101,6 @@ const ModalContent = styled.div`
 
 const DataContent = styled.div`
   margin-top: 40px;
-
   columns: 2;
 `;
 
