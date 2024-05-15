@@ -42,7 +42,7 @@ const Modal = ({ name, major, studentId, isOpen, onClose }) => {
             아니요
           </S.CancelButton>
           <S.CompletedButton onClick={handleCompletedButtonClick}>
-            서명하러 하기
+            네, 서명하러 하기
           </S.CompletedButton>
         </S.ButtonContainer>
       </S.ModalLayout>
