@@ -75,7 +75,7 @@ export const CompletedButton = styled.button`
   width: 300px;
   height: 62px;
   border-radius: 4px;
-  background: #2e69ff;
+  background: #0075ff;
   font-size: 28px;
   font-weight: 600;
   color: #ffffff;
