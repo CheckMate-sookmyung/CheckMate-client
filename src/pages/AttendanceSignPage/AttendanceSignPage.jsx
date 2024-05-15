@@ -56,17 +56,14 @@ const AttendanceSignPage = () => {
 
   return (
     <S.Container>
-      <AttendanceHeader
-        event="AI & ML Ops Foundation (입문과정)"
-        activeStep={1}
-      />
+      <AttendanceHeader eventTitle="7주차 정기세미나" activeStep={1} />
       <S.Title>{`서명을 입력하세요.`}</S.Title>
-      {/* <S.Title>{`${SAMPLE_NAME}님의 서명을 입력하세요.`}</S.Title> */}
       <SignatureCanvas
         penColor="black"
+        minWidth={4}
         canvasProps={{
           className: 'sigCanvas',
-          width: 700,
+          width: 900,
           height: 350,
           style: {
             borderRadius: '4px',

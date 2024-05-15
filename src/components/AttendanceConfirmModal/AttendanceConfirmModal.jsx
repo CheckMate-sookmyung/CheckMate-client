@@ -2,15 +2,19 @@ import * as S from './AttendanceConfirmModal.style';
 import PropTypes from 'prop-types';
 import { AttendanceConfirmIcon } from '../../icons';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const AttendanceConfirmModal = ({ name, onClose }) => {
   const navigate = useNavigate();
 
-  const handleConfirmButtonClick = () => {
-    navigate('/attendance/student-id');
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigate('/attendance/student-id');
+      onClose();
+    }, 2000);
 
-    onClose();
-  };
+    return () => clearTimeout(timer);
+  }, [navigate, onClose]);
 
   return (
     <S.ModalLayout>
@@ -18,7 +22,6 @@ const AttendanceConfirmModal = ({ name, onClose }) => {
       <S.Content>
         <strong>{name}</strong>님 출석 완료!
       </S.Content>
-      <S.ConfirmButton onClick={handleConfirmButtonClick}>확인</S.ConfirmButton>
     </S.ModalLayout>
   );
 };

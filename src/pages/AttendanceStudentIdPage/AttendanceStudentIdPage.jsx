@@ -10,6 +10,7 @@ const AttendanceStudentIdPage = () => {
   const [enteredNumbers, setEnteredNumbers] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [attendanceCheck, setAttendanceCheck] = useState();
+  const [eventTitle, setEventTitle] = useState('');
 
   const { setSessionStorage } = useSessionStorages();
 
@@ -28,15 +29,15 @@ const AttendanceStudentIdPage = () => {
         {
           userId: USER_ID,
           eventId: EVENT_ID,
-          studentNumber: Number(enteredNumbers.join('')),
         },
         {
+          studentNumber: Number(enteredNumbers.join('')),
           eventDate: EVENT_DATE,
         },
       )
-        .then((attendanceCheck) => {
-          setAttendanceCheck(attendanceCheck);
-          setSessionStorage('attendance', JSON.stringify(attendanceCheck));
+        .then((data) => {
+          setAttendanceCheck(data);
+          setSessionStorage('attendance', JSON.stringify(data));
           openModal();
         })
         .catch(() => {
@@ -60,7 +61,7 @@ const AttendanceStudentIdPage = () => {
 
   return (
     <S.Container>
-      <AttendanceHeader event="AI & ML Ops Foundation (입문과정)" />
+      <AttendanceHeader eventTitle="7주차 정기세미나" />
       <S.Title>학번을 입력해주세요.</S.Title>
       <S.StudentIdContainer>
         {studentId.map((index) => (
@@ -78,7 +79,6 @@ const AttendanceStudentIdPage = () => {
         <S.Number key="backspace" onClick={() => handleNumberClick('<')}>
           {'<'}
         </S.Number>
-
         {numberList2.map((number, index) => (
           <S.Number key={index} onClick={() => handleNumberClick(number)}>
             {number}
