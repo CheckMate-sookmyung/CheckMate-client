@@ -66,7 +66,7 @@ const AttendanceSignPage = () => {
         penColor="black"
         canvasProps={{
           className: 'sigCanvas',
-          width: 600,
+          width: 700,
           height: 350,
           style: {
             borderRadius: '4px',
