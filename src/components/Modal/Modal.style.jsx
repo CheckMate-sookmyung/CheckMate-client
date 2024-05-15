@@ -10,7 +10,7 @@ export const ModalLayout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  padding: 50px;
   width: 800px;
   height: 460px;
   border-radius: 12px;
@@ -25,7 +25,7 @@ export const Title = styled.h1`
   font-size: 40px;
 
   & > strong {
-    color: #3665df;
+    color: #0075ff;
   }
 `;
 
@@ -37,7 +37,7 @@ export const ContentContainer = styled.div`
 
 export const Content = styled.div`
   display: flex;
-  width: 600px;
+  width: 500px;
   height: 50px;
   font-size: 16px;
   padding: 10px;
