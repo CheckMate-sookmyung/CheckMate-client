@@ -64,10 +64,10 @@ const AttendanceSignPage = () => {
       {/* <S.Title>{`${SAMPLE_NAME}님의 서명을 입력하세요.`}</S.Title> */}
       <SignatureCanvas
         penColor="black"
-        minWidth={2}
+        minWidth={4}
         canvasProps={{
           className: 'sigCanvas',
-          width: 700,
+          width: 900,
           height: 350,
           style: {
             borderRadius: '4px',
