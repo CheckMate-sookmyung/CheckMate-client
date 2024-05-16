@@ -5,8 +5,7 @@ import { FaRegCalendarAlt } from 'react-icons/fa';
 import { MdAccessAlarm } from 'react-icons/md';
 import DateCalendar from '../../components/Calendar/DateCalendar';
 import { axiosInstance } from '../../axios';
-
-const USER_ID = 100;
+import { USER_ID } from '../../constants';
 
 export default function Register() {
   const [eventTitle, setEventTitle] = useState('');

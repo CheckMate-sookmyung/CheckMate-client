@@ -1,5 +1,5 @@
-export const USER_ID = 100;
+export const USER_ID = 300;
 
-export const EVENT_ID = 1504;
+export const EVENT_ID = 1702;
 
-export const EVENT_DATE = '2024-05-07';
+export const EVENT_DATE = '2024-05-16';
