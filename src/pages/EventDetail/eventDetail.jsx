@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navigator from '../../components/navigator';
 import styled from 'styled-components';
-import AttendenceList from './AttendenceList';
+import AttendanceList from './AttendanceList';
 import { USER_ID, EVENT_ID } from '../../constants';
 import { axiosInstance } from '../../axios';
 
@@ -57,7 +57,7 @@ export default function EventDetail() {
                   </BlueBox>
                 </BoxWrapper>
                 <CheckList onClick={handleList}>출석 명단 확인</CheckList>
-                {showList && <AttendenceList onClose={handleClose} />}
+                {showList && <AttendanceList onClose={handleClose} />}
               </>
             )}
           </ColumnBox>
