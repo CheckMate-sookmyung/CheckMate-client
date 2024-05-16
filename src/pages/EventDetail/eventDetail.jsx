@@ -21,7 +21,7 @@ export default function EventDetail() {
     const fetchData = async () => {
       try {
         const response = await axiosInstance.get(
-          `/api/v1/event/detail/${USER_ID}/${EVENT_ID}`,
+          `/api/v1/events/${USER_ID}/${EVENT_ID}`,
         );
 
         const eventData = response.data.result;
@@ -43,7 +43,6 @@ export default function EventDetail() {
 
   return (
     <>
-      <Navigator />
       <Background>
         <DetailWrapper>
           <ColumnBox>

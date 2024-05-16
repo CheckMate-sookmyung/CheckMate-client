@@ -77,7 +77,7 @@ export default function Register() {
     console.log(attendanceListFile);
 
     axiosInstance
-      .post(`/api/v1/event/register/${USER_ID}`, formData, {
+      .post(`/api/v1/events/${USER_ID}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
