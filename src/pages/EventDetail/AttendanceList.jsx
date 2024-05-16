@@ -10,7 +10,7 @@ const AttendanceList = ({ onClose }) => {
     const fetchData = async () => {
       try {
         const response = await axiosInstance.get(
-          `/api/v1/event/attendancelist/${USER_ID}/${EVENT_ID}`,
+          `/api/v1/events/attendanceList/${USER_ID}/${EVENT_ID}`,
           {
             header: {},
           },

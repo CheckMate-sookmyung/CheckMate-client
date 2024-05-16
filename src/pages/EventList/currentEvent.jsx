@@ -11,11 +11,9 @@ export default function CurrentEvent() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get(
-          `/api/v1/event/list/${USER_ID}`,
-        );
-
-        const parsedEvents = response.data.result.map((event) => ({
+        const response = await axiosInstance.get(`/api/v1/events/${USER_ID}`);
+        console.log('response: ', response.data);
+        const parsedEvents = response.data.map((event) => ({
           id: event.eventId,
           title: event.eventTitle,
           poster: event.eventImage,
