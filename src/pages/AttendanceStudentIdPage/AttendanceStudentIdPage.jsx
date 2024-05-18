@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as S from './AttendanceStudentIdPage.style';
 import { AttendanceHeader } from '../../components';
 import Modal from '../../components/Modal';
 import { getAttendanceCheck } from '../../services';
 import { EVENT_DATE, EVENT_ID, USER_ID } from '../../constants';
 import { useSessionStorages } from '../../hooks';
+import { axiosInstance } from '../../axios';
 
 const AttendanceStudentIdPage = () => {
   const [enteredNumbers, setEnteredNumbers] = useState([]);
@@ -59,9 +60,24 @@ const AttendanceStudentIdPage = () => {
     setIsOpen(false);
   };
 
+  useEffect(() => {
+    const fetchEventTitle = async () => {
+      try {
+        const response = await axiosInstance.get(
+          `/api/v1/events/${USER_ID}/${EVENT_ID}`,
+        );
+        setEventTitle(response.data.eventTitle);
+      } catch (error) {
+        console.error('이벤트 타이틀 에러', error);
+      }
+    };
+
+    fetchEventTitle();
+  }, []);
+
   return (
     <S.Container>
-      <AttendanceHeader eventTitle="7주차 정기세미나" />
+      <AttendanceHeader eventTitle={eventTitle} />
       <S.Title>학번을 입력해주세요.</S.Title>
       <S.StudentIdContainer>
         {studentId.map((index) => (

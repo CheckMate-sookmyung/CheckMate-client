@@ -2,15 +2,17 @@ import PropTypes from 'prop-types';
 import * as S from './AttendanceSignPage.style';
 import { AttendanceHeader, AttendanceConfirmModal } from '../../components';
 import SignatureCanvas from 'react-signature-canvas';
-import { useNavigate } from 'react-router-dom';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { postAttendanceSign } from '../../services';
 import { useSessionStorages } from '../../hooks';
 import { USER_ID, EVENT_ID } from '../../constants';
+import { axiosInstance } from '../../axios';
 
 const AttendanceSignPage = () => {
   const [isSigned, setIsSigned] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [eventTitle, setEventTitle] = useState('');
+
   const signatureRef = useRef(null);
   const { getSessionStorage } = useSessionStorages();
   const { studentInfoId, studentName } = JSON.parse(
@@ -54,9 +56,24 @@ const AttendanceSignPage = () => {
     setIsOpen(false);
   };
 
+  useEffect(() => {
+    const fetchEventTitle = async () => {
+      try {
+        const response = await axiosInstance.get(
+          `/api/v1/events/${USER_ID}/${EVENT_ID}`,
+        );
+        setEventTitle(response.data.eventTitle);
+      } catch (error) {
+        console.error('이벤트 타이틀 에러', error);
+      }
+    };
+
+    fetchEventTitle();
+  }, []);
+
   return (
     <S.Container>
-      <AttendanceHeader eventTitle="7주차 정기세미나" activeStep={1} />
+      <AttendanceHeader eventTitle={eventTitle} activeStep={1} />
       <S.Title>{`서명을 입력하세요.`}</S.Title>
       <SignatureCanvas
         penColor="black"
