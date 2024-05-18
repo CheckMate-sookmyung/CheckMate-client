@@ -49,7 +49,7 @@ const EventCard = ({ title, poster, date }) => {
   const navigate = useNavigate();
 
   const handleDetail = () => {
-    navigate('/eventDetail');
+    navigate('/currentevent/eventdetail');
   };
 
   const attendanceCheck = (event) => {
@@ -59,7 +59,7 @@ const EventCard = ({ title, poster, date }) => {
   return (
     <CardWrapper onClick={handleDetail}>
       <CardPoster>
-        <img src={poster} alt="event_poster" />
+        <EventCardPoster src={poster} alt="event_poster" />
       </CardPoster>
       <CardTitle>{title}</CardTitle>
       <DateWrapper>
@@ -70,6 +70,10 @@ const EventCard = ({ title, poster, date }) => {
     </CardWrapper>
   );
 };
+
+const EventCardPoster = styled.img`
+  overflow: auto;
+`;
 
 const EventCardList = styled.div`
   display: flex;

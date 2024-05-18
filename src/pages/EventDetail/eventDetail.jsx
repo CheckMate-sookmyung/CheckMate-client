@@ -13,6 +13,19 @@ export default function EventDetail() {
     setShowList(true);
   };
 
+  const handleEmail = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `api/v1/attendance/list/${USER_ID}/${EVENT_ID}`,
+      );
+      if (response == 200) {
+        console.log('전송 완료');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleClose = () => {
     setShowList(false);
   };
@@ -23,8 +36,7 @@ export default function EventDetail() {
         const response = await axiosInstance.get(
           `/api/v1/events/${USER_ID}/${EVENT_ID}`,
         );
-
-        const eventData = response.data.result;
+        const eventData = response.data;
         if (eventData) {
           const parsedEvent = {
             title: eventData.eventTitle,
@@ -57,6 +69,7 @@ export default function EventDetail() {
                 </BoxWrapper>
                 <CheckList onClick={handleList}>출석 명단 확인</CheckList>
                 {showList && <AttendanceList onClose={handleClose} />}
+                <CheckList onClick={handleEmail}>출석 명단 전송</CheckList>
               </>
             )}
           </ColumnBox>

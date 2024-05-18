@@ -41,7 +41,7 @@ const BodyWrapper = styled.div`
 const Title = styled.p`
   display: flex;
   color: white;
-  font-size: 2.5vw;
+  font-size: 3rem;
 `;
 
 const FormWrapper = styled.div`

@@ -11,21 +11,16 @@ const AttendanceList = ({ onClose }) => {
       try {
         const response = await axiosInstance.get(
           `/api/v1/events/attendanceList/${USER_ID}/${EVENT_ID}`,
-          {
-            header: {},
-          },
         );
-        console.log('response: ', response.data);
-
-        const parsedStudents =
-          response.data.result[0].attendanceListResponseDtos.map((student) => ({
+        const parsedStudents = response.data[0].attendanceListResponseDtos.map(
+          (student) => ({
             name: student.studentName,
             number: student.studentNumber,
             major: student.major,
             attendance: student.attendance ? '출석 완료' : '',
             sign: student.sign,
-          }));
-
+          }),
+        );
         setStudentList(parsedStudents);
       } catch (error) {
         console.error(error);
@@ -55,27 +50,17 @@ const AttendanceList = ({ onClose }) => {
 const StudentListItem = ({ student }) => {
   return (
     <StudentListWrapper>
-      <Fontwrapper>
+      <FontWrapper>
         <ListFont>{student.name}</ListFont>
         <ListFont>{student.number}</ListFont>
         <ListFont>{student.attendance}</ListFont>
         <SignWrapper>
-          <StudentSign src={student.sign} alt="" />
+          <StudentSign src={student.sign} alt="sign" />
         </SignWrapper>
-      </Fontwrapper>
+      </FontWrapper>
     </StudentListWrapper>
   );
 };
-
-const StudentSign = styled.img`
-  max-width: 70px;
-  max-height: 70px;
-`;
-
-const SignWrapper = styled.div`
-  display: flex;
-  align-items: center;
-`;
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -114,38 +99,59 @@ const Title = styled.div`
 const StudentListWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
 `;
 
-const Fontwrapper = styled.div`
+const FontWrapper = styled.div`
   display: flex;
-  gap: 30px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
 `;
 
 const ListFont = styled.p`
-  font-size: 18px;
-  margin: 5px 0;
+  font-size: 16px;
+  color: #333;
+  margin: 0;
+  flex: 1;
+  text-align: center;
 `;
 
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin-top: 20px;
+  margin-top: 10px;
+`;
+
+const StudentSign = styled.img`
+  max-width: 70px;
+  max-height: 70px;
+  object-fit: cover;
+  border-radius: 50%;
+`;
+
+const SignWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
 `;
 
 const CancelButton = styled.button`
-  width: 120px;
+  width: 100px;
   height: 36px;
   border: none;
   border-radius: 8px;
   color: white;
-  font-size: 16px;
-  background-color: #1f5fa9;
+  font-size: 14px;
+  background-color: #0a2c83;
   cursor: pointer;
-
-  &:hover {
-    background-color: #144281;
-  }
+  transition: background-color 0.3s ease;
 `;
 
 export default AttendanceList;
