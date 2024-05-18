@@ -11,7 +11,7 @@ const AttendanceConfirmModal = ({ name, onClose }) => {
     const timer = setTimeout(() => {
       navigate('/attendance/student-id');
       onClose();
-    }, 2000);
+    }, 1200);
 
     return () => clearTimeout(timer);
   }, [navigate, onClose]);

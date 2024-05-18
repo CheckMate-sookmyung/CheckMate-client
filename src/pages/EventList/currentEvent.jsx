@@ -17,7 +17,7 @@ export default function CurrentEvent() {
           id: event.eventId,
           title: event.eventTitle,
           poster: event.eventImage,
-          date: event.eventSchedules[0],
+          date: event.eventSchedules[1],
         }));
 
         setEvents(parsedEvents);
