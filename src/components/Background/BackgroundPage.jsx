@@ -26,7 +26,7 @@ const Background = styled.div`
   align-items: center;
   background-color: #f9f9f9;
   min-height: 100vh;
-  /* padding-top: 80px; */
+  padding-top: 80px;
 `;
 
 const BodyWrapper = styled.div`

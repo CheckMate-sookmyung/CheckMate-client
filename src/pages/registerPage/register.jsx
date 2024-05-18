@@ -225,7 +225,7 @@ export default function Register() {
               <FormItem>
                 <PrimaryText>포스터</PrimaryText>
                 <TwoBoxWrapper>
-                  <PrimaryInput1
+                  <PrimaryInput2
                     placeholder={
                       eventImage
                         ? eventImage.name
@@ -234,7 +234,6 @@ export default function Register() {
                   />
                   <ChoiceButton1
                     accept=".png, .jpeg, .pdf"
-                    ref={setEventImage}
                     onChange={handleImageChange}
                   />
                   <ChoiceButtonLabel1>파일 선택</ChoiceButtonLabel1>
@@ -354,11 +353,6 @@ const PrimaryInput = styled.input`
   &:focus {
     outline: none;
   }
-`;
-
-const PrimaryInput1 = styled(PrimaryInput)`
-  width: 400px;
-  height: 56px;
 `;
 
 const PrimaryInput2 = styled(PrimaryInput)`
