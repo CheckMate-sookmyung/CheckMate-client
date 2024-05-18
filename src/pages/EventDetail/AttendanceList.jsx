@@ -77,11 +77,12 @@ const ModalBackground = styled.div`
 
 const ModalContent = styled.div`
   width: 60%;
-  height: auto;
+  height: 80vh;
   justify-content: center;
   background-color: white;
   border-radius: 20px;
   padding: 20px;
+  overflow: auto;
 `;
 
 const DataContent = styled.div`
