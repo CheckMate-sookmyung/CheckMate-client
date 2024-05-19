@@ -3,23 +3,26 @@ import { AttendanceStudentIdPage, AttendanceSignPage } from './pages';
 import Register from './pages/registerPage/register';
 import CurrentEvent from './pages/EventList/currentEvent';
 import EventDetail from './pages/EventDetail/eventDetail';
+import Layout from './Layout/Layout';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <div>Home</div>,
-  },
-  {
-    path: '/register',
-    element: <Register />,
-  },
-  {
-    path: '/currentevent',
-    element: <CurrentEvent />,
-  },
-  {
-    path: '/eventDetail',
-    element: <EventDetail />,
+    element: <Layout />,
+    children: [
+      {
+        path: '/register',
+        element: <Register />,
+      },
+      {
+        path: '/currentevent',
+        element: <CurrentEvent />,
+      },
+      {
+        path: '/currentevent/eventdetail',
+        element: <EventDetail />,
+      },
+    ],
   },
   {
     path: '/attendance/student-id',

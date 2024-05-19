@@ -1,44 +1,77 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navigator from '../../components/navigator';
 import styled from 'styled-components';
-import AttendenceList from './AttendenceList';
+import AttendanceList from './AttendanceList';
+import { USER_ID, EVENT_ID } from '../../constants';
+import { axiosInstance } from '../../axios';
 
 export default function EventDetail() {
   const [showList, setShowList] = useState(false);
+  const [parsedEvents, setParsedEvents] = useState(null);
 
   const handleList = () => {
     setShowList(true);
+  };
+
+  const handleEmail = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `api/v1/attendance/list/${USER_ID}/${EVENT_ID}`,
+      );
+      if (response == 200) {
+        console.log('전송 완료');
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleClose = () => {
     setShowList(false);
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.get(
+          `/api/v1/events/${USER_ID}/${EVENT_ID}`,
+        );
+        const eventData = response.data;
+        if (eventData) {
+          const parsedEvent = {
+            title: eventData.eventTitle,
+            detail: eventData.eventDetail,
+            poster: eventData.eventImage,
+          };
+          setParsedEvents(parsedEvent);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
-      <Navigator />
       <Background>
         <DetailWrapper>
-          <CheckList onClick={handleList}>출석 명단 확인</CheckList>
-          {showList && <AttendenceList onClose={handleClose} />}
           <ColumnBox>
-            <EventTitle>
-              [AI & ML Ops Foundation (입문과정)] 출석체크
-            </EventTitle>
-            <BoxWrapper>
-              <BlueBox>
-                <BlueBoxTitle>행사 설명</BlueBoxTitle>
-                <BlueBoxContent>
-                  {/* 콘텐츠 받기 */}
-                  1주차 : 프론트엔드 이해 및 웹 개발 기초 <br />
-                  2주차 : React 기초1
-                  <br />
-                  3주차 : React 기초2 <br />
-                  4주차 : 메모장 프로젝트 <br />
-                  5주차 : 에어비엔비 클론 코딩
-                </BlueBoxContent>
-              </BlueBox>
-            </BoxWrapper>
+            {parsedEvents && (
+              <>
+                <EventTitle>{parsedEvents.title}</EventTitle>
+                <BoxWrapper>
+                  <BlueBox>
+                    <BlueBoxTitle>행사 설명</BlueBoxTitle>
+                    <BlueBoxContent>{parsedEvents.detail}</BlueBoxContent>
+                  </BlueBox>
+                </BoxWrapper>
+                <CheckList onClick={handleList}>출석 명단 확인</CheckList>
+                {showList && <AttendanceList onClose={handleClose} />}
+                <CheckList onClick={handleEmail}>출석 명단 전송</CheckList>
+              </>
+            )}
           </ColumnBox>
         </DetailWrapper>
       </Background>
@@ -55,7 +88,6 @@ const Background = styled.div`
 
 const DetailWrapper = styled.div`
   display: flex;
-  justify-content: space-evenly;
   align-items: center;
   gap: 300px;
 `;
@@ -78,7 +110,7 @@ const BlueBox = styled.div`
   justify-content: center;
   text-align: left;
   width: 500px;
-  height: 180px;
+  height: auto;
   border: 1px solid #1f5fa9;
   border-radius: 4px;
   padding: 20px;
@@ -93,6 +125,7 @@ const BlueBoxTitle = styled.p`
 const BlueBoxContent = styled.p`
   color: black;
   font-size: 16px;
+  white-space: normal;
 `;
 
 const EventTitle = styled.p`

@@ -34,7 +34,7 @@ export const CompletedButton = styled.button`
   ${(props) =>
     !props.disabled &&
     css`
-      background: linear-gradient(150deg, #3665df 10%, #91b2f1);
+      background: #0075ff;
       cursor: pointer;
     `}
 `;

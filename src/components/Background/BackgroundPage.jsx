@@ -1,11 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import Navigator from '../navigator';
 
 export default function BackgroundPage({ title, children }) {
   return (
     <Container>
-      <Navigator />
       <Background>
         <BodyWrapper>
           <Title>{title}</Title>
@@ -28,7 +26,7 @@ const Background = styled.div`
   align-items: center;
   background-color: #f9f9f9;
   min-height: 100vh;
-  /* padding-top: 80px; */
+  padding-top: 80px;
 `;
 
 const BodyWrapper = styled.div`
@@ -43,7 +41,7 @@ const BodyWrapper = styled.div`
 const Title = styled.p`
   display: flex;
   color: white;
-  font-size: 2.5vw;
+  font-size: 3rem;
 `;
 
 const FormWrapper = styled.div`

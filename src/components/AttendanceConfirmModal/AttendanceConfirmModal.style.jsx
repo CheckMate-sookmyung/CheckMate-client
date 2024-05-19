@@ -28,16 +28,6 @@ export const Content = styled.h1`
   font-size: 40px;
 
   & > strong {
-    color: #3665df;
+    color: #0075ff;
   }
-`;
-
-export const ConfirmButton = styled.button`
-  width: 300px;
-  height: 62px;
-  border-radius: 4px;
-  background: linear-gradient(150deg, #3665df 10%, #91b2f1);
-  font-size: 28px;
-  font-weight: 600;
-  color: #ffffff;
 `;

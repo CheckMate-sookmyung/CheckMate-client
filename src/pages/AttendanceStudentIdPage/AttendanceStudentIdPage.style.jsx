@@ -13,11 +13,11 @@ export const Title = styled.h2`
 export const StudentIdContainer = styled.div`
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 20px;
 `;
 
 export const StudentId = styled.div`
-  --box-size: 60px;
+  --box-size: 80px;
 
   display: flex;
   flex-direction: row;
@@ -26,8 +26,8 @@ export const StudentId = styled.div`
   width: var(--box-size);
   height: var(--box-size);
   border-radius: 4px;
-  background-color: #f9f9f9;
-  font-size: 28px;
+  background-color: #f0f0f0;
+  font-size: 36px;
   font-weight: 600;
 `;
 

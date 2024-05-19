@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import BackgroundPage from '../../components/Background/BackgroundPage';
-import axios from 'axios';
+import { USER_ID } from '../../constants';
 import { useNavigate } from 'react-router-dom';
 import { axiosInstance } from '../../axios';
-const USER_ID = 500;
 
 export default function CurrentEvent() {
   const [events, setEvents] = useState([]);
@@ -12,16 +11,13 @@ export default function CurrentEvent() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get(
-          `/api/v1/event/list/${USER_ID}`,
-        );
-        console.log('response : ', response);
-
+        const response = await axiosInstance.get(`/api/v1/events/${USER_ID}`);
+        console.log('response: ', response.data);
         const parsedEvents = response.data.map((event) => ({
           id: event.eventId,
           title: event.eventTitle,
           poster: event.eventImage,
-          date: event.eventSchedules[0],
+          date: event.eventSchedules[1],
         }));
 
         setEvents(parsedEvents);
@@ -50,21 +46,20 @@ export default function CurrentEvent() {
 }
 
 const EventCard = ({ title, poster, date }) => {
-  // const formattedDate = `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
-
   const navigate = useNavigate();
 
   const handleDetail = () => {
-    navigate('/eventDetail');
+    navigate('/currentevent/eventdetail');
   };
 
-  const attendanceCheck = () => {
+  const attendanceCheck = (event) => {
+    event.stopPropagation();
     navigate('/attendance/student-id');
   };
   return (
-    <CardWrapper>
-      <CardPoster onClick={handleDetail}>
-        <img src={poster} alt="event_poster" />
+    <CardWrapper onClick={handleDetail}>
+      <CardPoster>
+        <EventCardPoster src={poster} alt="event_poster" />
       </CardPoster>
       <CardTitle>{title}</CardTitle>
       <DateWrapper>
@@ -75,6 +70,10 @@ const EventCard = ({ title, poster, date }) => {
     </CardWrapper>
   );
 };
+
+const EventCardPoster = styled.img`
+  overflow: auto;
+`;
 
 const EventCardList = styled.div`
   display: flex;
@@ -107,7 +106,8 @@ const CardPoster = styled.div`
   display: flex;
   width: 296px;
   height: 300px;
-  overflow: clip;
+  overflow: auto;
+  justify-content: center;
 `;
 
 const CardTitle = styled.p`

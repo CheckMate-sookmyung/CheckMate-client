@@ -4,10 +4,8 @@ import styled from 'styled-components';
 import { FaRegCalendarAlt } from 'react-icons/fa';
 import { MdAccessAlarm } from 'react-icons/md';
 import DateCalendar from '../../components/Calendar/DateCalendar';
-import axios from 'axios';
-
-const REACT_BASE_URL = 'http://3.37.229.221/api/v1';
-const USER_ID = 100;
+import { axiosInstance } from '../../axios';
+import { USER_ID } from '../../constants';
 
 export default function Register() {
   const [eventTitle, setEventTitle] = useState('');
@@ -54,12 +52,6 @@ export default function Register() {
 
     const formData = new FormData();
 
-    // const event = {
-    //   eventTitle: eventTitle,
-    //   eventDetail: eventDetail,
-    //   alarmRequest: alarmRequest,
-    // };
-
     const event = {
       eventTitle: '테스트 이벤트',
       eventDetail: '이벤트 상세 설명입니다.',
@@ -78,20 +70,14 @@ export default function Register() {
       ],
     };
 
-    // const eventSchedules = {
-    //   eventDate: eventDate,
-    //   eventStartTime: eventStartTime,
-    //   eventEndTime: eventEndTime,
-    // };
-
     formData.append('event', JSON.stringify(event));
     // formData.append('eventSchedules', JSON.stringify(eventSchedules));
     formData.append('eventImage', eventImage);
     formData.append('attendanceListFile', attendanceListFile);
     console.log(attendanceListFile);
 
-    axios
-      .post(`${REACT_BASE_URL}/event/register/${USER_ID}`, formData, {
+    axiosInstance
+      .post(`/api/v1/events/${USER_ID}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -107,7 +93,6 @@ export default function Register() {
 
   return (
     <Container>
-      <Navigator />
       <Background>
         <BodyWrapper>
           <Title>행사 등록</Title>
@@ -240,7 +225,7 @@ export default function Register() {
               <FormItem>
                 <PrimaryText>포스터</PrimaryText>
                 <TwoBoxWrapper>
-                  <PrimaryInput1
+                  <PrimaryInput2
                     placeholder={
                       eventImage
                         ? eventImage.name
@@ -368,11 +353,6 @@ const PrimaryInput = styled.input`
   &:focus {
     outline: none;
   }
-`;
-
-const PrimaryInput1 = styled(PrimaryInput)`
-  width: 400px;
-  height: 56px;
 `;
 
 const PrimaryInput2 = styled(PrimaryInput)`

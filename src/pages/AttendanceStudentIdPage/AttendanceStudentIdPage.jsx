@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as S from './AttendanceStudentIdPage.style';
 import { AttendanceHeader } from '../../components';
 import Modal from '../../components/Modal';
 import { getAttendanceCheck } from '../../services';
 import { EVENT_DATE, EVENT_ID, USER_ID } from '../../constants';
 import { useSessionStorages } from '../../hooks';
+import { axiosInstance } from '../../axios';
 
 const AttendanceStudentIdPage = () => {
   const [enteredNumbers, setEnteredNumbers] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [attendanceCheck, setAttendanceCheck] = useState();
+  const [eventTitle, setEventTitle] = useState('');
 
   const { setSessionStorage } = useSessionStorages();
 
@@ -28,15 +30,15 @@ const AttendanceStudentIdPage = () => {
         {
           userId: USER_ID,
           eventId: EVENT_ID,
-          studentNumber: Number(enteredNumbers.join('')),
         },
         {
+          studentNumber: Number(enteredNumbers.join('')),
           eventDate: EVENT_DATE,
         },
       )
-        .then((attendanceCheck) => {
-          setAttendanceCheck(attendanceCheck);
-          setSessionStorage('attendance', JSON.stringify(attendanceCheck));
+        .then((data) => {
+          setAttendanceCheck(data);
+          setSessionStorage('attendance', JSON.stringify(data));
           openModal();
         })
         .catch(() => {
@@ -58,9 +60,24 @@ const AttendanceStudentIdPage = () => {
     setIsOpen(false);
   };
 
+  useEffect(() => {
+    const fetchEventTitle = async () => {
+      try {
+        const response = await axiosInstance.get(
+          `/api/v1/events/${USER_ID}/${EVENT_ID}`,
+        );
+        setEventTitle(response.data.eventTitle);
+      } catch (error) {
+        console.error('이벤트 타이틀 에러', error);
+      }
+    };
+
+    fetchEventTitle();
+  }, []);
+
   return (
     <S.Container>
-      <AttendanceHeader event="AI & ML Ops Foundation (입문과정)" />
+      <AttendanceHeader eventTitle={eventTitle} />
       <S.Title>학번을 입력해주세요.</S.Title>
       <S.StudentIdContainer>
         {studentId.map((index) => (
@@ -78,7 +95,6 @@ const AttendanceStudentIdPage = () => {
         <S.Number key="backspace" onClick={() => handleNumberClick('<')}>
           {'<'}
         </S.Number>
-
         {numberList2.map((number, index) => (
           <S.Number key={index} onClick={() => handleNumberClick(number)}>
             {number}
