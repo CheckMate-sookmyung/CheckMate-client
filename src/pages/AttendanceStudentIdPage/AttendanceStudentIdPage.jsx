@@ -68,7 +68,7 @@ const AttendanceStudentIdPage = () => {
 
       {/* 학번 입력 */}
       <S.RightSide>
-        <S.Title>학번을 입력해주세요.</S.Title>
+        <S.Title>학번을 입력하여, 출석을 완료해주세요.</S.Title>
         <S.StudentIdContainer>
           {studentId.map((index) => (
             <S.StudentId key={index}>
@@ -92,18 +92,16 @@ const AttendanceStudentIdPage = () => {
           </S.Dial>
           <S.Dial key="backspace" onClick={() => handleDialClick('<')}>
             {'<'}
-          </S.Dial>
+          </S.Dial>{' '}
+          <S.NextBtn
+            key="confirm"
+            onClick={() => handleDialClick('다음')}
+            isSevenDigits={isSevenDigits}
+            disabled={!isConfirmEnabled}
+          >
+            {'다음'}
+          </S.NextBtn>
         </S.DialList>
-
-        {/* 다음 버튼 */}
-        <S.ConfirmBtn
-          key="confirm"
-          onClick={() => handleDialClick('다음')}
-          isSevenDigits={isSevenDigits}
-          disabled={!isConfirmEnabled}
-        >
-          {'다음'}
-        </S.ConfirmBtn>
       </S.RightSide>
       {isOpen && <S.ModalOverlay />}
       <Modal
