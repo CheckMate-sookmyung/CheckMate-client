@@ -3,12 +3,15 @@ import * as S from './AttendanceSignPage.style';
 import { AttendanceHeader, AttendanceConfirmModal } from '../../components';
 import SignatureCanvas from 'react-signature-canvas';
 import { useState, useRef, useEffect } from 'react';
-import { postAttendanceSign } from '../../services';
+// import { postAttendanceSign } from '../../services';
 import { useSessionStorages } from '../../hooks';
 import { USER_ID, EVENT_ID } from '../../constants';
-import { axiosInstance } from '../../axios';
+import { useNavigate } from 'react-router-dom';
+// import { axiosInstance } from '../../axios';
 
-const AttendanceSignPage = () => {
+const AttendanceSignPage = ({ name, major, studentId }) => {
+  const navigate = useNavigate();
+
   const [isSigned, setIsSigned] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [eventTitle, setEventTitle] = useState('');
@@ -16,36 +19,44 @@ const AttendanceSignPage = () => {
   const signatureRef = useRef(null);
   const { getSessionStorage } = useSessionStorages();
   const { studentInfoId, studentName } = JSON.parse(
-    getSessionStorage('attendance'),
+    getSessionStorage('attendance') ||
+      '{"studentInfoId":"123456","studentName":"John Doe"}', // 임시 데이터
   );
 
   const handleCompletedButtonClick = async () => {
-    const signatureImageFile = await fetch(signatureRef.current.toDataURL());
-    const signatureImageBlob = await signatureImageFile.blob();
-    const form = new FormData();
+    // const signatureImageFile = await fetch(signatureRef.current.toDataURL());
+    // const signatureImageBlob = await signatureImageFile.blob();
+    // const form = new FormData();
 
-    form.append('signImage', signatureImageBlob);
+    // form.append('signImage', signatureImageBlob);
 
-    await postAttendanceSign(
-      {
-        userId: USER_ID,
-        eventId: EVENT_ID,
-        studentInfoId,
-      },
-      form,
-    )
-      .then(() => {
-        openModal();
-      })
-      .catch(() => {
-        alert('API 에러');
-      });
+    // await postAttendanceSign(
+    //   {
+    //     userId: USER_ID,
+    //     eventId: EVENT_ID,
+    //     studentInfoId,
+    //   },
+    //   form,
+    // )
+    //   .then(() => {
+    //     openModal();
+    //   })
+    //   .catch(() => {
+    //     alert('API 에러');
+    //   });
+
+    // 임시 처리
+    openModal();
   };
 
   const handleSignature = () => {
     if (!isSigned) {
       setIsSigned(true);
     }
+  };
+
+  const handleCancelButtonClick = async () => {
+    navigate('/attendance/student-id');
   };
 
   const openModal = () => {
@@ -59,10 +70,13 @@ const AttendanceSignPage = () => {
   useEffect(() => {
     const fetchEventTitle = async () => {
       try {
-        const response = await axiosInstance.get(
-          `/api/v1/events/${USER_ID}/${EVENT_ID}`,
-        );
-        setEventTitle(response.data.eventTitle);
+        // const response = await axiosInstance.get(
+        //   `/api/v1/events/${USER_ID}/${EVENT_ID}`,
+        // );
+        // setEventTitle(response.data.eventTitle);
+
+        // 임시 처리
+        setEventTitle('Event Title');
       } catch (error) {
         console.error('이벤트 타이틀 에러', error);
       }
@@ -71,10 +85,37 @@ const AttendanceSignPage = () => {
     fetchEventTitle();
   }, []);
 
+  useEffect(() => {
+    if (signatureRef.current) {
+      const canvas = signatureRef.current.getCanvas();
+      const ctx = canvas.getContext('2d');
+      ctx.font = '30px Pretendard';
+      ctx.fillStyle = '#838383';
+      ctx.textAlign = 'center';
+      ctx.fillText(
+        '본인 확인을 위해, 서명을 입력해주세요',
+        canvas.width / 2,
+        canvas.height / 2,
+      );
+    }
+  }, []);
+
   return (
     <S.Container>
       <AttendanceHeader eventTitle={eventTitle} activeStep={1} />
-      <S.Title>{`서명을 입력하세요.`}</S.Title>
+      <S.Title>
+        <strong>{name}류미성</strong>님이 맞으십니까?
+      </S.Title>
+      <S.ContentContainer>
+        <S.Content>
+          <S.ContentTitle>학과</S.ContentTitle>
+          <S.ContentDescription>{major}기계시스템학부</S.ContentDescription>
+        </S.Content>
+        <S.Content>
+          <S.ContentTitle>학번</S.ContentTitle>
+          <S.ContentDescription>{studentId}1234567</S.ContentDescription>
+        </S.Content>
+      </S.ContentContainer>
       <SignatureCanvas
         penColor="black"
         minWidth={4}
@@ -89,13 +130,19 @@ const AttendanceSignPage = () => {
         }}
         ref={signatureRef}
         onEnd={handleSignature}
-      />
-      <S.CompletedButton
-        onClick={handleCompletedButtonClick}
-        disabled={!isSigned}
-      >
-        입력 완료
-      </S.CompletedButton>{' '}
+      ></SignatureCanvas>{' '}
+      <S.ButtonContainer>
+        <S.CancelButton onClick={handleCancelButtonClick}>
+          본인이 아닙니다
+        </S.CancelButton>
+        <S.CompletedButton
+          onClick={handleCompletedButtonClick}
+          disabled={!isSigned}
+        >
+          입력 완료
+        </S.CompletedButton>
+      </S.ButtonContainer>
+      {/* 출석 완료 모달 */}
       {isOpen && (
         <>
           <S.ModalOverlay />
