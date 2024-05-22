@@ -1,6 +1,15 @@
 import styled from 'styled-components';
 
-export const Container = styled.div``;
+export const Container = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+`;
+
+export const LeftSide = styled.div``;
+
+export const RightSide = styled.div`
+  padding: 30px;
+`;
 
 export const Title = styled.h2`
   display: flex;
@@ -31,19 +40,20 @@ export const StudentId = styled.div`
   font-weight: 600;
 `;
 
-export const NumberList = styled.div`
-  display: flex;
+export const DialList = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
   margin: 50px auto;
   flex-wrap: wrap;
   gap: 2px;
   max-width: calc(150px * 6 + 10px * 5);
 `;
 
-export const Number = styled.div`
+export const Dial = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: calc(16.666% - 2px);
   height: 150px;
   background-color: #3867e0;
   font-size: 50px;
@@ -51,7 +61,7 @@ export const Number = styled.div`
   color: #ffffff;
 `;
 
-export const ConfirmNumber = styled(Number)`
+export const ConfirmBtn = styled(Number)`
   background-color: ${({ isSevenDigits }) =>
     isSevenDigits ? '#1040b9' : '#c8c8c8'};
   color: white;
