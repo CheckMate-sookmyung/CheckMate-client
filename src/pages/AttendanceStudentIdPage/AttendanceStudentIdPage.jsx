@@ -6,10 +6,11 @@ import { getAttendanceCheck } from '../../services';
 import { EVENT_DATE, EVENT_ID, USER_ID } from '../../constants';
 import { useSessionStorages } from '../../hooks';
 import { axiosInstance } from '../../axios';
+import { useNavigate } from 'react-router-dom';
 
 const AttendanceStudentIdPage = () => {
+  const navigate = useNavigate();
   const [enteredDials, setEnteredDials] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
   const [attendanceCheck, setAttendanceCheck] = useState();
   const [eventTitle, setEventTitle] = useState('');
   const [isAlreadyCompleted, setIsAlreadyCompleted] = useState(false);
@@ -48,7 +49,7 @@ const AttendanceStudentIdPage = () => {
         } else {
           setAttendanceCheck(data);
           setSessionStorage('attendance', JSON.stringify(data));
-          openModal();
+          navigate('/attendance/sign');
         }
       } catch {
         setEnteredDials([]);
@@ -59,14 +60,6 @@ const AttendanceStudentIdPage = () => {
         setEnteredDials([...enteredDials, dial]);
       }
     }
-  };
-
-  const openModal = () => {
-    setIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
   };
 
   useEffect(() => {
@@ -115,14 +108,6 @@ const AttendanceStudentIdPage = () => {
           {'서명하러 가기'}
         </S.GoToSignBtn>
       </S.DialList>
-      {isOpen && <S.ModalOverlay />}
-      <Modal
-        name={attendanceCheck?.studentName}
-        major={attendanceCheck?.major}
-        studentId={attendanceCheck?.studentNumber}
-        isOpen={isOpen}
-        onClose={closeModal}
-      />
     </S.Container>
   );
 };

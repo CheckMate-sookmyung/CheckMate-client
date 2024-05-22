@@ -7,18 +7,77 @@ export const Container = styled.div`
   align-items: center;
 `;
 
-export const Title = styled.h2`
+export const Title = styled.h1`
   display: flex;
   justify-content: center;
-  margin: 40px auto;
-  font-size: 32px;
+  align-items: center;
+  width: 100%;
+  margin-top: 50px;
+  padding: 20px;
+  font-size: 40px;
+
+  & > strong {
+    color: #0075ff;
+  }
+`;
+
+export const ContentContainer = styled.div`
+  display: flex;
+  gap: 16px;
+  /* width: 100%; */
+  margin: 20px;
+`;
+
+export const Content = styled.div`
+  display: flex;
+  width: 442px;
+  height: 50px;
+  font-size: 16px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  align-items: center;
+  border-radius: 4px;
+`;
+
+export const ContentTitle = styled.span`
+  font-size: 20px;
   font-weight: 700;
+  padding: 0 10px;
+  position: relative;
+
+  &::after {
+    content: '|';
+    position: absolute;
+    right: -15px;
+    color: #000;
+    font-weight: 400;
+  }
+`;
+
+export const ContentDescription = styled.span`
+  padding: 0 30px;
+  font-size: 20px;
+`;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  gap: 20px;
+  margin: 20px;
+`;
+
+export const CancelButton = styled.button`
+  width: 260px;
+  border-radius: 4px;
+  height: 62px;
+  background: #838383;
+  font-size: 28px;
+  font-weight: 600;
+  color: #ffffff;
 `;
 
 export const CompletedButton = styled.button`
-  width: 300px;
+  width: 360px;
   height: 62px;
-  margin: 40px auto;
   border-radius: 4px;
   font-size: 28px;
   font-weight: 600;
@@ -27,7 +86,8 @@ export const CompletedButton = styled.button`
   ${(props) =>
     props.disabled &&
     css`
-      background-color: #c8c8c8;
+      background-color: #f0eeee;
+      color: #838383;
       cursor: not-allowed;
     `}
 
