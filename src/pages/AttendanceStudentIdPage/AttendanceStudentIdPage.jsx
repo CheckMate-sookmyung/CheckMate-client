@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as S from './AttendanceStudentIdPage.style';
+import { AttendanceHeader } from '../../components';
 import Modal from '../../components/Modal';
 import { getAttendanceCheck } from '../../services';
 import { EVENT_DATE, EVENT_ID, USER_ID } from '../../constants';
 import { useSessionStorages } from '../../hooks';
+import { axiosInstance } from '../../axios';
 
 const AttendanceStudentIdPage = () => {
   const [enteredDials, setEnteredDials] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [attendanceCheck, setAttendanceCheck] = useState();
+  const [eventTitle, setEventTitle] = useState('');
   const [isAlreadyCompleted, setIsAlreadyCompleted] = useState(false);
   const [isNoMatch, setIsNoMatch] = useState(false);
 
@@ -23,9 +26,7 @@ const AttendanceStudentIdPage = () => {
   const handleDialClick = async (dial) => {
     if (dial === '<') {
       setEnteredDials(enteredDials.slice(0, -1));
-    } else if (dial === 'C') {
-      setEnteredDials([]);
-    } else if (dial === '확인' && isConfirmEnabled) {
+    } else if (dial === '서명하러 가기' && isConfirmEnabled) {
       try {
         const data = await getAttendanceCheck(
           {
@@ -68,51 +69,52 @@ const AttendanceStudentIdPage = () => {
     setIsOpen(false);
   };
 
+  useEffect(() => {
+    const fetchEventTitle = async () => {
+      try {
+        const response = await axiosInstance.get(
+          `/api/v1/events/${USER_ID}/${EVENT_ID}`,
+        );
+        setEventTitle(response.data.eventTitle);
+      } catch (error) {
+        console.error('이벤트 타이틀 에러', error);
+      }
+    };
+
+    fetchEventTitle();
+  }, []);
+
   return (
     <S.Container>
-      {/* 이벤트 이미지 */}
-      <S.LeftSide></S.LeftSide>
+      <AttendanceHeader eventTitle={eventTitle} />
+      <S.Title>학번을 입력해주세요.</S.Title>
+      <S.StudentIdContainer>
+        {studentId.map((index) => (
+          <S.StudentId key={index}>{enteredDials[index - 1] || ''}</S.StudentId>
+        ))}
+      </S.StudentIdContainer>
+      <S.DialList>
+        {dialList.map((dial, index) => (
+          <S.Dial key={index} onClick={() => handleDialClick(dial)}>
+            {dial}
+          </S.Dial>
+        ))}
 
-      {/* 학번 입력 */}
-      <S.RightSide>
-        <S.OutContainer>
-          <S.Title>학번을 입력하여, 출석 완료해주세요.</S.Title>
-          <S.StudentIdContainer>
-            {studentId.map((index) => (
-              <S.StudentId key={index}>
-                {enteredDials[index - 1] || ''}
-              </S.StudentId>
-            ))}
-          </S.StudentIdContainer>
-        </S.OutContainer>
-
-        <S.InputContainer>
-          <S.DialList>
-            {dialList.map((dial, index) => (
-              <S.Dial key={index} onClick={() => handleDialClick(dial)}>
-                {dial}
-              </S.Dial>
-            ))}
-            <S.SpecialDial key="reset" onClick={() => handleDialClick('C')}>
-              {'C'}
-            </S.SpecialDial>
-            <S.Dial key="zero" onClick={() => handleDialClick('0')}>
-              {'0'}
-            </S.Dial>
-            <S.SpecialDial key="backspace" onClick={() => handleDialClick('<')}>
-              {'<'}
-            </S.SpecialDial>
-          </S.DialList>
-          <S.NextBtn
-            onClick={() => handleDialClick('확인')}
-            isSevenDigits={isSevenDigits}
-            disabled={!isConfirmEnabled}
-          >
-            {'확인'}
-          </S.NextBtn>
-        </S.InputContainer>
-      </S.RightSide>
-
+        <S.Dial key="backspace" onClick={() => handleDialClick('<')}>
+          {'<'}
+        </S.Dial>
+        <S.Dial key="zero" onClick={() => handleDialClick('0')}>
+          {'0'}
+        </S.Dial>
+        <S.GoToSignBtn
+          key="confirm"
+          onClick={() => handleDialClick('서명하러 가기')}
+          isSevenDigits={isSevenDigits}
+          disabled={!isConfirmEnabled}
+        >
+          {'서명하러 가기'}
+        </S.GoToSignBtn>
+      </S.DialList>
       {isOpen && <S.ModalOverlay />}
       <Modal
         name={attendanceCheck?.studentName}
