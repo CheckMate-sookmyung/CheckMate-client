@@ -16,9 +16,7 @@ const AttendanceStudentIdPage = () => {
   const { setSessionStorage } = useSessionStorages();
 
   const studentId = Array.from({ length: 7 }, (_, index) => index + 1);
-  const dialList1 = Array.from({ length: 3 }, (_, index) => index + 1);
-  const dialList2 = Array.from({ length: 3 }, (_, index) => index + 4);
-  const dialList3 = Array.from({ length: 3 }, (_, index) => index + 7);
+  const dialList = Array.from({ length: 9 }, (_, index) => index + 1);
 
   const isSevenDigits = enteredDials.length === 7;
   const isConfirmEnabled = isSevenDigits;
@@ -35,7 +33,7 @@ const AttendanceStudentIdPage = () => {
           eventId: EVENT_ID,
         },
         {
-          studentDial: enteredDials(enteredDials.join('')),
+          studentDial: Number(enteredDials.join('')),
           eventDate: EVENT_DATE,
         },
       )
@@ -63,24 +61,12 @@ const AttendanceStudentIdPage = () => {
     setIsOpen(false);
   };
 
-  useEffect(() => {
-    const fetchEventTitle = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `/api/v1/events/${USER_ID}/${EVENT_ID}`,
-        );
-        setEventTitle(response.data.eventTitle);
-      } catch (error) {
-        console.error('이벤트 타이틀 에러', error);
-      }
-    };
-
-    fetchEventTitle();
-  }, []);
-
   return (
     <S.Container>
+      {/* 이벤트 이미지 불러오기 */}
       <S.LeftSide></S.LeftSide>
+
+      {/* 학번 입력 */}
       <S.RightSide>
         <S.Title>학번을 입력해주세요.</S.Title>
         <S.StudentIdContainer>
@@ -90,18 +76,10 @@ const AttendanceStudentIdPage = () => {
             </S.StudentId>
           ))}
         </S.StudentIdContainer>
+
+        {/* 다이얼 */}
         <S.DialList>
-          {dialList1.map((dial, index) => (
-            <S.Dial key={index} onClick={() => handleDialClick(dial)}>
-              {dial}
-            </S.Dial>
-          ))}
-          {dialList2.map((dial, index) => (
-            <S.Dial key={index} onClick={() => handleDialClick(dial)}>
-              {dial}
-            </S.Dial>
-          ))}
-          {dialList3.map((dial, index) => (
+          {dialList.map((dial, index) => (
             <S.Dial key={index} onClick={() => handleDialClick(dial)}>
               {dial}
             </S.Dial>
@@ -116,6 +94,8 @@ const AttendanceStudentIdPage = () => {
             {'<'}
           </S.Dial>
         </S.DialList>
+
+        {/* 다음 버튼 */}
         <S.ConfirmBtn
           key="confirm"
           onClick={() => handleDialClick('다음')}
