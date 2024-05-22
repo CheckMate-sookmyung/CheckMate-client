@@ -5,9 +5,9 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  height: 200px;
+  height: 160px;
   padding: 10px;
-  background: linear-gradient(150deg, #3665df 30%, #91b2f1);
+  background: #0075ff;
   font-size: 32px;
   font-weight: 700;
   color: #ffffff;
