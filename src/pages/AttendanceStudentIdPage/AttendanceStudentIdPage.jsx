@@ -9,6 +9,8 @@ const AttendanceStudentIdPage = () => {
   const [enteredDials, setEnteredDials] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [attendanceCheck, setAttendanceCheck] = useState();
+  const [isAlreadyCompleted, setIsAlreadyCompleted] = useState(false);
+  const [isNoMatch, setIsNoMatch] = useState(false);
 
   const { setSessionStorage } = useSessionStorages();
 
@@ -35,9 +37,18 @@ const AttendanceStudentIdPage = () => {
             eventDate: EVENT_DATE,
           },
         );
-        setAttendanceCheck(data);
-        setSessionStorage('attendance', JSON.stringify(data));
-        openModal();
+
+        if (!data) {
+          setIsNoMatch(true);
+          alert('일치하는 학번이 없습니다');
+        } else if (data.isAlreadyCompleted) {
+          setIsAlreadyCompleted(true);
+          alert('이미 출석을 완료하였습니다');
+        } else {
+          setAttendanceCheck(data);
+          setSessionStorage('attendance', JSON.stringify(data));
+          openModal();
+        }
       } catch {
         setEnteredDials([]);
         alert('API 에러 발생');
