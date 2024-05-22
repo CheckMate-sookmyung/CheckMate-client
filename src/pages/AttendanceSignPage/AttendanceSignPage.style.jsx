@@ -12,7 +12,7 @@ export const Title = styled.h1`
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-top: 50px;
+  margin-top: 30px;
   padding: 20px;
   font-size: 40px;
 

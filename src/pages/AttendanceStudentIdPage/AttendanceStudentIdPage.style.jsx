@@ -19,18 +19,19 @@ export const OutputContainer = styled.div`
   gap: 20px;
 `;
 
-export const Title = styled.p`
+export const Title = styled.h1`
   display: flex;
   justify-content: center;
-  font-size: 36px;
-  font-weight: 600;
-  margin: 50px;
+  font-size: 40px;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  padding: 20px;
 `;
 
 export const StudentIdContainer = styled.div`
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 40px;
   margin: 20px 0;
 `;
 
@@ -55,7 +56,7 @@ export const DialList = styled.div`
   width: 80%;
   border-collapse: collapse;
   border-radius: 10px;
-  margin: 50px;
+  margin: 20px;
   overflow: hidden;
 `;
 
@@ -68,7 +69,7 @@ export const Dial = styled.div`
   height: 100px;
   font-size: 40px;
   font-weight: 600;
-  color: #636363;
+  color: #838383;
   background-color: white;
   &:nth-child(3n) {
     border-right: 1px solid #d9d9d9;
@@ -91,12 +92,13 @@ export const Dial = styled.div`
 
 export const GoToSignBtn = styled.div`
   background-color: ${({ isSevenDigits }) =>
-    isSevenDigits ? '#0075FF' : '#c8c8c8'};
+    isSevenDigits ? '#0075FF' : '#f0eeee'};
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  color: white;
+  color: ${({ isSevenDigits }) => (isSevenDigits ? '#ffffff' : '#838383')};
+
   font-size: 30px;
   font-weight: 600;
 `;

@@ -109,7 +109,9 @@ const AttendanceSignPage = ({ name, major, studentId }) => {
       <S.ContentContainer>
         <S.Content>
           <S.ContentTitle>학과</S.ContentTitle>
-          <S.ContentDescription>{major}기계시스템학부</S.ContentDescription>
+          <S.ContentDescription>
+            {major}소프트웨어학부 컴퓨터과학전공
+          </S.ContentDescription>
         </S.Content>
         <S.Content>
           <S.ContentTitle>학번</S.ContentTitle>
@@ -122,7 +124,7 @@ const AttendanceSignPage = ({ name, major, studentId }) => {
         canvasProps={{
           className: 'sigCanvas',
           width: 900,
-          height: 350,
+          height: 380,
           style: {
             borderRadius: '4px',
             backgroundColor: '#f0eeee',

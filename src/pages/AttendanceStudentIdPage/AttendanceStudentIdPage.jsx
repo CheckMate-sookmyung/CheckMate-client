@@ -94,7 +94,7 @@ const AttendanceStudentIdPage = () => {
         ))}
 
         <S.Dial key="backspace" onClick={() => handleDialClick('<')}>
-          {'<'}
+          {'←'}
         </S.Dial>
         <S.Dial key="zero" onClick={() => handleDialClick('0')}>
           {'0'}
