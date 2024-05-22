@@ -16,25 +16,38 @@ export const RightSide = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  border: 1px solid red; // 임시코드
+`;
+
+export const OutContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  margin-top: 100px;
+  gap: 120px;
 `;
 
 export const Title = styled.p`
   display: flex;
   justify-content: center;
-  margin: 40px auto;
-  font-size: 32px;
-  /* color: #636363; */
+  font-size: 60px;
 `;
 
 export const StudentIdContainer = styled.div`
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 40px;
   margin: 40px 0;
 `;
 
 export const StudentId = styled.div`
-  --box-size: 80px;
+  --box-size: 120px;
 
   display: flex;
   flex-direction: row;
@@ -43,18 +56,24 @@ export const StudentId = styled.div`
   border-bottom: solid 3px #d9d9d9;
   width: var(--box-size);
   height: var(--box-size);
-  border-radius: 4px;
-  font-size: 50px;
+  font-size: 120px;
   font-weight: 600;
+`;
+
+export const InputContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const DialList = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  margin: 50px auto;
   width: 100%;
-  gap: 2px;
+  border-collapse: collapse;
   border-radius: 20px;
 `;
 
@@ -63,9 +82,21 @@ export const Dial = styled.div`
   justify-content: center;
   align-items: center;
   border: 1px solid black;
-  height: 150px;
-  font-size: 40px;
+  border-width: 1px 0 0 1px;
+  height: 240px;
+  font-size: 80px;
+  font-weight: 600;
   color: #636363;
+  &:nth-child(3n) {
+    border-right: 1px solid black;
+  }
+  &:nth-last-child(-n + 3) {
+    border-bottom: 1px solid black;
+  }
+`;
+
+export const SpecialDial = styled(Dial)`
+  color: #c0c0c0;
 `;
 
 export const NextBtn = styled.div`
@@ -75,9 +106,9 @@ export const NextBtn = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100px;
+  height: 240px;
   color: white;
-  font-size: 40px;
+  font-size: 80px;
 `;
 
 // 모달 열릴 때 회색 불투명한 레이어 스타일

@@ -23,7 +23,7 @@ const AttendanceStudentIdPage = () => {
       setEnteredDials(enteredDials.slice(0, -1));
     } else if (dial === 'C') {
       setEnteredDials([]);
-    } else if (dial === '다음' && isConfirmEnabled) {
+    } else if (dial === '확인' && isConfirmEnabled) {
       try {
         const data = await getAttendanceCheck(
           {
@@ -64,38 +64,42 @@ const AttendanceStudentIdPage = () => {
 
       {/* 학번 입력 */}
       <S.RightSide>
-        <S.Title>학번을 입력하여, 출석 완료해주세요.</S.Title>
-        <S.StudentIdContainer>
-          {studentId.map((index) => (
-            <S.StudentId key={index}>
-              {enteredDials[index - 1] || ''}
-            </S.StudentId>
-          ))}
-        </S.StudentIdContainer>
+        <S.OutContainer>
+          <S.Title>학번을 입력하여, 출석 완료해주세요.</S.Title>
+          <S.StudentIdContainer>
+            {studentId.map((index) => (
+              <S.StudentId key={index}>
+                {enteredDials[index - 1] || ''}
+              </S.StudentId>
+            ))}
+          </S.StudentIdContainer>
+        </S.OutContainer>
 
-        <S.DialList>
-          {dialList.map((dial, index) => (
-            <S.Dial key={index} onClick={() => handleDialClick(dial)}>
-              {dial}
+        <S.InputContainer>
+          <S.DialList>
+            {dialList.map((dial, index) => (
+              <S.Dial key={index} onClick={() => handleDialClick(dial)}>
+                {dial}
+              </S.Dial>
+            ))}
+            <S.SpecialDial key="reset" onClick={() => handleDialClick('C')}>
+              {'C'}
+            </S.SpecialDial>
+            <S.Dial key="zero" onClick={() => handleDialClick('0')}>
+              {'0'}
             </S.Dial>
-          ))}
-          <S.Dial key="reset" onClick={() => handleDialClick('C')}>
-            {'C'}
-          </S.Dial>
-          <S.Dial key="zero" onClick={() => handleDialClick('0')}>
-            {'0'}
-          </S.Dial>
-          <S.Dial key="backspace" onClick={() => handleDialClick('<')}>
-            {'<'}
-          </S.Dial>
-        </S.DialList>
-        <S.NextBtn
-          onClick={() => handleDialClick('다음')}
-          isSevenDigits={isSevenDigits}
-          disabled={!isConfirmEnabled}
-        >
-          {'다음'}
-        </S.NextBtn>
+            <S.SpecialDial key="backspace" onClick={() => handleDialClick('<')}>
+              {'<'}
+            </S.SpecialDial>
+          </S.DialList>
+          <S.NextBtn
+            onClick={() => handleDialClick('확인')}
+            isSevenDigits={isSevenDigits}
+            disabled={!isConfirmEnabled}
+          >
+            {'확인'}
+          </S.NextBtn>
+        </S.InputContainer>
       </S.RightSide>
 
       {isOpen && <S.ModalOverlay />}
