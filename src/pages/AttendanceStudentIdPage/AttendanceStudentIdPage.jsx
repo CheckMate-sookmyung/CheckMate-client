@@ -30,15 +30,18 @@ const AttendanceStudentIdPage = () => {
     } else if (dial === '서명하러 가기' && isConfirmEnabled) {
       try {
         const data = await getAttendanceCheck(
+          { userId: USER_ID, eventId: EVENT_ID },
           {
-            userId: USER_ID,
-            eventId: EVENT_ID,
-          },
-          {
-            studentDial: Number(enteredDials.join('')),
+            studentNumber: Number(enteredDials.join('')),
             eventDate: EVENT_DATE,
           },
         );
+
+        const parsedStudent = {
+          name: data.studentName,
+          number: data.studentNumber,
+          major: data.major,
+        };
 
         if (!data) {
           setIsNoMatch(true);
@@ -49,7 +52,9 @@ const AttendanceStudentIdPage = () => {
         } else {
           setAttendanceCheck(data);
           setSessionStorage('attendance', JSON.stringify(data));
-          navigate('/attendance/sign');
+          navigate('/attendance/sign', {
+            state: { studentInfo: parsedStudent },
+          });
         }
       } catch {
         setEnteredDials([]);
@@ -67,7 +72,7 @@ const AttendanceStudentIdPage = () => {
     const fetchEventTitle = async () => {
       try {
         const response = await axiosInstance.get(
-          `/api/v1/event/${USER_ID}/${EVENT_ID}`,
+          `/api/v1/events/${USER_ID}/${EVENT_ID}`,
         );
         setEventTitle(response.data.eventTitle);
       } catch (error) {
