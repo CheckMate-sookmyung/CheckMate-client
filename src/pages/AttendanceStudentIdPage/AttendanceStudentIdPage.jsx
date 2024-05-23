@@ -56,7 +56,8 @@ const AttendanceStudentIdPage = () => {
         alert('API 에러 발생');
       }
     } else {
-      if (enteredDials.length < 7 && typeof dial === 'number') {
+      if (enteredDials.length < 7 && dial !== '서명하러 가기') {
+        // if (enteredNumbers.length < 7 && number !== '확인') {
         setEnteredDials([...enteredDials, dial]);
       }
     }
@@ -66,7 +67,7 @@ const AttendanceStudentIdPage = () => {
     const fetchEventTitle = async () => {
       try {
         const response = await axiosInstance.get(
-          `/api/v1/events/${USER_ID}/${EVENT_ID}`,
+          `/api/v1/event/${USER_ID}/${EVENT_ID}`,
         );
         setEventTitle(response.data.eventTitle);
       } catch (error) {
