@@ -86,8 +86,8 @@ export const CompletedButton = styled.button`
   ${(props) =>
     props.disabled &&
     css`
-      background-color: #f0eeee;
-      color: #838383;
+      background-color: #bddbff;
+      color: #ffffff;
       cursor: not-allowed;
     `}
 

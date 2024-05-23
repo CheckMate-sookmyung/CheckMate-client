@@ -12,7 +12,7 @@ const AttendanceList = ({ onClose }) => {
         const response = await axiosInstance.get(
           `/api/v1/events/attendanceList/${USER_ID}/${EVENT_ID}`,
         );
-        const parsedStudents = response.data[1].attendanceListResponseDtos.map(
+        const parsedStudents = response.data[0].attendanceListResponseDtos.map(
           (student) => ({
             name: student.studentName,
             number: student.studentNumber,
