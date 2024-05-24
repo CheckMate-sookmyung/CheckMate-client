@@ -92,12 +92,12 @@ export const Dial = styled.div`
 
 export const GoToSignBtn = styled.div`
   background-color: ${({ isSevenDigits }) =>
-    isSevenDigits ? '#0075FF' : '#f0eeee'};
+    isSevenDigits ? '#0075FF' : '#BDDBFF'};
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  color: ${({ isSevenDigits }) => (isSevenDigits ? '#ffffff' : '#838383')};
+  color: #ffffff;
 
   font-size: 30px;
   font-weight: 600;
