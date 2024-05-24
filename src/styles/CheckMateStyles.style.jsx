@@ -11,6 +11,10 @@ export const checkMateStyles = css`
 
   body {
     height: 100%;
+    -ms-overflow-style: none;
+  }
+  ::-webkit-scrollbar {
+    display: none;
   }
 
   button,
@@ -49,5 +53,12 @@ export const checkMateStyles = css`
     height: 100%;
     margin: 0 auto;
     overscroll-behavior-y: contain;
+
+    .box {
+      -ms-overflow-style: none;
+    }
+    .box::-webkit-scrollbar {
+      display: none;
+    }
   }
 `;
