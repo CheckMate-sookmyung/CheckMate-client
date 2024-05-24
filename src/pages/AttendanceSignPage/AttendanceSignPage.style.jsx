@@ -59,6 +59,28 @@ export const ContentDescription = styled.span`
   font-size: 20px;
 `;
 
+export const CanvasWrapper = styled.div`
+  position: relative;
+`;
+
+export const SignatureResetButton = styled.button`
+  position: absolute;
+  padding: 20px;
+  right: 0px;
+`;
+
+export const CanvasPlaceholder = styled.div`
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #838383;
+  text-align: center;
+  font-size: 36px;
+  font-weight: 600;
+`;
+
 export const ButtonContainer = styled.div`
   display: flex;
   gap: 20px;

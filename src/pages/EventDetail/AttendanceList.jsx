@@ -34,7 +34,7 @@ const AttendanceList = ({ onClose }) => {
   return (
     <ModalBackground>
       <ModalContent>
-        <Title>[AI & ML Ops Foundation (입문과정)] 출석체크</Title>
+        <Title>[AI & ML Ops Application (심화과정) 프로젝트] 출석체크</Title>
         <DataContent>
           {studentList.map((student, index) => (
             <StudentListItem key={index} student={student} />

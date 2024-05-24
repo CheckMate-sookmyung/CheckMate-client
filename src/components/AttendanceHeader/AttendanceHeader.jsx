@@ -1,13 +1,13 @@
 import * as S from './AttendanceHeader.style';
-import { CloseIcon } from '../../icons';
 import Stepper from '../Stepper';
 import PropTypes from 'prop-types';
+import { FiX } from 'react-icons/fi';
 
 const AttendanceHeader = ({ eventTitle, activeStep }) => {
   return (
     <S.Container>
       <S.CloseIconAnchor href="/currentevent">
-        <CloseIcon />
+        <FiX color="#fff" />
       </S.CloseIconAnchor>
       <S.ContentContainer>
         <S.Title>{`[${eventTitle}] 출석체크`}</S.Title>
