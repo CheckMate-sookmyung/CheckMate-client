@@ -80,21 +80,6 @@ const AttendanceSignPage = ({ name, major, studentId }) => {
     fetchEventTitle();
   }, []);
 
-  useEffect(() => {
-    if (signatureRef.current) {
-      const canvas = signatureRef.current.getCanvas();
-      const ctx = canvas.getContext('2d');
-      ctx.font = '30px Pretendard';
-      ctx.fillStyle = '#838383';
-      ctx.textAlign = 'center';
-      ctx.fillText(
-        '본인 확인을 위해, 서명을 입력해주세요',
-        canvas.width / 2,
-        canvas.height / 2,
-      );
-    }
-  }, []);
-
   return (
     <S.Container>
       <AttendanceHeader eventTitle={eventTitle} activeStep={1} />
@@ -111,21 +96,32 @@ const AttendanceSignPage = ({ name, major, studentId }) => {
           <S.ContentDescription>{studentInfo.number}</S.ContentDescription>
         </S.Content>
       </S.ContentContainer>
-      <SignatureCanvas
-        penColor="black"
-        minWidth={4}
-        canvasProps={{
-          className: 'sigCanvas',
-          width: 900,
-          height: 380,
-          style: {
-            borderRadius: '4px',
-            backgroundColor: '#f0eeee',
-          },
-        }}
-        ref={signatureRef}
-        onEnd={handleSignature}
-      ></SignatureCanvas>{' '}
+
+      {/* 서명 */}
+      <S.CanvasWrapper>
+        {!isSigned && (
+          <S.CanvasPlaceholder>
+            본인 확인을 위해, 서명을 입력해주세요
+          </S.CanvasPlaceholder>
+        )}
+        <SignatureCanvas
+          penColor="black"
+          minWidth={4}
+          canvasProps={{
+            className: 'sigCanvas',
+            width: 900,
+            height: 380,
+            style: {
+              borderRadius: '4px',
+              backgroundColor: '#f0eeee',
+            },
+          }}
+          ref={signatureRef}
+          onEnd={handleSignature}
+        ></SignatureCanvas>
+      </S.CanvasWrapper>
+
+      {/* 버튼 */}
       <S.ButtonContainer>
         <S.CancelButton onClick={handleCancelButtonClick}>
           본인이 아닙니다
@@ -136,7 +132,16 @@ const AttendanceSignPage = ({ name, major, studentId }) => {
         >
           입력 완료
         </S.CompletedButton>
+        {/* <S.SignatureResetButton
+          onClick={() => {
+            signatureRef.current.clear(); // 서명리셋
+            setIsSigned(false);
+          }}
+        >
+          서명 다시
+        </S.SignatureResetButton> */}
       </S.ButtonContainer>
+
       {/* 출석 완료 모달 */}
       {isOpen && (
         <>

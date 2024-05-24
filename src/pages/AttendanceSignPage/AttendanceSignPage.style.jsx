@@ -59,6 +59,22 @@ export const ContentDescription = styled.span`
   font-size: 20px;
 `;
 
+export const CanvasWrapper = styled.div`
+  position: relative;
+`;
+
+export const CanvasPlaceholder = styled.div`
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #838383;
+  text-align: center;
+  font-size: 36px;
+  font-weight: 600;
+`;
+
 export const ButtonContainer = styled.div`
   display: flex;
   gap: 20px;
@@ -98,6 +114,8 @@ export const CompletedButton = styled.button`
       cursor: pointer;
     `}
 `;
+
+// export const SignatureResetButton = styled.button``;
 
 // 모달 열릴 때 회색 불투명한 레이어 스타일
 export const ModalOverlay = styled.div`
