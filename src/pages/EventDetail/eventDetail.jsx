@@ -44,6 +44,7 @@ export default function EventDetail() {
             poster: eventData.eventImage,
           };
           setParsedEvents(parsedEvent);
+          console.log(parsedEvent);
         }
       } catch (error) {
         console.error(error);
@@ -56,9 +57,10 @@ export default function EventDetail() {
   return (
     <>
       <Background>
-        <DetailWrapper>
-          <ColumnBox>
-            {parsedEvents && (
+        {parsedEvents && (
+          <DetailWrapper>
+            <ImgBox src={parsedEvents.poster} alt="" />
+            <ColumnBox>
               <>
                 <EventTitle>{parsedEvents.title}</EventTitle>
                 <BoxWrapper>
@@ -67,13 +69,15 @@ export default function EventDetail() {
                     <BlueBoxContent>{parsedEvents.detail}</BlueBoxContent>
                   </BlueBox>
                 </BoxWrapper>
-                <CheckList onClick={handleList}>출석 명단 확인</CheckList>
-                {showList && <AttendanceList onClose={handleClose} />}
-                <CheckList onClick={handleEmail}>출석 명단 전송</CheckList>
+                <BoxWrapper>
+                  <CheckList onClick={handleList}>출석 명단 확인</CheckList>
+                  {showList && <AttendanceList onClose={handleClose} />}
+                  <CheckList onClick={handleEmail}>출석 명단 전송</CheckList>
+                </BoxWrapper>
               </>
-            )}
-          </ColumnBox>
-        </DetailWrapper>
+            </ColumnBox>
+          </DetailWrapper>
+        )}
       </Background>
     </>
   );
@@ -95,6 +99,12 @@ const DetailWrapper = styled.div`
 const BoxWrapper = styled.div`
   display: flex;
   justify-content: center;
+  gap: 20px;
+`;
+
+const ImgBox = styled.img`
+  width: 30vw;
+  height: 80vh;
 `;
 
 const ColumnBox = styled.div`
