@@ -15,9 +15,9 @@ export const Container = styled.div`
 
 export const CloseIconAnchor = styled.a`
   position: absolute;
-  top: 10px;
-  right: 10px;
-  padding: 10px;
+  top: 0px;
+  right: 0px;
+  padding: 20px;
 `;
 
 export const ContentContainer = styled.div`

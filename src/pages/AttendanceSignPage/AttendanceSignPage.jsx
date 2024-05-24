@@ -8,6 +8,7 @@ import { useSessionStorages } from '../../hooks';
 import { USER_ID, EVENT_ID } from '../../constants';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { axiosInstance } from '../../axios';
+import { FiRotateCcw } from 'react-icons/fi';
 
 const AttendanceSignPage = ({ name, major, studentId }) => {
   const navigate = useNavigate();
@@ -99,6 +100,14 @@ const AttendanceSignPage = ({ name, major, studentId }) => {
 
       {/* 서명 */}
       <S.CanvasWrapper>
+        <S.SignatureResetButton
+          onClick={() => {
+            signatureRef.current.clear(); // 서명 리셋
+            setIsSigned(false);
+          }}
+        >
+          <FiRotateCcw color="#838383" size="28" />
+        </S.SignatureResetButton>
         {!isSigned && (
           <S.CanvasPlaceholder>
             본인 확인을 위해, 서명을 입력해주세요
@@ -132,14 +141,6 @@ const AttendanceSignPage = ({ name, major, studentId }) => {
         >
           입력 완료
         </S.CompletedButton>
-        {/* <S.SignatureResetButton
-          onClick={() => {
-            signatureRef.current.clear(); // 서명리셋
-            setIsSigned(false);
-          }}
-        >
-          서명 다시
-        </S.SignatureResetButton> */}
       </S.ButtonContainer>
 
       {/* 출석 완료 모달 */}

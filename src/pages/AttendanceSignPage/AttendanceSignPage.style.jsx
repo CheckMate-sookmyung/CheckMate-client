@@ -63,6 +63,12 @@ export const CanvasWrapper = styled.div`
   position: relative;
 `;
 
+export const SignatureResetButton = styled.button`
+  position: absolute;
+  padding: 20px;
+  right: 0px;
+`;
+
 export const CanvasPlaceholder = styled.div`
   position: absolute;
   width: 100%;
@@ -114,8 +120,6 @@ export const CompletedButton = styled.button`
       cursor: pointer;
     `}
 `;
-
-// export const SignatureResetButton = styled.button``;
 
 // 모달 열릴 때 회색 불투명한 레이어 스타일
 export const ModalOverlay = styled.div`
