@@ -6,6 +6,7 @@ import { MdAccessAlarm } from 'react-icons/md';
 import DateCalendar from '../../components/Calendar/DateCalendar';
 import { axiosInstance } from '../../axios';
 import { USER_ID } from '../../constants';
+import BackgroundPage from '../../components/Background/BackgroundPage';
 
 export default function Register() {
   const [eventTitle, setEventTitle] = useState('');
@@ -16,7 +17,7 @@ export default function Register() {
   const [eventImage, setEventImage] = useState(null);
   const [attendanceListFile, setAttendanceListFile] = useState(null);
   const [dateCalendar, setDateCalendar] = useState(false);
-  const [alarmRequest, setAlarmRequest] = useState(true);
+  const [alarmRequest, setAlarmRequest] = useState(false);
 
   const handleImageChange = (event) => {
     const image = event.target.files[0];
@@ -37,6 +38,10 @@ export default function Register() {
     setDateCalendar(false);
   };
 
+  const setAlarm = (setAlarmRequest) => {
+    setAlarmRequest(true);
+  };
+
   const registerEvent = (e) => {
     e.preventDefault();
     if (
@@ -55,7 +60,7 @@ export default function Register() {
     const event = {
       eventTitle: '테스트 이벤트',
       eventDetail: '이벤트 상세 설명입니다.',
-      alarmRequest: true,
+      alarmRequest: alarmRequest,
       eventSchedules: [
         {
           eventDate: '2024-05-07',
@@ -74,7 +79,6 @@ export default function Register() {
     // formData.append('eventSchedules', JSON.stringify(eventSchedules));
     formData.append('eventImage', eventImage);
     formData.append('attendanceListFile', attendanceListFile);
-    console.log(attendanceListFile);
 
     axiosInstance
       .post(`/api/v1/events/${USER_ID}`, formData, {
@@ -83,243 +87,194 @@ export default function Register() {
         },
       })
       .then((response) => {
-        console.log('행사 등록 성공');
-        console.log(response.data);
+        alert('행사가 등록됐습니다.');
       })
       .catch((error) => {
-        console.error('행사 등록 실패:', error);
+        alert('행사가 제대로 등록되지 않았습니다.');
+        console.log(error);
       });
   };
 
   return (
-    <Container>
-      <Background>
-        <BodyWrapper>
-          <Title>행사 등록</Title>
-        </BodyWrapper>
-        <FormWrapper>
-          <ContentsWrapper>
-            <form>
-              <FormItem>
-                <PrimaryText>행사명</PrimaryText>
+    <BackgroundPage title={'행사 등록'}>
+      <ContentsWrapper className="contentswrapper">
+        <form>
+          <FormItem>
+            <PrimaryText>행사명</PrimaryText>
+            <PrimaryInput
+              width="600px"
+              height="56px"
+              placeholder="행사명을 입력하세요."
+              value={eventTitle}
+              onChange={(e) => setEventTitle(e.target.value)}
+            />
+          </FormItem>
+          <FormItem>
+            <PrimaryText>행사 설명</PrimaryText>
+            <ContentInput
+              placeholder="행사에 대해 설명해주세요."
+              value={eventDetail}
+              onChange={(e) => setEventDetail(e.target.value)}
+            />
+          </FormItem>
+          <FormItem>
+            <PrimaryText>행사 일정</PrimaryText>
+            <div
+              style={{
+                position: 'relative',
+                display: 'flex',
+                width: '400px',
+              }}
+            >
+              <div
+                style={{
+                  position: 'relative',
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
                 <PrimaryInput
-                  width="600px"
+                  width="400px"
                   height="56px"
-                  placeholder="행사명을 입력하세요."
-                  value={eventTitle}
-                  onChange={(e) => setEventTitle(e.target.value)}
+                  placeholder={eventDate ? eventDate : '행사 일정 선택'}
+                  readOnly
                 />
-              </FormItem>
-              <FormItem>
-                <PrimaryText>행사 설명</PrimaryText>
-                <ContentInput
-                  placeholder="행사에 대해 설명해주세요."
-                  value={eventDetail}
-                  onChange={(e) => setEventDetail(e.target.value)}
+                <FaRegCalendarAlt
+                  style={{
+                    position: 'absolute',
+                    right: '20px',
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => openCalendar()}
                 />
-              </FormItem>
-              <FormItem>
-                <PrimaryText>행사 일정</PrimaryText>
+              </div>
+            </div>
+            {dateCalendar && <DateCalendar onClose={closeCalendar} />}
+          </FormItem>
+          <FormItem>
+            <PrimaryText>행사 시간</PrimaryText>
+            <TwoBoxWrapper>
+              <div
+                style={{
+                  position: 'relative',
+                  display: 'flex',
+                  width: '280px',
+                }}
+              >
                 <div
                   style={{
                     position: 'relative',
                     display: 'flex',
-                    width: '400px',
+                    alignItems: 'center',
                   }}
                 >
-                  <div
-                    style={{
-                      position: 'relative',
-                      display: 'flex',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <PrimaryInput
-                      width="400px"
-                      height="56px"
-                      placeholder={eventDate ? eventDate : '행사 일정 선택'}
-                      readOnly
-                    />
-                    <FaRegCalendarAlt
-                      style={{
-                        position: 'absolute',
-                        right: '20px',
-                        cursor: 'pointer',
-                      }}
-                      onClick={() => openCalendar()}
-                    />
-                  </div>
-                </div>
-                {dateCalendar && <DateCalendar onClose={closeCalendar} />}
-              </FormItem>
-              <FormItem>
-                <PrimaryText>행사 시간</PrimaryText>
-                <TwoBoxWrapper>
-                  <div
-                    style={{
-                      position: 'relative',
-                      display: 'flex',
-                      width: '280px',
-                    }}
-                  >
-                    <div
-                      style={{
-                        position: 'relative',
-                        display: 'flex',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <PrimaryInput
-                        width="280px"
-                        height="56px"
-                        placeholder={
-                          eventStartTime ? eventStartTime : '행사 시작 시간'
-                        }
-                        value="9:00"
-                        readOnly
-                      />
-                      <MdAccessAlarm
-                        style={{
-                          position: 'absolute',
-                          right: '20px',
-                          cursor: 'pointer',
-                        }}
-                      />
-                    </div>
-                  </div>
-                  <p>~</p>
-                  <div
-                    style={{
-                      position: 'relative',
-                      display: 'flex',
-                      width: '280px',
-                    }}
-                  >
-                    <div
-                      style={{
-                        position: 'relative',
-                        display: 'flex',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <PrimaryInput
-                        width="280px"
-                        height="56px"
-                        placeholder={
-                          eventEndTime ? eventEndTime : '행사 종료 시간'
-                        }
-                        value="21:00"
-                        readOnly
-                      />
-                      <MdAccessAlarm
-                        style={{
-                          position: 'absolute',
-                          right: '20px',
-                          cursor: 'pointer',
-                        }}
-                      />
-                    </div>
-                  </div>
-                </TwoBoxWrapper>
-              </FormItem>
-              <FormItem>
-                <PrimaryText>포스터</PrimaryText>
-                <TwoBoxWrapper>
-                  <PrimaryInput2
+                  <PrimaryInput
+                    width="280px"
+                    height="56px"
                     placeholder={
-                      eventImage
-                        ? eventImage.name
-                        : '이미지 (.png, .jpeg, .pdf) 파일 첨부'
+                      eventStartTime ? eventStartTime : '행사 시작 시간'
                     }
+                    value="9:00"
+                    readOnly
                   />
-                  <ChoiceButton1
-                    accept=".png, .jpeg, .pdf"
-                    onChange={handleImageChange}
+                  <MdAccessAlarm
+                    style={{
+                      position: 'absolute',
+                      right: '20px',
+                      cursor: 'pointer',
+                    }}
                   />
-                  <ChoiceButtonLabel1>파일 선택</ChoiceButtonLabel1>
-                </TwoBoxWrapper>
-              </FormItem>
-              <FormItem>
-                <PrimaryText>출석 명단</PrimaryText>
-                <TwoBoxWrapper>
-                  <PrimaryInput2
-                    placeholder={
-                      attendanceListFile
-                        ? attendanceListFile.name
-                        : '엑셀(.xlsx) 파일 첨부'
-                    }
-                  />
-                  <ChoiceButton2
-                    accept=".xlsx, .xls"
-                    onChange={handleExcelChange}
-                  />
-                  <ChoiceButtonLabel2>파일 선택</ChoiceButtonLabel2>
-                </TwoBoxWrapper>
-              </FormItem>
-              <FormItem>
-                <TwoBoxWrapper>
-                  <PrimaryText2>안내 메일 발송 여부</PrimaryText2>
-                  <Preview>미리보기</Preview>
-                </TwoBoxWrapper>
-              </FormItem>
-              <FormItem>
-                <GrayBox>
-                  <MailCheck />
-                  <MailAgree>메일 발송에 동의합니다.</MailAgree>
-                </GrayBox>
-              </FormItem>
-              <FormItem>
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <BlueButton onClick={registerEvent}>등록하기</BlueButton>
                 </div>
-              </FormItem>
-            </form>
-          </ContentsWrapper>
-        </FormWrapper>
-      </Background>
-    </Container>
+              </div>
+              <p>~</p>
+              <div
+                style={{
+                  position: 'relative',
+                  display: 'flex',
+                  width: '280px',
+                }}
+              >
+                <div
+                  style={{
+                    position: 'relative',
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <PrimaryInput
+                    width="280px"
+                    height="56px"
+                    placeholder={eventEndTime ? eventEndTime : '행사 종료 시간'}
+                    value="21:00"
+                    readOnly
+                  />
+                  <MdAccessAlarm
+                    style={{
+                      position: 'absolute',
+                      right: '20px',
+                      cursor: 'pointer',
+                    }}
+                  />
+                </div>
+              </div>
+            </TwoBoxWrapper>
+          </FormItem>
+          <FormItem>
+            <PrimaryText>포스터</PrimaryText>
+            <TwoBoxWrapper>
+              <PrimaryInput2
+                placeholder={
+                  eventImage
+                    ? eventImage.name
+                    : '이미지 (.png, .jpeg, .pdf) 파일 첨부'
+                }
+              />
+              <ChoiceButton1
+                accept=".png, .jpeg, .pdf"
+                onChange={handleImageChange}
+              />
+              <ChoiceButtonLabel1>파일 선택</ChoiceButtonLabel1>
+            </TwoBoxWrapper>
+          </FormItem>
+          <FormItem>
+            <PrimaryText>출석 명단</PrimaryText>
+            <TwoBoxWrapper>
+              <PrimaryInput2
+                placeholder={
+                  attendanceListFile
+                    ? attendanceListFile.name
+                    : '엑셀(.xlsx) 파일 첨부'
+                }
+              />
+              <ChoiceButton2
+                accept=".xlsx, .xls"
+                onChange={handleExcelChange}
+              />
+              <ChoiceButtonLabel2>파일 선택</ChoiceButtonLabel2>
+            </TwoBoxWrapper>
+          </FormItem>
+          <FormItem>
+            <TwoBoxWrapper>
+              <PrimaryText2>안내 메일 발송 여부</PrimaryText2>
+              <Preview>미리보기</Preview>
+            </TwoBoxWrapper>
+          </FormItem>
+          <FormItem>
+            <GrayBox>
+              <MailCheck onClick={setAlarm} />
+              <MailAgree>메일 발송에 동의합니다.</MailAgree>
+            </GrayBox>
+          </FormItem>
+          <FormItem>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <BlueButton onClick={registerEvent}>등록하기</BlueButton>
+            </div>
+          </FormItem>
+        </form>
+      </ContentsWrapper>
+    </BackgroundPage>
   );
 }
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Background = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #f9f9f9;
-  min-height: 100vh;
-  /* padding-top: 80px; */
-`;
-
-const BodyWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 20vh;
-  width: 100%;
-  background: linear-gradient(to right, #0a2c83, #1f5fa9);
-`;
-
-const Title = styled.p`
-  display: flex;
-  color: white;
-  font-size: 2.5vw;
-`;
-
-const FormWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  min-width: 80vw;
-  height: 1200px;
-  bottom: 20px;
-  background-color: white;
-  transform: translate(0, -50px);
-`;
 
 const ContentsWrapper = styled.div`
   display: flex;
