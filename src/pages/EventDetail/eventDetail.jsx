@@ -19,9 +19,11 @@ export default function EventDetail() {
         `api/v1/attendance/list/${USER_ID}/${EVENT_ID}`,
       );
       if (response == 200) {
+        alert('전송이 완료됐습니다.');
         console.log('전송 완료');
       }
     } catch (error) {
+      alert('전송에 실패했습니다.');
       console.log(error);
     }
   };

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { axiosInstance } from '../../axios';
 import { EVENT_ID, USER_ID } from '../../constants';
+import { FaTimes } from 'react-icons/fa';
 
 // 출석 리스트 컴포넌트
 const AttendanceList = ({ onClose }) => {
@@ -33,17 +34,23 @@ const AttendanceList = ({ onClose }) => {
 
   return (
     <ModalBackground>
-      <ModalContent>
-        <Title>[AI & ML Ops Application (심화과정) 프로젝트] 출석체크</Title>
-        <DataContent>
-          {studentList.map((student, index) => (
-            <StudentListItem key={index} student={student} />
-          ))}
-        </DataContent>
-        <ButtonWrapper>
-          <CancelButton onClick={onClose}>닫기</CancelButton>
-        </ButtonWrapper>
-      </ModalContent>
+      <ModalWrapper>
+        <CancelButton onClick={onClose}>
+          <FaTimes style={{ fontSize: '32px' }} />
+        </CancelButton>
+        <ModalContent>
+          <ButtonWrapper>
+            <Title>
+              [AI & ML Ops Application (심화과정) 프로젝트] 출석체크
+            </Title>
+          </ButtonWrapper>
+          <DataContent>
+            {studentList.map((student, index) => (
+              <StudentListItem key={index} student={student} />
+            ))}
+          </DataContent>
+        </ModalContent>
+      </ModalWrapper>
     </ModalBackground>
   );
 };
@@ -56,7 +63,9 @@ const StudentListItem = ({ student }) => {
         <ListFont>{student.name}</ListFont>
         <ListFont>{student.number}</ListFont>
         <ListFont>{student.attendance}</ListFont>
-        <StudentSign src={student.sign} alt="" />
+        <StudentSignWrapper>
+          <StudentSign src={student.sign} alt="" />
+        </StudentSignWrapper>
       </FontWrapper>
     </StudentListWrapper>
   );
@@ -76,9 +85,16 @@ const ModalBackground = styled.div`
   z-index: 50;
 `;
 
-const ModalContent = styled.div`
+const ModalWrapper = styled.div`
+  position: relative;
   width: 60%;
-  height: 80vh;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+`;
+
+const ModalContent = styled.div`
+  flex: 1;
   background-color: white;
   border-radius: 20px;
   padding: 20px;
@@ -89,7 +105,7 @@ const Title = styled.div`
   font-size: 24px;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 20px;
+  flex-grow: 1;
 `;
 
 const DataContent = styled.div`
@@ -109,6 +125,7 @@ const StudentListWrapper = styled.div`
 const FontWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 20px;
 `;
 
@@ -121,29 +138,38 @@ const ListFont = styled.p`
 
 const ButtonWrapper = styled.div`
   display: flex;
-  justify-content: flex-end;
-  margin-top: 10px;
+  align-items: center;
+  position: relative;
+  margin-bottom: 20px;
 `;
 
 const CancelButton = styled.button`
-  width: 100px;
+  position: absolute;
+  top: -40px;
+  right: -5px;
+  width: 36px;
   height: 36px;
   border: none;
-  border-radius: 8px;
   color: white;
-  font-size: 14px;
-  background-color: #0a2c83;
+  font-size: 18px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-
   &:hover {
-    background-color: #0d47a1;
+    color: #0d47a1;
   }
 `;
 
+const StudentSignWrapper = styled.div`
+  width: 70px;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const StudentSign = styled.img`
-  max-width: 70px;
-  max-height: 70px;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: cover;
   border-radius: 50%;
 `;
