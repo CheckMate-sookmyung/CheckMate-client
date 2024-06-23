@@ -5,8 +5,10 @@ export const CalendarContainer = styled.div`
   display: flex;
   flex-direction: column;
   position: fixed;
-  width: 620px;
-  height: 600px;
+  /* width: 620px; */
+  /* height: 600px; */
+  width: auto;
+  height: auto;
   background-color: white;
   align-items: center;
   border-radius: 8px;
@@ -41,6 +43,7 @@ export const SelectedButton = styled.div`
   width: 570px;
   height: 48px;
   color: white;
+  margin-bottom: 10px;
   align-items: center;
   justify-content: center;
   background: linear-gradient(to right, #0a2c83, #1f5fa9);
@@ -59,7 +62,7 @@ export const StyledCalendar = styled(Calendar)`
   }
 
   .react-calendar--doubleView {
-    width: 700px;
+    /* width: 1500px; */
   }
 
   .react-calendar--doubleView .react-calendar__viewContainer {
@@ -81,6 +84,7 @@ export const StyledCalendar = styled(Calendar)`
   }
 
   .react-calendar button {
+    /* width: 50px; */
   }
 
   .react-calendar button:enabled:hover {
@@ -101,6 +105,8 @@ export const StyledCalendar = styled(Calendar)`
   }
 
   .react-calendar__navigation button {
+    width: 50px;
+    font-size: larger;
   }
 
   .react-calendar__navigation button:enabled:hover,

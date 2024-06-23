@@ -37,8 +37,8 @@ export default function DateCalendar({ onClose, onSubmit }) {
         onChange={handleDateChange}
         value={selectedDate}
         showNeighboringMonth={false}
-        nextLabel={null}
-        prevLabel={null}
+        // nextLabel={null}
+        // prevLabel={null}
         next2Label={null}
         prev2Label={null}
         nextAriaLabe={null}
