@@ -119,7 +119,7 @@ const AttendanceSignPage = ({ name, major, studentId }) => {
           canvasProps={{
             className: 'sigCanvas',
             width: 900,
-            height: 380,
+            height: 460,
             style: {
               borderRadius: '4px',
               backgroundColor: '#f0eeee',
@@ -127,7 +127,7 @@ const AttendanceSignPage = ({ name, major, studentId }) => {
           }}
           ref={signatureRef}
           onEnd={handleSignature}
-        ></SignatureCanvas>
+        />
       </S.CanvasWrapper>
 
       {/* 버튼 */}
