@@ -60,11 +60,5 @@ export const checkMateStyles = css`
     .box::-webkit-scrollbar {
       display: none;
     }
-
-    .attendance {
-      font-size: 20px;
-      color: ${({ attendance }) =>
-        attendance === '출석 완료' ? 'green' : 'red'};
-    }
   }
 `;

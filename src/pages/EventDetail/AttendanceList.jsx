@@ -70,17 +70,22 @@ const StudentListItem = ({ student }) => {
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div>
           <ListFont>{student.name}</ListFont>
-          <div style={{ display: 'flex', gap: '10px' }}>
-            <ListFont>{student.major}</ListFont>
-            <ListFont>{student.number}</ListFont>
+          <div style={{ display: 'flex', gap: '10px', lineHeight: 1.5 }}>
+            <ListFont2>{student.major}</ListFont2>
+            <ListFont2>{student.number}</ListFont2>
           </div>
         </div>
         <div>
           {/* <StudentSign src={student.sign} alt="" /> */}
           {student.attendance === '출석 완료' ? (
-            <FaCheck className="attendance" />
+            <FaCheck
+              className="attendance"
+              style={{
+                color: 'green',
+              }}
+            />
           ) : (
-            <FaXmark className="attendance" />
+            <FaXmark className="attendance" style={{ color: 'red' }} />
           )}
         </div>
       </div>
@@ -121,8 +126,13 @@ const StudentListWrapper = styled.div`
 `;
 
 const ListFont = styled.p`
-  font-size: 16px;
+  font-size: 18px;
   margin: 0;
+`;
+
+const ListFont2 = styled.p`
+  font-size: 14px;
+  color: #636363;
 `;
 
 const StudentSign = styled.img`
