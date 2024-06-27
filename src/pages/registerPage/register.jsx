@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Navigator from '../../components/navigator';
 import styled from 'styled-components';
 import { FaRegCalendarAlt } from 'react-icons/fa';
 import { MdAccessAlarm } from 'react-icons/md';
@@ -97,8 +96,8 @@ export default function Register() {
 
   return (
     <BackgroundPage title={'행사 등록'}>
-      <ContentsWrapper className="contentswrapper">
-        <form>
+      <form>
+        <div style={{ padding: '50px 0px' }}>
           <FormItem>
             <PrimaryText>행사명</PrimaryText>
             <PrimaryInput
@@ -261,7 +260,7 @@ export default function Register() {
           </FormItem>
           <FormItem>
             <GrayBox>
-              <MailCheck onClick={setAlarm} />
+              <MailCheck />
               <MailAgree>메일 발송에 동의합니다.</MailAgree>
             </GrayBox>
           </FormItem>
@@ -270,8 +269,10 @@ export default function Register() {
               <BlueButton onClick={registerEvent}>등록하기</BlueButton>
             </div>
           </FormItem>
-        </form>
-      </ContentsWrapper>
+        </div>
+      </form>
+      {/* </ContentsWrapper> */}
+      {/* </FormWrapper> */}
     </BackgroundPage>
   );
 }
