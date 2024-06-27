@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { BREAKPOINTS } from '../../styles';
 
 export const Container = styled.div`
   display: flex;
@@ -24,15 +25,22 @@ export const Title = styled.h1`
   justify-content: center;
   font-size: 40px;
   margin-top: 30px;
-  margin-bottom: 20px;
   padding: 20px;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    font-size: 30px;
+  }
 `;
 
 export const StudentIdContainer = styled.div`
   display: flex;
   justify-content: center;
   gap: 40px;
-  margin: 20px 0;
+  margin-top: 20px;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    gap: 10px;
+  }
 `;
 
 export const StudentId = styled.div`
@@ -47,6 +55,11 @@ export const StudentId = styled.div`
   height: var(--box-size);
   font-size: 60px;
   font-weight: 600;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    --box-size: 40px;
+    font-size: 36px;
+  }
 `;
 
 export const DialList = styled.div`
@@ -54,10 +67,16 @@ export const DialList = styled.div`
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(4, 1fr);
   width: 80%;
+  /* height: 100%; */
+  height: inherit;
   border-collapse: collapse;
   border-radius: 10px;
   margin: 20px;
   overflow: hidden;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    width: 90%;
+  }
 `;
 
 export const Dial = styled.div`
@@ -66,7 +85,7 @@ export const Dial = styled.div`
   align-items: center;
   border: 1px solid #d9d9d9;
   border-width: 1px 0 0 1px;
-  height: 100px;
+  height: 100%;
   font-size: 40px;
   font-weight: 600;
   color: #838383;
@@ -94,11 +113,16 @@ export const GoToSignBtn = styled.div`
   background-color: ${({ isSevenDigits }) =>
     isSevenDigits ? '#0075FF' : '#BDDBFF'};
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
   width: 100%;
   color: #ffffff;
-
   font-size: 30px;
   font-weight: 600;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    font-size: 26px;
+  }
 `;
