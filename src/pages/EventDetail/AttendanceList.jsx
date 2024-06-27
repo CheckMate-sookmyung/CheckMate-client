@@ -96,7 +96,6 @@ const TotalInfoWrapper = styled.div`
   justify-content: space-evenly;
   align-items: center;
   margin: 10px 0px;
-
 `;
 
 const DataContent = styled.div`
