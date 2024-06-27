@@ -2,10 +2,14 @@ import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { axiosInstance } from '../../axios';
 import { EVENT_ID, USER_ID } from '../../constants';
+import { FaCheck } from 'react-icons/fa6';
+import { FaXmark } from 'react-icons/fa6';
 
 // 출석 리스트 컴포넌트
-const AttendanceList = ({ onClose }) => {
+const AttendanceList = () => {
   const [studentList, setStudentList] = useState([]);
+  const [totalStudent, setTotalStudent] = useState(0);
+  const [attendStudent, setAttendStudent] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,10 +22,17 @@ const AttendanceList = ({ onClose }) => {
             name: student.studentName,
             number: student.studentNumber,
             major: student.major,
-            attendance: student.attendance ? '출석 완료' : '',
+            attendance: student.attendance ? '출석 완료' : '미출석',
             sign: student.sign,
           }),
         );
+        parsedStudents.sort((a, b) => a.name.localeCompare(b.name, 'ko'));
+        setTotalStudent(parsedStudents.length);
+        setAttendStudent(
+          parsedStudents.filter((student) => student.attendance === '출석 완료')
+            .length,
+        );
+        console.log(parsedStudents);
         setStudentList(parsedStudents);
       } catch (error) {
         console.error(error);
@@ -32,120 +43,104 @@ const AttendanceList = ({ onClose }) => {
   }, []);
 
   return (
-    <ModalBackground>
-      <ModalContent>
-        <Title>[AI & ML Ops Application (심화과정) 프로젝트] 출석체크</Title>
-        <DataContent>
-          {studentList.map((student, index) => (
-            <StudentListItem key={index} student={student} />
-          ))}
-        </DataContent>
-        <ButtonWrapper>
-          <CancelButton onClick={onClose}>닫기</CancelButton>
-        </ButtonWrapper>
-      </ModalContent>
-    </ModalBackground>
+    <>
+      <TotalInfoWrapper>
+        <BasicFont>전체 인원</BasicFont>
+        <GrayBox>{totalStudent}</GrayBox>
+        <BasicFont>참석자 수</BasicFont>
+        <GrayBox style={{ color: 'green' }}>{attendStudent}</GrayBox>
+        <BasicFont>불참자 수</BasicFont>
+        <GrayBox style={{ color: 'red' }}>
+          {totalStudent - attendStudent}
+        </GrayBox>
+      </TotalInfoWrapper>
+      <DataContent>
+        {studentList.map((student, index) => (
+          <StudentListItem key={index} student={student} />
+        ))}
+      </DataContent>
+    </>
   );
 };
 
 // 학생 리스트 아이템 컴포넌트
 const StudentListItem = ({ student }) => {
   return (
-    <StudentListWrapper>
-      <FontWrapper>
-        <ListFont>{student.name}</ListFont>
-        <ListFont>{student.number}</ListFont>
-        <ListFont>{student.attendance}</ListFont>
-        <StudentSign src={student.sign} alt="" />
-      </FontWrapper>
+    <StudentListWrapper attendance={student.attendance}>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div>
+          <ListFont>{student.name}</ListFont>
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <ListFont>{student.major}</ListFont>
+            <ListFont>{student.number}</ListFont>
+          </div>
+        </div>
+        <div>
+          {/* <StudentSign src={student.sign} alt="" /> */}
+          {student.attendance === '출석 완료' ? (
+            <FaCheck className="attendance" />
+          ) : (
+            <FaXmark className="attendance" />
+          )}
+        </div>
+      </div>
     </StudentListWrapper>
   );
 };
 
+export default AttendanceList;
+
 // 스타일드 컴포넌트들
-const ModalBackground = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+const TotalInfoWrapper = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
-  z-index: 50;
-`;
-
-const ModalContent = styled.div`
-  width: 60%;
-  height: 80vh;
-  background-color: white;
-  border-radius: 20px;
-  padding: 20px;
-  overflow: auto;
-`;
-
-const Title = styled.div`
-  font-size: 24px;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 20px;
+  margin: 10px 0px;
 `;
 
 const DataContent = styled.div`
-  margin-top: 40px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
-  gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
 `;
 
 const StudentListWrapper = styled.div`
+  width: calc(50% - 10px);
+  padding: 10px;
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: #f9f9f9;
-`;
+  cursor: pointer;
+  /* background-color: ${({ attendance }) =>
+    attendance === '출석 완료' ? '#f0fff0' : '#fff0f0'}; */
 
-const FontWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
+  @media (max-width: 768px) {
+    width: 80%;
+  }
 `;
 
 const ListFont = styled.p`
   font-size: 16px;
-  color: #333;
   margin: 0;
-  text-align: center;
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 10px;
-`;
-
-const CancelButton = styled.button`
-  width: 100px;
-  height: 36px;
-  border: none;
-  border-radius: 8px;
-  color: white;
-  font-size: 14px;
-  background-color: #0a2c83;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #0d47a1;
-  }
 `;
 
 const StudentSign = styled.img`
-  max-width: 70px;
-  max-height: 70px;
-  object-fit: cover;
-  border-radius: 50%;
+  width: 50px;
+  height: 30px;
 `;
 
-export default AttendanceList;
+const BasicFont = styled.p`
+  font-weight: 500;
+  font-size: 16px;
+`;
+
+const GrayBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 30px;
+  border-radius: 20px;
+  background-color: #ddd;
+`;
