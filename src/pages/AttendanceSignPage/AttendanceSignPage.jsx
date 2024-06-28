@@ -110,24 +110,24 @@ const AttendanceSignPage = ({ name, major, studentId }) => {
         </S.SignatureResetButton>
         {!isSigned && (
           <S.CanvasPlaceholder>
-            본인 확인을 위해, 서명을 입력해주세요
+            본인 확인을 위해, 서명을 입력해주세요.
           </S.CanvasPlaceholder>
         )}
-        <SignatureCanvas
-          penColor="black"
-          minWidth={4}
-          canvasProps={{
-            className: 'sigCanvas',
-            width: 900,
-            height: 380,
-            style: {
-              borderRadius: '4px',
-              backgroundColor: '#f0eeee',
-            },
-          }}
-          ref={signatureRef}
-          onEnd={handleSignature}
-        ></SignatureCanvas>
+        <S.SignatureCanvasContainer>
+          <SignatureCanvas
+            penColor="black"
+            minWidth={4}
+            canvasProps={{
+              className: 'sigCanvas',
+              style: {
+                borderRadius: '4px',
+                backgroundColor: '#f0eeee',
+              },
+            }}
+            ref={signatureRef}
+            onEnd={handleSignature}
+          />{' '}
+        </S.SignatureCanvasContainer>
       </S.CanvasWrapper>
 
       {/* 버튼 */}

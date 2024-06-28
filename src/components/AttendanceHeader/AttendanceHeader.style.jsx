@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { BREAKPOINTS } from '../../styles';
 
 export const Container = styled.div`
   display: flex;
@@ -11,6 +12,12 @@ export const Container = styled.div`
   font-size: 32px;
   font-weight: 700;
   color: #ffffff;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    font-size: 26px;
+    text-align: center;
+    word-break: keep-all;
+  }
 `;
 
 export const CloseIconAnchor = styled.a`
@@ -25,12 +32,12 @@ export const ContentContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 30px;
-  gap: 40px;
+  gap: 20px;
 `;
 
 export const Title = styled.h1`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 10px;
 `;
