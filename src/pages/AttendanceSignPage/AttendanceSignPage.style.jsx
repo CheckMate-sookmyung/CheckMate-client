@@ -89,9 +89,9 @@ export const ContentDescription = styled.span`
   }
 `;
 
+// 서명
 export const CanvasWrapper = styled.div`
   position: relative;
-  height: inherit;
 `;
 
 export const SignatureResetButton = styled.button`
@@ -118,28 +118,20 @@ export const CanvasPlaceholder = styled.p`
 `;
 
 export const SignatureCanvasContainer = styled.div`
-  /* width: 100%;
+  width: 100%;
   max-width: 900px;
-  height: 100%;
-  max-height: 380px;
-  padding: 20px;
-  border-radius: 4px;
-  background-color: #f0eeee; */
-
-  width: 100%; // 부모 컨테이너의 너비에 맞춰 조정
-  max-width: 900px; // 최대 너비는 900px
-  height: auto; // 높이는 자동으로 조정
-  aspect-ratio: 900 / 380; // 원래 캔버스의 비율 유지
+  height: auto;
+  aspect-ratio: 900 / 440;
 
   canvas {
-    width: 100%; // canvas 요소의 너비를 100%로 설정
-    height: 100%; // 높이는 자동
+    width: 100%;
+    height: 100%;
   }
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     padding: 10px;
     max-width: 100%;
-    max-height: 200px;
+    aspect-ratio: 3 / 2;
   }
 `;
 
@@ -152,6 +144,7 @@ export const ButtonContainer = styled.div`
     width: 100%;
     gap: 10px;
     padding: 10px;
+    margin: 10px 0 20px;
   }
 `;
 
