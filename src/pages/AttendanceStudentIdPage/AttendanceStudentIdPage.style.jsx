@@ -29,6 +29,7 @@ export const Title = styled.h1`
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     font-size: 30px;
+    margin-top: 10px;
   }
 `;
 

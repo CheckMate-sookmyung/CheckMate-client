@@ -16,6 +16,7 @@ export const Container = styled.div`
   @media (max-width: ${BREAKPOINTS[0]}px) {
     font-size: 26px;
     text-align: center;
+    word-break: keep-all;
   }
 `;
 
