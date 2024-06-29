@@ -422,6 +422,5 @@ const BlueButton = styled.button`
   border: none;
   width: 181px;
   height: 56px;
-  margin-bottom: 50px;
   cursor: pointer;
 `;
