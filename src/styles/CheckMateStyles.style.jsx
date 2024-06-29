@@ -1,6 +1,10 @@
 import { css } from 'styled-components';
 
 export const checkMateStyles = css`
+  * {
+    font-family: Pretendard;
+  }
+
   html {
     width: 100%;
     height: 100%;
