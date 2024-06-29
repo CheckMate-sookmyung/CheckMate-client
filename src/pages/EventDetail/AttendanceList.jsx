@@ -25,6 +25,7 @@ const AttendanceList = () => {
             major: student.major,
             attendance: student.attendance ? '출석 완료' : '미출석',
             sign: student.sign,
+            phoneNumber: student.phoneNumber,
           }),
         );
         parsedStudents.sort((a, b) => a.name.localeCompare(b.name, 'ko'));
@@ -89,9 +90,9 @@ const StudentListItem = ({ student }) => {
             <StudentNumber>{student.number}</StudentNumber>
           </StudentInfoDetail>
         </StudentInfo>
-        <PhoneIcon>
+        <TelAnchor href={`tel:${student.phoneNumber}`}>
           <FaPhone />
-        </PhoneIcon>
+        </TelAnchor>
       </StudentInfoBox>
     </StudentListWrapper>
   );
@@ -178,7 +179,7 @@ const AttendanceIconWrapper = styled.div`
   padding: 6px;
 `;
 
-const PhoneIcon = styled.div`
+const TelAnchor = styled.a`
   display: flex;
   flex-direction: column;
   justify-content: center;
