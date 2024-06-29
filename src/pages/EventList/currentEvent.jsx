@@ -4,6 +4,7 @@ import BackgroundPage from '../../components/Background/BackgroundPage';
 import { USER_ID } from '../../constants';
 import { useNavigate } from 'react-router-dom';
 import { axiosInstance } from '../../axios';
+import { BREAKPOINTS } from '../../styles';
 
 export default function CurrentEvent() {
   const [events, setEvents] = useState([]);
@@ -58,14 +59,14 @@ const EventCard = ({ title, poster, date }) => {
   };
   return (
     <CardWrapper onClick={handleDetail}>
-      <CardPoster>
+      <EventImg>
         <EventCardPoster src={poster} alt="event_poster" />
-      </CardPoster>
-      <CardTitle>{title}</CardTitle>
-      <DateWrapper>
+      </EventImg>
+      <EventTitle>{title}</EventTitle>
+      <EventDate>
         <p>진행 일정</p>
         <CardDay>{date}</CardDay>
-      </DateWrapper>
+      </EventDate>
       <BlueButton onClick={attendanceCheck}>출석 체크</BlueButton>
     </CardWrapper>
   );
@@ -78,17 +79,21 @@ const EventCardPoster = styled.img`
 const EventCardList = styled.div`
   display: flex;
   flex-wrap: wrap;
-  flex-direction: row;
   justify-content: space-evenly;
-  width: 1200px;
+  width: 100%;
+  max-width: 1200px;
   height: 100vh;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+  }
 `;
 
 const CardWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 320px;
-  height: 490px;
+  max-width: 320px;
+  width: 100%;
+  height: 400px;
   padding: 12px;
   margin: 20px;
   box-shadow:
@@ -100,27 +105,29 @@ const CardWrapper = styled.div`
   &:hover {
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   }
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+  }
 `;
 
-const CardPoster = styled.div`
+const EventImg = styled.div`
   display: flex;
-  width: 296px;
   height: 300px;
   overflow: auto;
   justify-content: center;
 `;
 
-const CardTitle = styled.p`
+const EventTitle = styled.p`
   font-size: 18px;
   font-weight: 700;
-  height: 80px;
-  margin: 15px 0px;
+  /* height: 80px; */
+  margin: 20px 0 10px;
 `;
 
-const DateWrapper = styled.div`
+const EventDate = styled.div`
   display: flex;
   gap: 12px;
-  margin: 15px 0px;
+  margin: 10px 0px;
 `;
 
 const CardDay = styled.p`
@@ -132,8 +139,9 @@ const BlueButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 296px;
-  height: 36px;
+  width: 100%;
+  height: 40px;
+  margin: 10px 0;
   border: none;
   border-radius: 4px;
   color: white;

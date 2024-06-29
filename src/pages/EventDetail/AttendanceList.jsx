@@ -2,8 +2,9 @@ import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { axiosInstance } from '../../axios';
 import { EVENT_ID, USER_ID } from '../../constants';
-import { FaCheck } from 'react-icons/fa6';
+import { FaRegCircle } from 'react-icons/fa6';
 import { FaXmark } from 'react-icons/fa6';
+import { FaPhone } from 'react-icons/fa6';
 
 // 출석 리스트 컴포넌트
 const AttendanceList = () => {
@@ -24,6 +25,7 @@ const AttendanceList = () => {
             major: student.major,
             attendance: student.attendance ? '출석 완료' : '미출석',
             sign: student.sign,
+            phoneNumber: student.phoneNumber,
           }),
         );
         parsedStudents.sort((a, b) => a.name.localeCompare(b.name, 'ko'));
@@ -67,18 +69,11 @@ const AttendanceList = () => {
 const StudentListItem = ({ student }) => {
   return (
     <StudentListWrapper attendance={student.attendance}>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <div>
-          <ListFont>{student.name}</ListFont>
-          <div style={{ display: 'flex', gap: '10px', lineHeight: 1.5 }}>
-            <ListFont2>{student.major}</ListFont2>
-            <ListFont2>{student.number}</ListFont2>
-          </div>
-        </div>
-        <div>
+      <StudentInfoBox>
+        <AttendanceIconWrapper>
           {/* <StudentSign src={student.sign} alt="" /> */}
           {student.attendance === '출석 완료' ? (
-            <FaCheck
+            <FaRegCircle
               className="attendance"
               style={{
                 color: 'green',
@@ -87,8 +82,18 @@ const StudentListItem = ({ student }) => {
           ) : (
             <FaXmark className="attendance" style={{ color: 'red' }} />
           )}
-        </div>
-      </div>
+        </AttendanceIconWrapper>
+        <StudentInfo>
+          <StudentName>{student.name}</StudentName>
+          <StudentInfoDetail>
+            <StudentMajor>{student.major}</StudentMajor>
+            <StudentNumber>{student.number}</StudentNumber>
+          </StudentInfoDetail>
+        </StudentInfo>
+        <TelAnchor href={`tel:${student.phoneNumber}`}>
+          <FaPhone />
+        </TelAnchor>
+      </StudentInfoBox>
     </StudentListWrapper>
   );
 };
@@ -125,20 +130,31 @@ const StudentListWrapper = styled.div`
   }
 `;
 
-const ListFont = styled.p`
-  font-size: 18px;
-  margin: 0;
+const StudentInfoBox = styled.div`
+  display: flex;
+  /* justify-content: space-between; */
 `;
 
-const ListFont2 = styled.p`
-  font-size: 14px;
+const StudentInfo = styled.div`
+  line-height: 1.4;
+  padding: 0 6px;
+`;
+
+const StudentInfoDetail = styled.div`
+  display: flex;
+  gap: 6px;
+  font-size: 12px;
   color: #636363;
 `;
 
-const StudentSign = styled.img`
-  width: 50px;
-  height: 30px;
+const StudentName = styled.p`
+  font-size: 16px;
+  margin: 0;
 `;
+
+const StudentMajor = styled.p``;
+
+const StudentNumber = styled.p``;
 
 const BasicFont = styled.p`
   font-weight: 500;
@@ -153,4 +169,20 @@ const GrayBox = styled.div`
   height: 30px;
   border-radius: 20px;
   background-color: #ddd;
+`;
+
+const AttendanceIconWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding: 6px;
+`;
+
+const TelAnchor = styled.a`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: auto;
+  padding: 6px;
 `;
