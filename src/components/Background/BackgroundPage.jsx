@@ -15,6 +15,7 @@ export default function BackgroundPage({ title, children }) {
 }
 
 const Container = styled.div`
+  width: 100vw;
   display: flex;
   flex-direction: column;
 `;
@@ -26,7 +27,6 @@ const Background = styled.div`
   align-items: center;
   background-color: #f9f9f9;
   min-height: 100vh;
-  padding-top: 80px;
 `;
 
 const BodyWrapper = styled.div`
@@ -48,7 +48,7 @@ const FormWrapper = styled.div`
   display: flex;
   justify-content: center;
   min-width: 80vw;
-  height: 1200px;
+  height: fit-content;
   bottom: 20px;
   background-color: white;
   transform: translate(0, -50px);

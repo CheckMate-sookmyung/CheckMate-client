@@ -14,13 +14,20 @@ export default function CurrentEvent() {
       try {
         const response = await axiosInstance.get(`/api/v1/events/${USER_ID}`);
         console.log('response: ', response.data);
-        const parsedEvents = response.data.map((event) => ({
-          id: event.eventId,
-          title: event.eventTitle,
-          poster: event.eventImage,
-          date: event.eventSchedules[0],
-        }));
-
+        const parsedEvents = response.data.map((event) => {
+          const startDate = event.eventSchedules[0];
+          const endDate =
+            event.eventSchedules.length > 1
+              ? event.eventSchedules[event.eventSchedules.length - 1]
+              : null;
+          return {
+            id: event.eventId,
+            title: event.eventTitle,
+            poster: event.eventImage,
+            startDate,
+            endDate,
+          };
+        });
         setEvents(parsedEvents);
       } catch (error) {
         console.error(error);
@@ -37,7 +44,8 @@ export default function CurrentEvent() {
           <EventCard
             key={event.id}
             title={event.title}
-            date={event.date}
+            startDate={event.startDate}
+            endDate={event.endDate}
             poster={event.poster}
           />
         ))}
@@ -46,7 +54,7 @@ export default function CurrentEvent() {
   );
 }
 
-const EventCard = ({ title, poster, date }) => {
+const EventCard = ({ title, poster, startDate, endDate }) => {
   const navigate = useNavigate();
 
   const handleDetail = () => {
@@ -57,6 +65,7 @@ const EventCard = ({ title, poster, date }) => {
     event.stopPropagation();
     navigate('/attendance/student-id');
   };
+
   return (
     <CardWrapper onClick={handleDetail}>
       <EventImg>
@@ -65,7 +74,7 @@ const EventCard = ({ title, poster, date }) => {
       <EventTitle>{title}</EventTitle>
       <EventDate>
         <p>진행 일정</p>
-        <CardDay>{date}</CardDay>
+        <CardDay>{endDate ? `${startDate} ~ ${endDate}` : startDate}</CardDay>
       </EventDate>
       <BlueButton onClick={attendanceCheck}>출석 체크</BlueButton>
     </CardWrapper>
