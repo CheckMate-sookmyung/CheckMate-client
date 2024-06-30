@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import AttendanceList from './AttendanceList';
-import { USER_ID, EVENT_ID } from '../../constants';
+import { USER_ID } from '../../constants';
 import { axiosInstance } from '../../axios';
+import { useRecoilValue } from 'recoil';
+import { eventIDState } from '../../recoil/atoms/state';
 
 const EventDetail = () => {
   const [parsedEvents, setParsedEvents] = useState(null);
+  const EVENT_ID = useRecoilValue(eventIDState);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,7 +30,7 @@ const EventDetail = () => {
     };
 
     fetchData();
-  }, []);
+  }, [EVENT_ID]);
 
   const handleEmail = async () => {
     const isConfirmed = window.confirm(

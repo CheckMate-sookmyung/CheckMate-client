@@ -1,16 +1,19 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { axiosInstance } from '../../axios';
-import { EVENT_ID, USER_ID } from '../../constants';
+import { USER_ID } from '../../constants';
 import { FaRegCircle } from 'react-icons/fa6';
 import { FaXmark } from 'react-icons/fa6';
 import { FaPhone } from 'react-icons/fa6';
+import { useRecoilValue } from 'recoil';
+import { eventIDState } from '../../recoil/atoms/state';
 
 // 출석 리스트 컴포넌트
 const AttendanceList = () => {
   const [studentList, setStudentList] = useState([]);
   const [totalStudent, setTotalStudent] = useState(0);
   const [attendStudent, setAttendStudent] = useState(0);
+  const EVENT_ID = useRecoilValue(eventIDState);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,7 +37,6 @@ const AttendanceList = () => {
           parsedStudents.filter((student) => student.attendance === '출석 완료')
             .length,
         );
-        console.log(parsedStudents);
         setStudentList(parsedStudents);
       } catch (error) {
         console.error(error);

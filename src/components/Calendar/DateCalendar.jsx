@@ -111,14 +111,16 @@ const Cell = styled.div`
   width: calc(100% / 7);
   text-align: center;
   height: 70px;
-  align-items: center;
-  line-height: 40px;
   cursor: pointer;
   background: ${(props) => (props.selected ? '#0a2c83' : 'transparent')};
   color: ${(props) =>
     props.disabled ? '#ccc' : props.selected ? 'white' : 'black'};
   pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
   border-radius: 50px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:hover {
     background: ${(props) => (props.disabled ? 'transparent' : '#0a2c83')};
@@ -160,6 +162,7 @@ const DateCalendar = ({ onSaveDate }) => {
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
 
   const today = new Date();
+  today.setHours(0, 0, 0, 0); // Reset time to midnight for comparison
   const todayString = today.toISOString().substring(0, 10);
 
   const handleDateClick = (date) => {
