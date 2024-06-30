@@ -6,9 +6,15 @@ import { useState, useRef, useEffect } from 'react';
 import { postAttendanceSign } from '../../services';
 import { useSessionStorages } from '../../hooks';
 import { USER_ID, EVENT_ID } from '../../constants';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { axiosInstance } from '../../axios';
+import { FiRotateCcw } from 'react-icons/fi';
 
-const AttendanceSignPage = () => {
+const AttendanceSignPage = ({ name, major, studentId }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { studentInfo } = location.state;
+
   const [isSigned, setIsSigned] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [eventTitle, setEventTitle] = useState('');
@@ -48,6 +54,10 @@ const AttendanceSignPage = () => {
     }
   };
 
+  const handleCancelButtonClick = async () => {
+    navigate('/attendance/student-id');
+  };
+
   const openModal = () => {
     setIsOpen(true);
   };
@@ -74,28 +84,66 @@ const AttendanceSignPage = () => {
   return (
     <S.Container>
       <AttendanceHeader eventTitle={eventTitle} activeStep={1} />
-      <S.Title>{`서명을 입력하세요.`}</S.Title>
-      <SignatureCanvas
-        penColor="black"
-        minWidth={4}
-        canvasProps={{
-          className: 'sigCanvas',
-          width: 900,
-          height: 350,
-          style: {
-            borderRadius: '4px',
-            backgroundColor: '#f0eeee',
-          },
-        }}
-        ref={signatureRef}
-        onEnd={handleSignature}
-      />
-      <S.CompletedButton
-        onClick={handleCompletedButtonClick}
-        disabled={!isSigned}
-      >
-        입력 완료
-      </S.CompletedButton>{' '}
+      <S.Title>
+        <strong>{studentInfo.name}</strong>님이 맞으십니까?
+      </S.Title>
+      <S.ContentContainer>
+        <S.Content>
+          <S.ContentTitle>학과</S.ContentTitle>
+          <S.ContentDescription>{studentInfo.major}</S.ContentDescription>
+        </S.Content>
+        <S.Content>
+          <S.ContentTitle>학번</S.ContentTitle>
+          <S.ContentDescription>{studentInfo.number}</S.ContentDescription>
+        </S.Content>
+      </S.ContentContainer>
+
+      {/* 서명 */}
+      <S.CanvasWrapper>
+        <S.SignatureResetButton
+          onClick={() => {
+            signatureRef.current.clear(); // 서명 리셋
+            setIsSigned(false);
+          }}
+        >
+          <FiRotateCcw color="#838383" size="28" />
+        </S.SignatureResetButton>
+        {!isSigned && (
+          <S.CanvasPlaceholder>
+            본인 확인을 위해, 서명을 입력해주세요.
+          </S.CanvasPlaceholder>
+        )}
+        <S.SignatureCanvasContainer>
+          <SignatureCanvas
+            penColor="black"
+            minWidth={4}
+            canvasProps={{
+              className: 'sigCanvas',
+              style: {
+                borderRadius: '4px',
+                backgroundColor: '#f0eeee',
+              },
+            }}
+            ref={signatureRef}
+            onEnd={handleSignature}
+          />{' '}
+        </S.SignatureCanvasContainer>
+      </S.CanvasWrapper>
+
+      {/* 버튼 */}
+      <S.ButtonContainer>
+        <S.CancelButton onClick={handleCancelButtonClick}>
+          본인이 아닙니다
+        </S.CancelButton>
+        <S.CompletedButton
+          onClick={handleCompletedButtonClick}
+          disabled={!isSigned}
+        >
+          입력 완료
+        </S.CompletedButton>
+      </S.ButtonContainer>
+
+      {/* 출석 완료 모달 */}
       {isOpen && (
         <>
           <S.ModalOverlay />

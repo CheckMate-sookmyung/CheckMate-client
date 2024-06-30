@@ -4,6 +4,7 @@ import BackgroundPage from '../../components/Background/BackgroundPage';
 import { USER_ID } from '../../constants';
 import { useNavigate } from 'react-router-dom';
 import { axiosInstance } from '../../axios';
+import { BREAKPOINTS } from '../../styles';
 
 export default function CurrentEvent() {
   const [events, setEvents] = useState([]);
@@ -13,13 +14,20 @@ export default function CurrentEvent() {
       try {
         const response = await axiosInstance.get(`/api/v1/events/${USER_ID}`);
         console.log('response: ', response.data);
-        const parsedEvents = response.data.map((event) => ({
-          id: event.eventId,
-          title: event.eventTitle,
-          poster: event.eventImage,
-          date: event.eventSchedules[1],
-        }));
-
+        const parsedEvents = response.data.map((event) => {
+          const startDate = event.eventSchedules[0];
+          const endDate =
+            event.eventSchedules.length > 1
+              ? event.eventSchedules[event.eventSchedules.length - 1]
+              : null;
+          return {
+            id: event.eventId,
+            title: event.eventTitle,
+            poster: event.eventImage,
+            startDate,
+            endDate,
+          };
+        });
         setEvents(parsedEvents);
       } catch (error) {
         console.error(error);
@@ -36,7 +44,8 @@ export default function CurrentEvent() {
           <EventCard
             key={event.id}
             title={event.title}
-            date={event.date}
+            startDate={event.startDate}
+            endDate={event.endDate}
             poster={event.poster}
           />
         ))}
@@ -45,7 +54,7 @@ export default function CurrentEvent() {
   );
 }
 
-const EventCard = ({ title, poster, date }) => {
+const EventCard = ({ title, poster, startDate, endDate }) => {
   const navigate = useNavigate();
 
   const handleDetail = () => {
@@ -56,41 +65,27 @@ const EventCard = ({ title, poster, date }) => {
     event.stopPropagation();
     navigate('/attendance/student-id');
   };
+
   return (
     <CardWrapper onClick={handleDetail}>
-      <CardPoster>
-        <EventCardPoster src={poster} alt="event_poster" />
-      </CardPoster>
-      <CardTitle>{title}</CardTitle>
-      <DateWrapper>
+      <EventImgWrapper>
+        <EventImg src={poster} alt="event_poster" />
+      </EventImgWrapper>
+      <EventTitle>{title}</EventTitle>
+      <EventDate>
         <p>진행 일정</p>
-        <CardDay>{date}</CardDay>
-      </DateWrapper>
+        <CardDay>{endDate ? `${startDate} ~ ${endDate}` : startDate}</CardDay>
+      </EventDate>
       <BlueButton onClick={attendanceCheck}>출석 체크</BlueButton>
     </CardWrapper>
   );
 };
 
-const EventCardPoster = styled.img`
-  overflow: auto;
-`;
-
-const EventCardList = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: space-evenly;
-  width: 1200px;
-  height: 100vh;
-`;
-
 const CardWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 320px;
-  height: 490px;
+  width: 100%;
   padding: 12px;
-  margin: 20px;
   box-shadow:
     rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
@@ -102,25 +97,47 @@ const CardWrapper = styled.div`
   }
 `;
 
-const CardPoster = styled.div`
+const EventImgWrapper = styled.div`
   display: flex;
-  width: 296px;
-  height: 300px;
-  overflow: auto;
+  overflow: hidden;
+  height: 400px;
   justify-content: center;
 `;
 
-const CardTitle = styled.p`
-  font-size: 18px;
-  font-weight: 700;
-  height: 80px;
-  margin: 15px 0px;
+const EventImg = styled.img`
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 420 / 594;
+  object-fit: cover;
 `;
 
-const DateWrapper = styled.div`
+const EventCardList = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  width: 100%;
+  padding: 20px;
+
+  @media (max-width: ${BREAKPOINTS[2]}px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+`;
+
+const EventTitle = styled.p`
+  font-size: 18px;
+  font-weight: 700;
+  /* height: 80px; */
+  margin: 20px 0 10px;
+`;
+
+const EventDate = styled.div`
   display: flex;
   gap: 12px;
-  margin: 15px 0px;
+  margin: 10px 0px;
 `;
 
 const CardDay = styled.p`
@@ -132,8 +149,9 @@ const BlueButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 296px;
-  height: 36px;
+  width: 100%;
+  height: 40px;
+  margin: 10px 0;
   border: none;
   border-radius: 4px;
   color: white;

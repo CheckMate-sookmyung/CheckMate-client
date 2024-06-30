@@ -6,58 +6,66 @@ import { getAttendanceCheck } from '../../services';
 import { EVENT_DATE, EVENT_ID, USER_ID } from '../../constants';
 import { useSessionStorages } from '../../hooks';
 import { axiosInstance } from '../../axios';
+import { useNavigate } from 'react-router-dom';
 
 const AttendanceStudentIdPage = () => {
-  const [enteredNumbers, setEnteredNumbers] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+  const [enteredDials, setEnteredDials] = useState([]);
   const [attendanceCheck, setAttendanceCheck] = useState();
   const [eventTitle, setEventTitle] = useState('');
+  const [isAlreadyCompleted, setIsAlreadyCompleted] = useState(false);
+  const [isNoMatch, setIsNoMatch] = useState(false);
 
   const { setSessionStorage } = useSessionStorages();
 
   const studentId = Array.from({ length: 7 }, (_, index) => index + 1);
-  const numberList1 = Array.from({ length: 5 }, (_, index) => index + 1);
-  const numberList2 = Array.from({ length: 4 }, (_, index) => index + 6);
+  const dialList = Array.from({ length: 9 }, (_, index) => index + 1);
 
-  const isSevenDigits = enteredNumbers.length === 7;
+  const isSevenDigits = enteredDials.length === 7;
   const isConfirmEnabled = isSevenDigits;
 
-  const handleNumberClick = async (number) => {
-    if (number === '<') {
-      setEnteredNumbers(enteredNumbers.slice(0, -1));
-    } else if (number === '확인' && isConfirmEnabled) {
-      await getAttendanceCheck(
-        {
-          userId: USER_ID,
-          eventId: EVENT_ID,
-        },
-        {
-          studentNumber: Number(enteredNumbers.join('')),
-          eventDate: EVENT_DATE,
-        },
-      )
-        .then((data) => {
+  const handleDialClick = async (dial) => {
+    if (dial === '<') {
+      setEnteredDials(enteredDials.slice(0, -1));
+    } else if (dial === '서명하러 가기' && isConfirmEnabled) {
+      try {
+        const data = await getAttendanceCheck(
+          { userId: USER_ID, eventId: EVENT_ID },
+          {
+            studentNumber: Number(enteredDials.join('')),
+            eventDate: EVENT_DATE,
+          },
+        );
+
+        const parsedStudent = {
+          name: data.studentName,
+          number: data.studentNumber,
+          major: data.major,
+        };
+
+        if (!data) {
+          setIsNoMatch(true);
+          alert('일치하는 학번이 없습니다');
+        } else if (data.isAlreadyCompleted) {
+          setIsAlreadyCompleted(true);
+          alert('이미 출석을 완료하였습니다');
+        } else {
           setAttendanceCheck(data);
           setSessionStorage('attendance', JSON.stringify(data));
-          openModal();
-        })
-        .catch(() => {
-          setEnteredNumbers([]);
-          alert('API 에러 발생');
-        });
+          navigate('/attendance/sign', {
+            state: { studentInfo: parsedStudent },
+          });
+        }
+      } catch {
+        setEnteredDials([]);
+        alert('API 에러 발생');
+      }
     } else {
-      if (enteredNumbers.length < 7 && number !== '확인') {
-        setEnteredNumbers([...enteredNumbers, number]);
+      if (enteredDials.length < 7 && dial !== '서명하러 가기') {
+        // if (enteredNumbers.length < 7 && number !== '확인') {
+        setEnteredDials([...enteredDials, dial]);
       }
     }
-  };
-
-  const openModal = () => {
-    setIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
   };
 
   useEffect(() => {
@@ -81,45 +89,31 @@ const AttendanceStudentIdPage = () => {
       <S.Title>학번을 입력해주세요.</S.Title>
       <S.StudentIdContainer>
         {studentId.map((index) => (
-          <S.StudentId key={index}>
-            {enteredNumbers[index - 1] || ''}
-          </S.StudentId>
+          <S.StudentId key={index}>{enteredDials[index - 1] || ''}</S.StudentId>
         ))}
       </S.StudentIdContainer>
-      <S.NumberList>
-        {numberList1.map((number, index) => (
-          <S.Number key={index} onClick={() => handleNumberClick(number)}>
-            {number}
-          </S.Number>
+      <S.DialList>
+        {dialList.map((dial, index) => (
+          <S.Dial key={index} onClick={() => handleDialClick(dial)}>
+            {dial}
+          </S.Dial>
         ))}
-        <S.Number key="backspace" onClick={() => handleNumberClick('<')}>
-          {'<'}
-        </S.Number>
-        {numberList2.map((number, index) => (
-          <S.Number key={index} onClick={() => handleNumberClick(number)}>
-            {number}
-          </S.Number>
-        ))}
-        <S.Number key="zero" onClick={() => handleNumberClick('0')}>
+
+        <S.Dial key="backspace" onClick={() => handleDialClick('<')}>
+          {'←'}
+        </S.Dial>
+        <S.Dial key="zero" onClick={() => handleDialClick('0')}>
           {'0'}
-        </S.Number>
-        <S.ConfirmNumber
+        </S.Dial>
+        <S.GoToSignBtn
           key="confirm"
-          onClick={() => handleNumberClick('확인')}
+          onClick={() => handleDialClick('서명하러 가기')}
           isSevenDigits={isSevenDigits}
           disabled={!isConfirmEnabled}
         >
-          {'확인'}
-        </S.ConfirmNumber>
-      </S.NumberList>
-      {isOpen && <S.ModalOverlay />}
-      <Modal
-        name={attendanceCheck?.studentName}
-        major={attendanceCheck?.major}
-        studentId={attendanceCheck?.studentNumber}
-        isOpen={isOpen}
-        onClose={closeModal}
-      />
+          {'서명하러 가기'}
+        </S.GoToSignBtn>
+      </S.DialList>
     </S.Container>
   );
 };

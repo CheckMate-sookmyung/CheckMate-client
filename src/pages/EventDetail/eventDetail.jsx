@@ -1,34 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import Navigator from '../../components/navigator';
 import styled from 'styled-components';
 import AttendanceList from './AttendanceList';
 import { USER_ID, EVENT_ID } from '../../constants';
 import { axiosInstance } from '../../axios';
 
-export default function EventDetail() {
-  const [showList, setShowList] = useState(false);
+const EventDetail = () => {
   const [parsedEvents, setParsedEvents] = useState(null);
-
-  const handleList = () => {
-    setShowList(true);
-  };
-
-  const handleEmail = async () => {
-    try {
-      const response = await axiosInstance.get(
-        `api/v1/attendance/list/${USER_ID}/${EVENT_ID}`,
-      );
-      if (response == 200) {
-        console.log('전송 완료');
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleClose = () => {
-    setShowList(false);
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,108 +18,142 @@ export default function EventDetail() {
           const parsedEvent = {
             title: eventData.eventTitle,
             detail: eventData.eventDetail,
-            poster: eventData.eventImage,
           };
           setParsedEvents(parsedEvent);
         }
       } catch (error) {
-        console.error(error);
+        console.error('Error fetching event data:', error);
       }
     };
 
     fetchData();
   }, []);
 
+  const handleEmail = async () => {
+    const isConfirmed = window.confirm(
+      '출석 명단을 지정된 이메일로 전송하시겠습니까?\n확인 버튼을 누르는 즉시 이메일 전송이 완료됩니다.',
+    );
+    if (!isConfirmed) {
+      return;
+    }
+    try {
+      const response = await axiosInstance.get(
+        `api/v1/attendance/list/${USER_ID}/${EVENT_ID}`,
+      );
+      if (response.status === 200) {
+        alert('전송이 완료됐습니다.');
+        console.log(response);
+      }
+    } catch (error) {
+      alert('전송에 실패했습니다.');
+      console.log(error);
+    }
+  };
+
   return (
-    <>
-      <Background>
+    <Background>
+      {parsedEvents && (
         <DetailWrapper>
-          <ColumnBox>
-            {parsedEvents && (
-              <>
-                <EventTitle>{parsedEvents.title}</EventTitle>
-                <BoxWrapper>
-                  <BlueBox>
-                    <BlueBoxTitle>행사 설명</BlueBoxTitle>
-                    <BlueBoxContent>{parsedEvents.detail}</BlueBoxContent>
-                  </BlueBox>
-                </BoxWrapper>
-                <CheckList onClick={handleList}>출석 명단 확인</CheckList>
-                {showList && <AttendanceList onClose={handleClose} />}
-                <CheckList onClick={handleEmail}>출석 명단 전송</CheckList>
-              </>
-            )}
-          </ColumnBox>
+          <AttendanceSection>
+            <AttendanceListWrapper>
+              <AttendanceList />
+            </AttendanceListWrapper>
+          </AttendanceSection>
+          <EventSection>
+            <EventTitle>{parsedEvents.title}</EventTitle>
+            <BlueBox>
+              <BlueBoxTitle>행사 설명</BlueBoxTitle>
+              <BlueBoxContent>{parsedEvents.detail}</BlueBoxContent>
+            </BlueBox>
+            <ButtonWrapper>
+              <CheckList onClick={handleEmail}>출석 명단 전송</CheckList>
+            </ButtonWrapper>
+          </EventSection>
         </DetailWrapper>
-      </Background>
-    </>
+      )}
+    </Background>
   );
-}
+};
 
 const Background = styled.div`
   display: flex;
   justify-content: center;
-  width: 100vw;
-  height: 100vh;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding-top: 80px;
 `;
 
 const DetailWrapper = styled.div`
+  width: auto;
+  margin: 20px 0px;
   display: flex;
-  align-items: center;
-  gap: 300px;
+  justify-content: space-around;
+  align-items: start;
+  max-width: 1200px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
-const BoxWrapper = styled.div`
-  display: flex;
-  justify-content: center;
+const AttendanceSection = styled.div`
+  width: 50%;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
-const ColumnBox = styled.div`
+const AttendanceListWrapper = styled.div`
+  min-height: 800px;
+  margin-bottom: 20px;
+  /* border: 3px solid black; */
+  overflow: scroll;
+`;
+
+const ButtonWrapper = styled.div`
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  gap: 20px;
+  margin: 20px 0px;
+`;
+
+const EventSection = styled.div`
+  width: 40%;
+  margin-top: 20px;
+`;
+
+const EventTitle = styled.h2`
+  font-size: 28px;
+  margin-bottom: 20px;
 `;
 
 const BlueBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: left;
-  width: 500px;
-  height: auto;
   border: 1px solid #1f5fa9;
   border-radius: 4px;
   padding: 20px;
-  gap: 20px;
 `;
 
 const BlueBoxTitle = styled.p`
   color: #1f5fa9;
-  font-size: 16px;
+  font-size: 18px;
+  margin-bottom: 10px;
 `;
 
 const BlueBoxContent = styled.p`
-  color: black;
   font-size: 16px;
-  white-space: normal;
-`;
-
-const EventTitle = styled.p`
-  display: flex;
-  font-size: 32px;
 `;
 
 const CheckList = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 20px;
-  width: 280px;
-  height: 56px;
+  width: 100%;
+  height: 40px;
   border: none;
   border-radius: 4px;
+  background-color: #1f5fa9;
   color: white;
-  background: linear-gradient(to right, #0a2c83, #1f5fa9);
+  font-size: 16px;
   cursor: pointer;
 `;
+
+export default EventDetail;
