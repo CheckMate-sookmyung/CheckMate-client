@@ -5,6 +5,8 @@ import { USER_ID } from '../../constants';
 import { useNavigate } from 'react-router-dom';
 import { axiosInstance } from '../../axios';
 import { BREAKPOINTS } from '../../styles';
+import { useSetRecoilState, useRecoilValue } from 'recoil';
+import { eventIDState } from '../../recoil/atoms/state';
 
 export default function CurrentEvent() {
   const [events, setEvents] = useState([]);
@@ -13,7 +15,6 @@ export default function CurrentEvent() {
     const fetchData = async () => {
       try {
         const response = await axiosInstance.get(`/api/v1/events/${USER_ID}`);
-        console.log('response: ', response.data);
         const parsedEvents = response.data.map((event) => {
           const startDate = event.eventSchedules[0];
           const endDate =
@@ -33,7 +34,6 @@ export default function CurrentEvent() {
         console.error(error);
       }
     };
-
     fetchData();
   }, []);
 
@@ -43,6 +43,7 @@ export default function CurrentEvent() {
         {events.map((event) => (
           <EventCard
             key={event.id}
+            id={event.id}
             title={event.title}
             startDate={event.startDate}
             endDate={event.endDate}
@@ -54,10 +55,12 @@ export default function CurrentEvent() {
   );
 }
 
-const EventCard = ({ title, poster, startDate, endDate }) => {
+const EventCard = ({ id, title, poster, startDate, endDate }) => {
+  const setContent = useSetRecoilState(eventIDState);
   const navigate = useNavigate();
 
   const handleDetail = () => {
+    setContent(id);
     navigate('/currentevent/eventdetail');
   };
 
@@ -129,7 +132,6 @@ const EventImg = styled.div`
 const EventTitle = styled.p`
   font-size: 18px;
   font-weight: 700;
-  /* height: 80px; */
   margin: 20px 0 10px;
 `;
 
