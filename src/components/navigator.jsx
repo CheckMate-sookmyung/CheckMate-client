@@ -63,6 +63,13 @@ const NavWrapper = styled.nav`
   padding: 0 20px;
 `;
 
+const MainMenu = styled.h1`
+  font-size: 24px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-weight: 700;
+`;
+
 const NavCenter = styled.div`
   display: flex;
   gap: 40px;
@@ -91,12 +98,6 @@ const Bluedot = styled.div`
   background-color: #1f5fa9;
   border-radius: 50%;
   visibility: ${(props) => (props.isVisible ? 'visible' : 'hidden')};
-`;
-
-const MainMenu = styled.div`
-  cursor: pointer;
-  margin-top: 10px;
-  font-weight: 700;
 `;
 
 const LogButton = styled.button`

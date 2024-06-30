@@ -103,7 +103,7 @@ const CardWrapper = styled.div`
 const EventImgWrapper = styled.div`
   display: flex;
   overflow: hidden;
-  height: 400px;
+  height: 300px;
   justify-content: center;
 `;
 
@@ -116,16 +116,19 @@ const EventImg = styled.img`
 
 const EventCardList = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 32px;
   width: 100%;
   padding: 20px;
 
   @media (max-width: ${BREAKPOINTS[2]}px) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
   }
   @media (max-width: ${BREAKPOINTS[1]}px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: ${BREAKPOINTS[0]}px) {
     grid-template-columns: repeat(1, 1fr);
   }
 `;
@@ -159,4 +162,5 @@ const BlueButton = styled.button`
   color: white;
   background: linear-gradient(to right, #0a2c83, #1f5fa9);
   cursor: pointer;
+  font-size: 16px;
 `;
