@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { BREAKPOINTS } from '../../styles';
 
 export default function BackgroundPage({ title, children }) {
   return (
@@ -41,7 +42,12 @@ const BodyWrapper = styled.div`
 const Title = styled.p`
   display: flex;
   color: white;
-  font-size: 3rem;
+  font-size: 40px;
+  padding-bottom: 30px;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    font-size: 2rem;
+  }
 `;
 
 const FormWrapper = styled.div`

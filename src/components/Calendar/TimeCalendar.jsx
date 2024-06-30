@@ -17,13 +17,14 @@ const InputWrapper = styled.div`
 const PrimaryInput = styled.input`
   width: 200px;
   height: 56px;
-  padding-left: 15px;
+  padding-left: 14px;
   border: 1px solid #ccc;
   border-radius: 4px;
   cursor: pointer;
   &:focus {
     outline: none;
   }
+  font-size: 14px;
 `;
 
 const IconContainer = styled.div`
@@ -40,7 +41,7 @@ const ModalContent = styled.div`
   border-radius: 8px;
   width: 200px;
   height: 300px;
-  margin-left: 200px;
+  margin-top: 56px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   z-index: 1;
   overflow: scroll;

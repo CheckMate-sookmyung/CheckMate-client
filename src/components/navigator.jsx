@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import dot from '../icons/registerPage/dot.svg';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { BREAKPOINTS } from '../styles';
 
 export default function Navigator() {
   const navigate = useNavigate();
@@ -63,9 +64,27 @@ const NavWrapper = styled.nav`
   padding: 0 20px;
 `;
 
+const MainMenu = styled.h1`
+  font-size: 24px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-weight: 700;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    font-size: 16px;
+  }
+`;
+
 const NavCenter = styled.div`
   display: flex;
   gap: 40px;
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    gap: 20px;
+  }
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    gap: 10px;
+  }
 `;
 
 const MenuContainer = styled.div`
@@ -82,6 +101,10 @@ const StyledNavLink = styled(NavLink)`
   &.active {
     color: #1f5fa9;
   }
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    font-size: 12px;
+  }
 `;
 
 const Bluedot = styled.div`
@@ -93,12 +116,6 @@ const Bluedot = styled.div`
   visibility: ${(props) => (props.isVisible ? 'visible' : 'hidden')};
 `;
 
-const MainMenu = styled.div`
-  cursor: pointer;
-  margin-top: 10px;
-  font-weight: 700;
-`;
-
 const LogButton = styled.button`
   background-color: white;
   color: #1f5fa9;
@@ -107,4 +124,8 @@ const LogButton = styled.button`
   border: 2px solid #1f5fa9;
   border-radius: 4px;
   cursor: pointer;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    width: 60px;
+  }
 `;

@@ -84,7 +84,6 @@ const Background = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  padding-top: 80px;
 `;
 
 const DetailWrapper = styled.div`
@@ -133,14 +132,15 @@ const EventTitle = styled.h2`
 `;
 
 const BlueBox = styled.div`
-  border: 1px solid #1f5fa9;
+  border: 1px solid #d9d9d9;
   border-radius: 4px;
   padding: 20px;
 `;
 
 const BlueBoxTitle = styled.p`
-  color: #1f5fa9;
+  color: #0075ff;
   font-size: 18px;
+  font-weight: 700;
   margin-bottom: 10px;
 `;
 
@@ -153,7 +153,7 @@ const CheckList = styled.button`
   height: 40px;
   border: none;
   border-radius: 4px;
-  background-color: #1f5fa9;
+  background-color: #0075ff;
   color: white;
   font-size: 16px;
   cursor: pointer;

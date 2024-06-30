@@ -93,7 +93,7 @@ const StudentListItem = ({ student }) => {
           </StudentInfoDetail>
         </StudentInfo>
         <TelAnchor href={`tel:${student.phoneNumber}`}>
-          <FaPhone />
+          <FaPhone style={{ color: '#0075FF' }} />
         </TelAnchor>
       </StudentInfoBox>
     </StudentListWrapper>
