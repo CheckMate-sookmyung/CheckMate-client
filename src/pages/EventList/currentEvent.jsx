@@ -103,7 +103,7 @@ const CardWrapper = styled.div`
 const EventImgWrapper = styled.div`
   display: flex;
   overflow: hidden;
-  height: 300px;
+  height: 260px;
   justify-content: center;
 `;
 
@@ -119,7 +119,7 @@ const EventCardList = styled.div`
   grid-template-columns: repeat(4, 1fr);
   gap: 32px;
   width: 100%;
-  padding: 20px;
+  padding: 50px 20px;
 
   @media (max-width: ${BREAKPOINTS[2]}px) {
     grid-template-columns: repeat(3, 1fr);

@@ -16,20 +16,22 @@ const InputWrapper = styled.div`
 const PrimaryInput = styled.input`
   width: 250px;
   height: 56px;
-  padding: 0 20px;
+  padding: 0 14px;
   border: 1px solid #ccc;
   border-radius: 4px;
   &:focus {
     outline: none;
   }
   cursor: pointer;
+  font-size: 14px;
 `;
 
 const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   position: fixed;
-  width: 600px;
+  width: 90%;
+  max-width: 400px;
   height: auto;
   transform: translate(0, 55%);
   background-color: white;
@@ -110,7 +112,7 @@ const Body = styled.div`
 const Cell = styled.div`
   width: calc(100% / 7);
   text-align: center;
-  height: 70px;
+  height: 40px;
   cursor: pointer;
   background: ${(props) => (props.selected ? '#0a2c83' : 'transparent')};
   color: ${(props) =>
@@ -132,13 +134,13 @@ const Cell = styled.div`
 const Footer = styled.div`
   display: flex;
   justify-content: center;
-  padding: 10px 0;
+  padding: 10px;
   border-top: 1px solid #ccc;
 `;
 
 const SaveButton = styled.button`
   display: flex;
-  width: 570px;
+  width: 100%;
   height: 48px;
   color: white;
   align-items: center;
@@ -146,6 +148,8 @@ const SaveButton = styled.button`
   background: linear-gradient(to right, #0a2c83, #1f5fa9);
   cursor: pointer;
   border-radius: 4px;
+  font-size: 14px;
+  padding: 10px;
 `;
 
 const getDaysInMonth = (year, month) => {
