@@ -14,7 +14,7 @@ export default function Navigator() {
   return (
     <Background>
       <NavWrapper>
-        <MainMenu onClick={clickedLogo}>행사 관리 시스템</MainMenu>
+        <MainMenu onClick={clickedLogo}>체크메이트</MainMenu>
         <NavCenter>
           <MenuContainer>
             <Bluedot isVisible={location.pathname.startsWith('/register')} />

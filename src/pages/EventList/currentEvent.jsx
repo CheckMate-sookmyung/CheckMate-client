@@ -68,9 +68,9 @@ const EventCard = ({ title, poster, startDate, endDate }) => {
 
   return (
     <CardWrapper onClick={handleDetail}>
-      <EventImg>
-        <EventCardPoster src={poster} alt="event_poster" />
-      </EventImg>
+      <EventImgWrapper>
+        <EventImg src={poster} alt="event_poster" />
+      </EventImgWrapper>
       <EventTitle>{title}</EventTitle>
       <EventDate>
         <p>진행 일정</p>
@@ -81,30 +81,11 @@ const EventCard = ({ title, poster, startDate, endDate }) => {
   );
 };
 
-const EventCardPoster = styled.img`
-  overflow: auto;
-`;
-
-const EventCardList = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  width: 100%;
-  max-width: 1200px;
-  height: 100vh;
-
-  @media (max-width: ${BREAKPOINTS[0]}px) {
-  }
-`;
-
 const CardWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 320px;
   width: 100%;
-  height: 400px;
   padding: 12px;
-  margin: 20px;
   box-shadow:
     rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
@@ -114,16 +95,36 @@ const CardWrapper = styled.div`
   &:hover {
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   }
-
-  @media (max-width: ${BREAKPOINTS[0]}px) {
-  }
 `;
 
-const EventImg = styled.div`
+const EventImgWrapper = styled.div`
   display: flex;
-  height: 300px;
-  overflow: auto;
+  overflow: hidden;
+  height: 400px;
   justify-content: center;
+`;
+
+const EventImg = styled.img`
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 420 / 594;
+  object-fit: cover;
+`;
+
+const EventCardList = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  width: 100%;
+  padding: 20px;
+
+  @media (max-width: ${BREAKPOINTS[2]}px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 const EventTitle = styled.p`
