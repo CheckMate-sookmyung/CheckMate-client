@@ -3,6 +3,7 @@ import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
 import { FaRegCalendarAlt } from 'react-icons/fa';
 import { IoClose } from 'react-icons/io5';
 import styled from 'styled-components';
+import { BREAKPOINTS } from '../../styles';
 
 const InputWrapper = styled.div`
   position: relative;
@@ -29,11 +30,11 @@ const PrimaryInput = styled.input`
 const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
-  position: fixed;
+  position: absolute;
   width: 90%;
   max-width: 400px;
   height: auto;
-  transform: translate(0, 55%);
+  top: 700px;
   background-color: white;
   border-radius: 8px;
   z-index: 100;
