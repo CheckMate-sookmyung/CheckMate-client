@@ -4,18 +4,19 @@ import { BREAKPOINTS } from '../../styles';
 export const Background = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
 `;
 
-// 이벤트 수정
+// 이벤트 수정 + 삭제
 export const ChangeEventWrapper = styled.div`
   display: flex;
   gap: 10px;
-  padding-right: 80px;
-  margin-left: auto;
+  width: 100%;
+  max-width: 1200px;
+  justify-content: flex-end;
+  padding: 10px;
 `;
 
 export const EditEventButton = styled.button`
@@ -28,27 +29,52 @@ export const DeleteEventButton = styled.button`
   padding: 10px;
   border-radius: 4px;
   border: 1px solid #0075ff;
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+
+  &:hover::after {
+    content: '삭제된 행사는 복구할 수 없습니다.';
+    position: absolute;
+    top: 100%; /* Tooltip below the button */
+    left: 0;
+    transform: translateX(-50%);
+    margin-top: 5px;
+    padding: 5px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 4px;
+    white-space: nowrap;
+    font-size: 12px;
+    z-index: 1;
+    opacity: 1;
+    visibility: visible;
+    transition:
+      opacity 0.2s ease-in-out,
+      visibility 0.2s ease-in-out;
+  }
 `;
 
-// 참석자 목록
+// 참석자 목록 + 행사 정보
 export const DetailWrapper = styled.div`
-  width: auto;
-  padding: 20px 0px;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  width: auto;
   align-items: start;
   max-width: 1200px;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${BREAKPOINTS[1]}px) {
     flex-direction: column;
     align-items: center;
   }
 `;
 
+// 참석자 목록
 export const AttendanceSection = styled.div`
-  width: 50%;
+  width: 60%;
+  padding: 10px;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${BREAKPOINTS[1]}px) {
     width: 100%;
   }
 `;
@@ -63,11 +89,15 @@ export const AttendanceListWrapper = styled.div`
 export const EventSection = styled.div`
   width: 40%;
   padding: 10px;
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    width: 100%;
+  }
 `;
 
 export const EventTitle = styled.h2`
   font-size: 28px;
-  margin-bottom: 20px;
+  margin: 10px 0;
 `;
 
 export const EventContent = styled.div`

@@ -56,9 +56,7 @@ const EventDetail = () => {
   };
 
   const DeleteEvent = async () => {
-    const isConfirmed = window.confirm(
-      '행사를 완전히 삭제하시겠습니까?\n삭제한 행사는 복구할 수 없습니다.',
-    );
+    const isConfirmed = window.confirm('행사를 완전히 삭제하시겠습니까?');
     if (!isConfirmed) {
       return;
     }
