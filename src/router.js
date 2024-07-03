@@ -2,8 +2,8 @@ import { createBrowserRouter } from 'react-router-dom';
 import { AttendanceStudentIdPage, AttendanceSignPage } from './pages';
 import Register from './pages/registerPage/register';
 import CurrentEvent from './pages/EventList/currentEvent';
-import EventDetail from './pages/EventDetail/EventDetail';
 import Layout from './Layout/Layout';
+import EventDetailPage from './pages/EventDetail/EventDetailPage';
 
 const router = createBrowserRouter([
   {
@@ -20,7 +20,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/currentevent/eventdetail',
-        element: <EventDetail />,
+        element: <EventDetailPage />,
       },
     ],
   },

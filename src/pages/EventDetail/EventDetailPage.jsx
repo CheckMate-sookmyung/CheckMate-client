@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import * as S from './EventDetail.style';
+import * as S from './EventDetailPage.style';
 import AttendanceList from './AttendanceList';
 import { USER_ID } from '../../constants';
 import { axiosInstance } from '../../axios';
@@ -7,7 +7,7 @@ import { useRecoilValue } from 'recoil';
 import { eventIDState } from '../../recoil/atoms/state';
 import { useNavigate } from 'react-router-dom';
 
-const EventDetail = () => {
+const EventDetailPage = () => {
   const [parsedEvents, setParsedEvents] = useState(null);
   const EVENT_ID = useRecoilValue(eventIDState);
   const navigate = useNavigate();
@@ -108,4 +108,4 @@ const EventDetail = () => {
   );
 };
 
-export default EventDetail;
+export default EventDetailPage;
