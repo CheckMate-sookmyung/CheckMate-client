@@ -23,22 +23,36 @@ export const EditEventButton = styled.button`
   padding: 10px;
   border-radius: 4px;
   border: 1px solid #0075ff;
+  box-sizing: border-box;
 `;
 
 export const DeleteEventButton = styled.button`
   padding: 10px;
   border-radius: 4px;
   border: 1px solid #0075ff;
+  box-sizing: border-box;
   position: relative;
   display: inline-block;
   cursor: pointer;
+  background-color: #fff;
+  color: #0075ff;
+  transition:
+    background-color 0.3s ease-in-out,
+    color 0.3s ease-in-out,
+    box-shadow 0.3s ease-in-out;
+
+  &:hover {
+    background-color: #0075ff;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
 
   &:hover::after {
     content: '삭제된 행사는 복구할 수 없습니다.';
     position: absolute;
     top: 100%; /* Tooltip below the button */
-    right: 0; /* Align tooltip with the right edge of the button */
-    margin-top: 10px; /* Adjusted to make room for the arrow */
+    right: 0;
+    margin-top: 10px;
     padding: 5px;
     background-color: #333;
     color: #fff;
@@ -57,10 +71,10 @@ export const DeleteEventButton = styled.button`
     content: '';
     position: absolute;
     top: 100%;
-    right: 30px;
+    right: 34px;
     transform: translateX(50%);
     margin-bottom: 5px;
-    border-width: 5px;
+    border-width: 6px;
     border-style: solid;
     border-color: transparent transparent #333 transparent;
     z-index: 1;
