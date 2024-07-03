@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import * as S from './EventDetail.style';
 import AttendanceList from './AttendanceList';
 import { USER_ID } from '../../constants';
 import { axiosInstance } from '../../axios';
@@ -34,7 +34,7 @@ const EventDetail = () => {
 
   const handleEmail = async () => {
     const isConfirmed = window.confirm(
-      '출석 명단을 지정된 이메일로 전송하시겠습니까?\n확인 버튼을 누르는 즉시 이메일 전송이 완료됩니다.',
+      '출석 명단을 이메일로 전송하시겠습니까?\n확인 버튼을 누르면 즉시 전송됩니다.',
     );
     if (!isConfirmed) {
       return;
@@ -54,109 +54,34 @@ const EventDetail = () => {
   };
 
   return (
-    <Background>
+    <S.Background>
+      <S.EventChangeWrapper>
+        <S.EventEdit>이벤트 수정</S.EventEdit>
+        <S.EventDelete>이벤트 삭제</S.EventDelete>
+      </S.EventChangeWrapper>
       {parsedEvents && (
-        <DetailWrapper>
-          <AttendanceSection>
-            <AttendanceListWrapper>
+        <S.DetailWrapper>
+          <S.AttendanceSection>
+            <S.AttendanceListWrapper>
               <AttendanceList />
-            </AttendanceListWrapper>
-          </AttendanceSection>
-          <EventSection>
-            <EventTitle>{parsedEvents.title}</EventTitle>
-            <BlueBox>
-              <BlueBoxTitle>행사 설명</BlueBoxTitle>
-              <BlueBoxContent>{parsedEvents.detail}</BlueBoxContent>
-            </BlueBox>
-            <ButtonWrapper>
-              <CheckList onClick={handleEmail}>출석 명단 전송</CheckList>
-            </ButtonWrapper>
-          </EventSection>
-        </DetailWrapper>
+            </S.AttendanceListWrapper>
+          </S.AttendanceSection>
+          <S.EventSection>
+            <S.EventTitle>{parsedEvents.title}</S.EventTitle>
+            <S.EventContent>
+              <S.EventContentTitle>행사 설명</S.EventContentTitle>
+              <S.EventContentDescription>
+                {parsedEvents.detail}
+              </S.EventContentDescription>
+            </S.EventContent>
+            <S.SendButtonWrapper>
+              <S.SendButton onClick={handleEmail}>출석 명단 전송</S.SendButton>
+            </S.SendButtonWrapper>
+          </S.EventSection>
+        </S.DetailWrapper>
       )}
-    </Background>
+    </S.Background>
   );
 };
-
-const Background = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-`;
-
-const DetailWrapper = styled.div`
-  width: auto;
-  margin: 20px 0px;
-  display: flex;
-  justify-content: space-around;
-  align-items: start;
-  max-width: 1200px;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-  }
-`;
-
-const AttendanceSection = styled.div`
-  width: 50%;
-
-  @media (max-width: 768px) {
-    width: 100%;
-  }
-`;
-
-const AttendanceListWrapper = styled.div`
-  min-height: 800px;
-  margin-bottom: 20px;
-  /* border: 3px solid black; */
-  overflow: scroll;
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  margin: 20px 0px;
-`;
-
-const EventSection = styled.div`
-  width: 40%;
-  margin-top: 20px;
-`;
-
-const EventTitle = styled.h2`
-  font-size: 28px;
-  margin-bottom: 20px;
-`;
-
-const BlueBox = styled.div`
-  border: 1px solid #d9d9d9;
-  border-radius: 4px;
-  padding: 20px;
-`;
-
-const BlueBoxTitle = styled.p`
-  color: #0075ff;
-  font-size: 18px;
-  font-weight: 700;
-  margin-bottom: 10px;
-`;
-
-const BlueBoxContent = styled.p`
-  font-size: 16px;
-`;
-
-const CheckList = styled.button`
-  width: 100%;
-  height: 40px;
-  border: none;
-  border-radius: 4px;
-  background-color: #0075ff;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-`;
 
 export default EventDetail;
