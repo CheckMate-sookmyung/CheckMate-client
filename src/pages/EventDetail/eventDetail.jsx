@@ -5,10 +5,12 @@ import { USER_ID } from '../../constants';
 import { axiosInstance } from '../../axios';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '../../recoil/atoms/state';
+import { useNavigate } from 'react-router-dom';
 
 const EventDetail = () => {
   const [parsedEvents, setParsedEvents] = useState(null);
   const EVENT_ID = useRecoilValue(eventIDState);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,12 +55,36 @@ const EventDetail = () => {
     }
   };
 
+  const DeleteEvent = async () => {
+    const isConfirmed = window.confirm(
+      '행사를 완전히 삭제하시겠습니까?\n삭제한 행사는 복구할 수 없습니다.',
+    );
+    if (!isConfirmed) {
+      return;
+    }
+    try {
+      const response = await axiosInstance.delete(
+        `api/v1/events/${USER_ID}/${EVENT_ID}`,
+      );
+      if (response.status === 200) {
+        alert('행사가 삭제되었습니다. 목록 페이지로 이동합니다.');
+        navigate('/currentevent');
+        console.log(response);
+      }
+    } catch (error) {
+      alert('행사 삭제에 실패했습니다. 다시 시도해 주세요.');
+      console.log(error);
+    }
+  };
+
   return (
     <S.Background>
-      <S.EventChangeWrapper>
-        <S.EventEdit>이벤트 수정</S.EventEdit>
-        <S.EventDelete>이벤트 삭제</S.EventDelete>
-      </S.EventChangeWrapper>
+      <S.ChangeEventWrapper>
+        <S.EditEventButton>행사 수정</S.EditEventButton>
+        <S.DeleteEventButton onClick={DeleteEvent}>
+          행사 삭제
+        </S.DeleteEventButton>
+      </S.ChangeEventWrapper>
       {parsedEvents && (
         <S.DetailWrapper>
           <S.AttendanceSection>

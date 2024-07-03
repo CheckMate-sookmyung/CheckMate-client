@@ -10,19 +10,30 @@ export const Background = styled.div`
   height: 100%;
 `;
 
-// 이벤스 수정
-export const EventChangeWrapper = styled.div`
+// 이벤트 수정
+export const ChangeEventWrapper = styled.div`
   display: flex;
   gap: 10px;
+  padding-right: 80px;
+  margin-left: auto;
 `;
 
-export const EventEdit = styled.a``;
-export const EventDelete = styled.a``;
+export const EditEventButton = styled.button`
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #0075ff;
+`;
+
+export const DeleteEventButton = styled.button`
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #0075ff;
+`;
 
 // 참석자 목록
 export const DetailWrapper = styled.div`
   width: auto;
-  margin: 20px 0px;
+  padding: 20px 0px;
   display: flex;
   justify-content: space-around;
   align-items: start;
@@ -45,7 +56,6 @@ export const AttendanceSection = styled.div`
 export const AttendanceListWrapper = styled.div`
   min-height: 800px;
   margin-bottom: 20px;
-  /* border: 3px solid black; */
   overflow: scroll;
 `;
 
