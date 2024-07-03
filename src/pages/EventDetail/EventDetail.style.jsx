@@ -37,15 +37,32 @@ export const DeleteEventButton = styled.button`
     content: '삭제된 행사는 복구할 수 없습니다.';
     position: absolute;
     top: 100%; /* Tooltip below the button */
-    left: 0;
-    transform: translateX(-50%);
-    margin-top: 5px;
+    right: 0; /* Align tooltip with the right edge of the button */
+    margin-top: 10px; /* Adjusted to make room for the arrow */
     padding: 5px;
     background-color: #333;
     color: #fff;
     border-radius: 4px;
     white-space: nowrap;
     font-size: 12px;
+    z-index: 1;
+    opacity: 1;
+    visibility: visible;
+    transition:
+      opacity 0.2s ease-in-out,
+      visibility 0.2s ease-in-out;
+  }
+
+  &:hover::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    right: 30px;
+    transform: translateX(50%);
+    margin-bottom: 5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #333 transparent;
     z-index: 1;
     opacity: 1;
     visibility: visible;
