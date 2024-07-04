@@ -2,40 +2,42 @@ import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { BREAKPOINTS } from '../../styles';
 
-export const Background = styled.div`
+export const Wrapper = styled.div`
   display: flex;
   justify-content: center;
-  align-content: center;
-  /* position: fixed; */
-  top: 0;
-  width: 100%;
-  height: 80px;
-  background-color: white;
 `;
 
 export const NavWrapper = styled.nav`
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  padding: 0 100px;
+  height: 80px;
   width: 100%;
   max-width: 1200px;
-  padding: 0 20px;
+  background-color: white;
 `;
 
-export const MainMenu = styled.h1`
+export const LogoMenuWrapper = styled.div`
+  display: flex;
+  gap: 50px;
+`;
+
+export const Logo = styled.h1`
   font-size: 24px;
-  cursor: pointer;
-  margin-top: 10px;
   font-weight: 700;
+  cursor: pointer;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     font-size: 16px;
   }
 `;
 
-export const NavCenter = styled.div`
+export const MenuContainer = styled.div`
   display: flex;
-  gap: 40px;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
     gap: 20px;
@@ -45,10 +47,12 @@ export const NavCenter = styled.div`
   }
 `;
 
-export const MenuContainer = styled.div`
+export const Menu = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-size: 16px;
+  font-weight: 700;
   cursor: pointer;
 `;
 
@@ -65,22 +69,13 @@ export const StyledNavLink = styled(NavLink)`
   }
 `;
 
-export const Bluedot = styled.div`
-  width: 6px;
-  height: 6px;
-  margin: 5px;
-  background-color: #1f5fa9;
-  border-radius: 50%;
-  visibility: ${(props) => (props.isVisible ? 'visible' : 'hidden')};
-`;
-
-export const LogButton = styled.button`
-  background-color: white;
-  color: #1f5fa9;
+export const Profile = styled.button`
   width: 86px;
   height: 30px;
   border: 2px solid #1f5fa9;
   border-radius: 4px;
+  background-color: white;
+  color: #1f5fa9;
   cursor: pointer;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {

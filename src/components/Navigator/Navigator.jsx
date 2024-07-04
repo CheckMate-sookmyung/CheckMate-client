@@ -11,35 +11,27 @@ export default function Navigator() {
   };
 
   return (
-    <S.Background>
+    <S.Wrapper>
       <S.NavWrapper>
-        <S.MainMenu onClick={clickedLogo}>체크메이트</S.MainMenu>
-        <S.NavCenter>
+        <S.LogoMenuWrapper>
+          <S.Logo onClick={clickedLogo}>체크메이트</S.Logo>
           <S.MenuContainer>
-            <S.Bluedot isVisible={location.pathname.startsWith('/register')} />
-            <S.StyledNavLink to="/register" activeClassName="active">
-              행사 등록
-            </S.StyledNavLink>
+            <S.Menu>체크메이트 해커톤</S.Menu>
+            <S.Menu>|</S.Menu>
+            <S.Menu>
+              <S.StyledNavLink to="/register" activeClassName="active">
+                행사 등록
+              </S.StyledNavLink>
+            </S.Menu>
+            <S.Menu>
+              <S.StyledNavLink to="/currentevent" activeClassName="active">
+                행사 목록
+              </S.StyledNavLink>
+            </S.Menu>
           </S.MenuContainer>
-          <S.MenuContainer>
-            <S.Bluedot
-              isVisible={location.pathname.startsWith('/currentevent')}
-            />
-            <S.StyledNavLink to="/currentevent" activeClassName="active">
-              진행중인 행사
-            </S.StyledNavLink>
-          </S.MenuContainer>
-          <S.MenuContainer>
-            <S.Bluedot
-              isVisible={location.pathname.startsWith('/finishevent')}
-            />
-            <S.StyledNavLink to="/finishevent" activeClassName="active">
-              지난 행사
-            </S.StyledNavLink>
-          </S.MenuContainer>
-        </S.NavCenter>
-        <S.LogButton>로그아웃</S.LogButton>
+        </S.LogoMenuWrapper>
+        <S.Profile>프로필 이미지</S.Profile>
       </S.NavWrapper>
-    </S.Background>
+    </S.Wrapper>
   );
 }
