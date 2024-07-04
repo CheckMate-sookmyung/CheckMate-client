@@ -24,7 +24,7 @@ export default function Navigator() {
               </S.StyledNavLink>
             </S.Menu>
             <S.Menu>
-              <S.StyledNavLink to="/currentevent" activeClassName="active">
+              <S.StyledNavLink to="/event" activeClassName="active">
                 행사 목록
               </S.StyledNavLink>
             </S.Menu>
