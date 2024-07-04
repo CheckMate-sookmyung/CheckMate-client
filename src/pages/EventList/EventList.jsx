@@ -61,7 +61,7 @@ const EventCard = ({ id, title, poster, startDate, endDate }) => {
 
   const handleDetail = () => {
     setContent(id);
-    navigate('/currentevent/eventdetail');
+    navigate('/event/detail');
   };
 
   const attendanceCheck = (event) => {
