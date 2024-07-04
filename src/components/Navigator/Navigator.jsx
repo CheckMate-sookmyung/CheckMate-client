@@ -1,8 +1,8 @@
 import React from 'react';
-import * as S from './Navigation.style';
+import * as S from './Navigator.style';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export default function Navigation() {
+export default function Navigator() {
   const navigate = useNavigate();
   const location = useLocation();
 

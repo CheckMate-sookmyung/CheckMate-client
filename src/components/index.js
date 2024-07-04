@@ -3,4 +3,4 @@ export { default as Stepper } from './Stepper';
 export { default as AttendanceHeader } from './AttendanceHeader';
 export { default as Modal } from './Modal';
 export { default as AttendanceConfirmModal } from './AttendanceConfirmModal';
-export { default as Navigation } from './Navigation';
+export { default as Navigator } from './Navigator';
