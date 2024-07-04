@@ -202,9 +202,6 @@ export default function Register() {
                 <NewDateItem key={index}>
                   {event.eventDate} : {event.eventStartTime} ~{' '}
                   {event.eventEndTime}
-                  <AddDate>
-                    <IoMdAdd />
-                  </AddDate>
                   <br />
                 </NewDateItem>
               ))}
