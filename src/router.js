@@ -4,12 +4,16 @@ import Register from './pages/registerPage/register';
 import EventList from './pages/EventList/EventList';
 import Layout from './Layout/Layout';
 import EventDetailPage from './pages/EventDetail/EventDetailPage';
+import Home from './pages/Home/Home';
 
 const router = createBrowserRouter([
   {
-    path: '/',
     element: <Layout />,
     children: [
+      {
+        path: '/',
+        element: <Home />,
+      },
       {
         path: '/register',
         element: <Register />,
