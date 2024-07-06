@@ -7,9 +7,7 @@ export default function DashboardInfo() {
   const [active, setActive] = useState('online');
   const [selectedOption, setSelectedOption] = useState('option1');
   const [startDate, setStartDate] = useState(new Date());
-  const [startTime, setStartTime] = useState('03:10');
   const [endDate, setEndDate] = useState(new Date());
-  const [endTime, setEndTime] = useState('02:00');
 
   return (
     <S.DashboardInfo>
@@ -24,12 +22,15 @@ export default function DashboardInfo() {
       <S.ContentContainer>
         <S.Content>
           <S.ContentTitle>행사 제목</S.ContentTitle>
-          <S.ContentInput type="text" placeholder="이벤트 제목을 입력하세요" />
+          <S.ContentInput
+            type="text"
+            placeholder="IT 실무자와 함께하는 제1회 빅데이터 활용 해커톤"
+          />
         </S.Content>
         <S.Content>
           <S.ContentTitle>행사 기간</S.ContentTitle>
           <S.DateTimeContainer>
-            <S.DateInput
+            <S.DateTimeInput
               selected={startDate}
               onChange={(date) => setStartDate(date)}
               dateFormat="MM월 dd일"
@@ -37,9 +38,14 @@ export default function DashboardInfo() {
               showMonthDropdown={true}
               dropdownMode="select"
             />
-            <S.TimeInput
+            <S.DateTimeInput
               selected={startDate}
-              onChange={(date) => setStartDate(date)}
+              onChange={(date) => {
+                const newDate = new Date(startDate);
+                newDate.setHours(date.getHours());
+                newDate.setMinutes(date.getMinutes());
+                setStartDate(newDate);
+              }}
               showTimeSelect
               showTimeSelectOnly
               timeIntervals={30}
@@ -47,7 +53,7 @@ export default function DashboardInfo() {
               dateFormat="h:mm aa"
             />
             <FaAngleRight />
-            <S.DateInput
+            <S.DateTimeInput
               selected={endDate}
               onChange={(date) => setEndDate(date)}
               dateFormat="MM월 dd일"
@@ -55,9 +61,14 @@ export default function DashboardInfo() {
               showMonthDropdown={true}
               dropdownMode="select"
             />
-            <S.TimeInput
+            <S.DateTimeInput
               selected={endDate}
-              onChange={(date) => setEndDate(date)}
+              onChange={(date) => {
+                const newDate = new Date(endDate);
+                newDate.setHours(date.getHours());
+                newDate.setMinutes(date.getMinutes());
+                setEndDate(newDate);
+              }}
               showTimeSelect
               showTimeSelectOnly
               timeIntervals={30}
@@ -68,11 +79,11 @@ export default function DashboardInfo() {
         </S.Content>
         <S.Content>
           <S.ContentTitle>행사 담당자 이메일</S.ContentTitle>
-          <S.ContentInput type="text" placeholder="이벤트 제목을 입력하세요" />
+          <S.ContentInput type="text" placeholder="checkmate@sookmyung.ac.kr" />
         </S.Content>
         <S.Content>
           <S.ContentTitle>행사 담당자 연락처</S.ContentTitle>
-          <S.ContentInput type="text" placeholder="이벤트 제목을 입력하세요" />
+          <S.ContentInput type="text" placeholder="010-1234-5678" />
         </S.Content>
         <S.Content>
           <S.ContentTitle>온라인/오프라인 여부</S.ContentTitle>
@@ -94,13 +105,13 @@ export default function DashboardInfo() {
         <S.Content>
           <S.ContentTitle>행사 진행 대상</S.ContentTitle>
           <S.VenueContainer>
-            <S.Option>
+            <S.Option onClick={() => setSelectedOption('option1')}>
               <S.RadioButton
                 type="radio"
                 name="platform"
                 value="option1"
                 checked={selectedOption === 'option1'}
-                onChange={() => setSelectedOption('option1')}
+                readOnly
               />
               <S.TextContainer>
                 <S.OptionTitle>숙명여자대학교 학생</S.OptionTitle>
@@ -109,13 +120,13 @@ export default function DashboardInfo() {
                 </S.OptionDescription>
               </S.TextContainer>
             </S.Option>
-            <S.Option>
+            <S.Option onClick={() => setSelectedOption('option2')}>
               <S.RadioButton
                 type="radio"
                 name="platform"
                 value="option2"
                 checked={selectedOption === 'option2'}
-                onChange={() => setSelectedOption('option2')}
+                readOnly
               />
               <S.TextContainer>
                 <S.OptionTitle>외부인</S.OptionTitle>

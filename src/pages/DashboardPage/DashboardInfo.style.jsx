@@ -88,13 +88,13 @@ export const ContentInputText = styled.p``;
 // 토글
 export const ToggleContainer = styled.div`
   display: flex;
-  align-items: center;
-  background: #e1e3e6;
-  border-radius: 50px;
-  padding: 6px;
-  margin-top: 10px;
-  width: 140px;
   justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  border-radius: 50px;
+  background: #e1e3e6;
+  padding: 6px 10px;
+  width: 160px;
 `;
 
 export const ToggleBtn = styled.button`
@@ -105,7 +105,7 @@ export const ToggleBtn = styled.button`
   cursor: pointer;
   color: ${(props) => (props.active ? '#000000' : '#7a7a7a')};
   font-weight: bold;
-  font-size: 14px;
+  font-size: 16px;
   transition:
     background 0.3s ease,
     color 0.3s ease;
@@ -176,17 +176,7 @@ export const DateTimeContainer = styled.div`
   align-items: center;
 `;
 
-export const DateInput = styled(DatePicker)`
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 14px 10px;
-  width: 90px;
-  height: 19px;
-  font-size: 16px;
-  text-align: center;
-`;
-
-export const TimeInput = styled(DatePicker)`
+export const DateTimeInput = styled(DatePicker)`
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 14px 10px;
