@@ -3,6 +3,7 @@ import {
   AttendanceStudentIdPage,
   AttendanceSignPage,
   DashboardPage,
+  DashboardInfo,
 } from './pages';
 import Register from './pages/registerPage/register';
 import EventList from './pages/EventList/EventList';
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
   {
     path: '/event/dashboard',
     element: <DashboardPage />,
+  },
+  {
+    path: '/event/info',
+    element: <DashboardInfo />,
   },
 ]);
 
