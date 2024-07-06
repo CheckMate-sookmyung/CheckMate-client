@@ -46,7 +46,7 @@ const router = createBrowserRouter([
     element: <DashboardPage />,
   },
   {
-    path: '/event/info',
+    path: '/event/dashboard/info',
     element: <DashboardInfo />,
   },
 ]);
