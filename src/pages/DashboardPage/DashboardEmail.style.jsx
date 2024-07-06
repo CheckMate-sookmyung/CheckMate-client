@@ -76,6 +76,7 @@ export const ContentInput = styled.textarea`
   border-radius: 5px;
   padding: 10px;
   font-size: 14px;
+  overflow: auto;
 `;
 
 // 이메일 옵션 (라디오 버튼)
