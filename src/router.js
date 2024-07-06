@@ -5,6 +5,7 @@ import {
   DashboardPage,
   DashboardInfo,
   DashboardEmail,
+  DashboardAttendee,
 } from './pages';
 import Register from './pages/registerPage/register';
 import EventList from './pages/EventList/EventList';
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
   {
     path: '/event/dashboard/email',
     element: <DashboardEmail />,
+  },
+  {
+    path: '/event/dashboard/attendee',
+    element: <DashboardAttendee />,
   },
 ]);
 
