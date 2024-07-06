@@ -1,13 +1,15 @@
 import styled from 'styled-components';
 
 export const DashboardEmail = styled.div`
-  padding: 20px;
+  padding: 76px;
 `;
 
+// 행사 타이틀 + 버튼
 export const TopContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 30px;
 `;
 
 export const Title = styled.h1`
@@ -46,8 +48,8 @@ export const SaveBtn = styled.div`
 export const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin-top: 20px;
+  width: 500px;
+  gap: 32px;
 `;
 
 export const Content = styled.div`
@@ -69,13 +71,14 @@ export const ContentDesc = styled.p`
 export const ContentInput = styled.textarea`
   width: 100%;
   height: 150px;
+  box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
   font-size: 14px;
 `;
 
-// 이메일 옵션
+// 이메일 옵션 (라디오 버튼)
 export const OptionContainer = styled.div`
   display: flex;
   gap: 10px;

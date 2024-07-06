@@ -12,7 +12,7 @@ export default function DashboardInfo() {
   return (
     <S.DashboardInfo>
       <S.TopContainer>
-        <S.EventTitle>행사 기본 정보</S.EventTitle>
+        <S.Title>행사 기본 정보</S.Title>
         <S.ButtonContainer>
           <S.SaveBtn>저장하기</S.SaveBtn>
         </S.ButtonContainer>

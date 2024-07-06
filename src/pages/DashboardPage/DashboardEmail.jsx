@@ -44,6 +44,12 @@ export default function DashboardEmail() {
           <S.ContentDesc>발송될 이메일 본문 내용입니다.</S.ContentDesc>
           <S.ContentInput></S.ContentInput>
         </S.Content>
+
+        <S.Content>
+          <S.ContentTitle>수신자</S.ContentTitle>
+          <S.ContentDesc>이메일을 발송할 수신자를 체크해주세요</S.ContentDesc>
+          <S.ContentInput></S.ContentInput>
+        </S.Content>
       </S.ContentContainer>
     </S.DashboardEmail>
   );
