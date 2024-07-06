@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 export const DashboardInfo = styled.div`
   padding: 76px;
@@ -51,7 +53,7 @@ export const SaveBtn = styled.div`
 export const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 580px;
+  width: 500px;
   gap: 32px;
 `;
 
@@ -172,27 +174,29 @@ export const DateTimeContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 10px;
 `;
 
-export const DateInput = styled.input`
+export const DateInput = styled(DatePicker)`
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 14px 10px;
+  width: 90px;
+  height: 19px;
   font-size: 16px;
   text-align: center;
-  height: 19px;
 `;
 
-export const TimeInput = styled.input`
+export const TimeInput = styled(DatePicker)`
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 14px 10px;
+  width: 90px;
+  height: 19px;
   font-size: 16px;
   text-align: center;
-  height: 19px;
 `;
 
 export const Arrow = styled.div`
-  font-size: 18px;
+  height: 100%;
+  width: 100%;
 `;

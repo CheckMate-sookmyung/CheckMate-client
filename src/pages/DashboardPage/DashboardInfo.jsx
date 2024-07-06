@@ -1,10 +1,15 @@
-import * as S from './DashboardInfo.style';
 import React, { useState } from 'react';
+import * as S from './DashboardInfo.style';
 import { FaAngleRight } from 'react-icons/fa6';
+import { format } from 'date-fns';
 
 export default function DashboardInfo() {
   const [active, setActive] = useState('online');
   const [selectedOption, setSelectedOption] = useState('option1');
+  const [startDate, setStartDate] = useState(new Date());
+  const [startTime, setStartTime] = useState('03:10');
+  const [endDate, setEndDate] = useState(new Date());
+  const [endTime, setEndTime] = useState('02:00');
 
   return (
     <S.DashboardInfo>
@@ -24,11 +29,41 @@ export default function DashboardInfo() {
         <S.Content>
           <S.ContentTitle>행사 기간</S.ContentTitle>
           <S.DateTimeContainer>
-            <S.DateInput type="date" value="07-11" />
-            <S.TimeInput type="time" value="03:10" />
+            <S.DateInput
+              selected={startDate}
+              onChange={(date) => setStartDate(date)}
+              dateFormat="MM월 dd일"
+              showYearDropdown={false}
+              showMonthDropdown={true}
+              dropdownMode="select"
+            />
+            <S.TimeInput
+              selected={startDate}
+              onChange={(date) => setStartDate(date)}
+              showTimeSelect
+              showTimeSelectOnly
+              timeIntervals={30}
+              timeCaption="Time"
+              dateFormat="h:mm aa"
+            />
             <FaAngleRight />
-            <S.DateInput type="date" value="07-15" />
-            <S.TimeInput type="time" value="02:00" />
+            <S.DateInput
+              selected={endDate}
+              onChange={(date) => setEndDate(date)}
+              dateFormat="MM월 dd일"
+              showYearDropdown={false}
+              showMonthDropdown={true}
+              dropdownMode="select"
+            />
+            <S.TimeInput
+              selected={endDate}
+              onChange={(date) => setEndDate(date)}
+              showTimeSelect
+              showTimeSelectOnly
+              timeIntervals={30}
+              timeCaption="Time"
+              dateFormat="h:mm aa"
+            />
           </S.DateTimeContainer>
         </S.Content>
         <S.Content>
