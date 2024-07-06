@@ -14,8 +14,11 @@ export default function DashboardAttendee() {
       </S.TopContainer>
 
       <S.SearchContainer>
-        <S.SearchBox></S.SearchBox>
-        <S.CheckIn></S.CheckIn>
+        <S.SearchBox placeholder="이름, 학번, 이메일, 전화번호으로 검색" />
+        <S.RateWrapper>
+          <S.Rate>참석률</S.Rate>
+          <S.Attendee>0 / 30</S.Attendee>
+        </S.RateWrapper>
       </S.SearchContainer>
 
       <S.TabContainer>

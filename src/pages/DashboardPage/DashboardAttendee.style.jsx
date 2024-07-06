@@ -51,31 +51,49 @@ export const Btn = styled.div`
 export const SearchContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  gap: 10px;
 `;
 
-export const SearchBox = styled.div`
+export const SearchBox = styled.input`
   display: flex;
   justify-content: flex-start;
   align-items: center;
   border: 1px solid white;
-  padding-left: 10px;
-  padding-right: 10px;
   border-radius: 10px;
+  background-color: #ffffff;
+  padding: 0 14px;
   width: 420px;
   height: 40px;
-  background-color: #ffffff;
+
+  &::placeholder {
+    color: #bbb;
+  }
 `;
 
-export const CheckIn = styled.div`
+export const RateWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 240px;
-  background-color: white;
-  padding-left: 30px;
-  padding-right: 30px;
+  background-color: #ffffff;
   border-radius: 7px;
+  padding: 0 30px;
+  min-width: 180px;
   height: 40px;
+  gap: 10px;
+`;
+
+export const Rate = styled.p`
+  display: flex;
+  font-size: 14px;
+  font-weight: 600;
+  color: #bdbdbd;
+`;
+
+export const Attendee = styled.p`
+  display: flex;
+  font-size: 14px;
+  font-weight: 600;
+  color: #000000;
 `;
 
 // 탭정보
