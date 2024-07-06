@@ -44,6 +44,27 @@ export const SaveBtn = styled.div`
   }
 `;
 
+// 탭정보
+export const TabContainer = styled.div`
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+`;
+
+export const Tab = styled.button`
+  padding: 10px 20px;
+  border: 1px solid ${(props) => (props.active ? '#4e75ff' : '#4e75ff')};
+  border-radius: 5px;
+  background-color: ${(props) => (props.active ? '#4e75ff;' : '#fff')};
+  color: ${(props) => (props.active ? 'white' : 'black')};
+  cursor: pointer;
+
+  &:hover {
+    background-color: #4e75ff;
+    color: white;
+  }
+`;
+
 // 행사 정보
 export const ContentContainer = styled.div`
   display: flex;
