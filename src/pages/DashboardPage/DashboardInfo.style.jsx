@@ -112,7 +112,7 @@ export const ToggleBtn = styled.button`
 `;
 
 // 장소 옵션
-export const VenueContainer = styled.div`
+export const OptionContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -157,7 +157,7 @@ export const TextContainer = styled.div`
   gap: 4px;
 `;
 
-export const OptionTitle = styled.span`
+export const OptionTitle = styled.p`
   font-size: 16px;
   font-weight: bold;
   line-height: 19px;
