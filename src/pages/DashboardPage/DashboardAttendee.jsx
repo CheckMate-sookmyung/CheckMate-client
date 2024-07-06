@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import * as S from './DashboardAttendee.style';
+import { FaMagnifyingGlass } from 'react-icons/fa6';
 
 export default function DashboardAttendee() {
   const [activeTab, setActiveTab] = useState(1);
@@ -14,7 +15,10 @@ export default function DashboardAttendee() {
       </S.TopContainer>
 
       <S.SearchContainer>
-        <S.SearchBox placeholder="이름, 학번, 이메일, 전화번호으로 검색" />
+        <S.SearchBoxWrapper>
+          <FaMagnifyingGlass />
+          <S.SearchBox placeholder="이름, 학번, 이메일, 전화번호로 검색" />
+        </S.SearchBoxWrapper>
         <S.RateWrapper>
           <S.Rate>참석률</S.Rate>
           <S.Attendee>0 / 30</S.Attendee>

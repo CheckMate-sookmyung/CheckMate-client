@@ -54,19 +54,27 @@ export const SearchContainer = styled.div`
   gap: 10px;
 `;
 
-export const SearchBox = styled.input`
+export const SearchBoxWrapper = styled.div`
   display: flex;
-  justify-content: flex-start;
   align-items: center;
-  border: 1px solid white;
-  border-radius: 10px;
+  gap: 10px;
+  border-radius: 8px;
   background-color: #ffffff;
   padding: 0 14px;
   width: 420px;
   height: 40px;
+`;
+
+export const SearchBox = styled.input`
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #000;
+  background-color: transparent;
 
   &::placeholder {
-    color: #bbb;
+    color: #aaaeb3;
   }
 `;
 
@@ -75,7 +83,7 @@ export const RateWrapper = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #ffffff;
-  border-radius: 7px;
+  border-radius: 8px;
   padding: 0 30px;
   min-width: 180px;
   height: 40px;
@@ -111,15 +119,15 @@ export const TabBar = styled.div`
 
 export const Tab = styled.button`
   padding: 10px 20px;
-  border: 1px solid ${(props) => (props.active ? '#4e75ff' : '#4e75ff')};
+  border: 1px solid ${(props) => (props.active ? '#4e75ff' : '#fff')};
   border-radius: 5px;
   background-color: ${(props) => (props.active ? '#4e75ff;' : '#fff')};
-  color: ${(props) => (props.active ? 'white' : 'black')};
+  color: ${(props) => (props.active ? '#fff' : '#000')};
   cursor: pointer;
 
   &:hover {
     background-color: #4e75ff;
-    color: white;
+    color: #fff;
   }
 `;
 
