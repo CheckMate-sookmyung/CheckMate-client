@@ -75,7 +75,7 @@ export const OverviewWrapper = styled.div`
 export const ContentBox = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 26px 23px;
+  padding: 22px;
   background: #ffffff;
   width: 100%;
   border-radius: 10px;
@@ -91,27 +91,18 @@ export const ContentTitle = styled.h3`
   font-size: 16px;
 `;
 
-export const QrCode = styled.div`
+export const ContentInfoWrapper = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  width: 100%;
-  height: 100%;
-  max-height: 200px;
-
-  img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-  }
+  flex-direction: column;
+  padding-top: 14px;
+  gap: 10px;
 `;
 
 export const ContentTextWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 8px;
+  padding-top: 14px;
 `;
 
 export const ContentText = styled.p`
@@ -119,6 +110,50 @@ export const ContentText = styled.p`
   line-height: 14px;
   font-size: 14px;
   color: #828282;
+`;
+
+export const EventTypeWrapper = styled.div`
+  display: flex;
+`;
+
+export const EventType = styled.p`
+  padding-right: 12px;
+  margin-right: 12px;
+  border-right: 1px solid #e1e3e6;
+  font-weight: 600;
+  font-size: 14px;
+  color: #4e75ff;
+`;
+
+export const EventVenue = styled.p`
+  font-weight: 600;
+  font-size: 14px;
+  color: #4e75ff;
+`;
+
+export const EventDateWrapper = styled.div`
+  display: flex;
+`;
+
+export const EventDate = styled.p`
+  font-size: 14px;
+`;
+
+export const QrCode = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+
+  img {
+    display: block;
+    max-width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+  }
 `;
 
 export const CopyBtn = styled.button`
@@ -136,6 +171,19 @@ export const CopyBtn = styled.button`
   &:hover {
     background: #4e75ff;
   }
+`;
+
+export const CopyMessage = styled.div`
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #4e75ff;
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 `;
 
 // 진행 현황
@@ -176,7 +224,6 @@ export const ProgressContentWrapper = styled.div`
 `;
 
 export const ProgressTitle = styled.h3`
-  font-style: normal;
   font-weight: 600;
   font-size: 12px;
   line-height: 100%;
@@ -188,17 +235,4 @@ export const ProgressText = styled.p`
   font-weight: bold;
   font-size: 20px;
   color: #4f4f4f;
-`;
-
-export const CopyMessage = styled.div`
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #4e75ff;
-  color: #ffffff;
-  padding: 10px 20px;
-  border-radius: 5px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
 `;
