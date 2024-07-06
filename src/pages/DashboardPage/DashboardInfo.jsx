@@ -12,7 +12,7 @@ export default function DashboardInfo() {
   return (
     <S.DashboardInfo>
       <S.TopContainer>
-        <S.EventTitle>행사 기본 정보</S.EventTitle>
+        <S.Title>행사 기본 정보</S.Title>
         <S.ButtonContainer>
           <S.SaveBtn>저장하기</S.SaveBtn>
         </S.ButtonContainer>
@@ -104,7 +104,7 @@ export default function DashboardInfo() {
         </S.Content>
         <S.Content>
           <S.ContentTitle>행사 진행 대상</S.ContentTitle>
-          <S.VenueContainer>
+          <S.OptionContainer>
             <S.Option onClick={() => setSelectedOption('option1')}>
               <S.RadioButton
                 type="radio"
@@ -135,7 +135,7 @@ export default function DashboardInfo() {
                 </S.OptionDescription>
               </S.TextContainer>
             </S.Option>
-          </S.VenueContainer>
+          </S.OptionContainer>
         </S.Content>
       </S.ContentContainer>
     </S.DashboardInfo>

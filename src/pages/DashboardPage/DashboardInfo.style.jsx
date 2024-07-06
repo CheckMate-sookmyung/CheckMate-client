@@ -10,15 +10,14 @@ export const DashboardInfo = styled.div`
 export const TopContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  align-items: center;
+  margin-bottom: 30px;
 `;
 
-export const EventTitle = styled.h1`
-  font-weight: bold;
+export const Title = styled.h1`
   font-size: 24px;
+  font-weight: bold;
   line-height: 29px;
-  color: rgb(25, 25, 26);
-  margin-bottom: 32px;
 `;
 
 export const ButtonContainer = styled.div`
@@ -112,7 +111,7 @@ export const ToggleBtn = styled.button`
 `;
 
 // 장소 옵션
-export const VenueContainer = styled.div`
+export const OptionContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -157,7 +156,7 @@ export const TextContainer = styled.div`
   gap: 4px;
 `;
 
-export const OptionTitle = styled.span`
+export const OptionTitle = styled.p`
   font-size: 16px;
   font-weight: bold;
   line-height: 19px;
