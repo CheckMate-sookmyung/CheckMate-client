@@ -6,10 +6,9 @@ export const Sidebar = styled.div`
   position: relative;
   flex-direction: column;
   flex-shrink: 0;
-  border-right: 1px solid #ebedf0;
   padding-top: 35px;
   min-width: 180px;
-  height: 100%;
+  height: 100vh;
 `;
 
 export const MenuWrapper = styled.div`

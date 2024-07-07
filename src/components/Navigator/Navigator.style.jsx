@@ -8,8 +8,7 @@ export const Wrapper = styled.div`
   align-items: center;
   margin: 0 auto;
   border-bottom: 1px solid #ebedf0;
-  padding: 0 40px;
-  height: 58px;
+  padding: 12px 40px;
   width: 100%;
   background-color: white;
 

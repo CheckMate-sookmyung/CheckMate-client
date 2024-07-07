@@ -143,10 +143,12 @@ export default function DashboardInfo() {
               </S.Option>
             </S.OptionContainer>
           </S.Content>
+
           <S.Content>
             <S.ContentTitle>행사 설명</S.ContentTitle>
-            <S.Textarea></S.Textarea>
+            <S.Textarea />
           </S.Content>
+
           <S.Content>
             <S.ContentTitle>행사 커버 이미지</S.ContentTitle>
             <S.ContentDesc>

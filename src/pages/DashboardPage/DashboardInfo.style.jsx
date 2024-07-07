@@ -4,10 +4,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 export const DashboardInfo = styled.div`
   flex-grow: 1;
-  margin-bottom: 100px;
-  /* background: #f2f3f5; */
-  padding: 50px 70px;
-  min-height: 100%;
+  border-left: 1px solid #ebedf0;
+  padding: 50px;
 `;
 
 // 행사 타이틀 + 버튼
@@ -57,6 +55,7 @@ export const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 500px;
+  height: 100%;
   gap: 32px;
 `;
 
@@ -198,6 +197,7 @@ export const Textarea = styled.textarea`
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 14px 16px;
+  height: 90px;
   font-size: 16px;
 `;
 

@@ -13,7 +13,7 @@ export default function DashboardAttendee() {
         <S.TopContainer>
           <S.Title>참석자 관리</S.Title>
           <S.ButtonContainer>
-            <S.Btn>참석자 데이터 다운로드</S.Btn>
+            <S.DownBtn>참석자 데이터 다운로드</S.DownBtn>
           </S.ButtonContainer>
         </S.TopContainer>
 
@@ -46,7 +46,7 @@ export default function DashboardAttendee() {
             })}
           </S.TabBar>
 
-          <S.EditBtn>출석 여부 수정</S.EditBtn>
+          <S.EditMode>출석 여부 수정</S.EditMode>
         </S.TabContainer>
 
         {/* 참석자 리스트 */}
