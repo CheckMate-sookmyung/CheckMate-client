@@ -16,8 +16,8 @@ export default function Navigator() {
         <S.LogoMenuWrapper>
           <S.Logo onClick={clickedLogo}>체크메이트</S.Logo>
           <S.MenuContainer>
-            <S.Menu>체크메이트 해커톤</S.Menu>
-            <S.Menu>|</S.Menu>
+            {/* <S.Menu>체크메이트 해커톤</S.Menu> */}
+            {/* <S.Menu>|</S.Menu> */}
             <S.Menu>
               <S.StyledNavLink to="/register" activeClassName="active">
                 행사 등록
