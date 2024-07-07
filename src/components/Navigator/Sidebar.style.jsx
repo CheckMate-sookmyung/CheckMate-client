@@ -7,8 +7,14 @@ export const Sidebar = styled.div`
   flex-shrink: 0;
   border-right: 1px solid #ebedf0;
   padding-top: 35px;
-  min-width: 200px;
+  min-width: 180px;
   height: 100%;
+`;
+
+export const MenuWrapper = styled.div`
+  border-bottom: 1px solid #ebedf0;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
 `;
 
 export const MenuItem = styled.div`
