@@ -33,6 +33,22 @@ const router = createBrowserRouter([
         path: '/event/detail',
         element: <EventDetailPage />,
       },
+      {
+        path: '/event/dashboard',
+        element: <DashboardPage />,
+      },
+      {
+        path: '/event/dashboard/info',
+        element: <DashboardInfo />,
+      },
+      {
+        path: '/event/dashboard/email',
+        element: <DashboardEmail />,
+      },
+      {
+        path: '/event/dashboard/attendee',
+        element: <DashboardAttendee />,
+      },
     ],
   },
   {
@@ -42,22 +58,6 @@ const router = createBrowserRouter([
   {
     path: '/attendance/sign',
     element: <AttendanceSignPage />,
-  },
-  {
-    path: '/event/dashboard',
-    element: <DashboardPage />,
-  },
-  {
-    path: '/event/dashboard/info',
-    element: <DashboardInfo />,
-  },
-  {
-    path: '/event/dashboard/email',
-    element: <DashboardEmail />,
-  },
-  {
-    path: '/event/dashboard/attendee',
-    element: <DashboardAttendee />,
   },
 ]);
 

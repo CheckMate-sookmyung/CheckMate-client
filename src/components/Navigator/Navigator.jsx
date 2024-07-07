@@ -30,7 +30,7 @@ export default function Navigator() {
             </S.Menu>
           </S.MenuContainer>
         </S.LogoMenuWrapper>
-        <S.Profile>프로필 이미지</S.Profile>
+        <S.Profile>프로필</S.Profile>
       </S.NavWrapper>
     </S.Wrapper>
   );
