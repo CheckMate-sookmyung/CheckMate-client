@@ -13,6 +13,8 @@ const EventDetailPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log('USER_ID:', USER_ID);
+    console.log('EVENT_ID:', EVENT_ID);
     const fetchData = async () => {
       try {
         const response = await axiosInstance.get(

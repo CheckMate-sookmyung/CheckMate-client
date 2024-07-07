@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const DashboardAttendee = styled.div`
   flex-grow: 1;
+  margin-bottom: 100px;
   background: #f2f3f5;
   padding: 50px 70px;
   min-height: 100%;
