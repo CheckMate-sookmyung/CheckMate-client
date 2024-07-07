@@ -1,9 +1,11 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const DashboardPage = styled.div`
-  background: rgb(242, 243, 245);
+  flex-grow: 1;
+  background: #f2f3f5;
+  padding: 50px 70px;
   min-height: 100%;
-  padding: 76px;
 `;
 
 // 행사 타이틀 + 버튼
@@ -21,7 +23,7 @@ const Button = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #d2d7db;
+  background: #c4c9cd;
   border-radius: 8px;
   border: none;
   padding: 9px 18px;
@@ -37,12 +39,17 @@ const Button = styled.div`
     transform 0.3s ease;
 
   &:hover {
-    background: #c4c9cd;
+    background: #b0b6bb;
   }
 `;
 
 export const EditBtn = Button;
 export const DeleteBtn = Button;
+
+export const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+`;
 
 export const EventTitle = styled.h1`
   font-weight: bold;

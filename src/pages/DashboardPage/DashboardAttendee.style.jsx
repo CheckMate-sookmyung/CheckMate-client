@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 
 export const DashboardAttendee = styled.div`
+  flex-grow: 1;
   background: #f2f3f5;
+  padding: 50px 70px;
   min-height: 100%;
-  padding: 76px;
 `;
 
 // 행사 타이틀 + 버튼
@@ -34,7 +35,7 @@ export const Btn = styled.div`
   font-weight: 600;
   font-size: 14px;
   height: 30px;
-  color: #2253ff;
+  color: #4e75ff;
   cursor: pointer;
   transition:
     background 0.3s ease,
@@ -42,7 +43,7 @@ export const Btn = styled.div`
     transform 0.3s ease;
 
   &:hover {
-    background: #4d74ff;
+    background: #4e75ff;
     color: #fff;
   }
 `;

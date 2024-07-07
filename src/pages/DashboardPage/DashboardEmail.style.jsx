@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 
 export const DashboardEmail = styled.div`
-  padding: 76px;
+  flex-grow: 1;
+  background: #f2f3f5;
+  padding: 50px 70px;
+  height: 100%;
 `;
 
 // 행사 타이틀 + 버튼
@@ -53,7 +56,7 @@ export const TabContainer = styled.div`
 
 export const Tab = styled.button`
   padding: 10px 20px;
-  border: 1px solid ${(props) => (props.active ? '#4e75ff' : '#4e75ff')};
+  border: 1px solid ${(props) => (props.active ? '#4e75ff' : 'none')};
   border-radius: 5px;
   background-color: ${(props) => (props.active ? '#4e75ff;' : '#fff')};
   color: ${(props) => (props.active ? 'white' : 'black')};

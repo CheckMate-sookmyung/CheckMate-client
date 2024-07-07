@@ -4,23 +4,27 @@ import { BREAKPOINTS } from '../../styles';
 
 export const Wrapper = styled.div`
   display: flex;
-  justify-content: center;
-`;
-
-export const NavWrapper = styled.nav`
-  display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 100px;
-  height: 80px;
+  border-bottom: 1px solid #ebedf0;
+  padding: 0 40px;
+  height: 58px;
   width: 100%;
   max-width: 1200px;
   background-color: white;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    padding: 0 20px;
+  }
 `;
 
 export const LogoMenuWrapper = styled.div`
   display: flex;
   gap: 50px;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    gap: 20px;
+  }
 `;
 
 export const Logo = styled.h1`
@@ -29,7 +33,7 @@ export const Logo = styled.h1`
   cursor: pointer;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    font-size: 16px;
+    font-size: 20px;
   }
 `;
 
@@ -43,7 +47,7 @@ export const MenuContainer = styled.div`
     gap: 20px;
   }
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    gap: 10px;
+    /* gap: 10px; */
   }
 `;
 
@@ -61,21 +65,21 @@ export const StyledNavLink = styled(NavLink)`
   font-weight: 700;
   color: black;
   &.active {
-    color: #1f5fa9;
+    color: #4e75ff;
   }
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    font-size: 12px;
+    /* font-size: 12px; */
   }
 `;
 
 export const Profile = styled.button`
   width: 86px;
   height: 30px;
-  border: 2px solid #1f5fa9;
+  border: 2px solid #4e75ff;
   border-radius: 4px;
   background-color: white;
-  color: #1f5fa9;
+  color: #4e75ff;
   cursor: pointer;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
