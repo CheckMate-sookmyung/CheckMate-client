@@ -28,7 +28,11 @@ const menuItems = [
     text: '이메일 예약 발송',
   },
   { to: '/event/dashboard/attendee', icon: <FaUsers />, text: '참석자 관리' },
-  { to: '/event/dashboard/attendee', icon: <FaChartPie />, text: '통계' },
+  {
+    to: '/event/dashboard/attendee',
+    icon: <FaChartPie />,
+    text: '통계 (오픈예정)',
+  },
 ];
 
 function MenuItem({ to, icon, text, active }) {
@@ -36,7 +40,7 @@ function MenuItem({ to, icon, text, active }) {
     <S.MenuItem className={active ? 'active' : ''}>
       <S.Icon>{icon}</S.Icon>
       <S.Text>
-        <Link to={to}>{text}</Link>
+        <S.StyledLink to={to}>{text}</S.StyledLink>
       </S.Text>
     </S.MenuItem>
   );
@@ -62,6 +66,14 @@ export default function Sidebar() {
           <MenuItem key={item.to} {...item} />
         ))}
       </S.MenuWrapper>
+
+      <S.ButtonWrapper>
+        <S.AttendanceBtn>
+          <S.StyledLink to="/attendance/student-id">
+            출석화면으로 이동
+          </S.StyledLink>
+        </S.AttendanceBtn>
+      </S.ButtonWrapper>
     </S.Sidebar>
   );
 }
