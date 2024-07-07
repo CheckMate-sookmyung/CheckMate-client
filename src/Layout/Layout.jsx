@@ -8,7 +8,7 @@ export default function Layout() {
     <StyledLayout>
       <Navigator />
       <Content>
-        <Sidebar />
+        {/* <Sidebar /> */}
         <Outlet />
       </Content>
     </StyledLayout>

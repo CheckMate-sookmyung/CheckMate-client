@@ -64,7 +64,7 @@ export const ButtonWrapper = styled.div`
 export const AttendanceBtn = styled.button`
   border-radius: 8px;
   border: none;
-  background: #2253ff;
+  background: #007bff;
   padding: 13px 22px;
   height: 42px;
   min-width: 99px;
@@ -76,6 +76,6 @@ export const AttendanceBtn = styled.button`
   color: #ffffff;
 
   &:hover {
-    background: #4e75ff;
+    background: #2b90fc;
   }
 `;

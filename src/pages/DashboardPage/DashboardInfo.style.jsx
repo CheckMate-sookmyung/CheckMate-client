@@ -3,7 +3,10 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 export const DashboardInfo = styled.div`
-  padding: 76px;
+  flex-grow: 1;
+  background: #f2f3f5;
+  padding: 50px 70px;
+  min-height: 100%;
 `;
 
 // 행사 타이틀 + 버튼

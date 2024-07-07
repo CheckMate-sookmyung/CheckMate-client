@@ -3,7 +3,6 @@ import * as S from './Sidebar.style';
 import {
   FaTableList,
   FaCircleInfo,
-  FaImages,
   FaEnvelope,
   FaUsers,
   FaChartPie,
@@ -18,18 +17,13 @@ const menuItems = [
     text: '행사 기본 정보',
   },
   {
-    to: '#',
-    icon: <FaImages />,
-    text: '행사 상세와 사진X',
-  },
-  {
     to: '/event/dashboard/email',
     icon: <FaEnvelope />,
     text: '이메일 예약 발송',
   },
-  { to: '#', icon: <FaUsers />, text: '참석자 관리X' },
+  { to: '/event/dashboard/attendee', icon: <FaUsers />, text: '참석자 관리' },
   {
-    to: '/event/dashboard/attendee',
+    to: '#',
     icon: <FaChartPie />,
     text: '통계 (오픈예정)',
   },
@@ -52,7 +46,7 @@ export default function Sidebar() {
   return (
     <S.Sidebar>
       <S.MenuWrapper>
-        {menuItems.slice(0, 3).map((item) => (
+        {menuItems.slice(0, 2).map((item) => (
           <MenuItem
             key={item.to}
             {...item}
@@ -62,7 +56,7 @@ export default function Sidebar() {
       </S.MenuWrapper>
 
       <S.MenuWrapper>
-        {menuItems.slice(3, 5).map((item) => (
+        {menuItems.slice(2, 4).map((item) => (
           <MenuItem
             key={item.to}
             {...item}
@@ -72,7 +66,7 @@ export default function Sidebar() {
       </S.MenuWrapper>
 
       <S.MenuWrapper>
-        {menuItems.slice(5).map((item) => (
+        {menuItems.slice(4).map((item) => (
           <MenuItem
             key={item.to}
             {...item}

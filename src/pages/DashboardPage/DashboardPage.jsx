@@ -32,7 +32,9 @@ export default function DashboardPage() {
       <S.TopContainer>
         <S.EventTitle>체크메이트 해커톤</S.EventTitle>
         <S.ButtonContainer>
-          <S.EditBtn>행사 수정</S.EditBtn>
+          <S.StyledLink to="/event/dashboard/info">
+            <S.EditBtn>행사 수정</S.EditBtn>
+          </S.StyledLink>
           <S.DeleteBtn>행사 삭제</S.DeleteBtn>
         </S.ButtonContainer>
       </S.TopContainer>

@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 
 export const DashboardAttendee = styled.div`
+  flex-grow: 1;
   background: #f2f3f5;
+  padding: 50px 70px;
   min-height: 100%;
-  padding: 76px;
 `;
 
 // 행사 타이틀 + 버튼
