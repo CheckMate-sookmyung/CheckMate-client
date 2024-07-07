@@ -6,11 +6,11 @@ export const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 0 auto;
   border-bottom: 1px solid #ebedf0;
   padding: 0 40px;
   height: 58px;
   width: 100%;
-  max-width: 1200px;
   background-color: white;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
