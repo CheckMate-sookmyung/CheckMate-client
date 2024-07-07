@@ -21,19 +21,21 @@ export const MenuWrapper = styled.div`
 export const MenuItem = styled.div`
   display: flex;
   align-items: center;
-  padding: 10px 20px;
-  margin: 5px 0;
+  padding: 12px 20px;
   font-size: 14px;
   color: #333;
   cursor: pointer;
   box-sizing: border-box;
+  transition:
+    border-left 0.3s ease,
+    color 0.3s ease;
 
   &:hover {
     border-left: 5px solid #007bff;
   }
 
   &.active {
-    color: #4e75ff;
+    color: #007bff;
     font-weight: bold;
   }
 `;
