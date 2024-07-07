@@ -27,15 +27,20 @@ export default function DashboardAttendee() {
 
       <S.TabContainer>
         <S.TabBar>
-          {[1, 2, 3].map((tab) => (
-            <S.Tab
-              key={tab}
-              active={activeTab === tab}
-              onClick={() => setActiveTab(tab)}
-            >
-              {tab}회
-            </S.Tab>
-          ))}
+          {[1, 2, 3].map((tab, index) => {
+            const dates = ['7/12', '7/13', '7/14'];
+            return (
+              <S.Tab
+                key={tab}
+                active={activeTab === tab}
+                onClick={() => {
+                  setActiveTab(tab);
+                }}
+              >
+                {tab}회 ({dates[index]})
+              </S.Tab>
+            );
+          })}
         </S.TabBar>
 
         <S.EditBtn>출석 여부 수정</S.EditBtn>
