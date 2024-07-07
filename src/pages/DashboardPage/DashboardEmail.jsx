@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import * as S from './DashboardEmail.style';
+import { Sidebar } from '../../components/Navigator';
+import PageLayout from '../../Layout/PageLayout';
 
 const DEFAULT_EMAIL_CONTENT = `안녕하세요, [기관명]입니다.
 
@@ -18,70 +20,72 @@ export default function DashboardEmail() {
   const [activeTab, setActiveTab] = useState(1);
 
   return (
-    <S.DashboardEmail>
-      <S.TopContainer>
-        <S.Title>이메일 예약 발송</S.Title>
-        <S.ButtonContainer>
-          <S.SaveBtn>저장하기</S.SaveBtn>
-        </S.ButtonContainer>
-      </S.TopContainer>
+    <PageLayout sideBar={<Sidebar />}>
+      <S.DashboardEmail>
+        <S.TopContainer>
+          <S.Title>이메일 예약 발송</S.Title>
+          <S.ButtonContainer>
+            <S.SaveBtn>저장하기</S.SaveBtn>
+          </S.ButtonContainer>
+        </S.TopContainer>
 
-      <S.TabContainer>
-        {[1, 2, 3].map((tab) => (
-          <S.Tab
-            key={tab}
-            active={activeTab === tab}
-            onClick={() => setActiveTab(tab)}
-          >
-            {tab}회
-          </S.Tab>
-        ))}
-      </S.TabContainer>
+        <S.TabContainer>
+          {[1, 2, 3].map((tab) => (
+            <S.Tab
+              key={tab}
+              active={activeTab === tab}
+              onClick={() => setActiveTab(tab)}
+            >
+              {tab}회
+            </S.Tab>
+          ))}
+        </S.TabContainer>
 
-      <S.ContentContainer>
-        {activeTab === 1 && (
-          <>
-            <S.Content>
-              <S.OptionContainer>
-                <S.Option onClick={() => setSelectedOption('option1')}>
-                  <S.RadioButton
-                    type="radio"
-                    name="platform"
-                    value="option1"
-                    checked={selectedOption === 'option1'}
-                    readOnly
-                  />
-                  <S.OptionTitle>전체 발송</S.OptionTitle>
-                </S.Option>
-                <S.Option onClick={() => setSelectedOption('option2')}>
-                  <S.RadioButton
-                    type="radio"
-                    name="platform"
-                    value="option2"
-                    checked={selectedOption === 'option2'}
-                    readOnly
-                  />
-                  <S.OptionTitle>일부 발송</S.OptionTitle>
-                </S.Option>
-              </S.OptionContainer>
-            </S.Content>
-            <S.Content>
-              <S.ContentTitle>내용</S.ContentTitle>
-              <S.ContentDesc>발송될 이메일 본문 내용입니다.</S.ContentDesc>
-              <S.ContentInput defaultValue={DEFAULT_EMAIL_CONTENT} />
-            </S.Content>
-            {selectedOption === 'option2' && (
+        <S.ContentContainer>
+          {activeTab === 1 && (
+            <>
               <S.Content>
-                <S.ContentTitle>수신자</S.ContentTitle>
-                <S.ContentDesc>
-                  이메일을 발송할 수신자를 체크해주세요
-                </S.ContentDesc>
-                <S.ContentInput />
+                <S.OptionContainer>
+                  <S.Option onClick={() => setSelectedOption('option1')}>
+                    <S.RadioButton
+                      type="radio"
+                      name="platform"
+                      value="option1"
+                      checked={selectedOption === 'option1'}
+                      readOnly
+                    />
+                    <S.OptionTitle>전체 발송</S.OptionTitle>
+                  </S.Option>
+                  <S.Option onClick={() => setSelectedOption('option2')}>
+                    <S.RadioButton
+                      type="radio"
+                      name="platform"
+                      value="option2"
+                      checked={selectedOption === 'option2'}
+                      readOnly
+                    />
+                    <S.OptionTitle>일부 발송</S.OptionTitle>
+                  </S.Option>
+                </S.OptionContainer>
               </S.Content>
-            )}{' '}
-          </>
-        )}
-      </S.ContentContainer>
-    </S.DashboardEmail>
+              <S.Content>
+                <S.ContentTitle>내용</S.ContentTitle>
+                <S.ContentDesc>발송될 이메일 본문 내용입니다.</S.ContentDesc>
+                <S.ContentInput defaultValue={DEFAULT_EMAIL_CONTENT} />
+              </S.Content>
+              {selectedOption === 'option2' && (
+                <S.Content>
+                  <S.ContentTitle>수신자</S.ContentTitle>
+                  <S.ContentDesc>
+                    이메일을 발송할 수신자를 체크해주세요
+                  </S.ContentDesc>
+                  <S.ContentInput />
+                </S.Content>
+              )}{' '}
+            </>
+          )}
+        </S.ContentContainer>
+      </S.DashboardEmail>{' '}
+    </PageLayout>
   );
 }

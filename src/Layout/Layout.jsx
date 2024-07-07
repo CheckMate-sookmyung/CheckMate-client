@@ -7,10 +7,7 @@ export default function Layout() {
   return (
     <StyledLayout>
       <Navigator />
-      <Content>
-        {/* <Sidebar /> */}
-        <Outlet />
-      </Content>
+      <Outlet />
     </StyledLayout>
   );
 }
@@ -18,9 +15,4 @@ export default function Layout() {
 const StyledLayout = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const Content = styled.div`
-  display: flex;
-  flex-direction: row;
 `;
