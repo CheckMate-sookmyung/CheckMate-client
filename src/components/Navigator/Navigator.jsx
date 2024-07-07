@@ -12,26 +12,24 @@ export default function Navigator() {
 
   return (
     <S.Wrapper>
-      <S.NavWrapper>
-        <S.LogoMenuWrapper>
-          <S.Logo onClick={clickedLogo}>체크메이트</S.Logo>
-          <S.MenuContainer>
-            {/* <S.Menu>체크메이트 해커톤</S.Menu> */}
-            {/* <S.Menu>|</S.Menu> */}
-            <S.Menu>
-              <S.StyledNavLink to="/register" activeClassName="active">
-                행사 등록
-              </S.StyledNavLink>
-            </S.Menu>
-            <S.Menu>
-              <S.StyledNavLink to="/event" activeClassName="active">
-                행사 목록
-              </S.StyledNavLink>
-            </S.Menu>
-          </S.MenuContainer>
-        </S.LogoMenuWrapper>
-        <S.Profile>프로필</S.Profile>
-      </S.NavWrapper>
+      <S.LogoMenuWrapper>
+        <S.Logo onClick={clickedLogo}>체크메이트</S.Logo>
+        <S.MenuContainer>
+          {/* <S.Menu>체크메이트 해커톤</S.Menu> */}
+          {/* <S.Menu>|</S.Menu> */}
+          <S.Menu>
+            <S.StyledNavLink to="/register" activeClassName="active">
+              행사 등록
+            </S.StyledNavLink>
+          </S.Menu>
+          <S.Menu>
+            <S.StyledNavLink to="/event" activeClassName="active">
+              행사 목록
+            </S.StyledNavLink>
+          </S.Menu>
+        </S.MenuContainer>
+      </S.LogoMenuWrapper>
+      <S.Profile>프로필</S.Profile>
     </S.Wrapper>
   );
 }

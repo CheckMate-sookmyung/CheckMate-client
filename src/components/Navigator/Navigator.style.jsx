@@ -4,14 +4,10 @@ import { BREAKPOINTS } from '../../styles';
 
 export const Wrapper = styled.div`
   display: flex;
-  justify-content: center;
-`;
-
-export const NavWrapper = styled.nav`
-  display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 100px;
+  border-bottom: 1px solid #ebedf0;
+  padding: 0 40px;
   height: 58px;
   width: 100%;
   max-width: 1200px;

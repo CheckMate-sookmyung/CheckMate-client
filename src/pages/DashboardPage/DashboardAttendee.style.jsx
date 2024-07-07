@@ -34,7 +34,7 @@ export const Btn = styled.div`
   font-weight: 600;
   font-size: 14px;
   height: 30px;
-  color: #2253ff;
+  color: #4e75ff;
   cursor: pointer;
   transition:
     background 0.3s ease,
@@ -42,7 +42,7 @@ export const Btn = styled.div`
     transform 0.3s ease;
 
   &:hover {
-    background: #4d74ff;
+    background: #4e75ff;
     color: #fff;
   }
 `;
