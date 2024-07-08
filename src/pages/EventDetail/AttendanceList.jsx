@@ -7,6 +7,7 @@ import { FaXmark } from 'react-icons/fa6';
 import { FaPhone } from 'react-icons/fa6';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '../../recoil/atoms/state';
+import { BREAKPOINTS } from '../../styles';
 
 // 출석 리스트 컴포넌트
 const AttendanceList = () => {
@@ -93,7 +94,7 @@ const StudentListItem = ({ student }) => {
           </StudentInfoDetail>
         </StudentInfo>
         <TelAnchor href={`tel:${student.phoneNumber}`}>
-          <FaPhone />
+          <FaPhone style={{ color: '#0075FF' }} />
         </TelAnchor>
       </StudentInfoBox>
     </StudentListWrapper>
@@ -127,8 +128,8 @@ const StudentListWrapper = styled.div`
   /* background-color: ${({ attendance }) =>
     attendance === '출석 완료' ? '#f0fff0' : '#fff0f0'}; */
 
-  @media (max-width: 768px) {
-    width: 80%;
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    width: 100%;
   }
 `;
 

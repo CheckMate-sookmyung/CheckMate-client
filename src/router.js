@@ -1,26 +1,53 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { AttendanceStudentIdPage, AttendanceSignPage } from './pages';
+import {
+  AttendanceStudentIdPage,
+  AttendanceSignPage,
+  DashboardPage,
+  DashboardInfo,
+  DashboardEmail,
+  DashboardAttendee,
+} from './pages';
 import Register from './pages/registerPage/register';
-import CurrentEvent from './pages/EventList/currentEvent';
-import EventDetail from './pages/EventDetail/eventDetail';
+import EventList from './pages/EventList/EventList';
 import Layout from './Layout/Layout';
+import EventDetailPage from './pages/EventDetail/EventDetailPage';
+import Home from './pages/Home/Home';
 
 const router = createBrowserRouter([
   {
-    path: '/',
     element: <Layout />,
     children: [
+      {
+        path: '/',
+        element: <Home />,
+      },
       {
         path: '/register',
         element: <Register />,
       },
       {
-        path: '/currentevent',
-        element: <CurrentEvent />,
+        path: '/event',
+        element: <EventList />,
       },
       {
-        path: '/currentevent/eventdetail',
-        element: <EventDetail />,
+        path: '/event/detail',
+        element: <EventDetailPage />,
+      },
+      {
+        path: '/event/dashboard',
+        element: <DashboardPage />,
+      },
+      {
+        path: '/event/dashboard/info',
+        element: <DashboardInfo />,
+      },
+      {
+        path: '/event/dashboard/email',
+        element: <DashboardEmail />,
+      },
+      {
+        path: '/event/dashboard/attendee',
+        element: <DashboardAttendee />,
       },
     ],
   },

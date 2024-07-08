@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import DateCalendar from '../../components/Calendar/DateCalendar';
 import TimeCalendar from '../../components/Calendar/TimeCalendar';
 import { IoMdAdd } from 'react-icons/io';
+import { BREAKPOINTS } from '../../styles';
 
 export default function Register() {
   const navigate = useNavigate();
@@ -144,7 +145,7 @@ export default function Register() {
   return (
     <BackgroundPage title={'행사 등록'}>
       <form>
-        <div style={{ padding: '50px 10px' }}>
+        <div style={{ padding: '50px 20px' }}>
           <FormItem>
             <PrimaryText>행사 유형</PrimaryText>
             <TwoBoxWrapper>
@@ -154,19 +155,18 @@ export default function Register() {
                 defaultChecked
                 onClick={getEventType}
               />
-              <MailAgree>대면 행사</MailAgree>
+              <EventType>대면 행사</EventType>
               <RadioButton
                 name="eventType"
                 value="ONLINE"
                 onClick={getEventType}
               />
-              <MailAgree>비대면 행사</MailAgree>
+              <EventType>비대면 행사</EventType>
             </TwoBoxWrapper>
           </FormItem>
           <FormItem>
             <PrimaryText>행사명</PrimaryText>
             <PrimaryInput
-              width="600px"
               placeholder="행사명을 입력하세요."
               value={eventTitle}
               onChange={(e) => setEventTitle(e.target.value)}
@@ -202,9 +202,6 @@ export default function Register() {
                 <NewDateItem key={index}>
                   {event.eventDate} : {event.eventStartTime} ~{' '}
                   {event.eventEndTime}
-                  <AddDate>
-                    <IoMdAdd />
-                  </AddDate>
                   <br />
                 </NewDateItem>
               ))}
@@ -250,7 +247,7 @@ export default function Register() {
           <FormItem>
             <PrimaryText>이수 기준</PrimaryText>
             <PrimaryInput
-              width="600px"
+              // width="600px"
               placeholder="행사 이수 기준 횟수를 입력해주세요. (1, 2, 3 ... )"
               value={minCompletionTimes}
               onChange={(e) => setCompletionTimes(e.target.value)}
@@ -298,12 +295,13 @@ const PrimaryText = styled(PrimaryText2)`
 `;
 
 const PrimaryInput = styled.input`
-  width: ${(props) => props.width};
+  width: 70%;
   height: 56px;
   border-radius: 4px;
   border: 1px solid #ccc;
-  padding-left: 15px;
+  padding-left: 14px;
   box-sizing: border-box;
+  font-size: 14px;
   white-space: pre-wrap;
   &::placeholder {
     color: gray;
@@ -311,24 +309,33 @@ const PrimaryInput = styled.input`
   &:focus {
     outline: none;
   }
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    width: 100%;
+  }
 `;
 
 const PrimaryInput2 = styled(PrimaryInput)`
-  width: 400px;
+  width: 50%;
   height: 56px;
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    width: 70%;
+  }
 `;
 
 const ContentInput = styled.textarea`
-  width: 50rem;
+  width: 100%;
   height: 260px;
   border-radius: 4px;
   border: 1px solid #ccc;
-  padding-top: 15px;
-  padding-left: 15px;
-  resize: none;
+  padding: 16px;
+  box-sizing: border-box;
+  color: gray;
   &:focus {
     outline: none;
   }
+  font-size: 14px;
 `;
 
 const ChoiceButton1 = styled.input.attrs({ type: 'file', id: 'ChoiceButton1' })`
@@ -347,8 +354,8 @@ const ChoiceButtonLabel1 = styled.label.attrs({ htmlFor: 'ChoiceButton1' })`
   border-radius: 4px;
   border: 1px solid #1f5fa9;
   background-color: white;
-  width: 181px;
-  height: 50px;
+  width: 20%;
+  height: 56px;
   cursor: pointer;
 `;
 
@@ -360,15 +367,22 @@ const ChoiceButtonLabel2 = styled.label.attrs({ htmlFor: 'ChoiceButton2' })`
   border-radius: 4px;
   border: 1px solid #1f5fa9;
   background-color: white;
-  width: 181px;
-  height: 50px;
+  width: 20%;
+  height: 56px;
+
   cursor: pointer;
 `;
 
 const TwoBoxWrapper = styled.div`
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 14px;
+
+  & > :last-child {
+    gap: 0;
+  }
 `;
 
 const AddDate = styled.button`
@@ -394,8 +408,9 @@ const Preview = styled.button`
 const GrayBox = styled.div`
   display: flex;
   align-items: center;
-  width: 800px;
+  width: 100%;
   height: auto;
+  padding: 16px;
   background-color: #f9f9f9;
 `;
 
@@ -407,11 +422,14 @@ const MailCheck = styled.input.attrs({ type: 'checkbox' })`
   cursor: pointer;
 `;
 
-const RadioButton = styled(MailCheck).attrs({ type: 'radio' })``;
+const RadioButton = styled(MailCheck).attrs({ type: 'radio' })`
+  margin: 0;
+`;
 
-const MailAgree = styled.p`
+const EventType = styled.p`
   font-weight: 500;
   font-size: 16px;
+  padding-right: 20px;
 `;
 
 const BlueButton = styled.button`

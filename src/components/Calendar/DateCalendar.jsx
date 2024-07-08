@@ -2,151 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
 import { FaRegCalendarAlt } from 'react-icons/fa';
 import { IoClose } from 'react-icons/io5';
-import styled from 'styled-components';
-
-const InputWrapper = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-  &:focus {
-    outline: none;
-  }
-`;
-
-const PrimaryInput = styled.input`
-  width: 250px;
-  height: 56px;
-  padding: 0 20px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  &:focus {
-    outline: none;
-  }
-  cursor: pointer;
-`;
-
-const ModalContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  width: 600px;
-  height: auto;
-  transform: translate(0, 55%);
-  background-color: white;
-  border-radius: 8px;
-  z-index: 100;
-  box-shadow: 0px 0px 20px #e0e0e0;
-`;
-
-const ModalHeader = styled.div`
-  display: flex;
-  width: 100%;
-  height: 60px;
-  text-align: center;
-  font-size: 18px;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  background: linear-gradient(to right, #0a2c83, #1f5fa9);
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-`;
-
-const Title = styled.p`
-  margin: 0;
-`;
-
-const CloseButton = styled.button`
-  display: flex;
-  position: absolute;
-  cursor: pointer;
-  font-size: 25px;
-  right: 15px;
-`;
-
-const IconContainer = styled.div`
-  display: flex;
-  position: absolute;
-  cursor: pointer;
-  font-size: 25px;
-  right: 10px;
-`;
-
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 50px;
-  padding: 10px;
-`;
-
-const Arrow = styled.div`
-  cursor: pointer;
-  font-size: 1.5rem;
-`;
-
-const MonthYear = styled.div`
-  font-size: 1.25rem;
-`;
-
-const DaysRow = styled.div`
-  display: flex;
-  justify-content: space-around;
-  padding: 10px 0;
-  border-bottom: 1px solid #ccc;
-`;
-
-const Day = styled.div`
-  width: 40px;
-  text-align: center;
-  font-weight: bold;
-`;
-
-const Body = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-`;
-
-const Cell = styled.div`
-  width: calc(100% / 7);
-  text-align: center;
-  height: 70px;
-  cursor: pointer;
-  background: ${(props) => (props.selected ? '#0a2c83' : 'transparent')};
-  color: ${(props) =>
-    props.disabled ? '#ccc' : props.selected ? 'white' : 'black'};
-  pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
-  border-radius: 50px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &:hover {
-    background: ${(props) => (props.disabled ? 'transparent' : '#0a2c83')};
-    border-radius: 30px;
-    color: white;
-  }
-`;
-
-const Footer = styled.div`
-  display: flex;
-  justify-content: center;
-  padding: 10px 0;
-  border-top: 1px solid #ccc;
-`;
-
-const SaveButton = styled.button`
-  display: flex;
-  width: 570px;
-  height: 48px;
-  color: white;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(to right, #0a2c83, #1f5fa9);
-  cursor: pointer;
-  border-radius: 4px;
-`;
+import * as S from './DateCalendarStyle';
 
 const getDaysInMonth = (year, month) => {
   return new Array(31)
@@ -162,11 +18,15 @@ const DateCalendar = ({ onSaveDate }) => {
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
 
   const today = new Date();
-  today.setHours(0, 0, 0, 0); // Reset time to midnight for comparison
-  const todayString = today.toISOString().substring(0, 10);
+  today.setHours(0, 0, 0, 0);
 
   const handleDateClick = (date) => {
     setSelectedDate(date);
+    const formattedDate = `${date.getFullYear()}-${String(
+      date.getMonth() + 1,
+    ).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+    onSaveDate(formattedDate);
+    setShowModal(false);
   };
 
   const handlePrevMonth = () => {
@@ -183,14 +43,6 @@ const DateCalendar = ({ onSaveDate }) => {
     }
   };
 
-  const handleSave = () => {
-    const formattedDate = `${selectedDate.getFullYear()}-${String(
-      selectedDate.getMonth() + 1,
-    ).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
-    onSaveDate(formattedDate);
-    setShowModal(false);
-  };
-
   const days = getDaysInMonth(currentYear, currentMonth);
 
   useEffect(() => {
@@ -198,8 +50,6 @@ const DateCalendar = ({ onSaveDate }) => {
       const formattedDate = `${selectedDate.getFullYear()}-${String(
         selectedDate.getMonth() + 1,
       ).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
-      document.getElementById('select-date').innerText =
-        `${formattedDate} 날짜 선택`;
     }
   }, [selectedDate]);
 
@@ -215,22 +65,22 @@ const DateCalendar = ({ onSaveDate }) => {
 
     for (let i = firstDayOfMonth - 1; i >= 0; i--) {
       cells.push(
-        <Cell key={`prev-${i}`} disabled>
+        <S.Cell key={`prev-${i}`} disabled>
           {daysInPreviousMonth - i}
-        </Cell>,
+        </S.Cell>,
       );
     }
 
     days.forEach((date) => {
       cells.push(
-        <Cell
+        <S.Cell
           key={date}
           disabled={date < today}
           selected={selectedDate && date.getTime() === selectedDate.getTime()}
           onClick={() => handleDateClick(date)}
         >
           {date.getDate()}
-        </Cell>,
+        </S.Cell>,
       );
     });
 
@@ -238,9 +88,9 @@ const DateCalendar = ({ onSaveDate }) => {
 
     for (let i = 1; i <= remainingCells; i++) {
       cells.push(
-        <Cell key={`next-${i}`} disabled>
+        <S.Cell key={`next-${i}`} disabled>
           {i}
-        </Cell>,
+        </S.Cell>,
       );
     }
 
@@ -249,8 +99,8 @@ const DateCalendar = ({ onSaveDate }) => {
 
   return (
     <>
-      <InputWrapper onClick={() => setShowModal(true)}>
-        <PrimaryInput
+      <S.InputWrapper onClick={() => setShowModal(true)}>
+        <S.PrimaryInput
           value={
             selectedDate
               ? `${selectedDate.getFullYear()}-${String(
@@ -264,41 +114,36 @@ const DateCalendar = ({ onSaveDate }) => {
           placeholder={selectedDate ? selectedDate : '행사 날짜 선택'}
           readOnly
         />
-        <IconContainer>
+        <S.IconContainer>
           <FaRegCalendarAlt style={{ fontSize: '18px' }} />
-        </IconContainer>
-      </InputWrapper>
+        </S.IconContainer>
+      </S.InputWrapper>
       {showModal && (
-        <ModalContent>
-          <ModalHeader>
-            <Title>행사 일정 선택</Title>
-            <CloseButton onClick={() => setShowModal(false)}>
+        <S.ModalContent>
+          <S.ModalHeader>
+            <S.Title>행사 일정 선택</S.Title>
+            <S.CloseButton onClick={() => setShowModal(false)}>
               <IoClose style={{ color: 'white' }} />
-            </CloseButton>
-          </ModalHeader>
-          <Header>
-            <Arrow onClick={handlePrevMonth}>
+            </S.CloseButton>
+          </S.ModalHeader>
+          <S.Header>
+            <S.Arrow onClick={handlePrevMonth}>
               <BiChevronLeft style={{ fontSize: '28px' }} />
-            </Arrow>
-            <MonthYear>
+            </S.Arrow>
+            <S.MonthYear>
               {currentYear}년 {currentMonth}월
-            </MonthYear>
-            <Arrow onClick={handleNextMonth}>
+            </S.MonthYear>
+            <S.Arrow onClick={handleNextMonth}>
               <BiChevronRight style={{ fontSize: '28px' }} />
-            </Arrow>
-          </Header>
-          <DaysRow>
+            </S.Arrow>
+          </S.Header>
+          <S.DaysRow>
             {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-              <Day key={day}>{day}</Day>
+              <S.Day key={day}>{day}</S.Day>
             ))}
-          </DaysRow>
-          <Body>{renderCalendarCells()}</Body>
-          <Footer>
-            <SaveButton id="select-date" onClick={handleSave}>
-              날짜 선택
-            </SaveButton>
-          </Footer>
-        </ModalContent>
+          </S.DaysRow>
+          <S.Body>{renderCalendarCells()}</S.Body>
+        </S.ModalContent>
       )}
     </>
   );
