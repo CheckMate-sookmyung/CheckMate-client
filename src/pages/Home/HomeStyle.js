@@ -14,12 +14,12 @@ export const SubContainer = styled.div`
   display: flex;
   width: 90%;
   height: 60%;
-  margin: 5rem;
+  margin: 5rem 0;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
     flex-direction: column;
     align-items: center;
-    margin: 2rem;
+    margin: 2rem 0;
   }
 `;
 
@@ -34,7 +34,7 @@ export const Contents = styled.div`
 `;
 
 export const MainFont = styled.p`
-  color: black;
+  color: #333;
   text-align: right;
   font-size: 60px;
   font-weight: 700;
@@ -47,7 +47,7 @@ export const MainFont = styled.p`
 `;
 
 export const SubFont = styled.p`
-  color: black;
+  color: #555;
   text-align: right;
   font-size: 24px;
   font-weight: 500;
@@ -68,7 +68,7 @@ export const MainNumber = styled.p`
   }
 `;
 
-export const ButtonWrapper = styled.button`
+export const ButtonWrapper = styled.div`
   display: flex;
   justify-content: right;
   margin: 20px 40px;
@@ -81,11 +81,11 @@ export const ButtonWrapper = styled.button`
 `;
 
 export const BlueButton = styled.button`
-  width: 181px;
+  width: 200px;
   height: 56px;
   font-size: 18px;
   font-weight: bold;
-  border-radius: 10px;
+  border-radius: 30px;
   color: #ffffff;
   background-color: #1e90ff;
   border: none;
@@ -106,4 +106,63 @@ export const BlueButton = styled.button`
   }
 `;
 
-//누적알림
+export const NumberWrapper = styled.div`
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    transform: translateY(-3px);
+  }
+`;
+
+export const PreviewMsg = styled.p`
+  font-weight: 500;
+  font-size: 18px;
+  margin: 20px 0 10px;
+`;
+
+export const PreviewInfo = styled.ul`
+  width: 100%;
+  list-style: none;
+  padding: 0;
+  gap: 16px;
+  display: flex;
+  flex-direction: column;
+`;
+
+export const InfoKey = styled.span`
+  display: block;
+  font-weight: 500;
+  font-size: 12px;
+  margin-bottom: 4px;
+`;
+
+export const InfoValue = styled.span`
+  font-size: 14px;
+`;
+
+export const HiddenInput = styled.input`
+  display: none;
+`;
+
+export const StyledLabel = styled.label`
+  width: 300px;
+  height: 150px;
+  margin: auto;
+  background-color: #fff;
+  border-radius: 5px;
+  border: 3px dashed #eee;
+  padding: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover {
+    border-color: #111;
+  }
+
+  &.active {
+    background-color: #efeef3;
+    border-color: #111;
+  }
+`;
