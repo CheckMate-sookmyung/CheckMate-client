@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import { BlueButton90, TabButton90 } from '../../components/Button';
 import * as S from './DashboardEmail.style';
-import { BlueButton90 } from '../../components/Button';
 import { Sidebar } from '../../components/Navigator';
 import PageLayout from '../../Layout/PageLayout';
 
@@ -32,13 +32,13 @@ export default function DashboardEmail() {
 
         <S.TabContainer>
           {[1, 2, 3].map((tab) => (
-            <S.Tab
+            <TabButton90
               key={tab}
               active={activeTab === tab}
               onClick={() => setActiveTab(tab)}
             >
               {tab}회
-            </S.Tab>
+            </TabButton90>
           ))}
         </S.TabContainer>
 

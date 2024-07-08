@@ -1,9 +1,12 @@
 import styled from 'styled-components';
 
 export const DashboardEmail = styled.div`
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
   border-left: 1px solid #ebedf0;
   padding: 50px;
+  gap: 10px;
 `;
 
 // 행사 타이틀 + 버튼
@@ -11,7 +14,7 @@ export const TopContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 `;
 
 export const Title = styled.h1`
@@ -27,25 +30,7 @@ export const ButtonContainer = styled.div`
 export const TabContainer = styled.div`
   display: flex;
   gap: 10px;
-  margin: 20px 0;
-`;
-
-export const Tab = styled.button`
-  padding: 10px 20px;
-  border: 1px solid #4e75ff;
-  border-radius: 5px;
-  background-color: ${(props) => (props.active ? '#4e75ff;' : '#fff')};
-  color: ${(props) => (props.active ? '#fff' : '#000')};
-  cursor: pointer;
-  transition:
-    background 0.3s ease,
-    box-shadow 0.3s ease,
-    transform 0.3s ease;
-
-  &:hover {
-    background-color: #4e75ff;
-    color: #fff;
-  }
+  /* margin: 20px 0; */
 `;
 
 // 행사 정보
