@@ -3,6 +3,7 @@ import * as S from './DashboardInfo.style';
 import { FaAngleRight } from 'react-icons/fa6';
 import { format } from 'date-fns';
 import { Sidebar } from '../../components/Navigator';
+import { BlueButton90 } from '../../components/Button';
 import PageLayout from '../../Layout/PageLayout';
 
 export default function DashboardInfo() {
@@ -17,7 +18,7 @@ export default function DashboardInfo() {
         <S.TopContainer>
           <S.Title>행사 기본 정보</S.Title>
           <S.ButtonContainer>
-            <S.SaveBtn>저장하기</S.SaveBtn>
+            <BlueButton90>저장하기</BlueButton90>
           </S.ButtonContainer>
         </S.TopContainer>
 

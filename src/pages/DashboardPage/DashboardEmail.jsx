@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { BlueButton90, TabButton90 } from '../../components/Button';
 import * as S from './DashboardEmail.style';
 import { Sidebar } from '../../components/Navigator';
 import PageLayout from '../../Layout/PageLayout';
@@ -25,19 +26,19 @@ export default function DashboardEmail() {
         <S.TopContainer>
           <S.Title>이메일 예약 발송</S.Title>
           <S.ButtonContainer>
-            <S.SaveBtn>저장하기</S.SaveBtn>
+            <BlueButton90>저장하기</BlueButton90>
           </S.ButtonContainer>
         </S.TopContainer>
 
         <S.TabContainer>
           {[1, 2, 3].map((tab) => (
-            <S.Tab
+            <TabButton90
               key={tab}
               active={activeTab === tab}
               onClick={() => setActiveTab(tab)}
             >
               {tab}회
-            </S.Tab>
+            </TabButton90>
           ))}
         </S.TabContainer>
 

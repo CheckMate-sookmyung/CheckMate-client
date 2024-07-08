@@ -3,6 +3,7 @@ import { FaRotate, FaUsers } from 'react-icons/fa6';
 import React, { useState, useEffect } from 'react';
 import PageLayout from '../../Layout/PageLayout';
 import { Sidebar } from '../../components/Navigator';
+import { GrayButton90 } from '../../components/Button';
 
 export default function DashboardPage() {
   const [copyMessage, setCopyMessage] = useState('');
@@ -36,9 +37,9 @@ export default function DashboardPage() {
           <S.EventTitle>체크메이트 해커톤</S.EventTitle>
           <S.ButtonContainer>
             <S.StyledLink to="/event/dashboard/info">
-              <S.EditBtn>행사 수정</S.EditBtn>
+              <GrayButton90>행사 수정</GrayButton90>
             </S.StyledLink>
-            <S.DeleteBtn>행사 삭제</S.DeleteBtn>
+            <GrayButton90>행사 삭제</GrayButton90>
           </S.ButtonContainer>
         </S.TopContainer>
         {/* 행사 정보 */}

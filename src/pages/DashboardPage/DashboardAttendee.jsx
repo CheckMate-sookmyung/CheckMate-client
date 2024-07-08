@@ -3,6 +3,7 @@ import * as S from './DashboardAttendee.style';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 import { Sidebar } from '../../components/Navigator';
 import PageLayout from '../../Layout/PageLayout';
+import { TabButton90 } from '../../components';
 
 export default function DashboardAttendee() {
   const [activeTab, setActiveTab] = useState(1);
@@ -14,8 +15,26 @@ export default function DashboardAttendee() {
           <S.Title>참석자 관리</S.Title>
           <S.ButtonContainer>
             <S.DownBtn>참석자 데이터 다운로드</S.DownBtn>
+            <S.EditMode>출석 여부 수정</S.EditMode>
           </S.ButtonContainer>
         </S.TopContainer>
+
+        <S.TabContainer>
+          {[1, 2, 3].map((tab, index) => {
+            const dates = ['7/12', '7/13', '7/14'];
+            return (
+              <TabButton90
+                key={tab}
+                active={activeTab === tab}
+                onClick={() => {
+                  setActiveTab(tab);
+                }}
+              >
+                {tab}회 ({dates[index]})
+              </TabButton90>
+            );
+          })}
+        </S.TabContainer>
 
         <S.SearchContainer>
           <S.SearchBoxWrapper>
@@ -27,27 +46,6 @@ export default function DashboardAttendee() {
             <S.Attendee>0 / 30</S.Attendee>
           </S.RateWrapper>
         </S.SearchContainer>
-
-        <S.TabContainer>
-          <S.TabBar>
-            {[1, 2, 3].map((tab, index) => {
-              const dates = ['7/12', '7/13', '7/14'];
-              return (
-                <S.Tab
-                  key={tab}
-                  active={activeTab === tab}
-                  onClick={() => {
-                    setActiveTab(tab);
-                  }}
-                >
-                  {tab}회 ({dates[index]})
-                </S.Tab>
-              );
-            })}
-          </S.TabBar>
-
-          <S.EditMode>출석 여부 수정</S.EditMode>
-        </S.TabContainer>
 
         {/* 참석자 리스트 */}
         <S.TableContainer>
