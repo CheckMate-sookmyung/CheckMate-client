@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import * as S from './DashboardEmail.style';
+import { BlueButton90 } from '../../components/Button';
 import { Sidebar } from '../../components/Navigator';
 import PageLayout from '../../Layout/PageLayout';
 
@@ -25,7 +26,7 @@ export default function DashboardEmail() {
         <S.TopContainer>
           <S.Title>이메일 예약 발송</S.Title>
           <S.ButtonContainer>
-            <S.SaveBtn>저장하기</S.SaveBtn>
+            <BlueButton90>저장하기</BlueButton90>
           </S.ButtonContainer>
         </S.TopContainer>
 
