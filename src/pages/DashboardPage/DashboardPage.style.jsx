@@ -19,33 +19,6 @@ export const ButtonContainer = styled.div`
   gap: 10px;
 `;
 
-const Button = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #c4c9cd;
-  border-radius: 8px;
-  border: none;
-  padding: 9px 18px;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 17px;
-  height: 40px;
-  color: #ffffff;
-  cursor: pointer;
-  transition:
-    background 0.3s ease,
-    box-shadow 0.3s ease,
-    transform 0.3s ease;
-
-  &:hover {
-    background: #b0b6bb;
-  }
-`;
-
-export const EditBtn = Button;
-export const DeleteBtn = Button;
-
 export const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
