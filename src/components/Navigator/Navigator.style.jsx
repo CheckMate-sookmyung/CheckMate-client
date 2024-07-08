@@ -13,7 +13,7 @@ export const Wrapper = styled.div`
   background-color: white;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    padding: 0 20px;
+    padding: 12px 20px;
   }
 `;
 
