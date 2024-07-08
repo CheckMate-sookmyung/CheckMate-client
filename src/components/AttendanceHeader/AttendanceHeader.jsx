@@ -6,7 +6,7 @@ import { FiX } from 'react-icons/fi';
 const AttendanceHeader = ({ eventTitle, activeStep }) => {
   return (
     <S.Container>
-      <S.CloseIconAnchor href="/currentevent">
+      <S.CloseIconAnchor href="/event">
         <FiX color="#fff" />
       </S.CloseIconAnchor>
       <S.ContentContainer>
