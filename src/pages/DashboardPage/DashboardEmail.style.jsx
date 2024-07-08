@@ -2,9 +2,8 @@ import styled from 'styled-components';
 
 export const DashboardEmail = styled.div`
   flex-grow: 1;
-  background: #f2f3f5;
-  padding: 50px 70px;
-  height: 100%;
+  border-left: 1px solid #ebedf0;
+  padding: 50px;
 `;
 
 // 행사 타이틀 + 버튼
@@ -56,15 +55,19 @@ export const TabContainer = styled.div`
 
 export const Tab = styled.button`
   padding: 10px 20px;
-  border: 1px solid ${(props) => (props.active ? '#4e75ff' : 'none')};
+  border: 1px solid #4e75ff;
   border-radius: 5px;
   background-color: ${(props) => (props.active ? '#4e75ff;' : '#fff')};
-  color: ${(props) => (props.active ? 'white' : 'black')};
+  color: ${(props) => (props.active ? '#fff' : '#000')};
   cursor: pointer;
+  transition:
+    background 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
 
   &:hover {
     background-color: #4e75ff;
-    color: white;
+    color: #fff;
   }
 `;
 

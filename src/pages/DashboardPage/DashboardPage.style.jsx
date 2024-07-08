@@ -4,8 +4,8 @@ import styled from 'styled-components';
 export const DashboardPage = styled.div`
   flex-grow: 1;
   background: #f2f3f5;
-  padding: 50px 70px;
-  min-height: 100%;
+  border-left: 1px solid #ebedf0;
+  padding: 50px;
 `;
 
 // 행사 타이틀 + 버튼

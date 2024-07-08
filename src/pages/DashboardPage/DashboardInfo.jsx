@@ -143,8 +143,20 @@ export default function DashboardInfo() {
               </S.Option>
             </S.OptionContainer>
           </S.Content>
+
+          <S.Content>
+            <S.ContentTitle>행사 설명</S.ContentTitle>
+            <S.Textarea />
+          </S.Content>
+
+          <S.Content>
+            <S.ContentTitle>행사 커버 이미지</S.ContentTitle>
+            <S.ContentDesc>
+              사진은 PNG, JPG, JPEG 파일만 가능 합니다.
+            </S.ContentDesc>
+          </S.Content>
         </S.ContentContainer>
-      </S.DashboardInfo>{' '}
+      </S.DashboardInfo>
     </PageLayout>
   );
 }

@@ -81,11 +81,11 @@ export default function DashboardEmail() {
                   </S.ContentDesc>
                   <S.ContentInput />
                 </S.Content>
-              )}{' '}
+              )}
             </>
           )}
         </S.ContentContainer>
-      </S.DashboardEmail>{' '}
+      </S.DashboardEmail>
     </PageLayout>
   );
 }

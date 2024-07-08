@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Outlet } from 'react-router-dom';
-import { Navigator, Sidebar } from '../components/Navigator';
+import { Navigator } from '../components/Navigator';
 
 export default function Layout() {
   return (
@@ -15,4 +15,5 @@ export default function Layout() {
 const StyledLayout = styled.div`
   display: flex;
   flex-direction: column;
+  height: 100%;
 `;

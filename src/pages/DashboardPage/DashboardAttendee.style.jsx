@@ -2,9 +2,8 @@ import styled from 'styled-components';
 
 export const DashboardAttendee = styled.div`
   flex-grow: 1;
-  background: #f2f3f5;
-  padding: 50px 70px;
-  min-height: 100%;
+  border-left: 1px solid #ebedf0;
+  padding: 50px;
 `;
 
 // 행사 타이틀 + 버튼
@@ -24,13 +23,12 @@ export const ButtonContainer = styled.div`
   display: flex;
 `;
 
-export const Btn = styled.div`
+export const DownBtn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #ffffff;
   border-radius: 8px;
-  border: 1px solid #ebedf0;
+  border: 1px solid #dddee0;
   padding: 9px 18px;
   font-weight: 600;
   font-size: 14px;
@@ -60,7 +58,7 @@ export const SearchBoxWrapper = styled.div`
   align-items: center;
   gap: 10px;
   border-radius: 8px;
-  background-color: #ffffff;
+  background-color: #f2f3f5;
   padding: 0 14px;
   width: 420px;
   height: 40px;
@@ -83,7 +81,7 @@ export const RateWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #ffffff;
+  background-color: #f2f3f5;
   border-radius: 8px;
   padding: 0 30px;
   min-width: 180px;
@@ -120,7 +118,7 @@ export const TabBar = styled.div`
 
 export const Tab = styled.button`
   padding: 10px 20px;
-  border: 1px solid ${(props) => (props.active ? '#4e75ff' : '#fff')};
+  border: 1px solid #4e75ff;
   border-radius: 5px;
   background-color: ${(props) => (props.active ? '#4e75ff;' : '#fff')};
   color: ${(props) => (props.active ? '#fff' : '#000')};
@@ -133,7 +131,7 @@ export const Tab = styled.button`
 `;
 
 // 출석 수정 버튼
-export const EditBtn = styled.button`
+export const EditMode = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -142,14 +140,21 @@ export const EditBtn = styled.button`
   padding: 0 10px;
   margin: 0 5px;
   border-radius: 7px;
-  border: 1px solid #ebedf0;
+  border: 1px solid #dddee0;
   cursor: pointer;
   min-width: 84px;
   font-size: 12px;
   font-weight: 600;
+  color: #4e75ff;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
 
   &:hover {
-    border: 1px solid #4e75ff;
+    background-color: #4e75ff;
+    color: #fff;
   }
 `;
 
@@ -163,7 +168,7 @@ export const TableTitle = styled.div`
   justify-content: center;
   width: 100%;
   position: relative;
-  background-color: white;
+  background-color: #f2f3f5;
   border-radius: 10px;
 `;
 
@@ -173,6 +178,8 @@ export const Table = styled.table`
 `;
 
 export const TableHeader = styled.th`
+  justify-content: center;
+  align-items: center;
   padding: 16px;
   text-align: left;
   font-size: 12px;
@@ -181,12 +188,6 @@ export const TableHeader = styled.th`
   border-bottom: 1px solid #ccc;
   white-space: nowrap;
   overflow: hidden;
-
-  &:first-child {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
 `;
 
 export const TableData = styled.td`
