@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import * as S from './HomeStyle';
 import HomeCarousel from './HomeCarousel/HomeCarousel.jsx';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -19,31 +19,23 @@ const Home = () => {
       <S.Container>
         <S.SubContainer>
           <S.Contents>
-            <S.MainFont>
-              내 손 안의
-              <br />
-              간편한 행사
-              <br />
-              관리 도우미
-            </S.MainFont>
+            <S.MainFont>CheckMate</S.MainFont>
             <S.SubFont>
-              당신의 손 안에서 행사의 시작부터 끝을 관리해보세요.
-              <br />
-              체크메이트는 출석, 관리, 통계까지 <br />
-              모든 것을 해결할 수 있도록 모든 것을 제공합니다.
+              쉽고 간편한 행사 관리 시스템을 손안에서 이용하세요.
+              <br /> 언제 어디서나 행사를 효율적으로 관리할 수 있습니다.
             </S.SubFont>
             <S.ButtonWrapper>
-              <S.BlueButton onClick={handleRegister}>
-                행사 등록하러 가기
-              </S.BlueButton>
-              <S.BlueButton onClick={handleEventList}>
-                행사 보러 가기
-              </S.BlueButton>
+              <Link to="/register">
+                <S.BlueButton>행사 등록하러 가기</S.BlueButton>
+              </Link>
+              <Link to="/event">
+                <S.BlueButton>행사 보러 가기</S.BlueButton>
+              </Link>
             </S.ButtonWrapper>
           </S.Contents>
           <S.Contents>{/* <HomeCarousel /> */}</S.Contents>
         </S.SubContainer>
-        <S.SubContainer>
+        {/* <S.SubContainer>
           <S.Contents style={{ width: '100%', textAlign: 'center' }}>
             <S.MainFont style={{ textAlign: 'center' }}>
               얼마나 많은 사람이 행사를 즐겼나요?
@@ -51,7 +43,7 @@ const Home = () => {
             <S.SubContainer
               style={{
                 justifyContent: 'space-evenly',
-                margin: '5rem auto',
+                margin: '0 auto',
               }}
             >
               <S.NumberWrapper>
@@ -68,7 +60,7 @@ const Home = () => {
               </S.NumberWrapper>
             </S.SubContainer>
           </S.Contents>
-        </S.SubContainer>
+        </S.SubContainer> */}
       </S.Container>
     </>
   );

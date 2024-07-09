@@ -4,14 +4,21 @@ import { BREAKPOINTS } from '../../styles';
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-items: center;
+  justify-content: center;
   align-items: center;
   height: 100vh;
   width: 100vw;
+  background-image: url('https://d3k7a7bp6955qn.cloudfront.net/softeer-bootcamp-web/static/images/schedule_bg.png');
+  background-size: cover;
+  background-position: center;
+  background-color: rgba(255, 255, 255, 0.5);
+  background-blend-mode: lighten;
 `;
 
 export const SubContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 90%;
   height: 60%;
   margin: 5rem 0;
@@ -26,7 +33,7 @@ export const SubContainer = styled.div`
 export const Contents = styled.div`
   display: flex;
   flex-direction: column;
-  width: 50%;
+  /* width: 50%; */
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
     width: 100%;
@@ -47,12 +54,17 @@ export const MainFont = styled.p`
 `;
 
 export const SubFont = styled.p`
-  color: #555;
+  line-height: 140%;
+  padding: 20px 40px;
+  word-break: keep-all;
   text-align: right;
   font-size: 24px;
   font-weight: 500;
-  line-height: 130%;
-  padding: 0 40px;
+  color: #333333;
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    font-size: 22px;
+  }
 `;
 
 export const MainNumber = styled.p`

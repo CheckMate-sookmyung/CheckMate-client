@@ -83,3 +83,4 @@ const EventCard = ({ id, title, poster, startDate, endDate }) => {
     </S.CardWrapper>
   );
 };
+
