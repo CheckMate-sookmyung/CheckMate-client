@@ -7,7 +7,7 @@ import {
   DashboardEmail,
   DashboardAttendee,
 } from './pages';
-import Register from './pages/registerPage/register';
+import Register from './pages/RegisterPage/RegisterPage';
 import EventList from './pages/EventList/EventList';
 import Layout from './Layout/Layout';
 import EventDetailPage from './pages/EventDetail/EventDetailPage';
