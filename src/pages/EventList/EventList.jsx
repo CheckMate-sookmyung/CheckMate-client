@@ -25,10 +25,18 @@ export default function CurrentEvent() {
             id: event.eventId,
             title: event.eventTitle,
             poster: event.eventImage,
-            startDate,
-            endDate,
+            startDate: new Date(startDate),
+            endDate: endDate ? new Date(endDate) : null,
           };
         });
+
+        // 최신 날짜 순으로 정렬
+        parsedEvents.sort((a, b) => {
+          const dateA = a.endDate || a.startDate;
+          const dateB = b.endDate || b.startDate;
+          return dateB - dateA;
+        });
+
         setEvents(parsedEvents);
       } catch (error) {
         console.error(error);
@@ -45,8 +53,8 @@ export default function CurrentEvent() {
             key={event.id}
             id={event.id}
             title={event.title}
-            startDate={event.startDate}
-            endDate={event.endDate}
+            startDate={event.startDate.toLocaleDateString()}
+            endDate={event.endDate ? event.endDate.toLocaleDateString() : null}
             poster={event.poster}
           />
         ))}
