@@ -1,5 +1,6 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { BREAKPOINTS } from '../../styles';
+import { Link } from 'react-router-dom';
 
 export const Background = styled.div`
   display: flex;
@@ -148,24 +149,40 @@ export const EventContentDescription = styled.p`
   font-size: 16px;
 `;
 
-export const SendButtonWrapper = styled.div`
+export const ButtonWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  margin: 20px 0px;
+  margin: 20px 0;
+  gap: 6px;
 `;
 
-export const SendButton = styled.button`
+const buttonStyle = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 40px;
   border: none;
   border-radius: 4px;
-  background-color: #0075ff;
-  color: white;
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+`;
+
+export const SendButton = styled.button`
+  ${buttonStyle};
+  background-color: #0075ff;
+  color: white;
 
   &:hover {
     background-color: #0167cd;
   }
+`;
+
+export const GotoAttendancePageLink = styled(Link)`
+  ${buttonStyle}
+  background-color: #ffffff;
+  color: #383636;
+  border: 2px solid #0075ff;
 `;

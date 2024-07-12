@@ -17,10 +17,10 @@ const EventDetailPage = () => {
     console.log('EVENT_ID:', EVENT_ID);
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get(
+        const { data } = await axiosInstance.get(
           `/api/v1/events/${USER_ID}/${EVENT_ID}`,
         );
-        const eventData = response.data;
+        const eventData = data.eventSchedules[1];
         if (eventData) {
           const parsedEvent = {
             title: eventData.eventTitle,
@@ -100,9 +100,12 @@ const EventDetailPage = () => {
                 {parsedEvents.detail}
               </S.EventContentDescription>
             </S.EventContent>
-            <S.SendButtonWrapper>
+            <S.ButtonWrapper>
               <S.SendButton onClick={handleEmail}>출석 명단 전송</S.SendButton>
-            </S.SendButtonWrapper>
+              <S.GotoAttendancePageLink to="/attendance/student-id">
+                출석체크 페이지로 이동
+              </S.GotoAttendancePageLink>
+            </S.ButtonWrapper>
           </S.EventSection>
         </S.DetailWrapper>
       )}
