@@ -17,4 +17,4 @@ export const USER_ID = 500;
 
 export const EVENT_ID = 2255;
 
-export const EVENT_DATE = '2024-07-12';
+export const EVENT_DATE = '2024-07-13';
