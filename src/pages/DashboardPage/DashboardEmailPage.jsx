@@ -7,6 +7,7 @@ import { USER_ID } from '../../constants';
 import { axiosInstance } from '../../axios';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '../../recoil/atoms/state';
+import Switch from 'react-switch';
 
 const DEFAULT_EMAIL_CONTENT = `안녕하세요, [기관명]입니다.
 
@@ -26,6 +27,7 @@ export default function DashboardEmailPage() {
   const [sessions, setSessions] = useState([]);
   const [sessionAttendees, setSessionAttendees] = useState({});
   const EVENT_ID = useRecoilValue(eventIDState);
+  const [emailReminder, setEmailReminder] = useState(false);
 
   useEffect(() => {
     const fetchSessions = async () => {
@@ -64,6 +66,10 @@ export default function DashboardEmailPage() {
     );
   };
 
+  const handleToggleChange = (checked) => {
+    setEmailReminder(checked);
+  };
+
   return (
     <PageLayout sideBar={<Sidebar />}>
       <S.DashboardEmail>
@@ -87,44 +93,28 @@ export default function DashboardEmailPage() {
         </S.TabContainer>
 
         <S.ContentContainer>
-          <S.Content>
-            <S.OptionContainer>
-              <S.Option onClick={() => setSelectedOption('option1')}>
-                <S.RadioButton
-                  type="radio"
-                  name="platform"
-                  value="option1"
-                  checked={selectedOption === 'option1'}
-                  readOnly
-                />
-                <S.OptionTitle>전체 발송</S.OptionTitle>
-              </S.Option>
-              <S.Option onClick={() => setSelectedOption('option2')}>
-                <S.RadioButton
-                  type="radio"
-                  name="platform"
-                  value="option2"
-                  checked={selectedOption === 'option2'}
-                  readOnly
-                />
-                <S.OptionTitle>일부 발송</S.OptionTitle>
-              </S.Option>
-            </S.OptionContainer>
-          </S.Content>
+          <S.ToggleWrapper>
+            <S.Content>
+              <S.ContentTitle>1시간 전 이메일 발송 여부</S.ContentTitle>
+              <S.ContentDesc>
+                이벤트 시작 1시간 전에 이메일을 발송합니다.
+              </S.ContentDesc>
+            </S.Content>
+            <Switch
+              onChange={handleToggleChange}
+              checked={emailReminder}
+              offColor="#888"
+              onColor="#0075FF"
+              checkedIcon={false}
+              uncheckedIcon={false}
+            />
+          </S.ToggleWrapper>
+
           <S.Content>
             <S.ContentTitle>내용</S.ContentTitle>
             <S.ContentDesc>발송될 이메일 본문 내용입니다.</S.ContentDesc>
             <S.ContentInput defaultValue={DEFAULT_EMAIL_CONTENT} />
           </S.Content>
-          {selectedOption === 'option2' && (
-            <S.Content>
-              <S.ContentTitle>수신자</S.ContentTitle>
-              <S.ContentDesc>
-                이메일을 발송할 수신자를 체크해주세요
-              </S.ContentDesc>
-              <S.ContentInput />
-            </S.Content>
-          )}
         </S.ContentContainer>
       </S.DashboardEmail>
     </PageLayout>

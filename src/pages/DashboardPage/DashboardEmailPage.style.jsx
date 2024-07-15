@@ -38,12 +38,19 @@ export const ContentContainer = styled.div`
   flex-direction: column;
   width: 500px;
   gap: 32px;
+  padding-top: 20px;
 `;
 
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+`;
+
+export const ToggleWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export const ContentTitle = styled.h2`
@@ -65,46 +72,4 @@ export const ContentInput = styled.textarea`
   padding: 10px;
   font-size: 14px;
   overflow: auto;
-`;
-
-// 이메일 옵션 (라디오 버튼)
-export const OptionContainer = styled.div`
-  display: flex;
-  gap: 10px;
-`;
-
-export const Option = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 7px;
-  gap: 10px;
-  border-radius: 6px;
-  transition: background-color 0.3s ease;
-`;
-
-export const RadioButton = styled.input`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #ffffff;
-  margin: 0;
-  border: 1px solid #2253ff;
-  border-radius: 50px;
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-
-  &:checked::before {
-    width: 10px;
-    height: 10px;
-    background: #4e75ff;
-    border-radius: 50%;
-  }
-`;
-
-export const OptionTitle = styled.p`
-  font-size: 16px;
-  font-weight: bold;
-  line-height: 19px;
-  color: #2c2d2e;
 `;
