@@ -4,5 +4,5 @@ export {
   DashboardPage,
   DashboardInfo,
   DashboardEmail,
-  DashboardAttendee,
+  DashboardAttendeePage,
 } from './DashboardPage';

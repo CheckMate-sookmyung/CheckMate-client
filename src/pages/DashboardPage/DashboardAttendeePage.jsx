@@ -1,4 +1,4 @@
-import * as S from './DashboardAttendee.style';
+import * as S from './DashboardAttendeePage.style';
 import PageLayout from '../../Layout/PageLayout';
 import { useState, useEffect } from 'react';
 import { FaMagnifyingGlass, FaSortUp, FaSortDown } from 'react-icons/fa6';
@@ -9,7 +9,7 @@ import { useRecoilValue } from 'recoil';
 import { eventIDState } from '../../recoil/atoms/state';
 import { TabButton90 } from '../../components';
 
-export default function DashboardAttendee() {
+export default function DashboardAttendeePage() {
   const [activeTab, setActiveTab] = useState(1);
   const [editMode, setEditMode] = useState(false);
   const [attendees, setAttendees] = useState([]);
