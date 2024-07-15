@@ -16,7 +16,7 @@ export default function DashboardAttendee() {
       year: '2',
       phone: '010-1234-5678',
       email: 'hong@example.com',
-      attendance: '출석',
+      attendance: true,
     },
     {
       department: '전자공학과',
@@ -25,7 +25,7 @@ export default function DashboardAttendee() {
       year: '3',
       phone: '010-2345-6789',
       email: 'lee@example.com',
-      attendance: '결석',
+      attendance: false,
     },
     {
       department: '기계공학과',
@@ -34,13 +34,13 @@ export default function DashboardAttendee() {
       year: '4',
       phone: '010-3456-7890',
       email: 'park@example.com',
-      attendance: '출석',
+      attendance: true,
     },
   ]);
 
   const handleAttendanceChange = (index, value) => {
     const updatedAttendees = [...attendees];
-    updatedAttendees[index].attendance = value;
+    updatedAttendees[index].attendance = value === '출석';
     setAttendees(updatedAttendees);
   };
 
@@ -120,7 +120,7 @@ export default function DashboardAttendee() {
                     <S.TableData>
                       {editMode ? (
                         <select
-                          value={data.attendance}
+                          value={data.attendance ? '출석' : '결석'}
                           onChange={(e) =>
                             handleAttendanceChange(index, e.target.value)
                           }
@@ -128,8 +128,10 @@ export default function DashboardAttendee() {
                           <option value="출석">출석</option>
                           <option value="결석">결석</option>
                         </select>
+                      ) : data.attendance ? (
+                        '출석'
                       ) : (
-                        data.attendance
+                        '결석'
                       )}
                     </S.TableData>
                   </tr>
