@@ -3,7 +3,7 @@ import PageLayout from '../../Layout/PageLayout';
 import { useState } from 'react';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 import { Sidebar } from '../../components/Navigator';
-import { TabButton90 } from '../../components';
+import SessionDateTab from './SessionDateTab';
 
 export default function DashboardAttendee() {
   const [activeTab, setActiveTab] = useState(1);
@@ -38,6 +38,12 @@ export default function DashboardAttendee() {
     },
   ]);
 
+  const [sessions, setSessions] = useState([
+    { tab: 1, date: '7/12' },
+    { tab: 2, date: '7/13' },
+    { tab: 3, date: '7/14' },
+  ]);
+
   const handleAttendanceChange = (index, value) => {
     const updatedAttendees = [...attendees];
     updatedAttendees[index].attendance = value === '출석';
@@ -56,20 +62,15 @@ export default function DashboardAttendee() {
 
         <S.TabEditWrapper>
           <S.TabContainer>
-            {[1, 2, 3].map((tab, index) => {
-              const dates = ['7/12', '7/13', '7/14'];
-              return (
-                <TabButton90
-                  key={tab}
-                  active={activeTab === tab}
-                  onClick={() => {
-                    setActiveTab(tab);
-                  }}
-                >
-                  {tab}회 ({dates[index]})
-                </TabButton90>
-              );
-            })}
+            {sessions.map((session) => (
+              <SessionDateTab
+                key={session.tab}
+                tab={session.tab}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                date={session.date}
+              />
+            ))}
           </S.TabContainer>
           <S.EditMode onClick={() => setEditMode(!editMode)} active={editMode}>
             {editMode ? '수정 완료하기' : '출석 여부 수정하기'}
