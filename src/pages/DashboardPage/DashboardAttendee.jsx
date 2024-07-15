@@ -3,11 +3,11 @@ import PageLayout from '../../Layout/PageLayout';
 import { useState, useEffect } from 'react';
 import { FaMagnifyingGlass, FaSortUp, FaSortDown } from 'react-icons/fa6';
 import { Sidebar } from '../../components/Navigator';
-import SessionDateTab from './SessionDateTab';
 import { axiosInstance } from '../../axios';
 import { USER_ID } from '../../constants';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '../../recoil/atoms/state';
+import { TabButton90 } from '../../components';
 
 export default function DashboardAttendee() {
   const [activeTab, setActiveTab] = useState(1);
@@ -48,6 +48,19 @@ export default function DashboardAttendee() {
 
     fetchData();
   }, [EVENT_ID]);
+
+  // 회차 선택
+  const SessionDateTab = ({ tab, activeTab, setActiveTab, date }) => {
+    return (
+      <TabButton90
+        key={tab}
+        active={activeTab === tab}
+        onClick={() => setActiveTab(tab)}
+      >
+        {tab}회 ({date})
+      </TabButton90>
+    );
+  };
 
   // 참석여부 수정
   const handleAttendanceChange = (index, value) => {
