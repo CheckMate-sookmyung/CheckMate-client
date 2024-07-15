@@ -15,26 +15,28 @@ export default function DashboardAttendee() {
           <S.Title>참석자 관리</S.Title>
           <S.ButtonContainer>
             <S.DownBtn>참석자 데이터 다운로드</S.DownBtn>
-            <S.EditMode>출석 여부 수정</S.EditMode>
           </S.ButtonContainer>
         </S.TopContainer>
 
-        <S.TabContainer>
-          {[1, 2, 3].map((tab, index) => {
-            const dates = ['7/12', '7/13', '7/14'];
-            return (
-              <TabButton90
-                key={tab}
-                active={activeTab === tab}
-                onClick={() => {
-                  setActiveTab(tab);
-                }}
-              >
-                {tab}회 ({dates[index]})
-              </TabButton90>
-            );
-          })}
-        </S.TabContainer>
+        <S.TabEditWrapper>
+          <S.TabContainer>
+            {[1, 2, 3].map((tab, index) => {
+              const dates = ['7/12', '7/13', '7/14'];
+              return (
+                <TabButton90
+                  key={tab}
+                  active={activeTab === tab}
+                  onClick={() => {
+                    setActiveTab(tab);
+                  }}
+                >
+                  {tab}회 ({dates[index]})
+                </TabButton90>
+              );
+            })}
+          </S.TabContainer>
+          <S.EditMode>출석 여부 수정</S.EditMode>
+        </S.TabEditWrapper>
 
         <S.SearchContainer>
           <S.SearchBoxWrapper>

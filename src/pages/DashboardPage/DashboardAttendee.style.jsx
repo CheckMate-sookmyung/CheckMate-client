@@ -106,14 +106,18 @@ export const Attendee = styled.p`
   color: #000000;
 `;
 
-// 탭정보
+// 탭정보 및 출석 수정 모드
+export const TabEditWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 
 export const TabContainer = styled.div`
   display: flex;
   gap: 10px;
 `;
 
-// 출석 수정 버튼
 export const EditMode = styled.button`
   display: flex;
   justify-content: center;
