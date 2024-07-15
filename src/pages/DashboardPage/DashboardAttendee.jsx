@@ -8,7 +8,6 @@ import { axiosInstance } from '../../axios';
 import { USER_ID } from '../../constants';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '../../recoil/atoms/state';
-import StudentListItem from './AttendanceList';
 
 export default function DashboardAttendee() {
   const [activeTab, setActiveTab] = useState(1);
@@ -33,9 +32,9 @@ export default function DashboardAttendee() {
             major: student.major,
             name: student.studentName,
             number: student.studentNumber,
-            year: student.year,
-            phoneNumber: student.phoneNumber,
-            email: student.email,
+            year: student.year || '-',
+            phoneNumber: student.phoneNumber || '-',
+            email: student.email || '-',
             attendance: student.attendance,
           }),
         );
