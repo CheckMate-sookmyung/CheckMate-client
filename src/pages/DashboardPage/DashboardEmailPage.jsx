@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import PageLayout from '../../Layout/PageLayout';
 import { BlueButton90, TabButton90 } from '../../components/Button';
 import * as S from './DashboardEmailPage.style';
 import { Sidebar } from '../../components/Navigator';
-import PageLayout from '../../Layout/PageLayout';
+import { USER_ID } from '../../constants';
 import { axiosInstance } from '../../axios';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '../../recoil/atoms/state';
@@ -12,7 +13,6 @@ const DEFAULT_EMAIL_CONTENT = `안녕하세요, [기관명]입니다.
 [행사명]을 진행합니다.
 
 - 일시: YYYY-MM-DD HH:MM
-- 대상: 전체/일부
 - 내용: 이메일 본문 내용
 
 기타 궁금한 사항이 있으시면 언제든지 문의해주시기 바랍니다.
@@ -24,12 +24,15 @@ export default function DashboardEmailPage() {
   const [activeTab, setActiveTab] = useState(1);
   const [attendees, setAttendees] = useState([]);
   const [sessions, setSessions] = useState([]);
+  const [sessionAttendees, setSessionAttendees] = useState({});
   const EVENT_ID = useRecoilValue(eventIDState);
 
   useEffect(() => {
     const fetchSessions = async () => {
       try {
-        const response = await axiosInstance.get(`/api/v1/events/${EVENT_ID}`);
+        const response = await axiosInstance.get(
+          `/api/v1/events/${USER_ID}/${EVENT_ID}`,
+        );
         const parsedSessions = response.data.eventSchedules.map(
           (schedule, index) => ({
             tab: index + 1,
@@ -38,17 +41,13 @@ export default function DashboardEmailPage() {
           }),
         );
         setSessions(parsedSessions);
-
-        if (parsedSessions.length > 0) {
-          setAttendees(parsedSessions[0].attendanceListResponseDtos);
-        }
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchSessions();
-  }, [EVENT_ID]);
+  }, [EVENT_ID, USER_ID]);
 
   const SessionDateTab = ({ tab, activeTab, setActiveTab, date }) => {
     return (
@@ -57,9 +56,7 @@ export default function DashboardEmailPage() {
         active={activeTab === tab}
         onClick={() => {
           setActiveTab(tab);
-          setAttendees(
-            sessions.find((session) => session.tab === tab).attendanceList,
-          );
+          setAttendees(sessionAttendees[tab]);
         }}
       >
         {tab}회 ({date})

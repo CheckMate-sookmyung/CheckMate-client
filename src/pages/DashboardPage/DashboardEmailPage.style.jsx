@@ -30,7 +30,6 @@ export const ButtonContainer = styled.div`
 export const TabContainer = styled.div`
   display: flex;
   gap: 10px;
-  /* margin: 20px 0; */
 `;
 
 // 행사 정보
@@ -59,7 +58,7 @@ export const ContentDesc = styled.p`
 
 export const ContentInput = styled.textarea`
   width: 100%;
-  height: 150px;
+  height: 300px;
   box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 5px;
