@@ -1,7 +1,7 @@
 import * as S from './DashboardAttendee.style';
 import PageLayout from '../../Layout/PageLayout';
 import { useState, useEffect } from 'react';
-import { FaMagnifyingGlass } from 'react-icons/fa6';
+import { FaMagnifyingGlass, FaSortUp, FaSortDown } from 'react-icons/fa6';
 import { Sidebar } from '../../components/Navigator';
 import SessionDateTab from './SessionDateTab';
 import { axiosInstance } from '../../axios';
@@ -13,7 +13,7 @@ export default function DashboardAttendee() {
   const [activeTab, setActiveTab] = useState(1);
   const [editMode, setEditMode] = useState(false);
   const [attendees, setAttendees] = useState([]);
-  const [sortConfig, setSortConfig] = useState({ key: '', direction: 'asc' }); // 추가된 상태
+  const [sortConfig, setSortConfig] = useState({ key: '', direction: 'asc' });
   const EVENT_ID = useRecoilValue(eventIDState);
 
   const [sessions] = useState([
@@ -78,6 +78,13 @@ export default function DashboardAttendee() {
     setAttendees(sortedData);
   };
 
+  // 정렬 아이콘 컴포넌트
+  const SortIcon = ({ columnKey }) => {
+    if (sortConfig.key !== columnKey) return null;
+    if (sortConfig.direction === 'asc') return <FaSortUp />;
+    return <FaSortDown />;
+  };
+
   return (
     <PageLayout sideBar={<Sidebar />}>
       <S.DashboardAttendee>
@@ -128,25 +135,25 @@ export default function DashboardAttendee() {
                     <input type="checkbox" />
                   </S.TableHeader>
                   <S.TableHeader onClick={() => sortData('major')}>
-                    학과
+                    학과 <SortIcon columnKey="major" />
                   </S.TableHeader>
                   <S.TableHeader onClick={() => sortData('name')}>
-                    이름
+                    이름 <SortIcon columnKey="name" />
                   </S.TableHeader>
                   <S.TableHeader onClick={() => sortData('number')}>
-                    학번
+                    학번 <SortIcon columnKey="number" />
                   </S.TableHeader>
                   <S.TableHeader onClick={() => sortData('year')}>
-                    학년
+                    학년 <SortIcon columnKey="year" />
                   </S.TableHeader>
                   <S.TableHeader onClick={() => sortData('phoneNumber')}>
-                    휴대폰 번호
+                    휴대폰 번호 <SortIcon columnKey="phoneNumber" />
                   </S.TableHeader>
                   <S.TableHeader onClick={() => sortData('email')}>
-                    이메일 주소
+                    이메일 주소 <SortIcon columnKey="email" />
                   </S.TableHeader>
                   <S.TableHeader onClick={() => sortData('attendance')}>
-                    출석 여부
+                    출석 여부 <SortIcon columnKey="attendance" />
                   </S.TableHeader>
                 </tr>
               </thead>
