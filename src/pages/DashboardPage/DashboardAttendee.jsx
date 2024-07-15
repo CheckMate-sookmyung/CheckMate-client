@@ -1,48 +1,53 @@
 import * as S from './DashboardAttendee.style';
 import PageLayout from '../../Layout/PageLayout';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 import { Sidebar } from '../../components/Navigator';
 import SessionDateTab from './SessionDateTab';
+import { axiosInstance } from '../../axios';
+import { USER_ID } from '../../constants';
+import { useRecoilValue } from 'recoil';
+import { eventIDState } from '../../recoil/atoms/state';
+import StudentListItem from './AttendanceList';
 
 export default function DashboardAttendee() {
   const [activeTab, setActiveTab] = useState(1);
   const [editMode, setEditMode] = useState(false);
-  const [attendees, setAttendees] = useState([
-    {
-      department: '컴퓨터공학과',
-      name: '홍길동',
-      studentId: '20201234',
-      year: '2',
-      phone: '010-1234-5678',
-      email: 'hong@example.com',
-      attendance: true,
-    },
-    {
-      department: '전자공학과',
-      name: '이영희',
-      studentId: '20202345',
-      year: '3',
-      phone: '010-2345-6789',
-      email: 'lee@example.com',
-      attendance: false,
-    },
-    {
-      department: '기계공학과',
-      name: '박철수',
-      studentId: '20203456',
-      year: '4',
-      phone: '010-3456-7890',
-      email: 'park@example.com',
-      attendance: true,
-    },
-  ]);
+  const [attendees, setAttendees] = useState([]);
+  const EVENT_ID = useRecoilValue(eventIDState);
 
-  const [sessions, setSessions] = useState([
+  const [sessions] = useState([
     { tab: 1, date: '7/12' },
     { tab: 2, date: '7/13' },
     { tab: 3, date: '7/14' },
   ]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.get(
+          `/api/v1/events/attendanceList/${USER_ID}/${EVENT_ID}`,
+        );
+        const parsedStudents = response.data[0].attendanceListResponseDtos.map(
+          (student) => ({
+            major: student.major,
+            name: student.studentName,
+            number: student.studentNumber,
+            year: student.year,
+            phoneNumber: student.phoneNumber,
+            email: student.email,
+            attendance: student.attendance,
+          }),
+        );
+        parsedStudents.sort((a, b) => a.name.localeCompare(b.name, 'ko'));
+        setAttendees(parsedStudents);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [EVENT_ID]);
 
   // 참석여부 수정
   const handleAttendanceChange = (index, value) => {
@@ -121,11 +126,11 @@ export default function DashboardAttendee() {
                     <S.TableData>
                       <input type="checkbox" />
                     </S.TableData>
-                    <S.TableData>{data.department}</S.TableData>
+                    <S.TableData>{data.major}</S.TableData>
                     <S.TableData>{data.name}</S.TableData>
-                    <S.TableData>{data.studentId}</S.TableData>
+                    <S.TableData>{data.number}</S.TableData>
                     <S.TableData>{data.year}</S.TableData>
-                    <S.TableData>{data.phone}</S.TableData>
+                    <S.TableData>{data.phoneNumber}</S.TableData>
                     <S.TableData>{data.email}</S.TableData>
                     <S.TableData>
                       {editMode ? (
