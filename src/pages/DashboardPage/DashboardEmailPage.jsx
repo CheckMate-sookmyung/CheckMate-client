@@ -21,7 +21,6 @@ const DEFAULT_EMAIL_CONTENT = `안녕하세요, [기관명]입니다.
 감사합니다.`;
 
 export default function DashboardEmailPage() {
-  const [selectedOption, setSelectedOption] = useState('option1');
   const [activeTab, setActiveTab] = useState(1);
   const [attendees, setAttendees] = useState([]);
   const [sessions, setSessions] = useState([]);
@@ -110,11 +109,13 @@ export default function DashboardEmailPage() {
             />
           </S.ToggleWrapper>
 
-          <S.Content>
-            <S.ContentTitle>내용</S.ContentTitle>
-            <S.ContentDesc>발송될 이메일 본문 내용입니다.</S.ContentDesc>
-            <S.ContentInput defaultValue={DEFAULT_EMAIL_CONTENT} />
-          </S.Content>
+          {emailReminder && (
+            <S.Content>
+              <S.ContentTitle>내용</S.ContentTitle>
+              <S.ContentDesc>발송될 이메일 본문 내용입니다.</S.ContentDesc>
+              <S.ContentInput defaultValue={DEFAULT_EMAIL_CONTENT} />
+            </S.Content>
+          )}
         </S.ContentContainer>
       </S.DashboardEmail>
     </PageLayout>
