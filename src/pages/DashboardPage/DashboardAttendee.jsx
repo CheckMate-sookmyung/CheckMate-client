@@ -17,30 +17,10 @@ export default function DashboardAttendee() {
   const [sortConfig, setSortConfig] = useState({ key: '', direction: 'asc' });
   const EVENT_ID = useRecoilValue(eventIDState);
 
-  useEffect(() => {
-    const fetchAttendees = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `/api/v1/events/attendanceList/${USER_ID}/${EVENT_ID}`,
-        );
-        const parsedAttendees = response.data[0].attendanceListResponseDtos.map(
-          (student) => ({
-            major: student.major,
-            name: student.studentName,
-            number: student.studentNumber,
-            year: student.year || '-',
-            phoneNumber: student.phoneNumber || '-',
-            email: student.email || '-',
-            attendance: student.attendance,
-          }),
-        );
-        parsedAttendees.sort((a, b) => a.name.localeCompare(b.name, 'ko'));
-        setAttendees(parsedAttendees);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  // 추가된 상태: 세션별 참석자 데이터를 저장
+  const [sessionAttendees, setSessionAttendees] = useState({});
 
+  useEffect(() => {
     const fetchSessions = async () => {
       try {
         const response = await axiosInstance.get(
@@ -50,15 +30,37 @@ export default function DashboardAttendee() {
           (schedule, index) => ({
             tab: index + 1,
             date: schedule.eventDate,
+            attendanceList: schedule.attendanceListResponseDtos,
           }),
         );
         setSessions(parsedSessions);
+
+        // 세션별 참석자 데이터 설정
+        const attendeesData = {};
+        parsedSessions.forEach((session) => {
+          attendeesData[session.tab] = session.attendanceList.map(
+            (student) => ({
+              major: student.major,
+              name: student.studentName,
+              number: student.studentNumber,
+              year: student.year || '-',
+              phoneNumber: student.phoneNumber || '-',
+              email: student.email || '-',
+              attendance: student.attendance,
+            }),
+          );
+        });
+        setSessionAttendees(attendeesData);
+
+        // 초기 참석자 데이터 설정
+        if (parsedSessions.length > 0) {
+          setAttendees(attendeesData[1]);
+        }
       } catch (error) {
         console.error(error);
       }
     };
 
-    fetchAttendees();
     fetchSessions();
   }, [EVENT_ID, USER_ID]);
 
@@ -70,6 +72,8 @@ export default function DashboardAttendee() {
         active={activeTab === tab}
         onClick={() => {
           setActiveTab(tab);
+          // 새로운 코드: 해당 회차의 참석자 데이터를 불러옴
+          setAttendees(sessionAttendees[tab]);
         }}
       >
         {tab}회 ({date})
@@ -82,6 +86,12 @@ export default function DashboardAttendee() {
     const updatedAttendees = [...attendees];
     updatedAttendees[index].attendance = value === '출석';
     setAttendees(updatedAttendees);
+
+    // 현재 탭의 참석자 데이터를 업데이트
+    setSessionAttendees((prev) => ({
+      ...prev,
+      [activeTab]: updatedAttendees,
+    }));
   };
 
   // 참석률 계산
@@ -104,6 +114,12 @@ export default function DashboardAttendee() {
       return 0;
     });
     setAttendees(sortedData);
+
+    // 현재 탭의 정렬된 참석자 데이터를 업데이트
+    setSessionAttendees((prev) => ({
+      ...prev,
+      [activeTab]: sortedData,
+    }));
   };
 
   // 정렬 아이콘 컴포넌트
