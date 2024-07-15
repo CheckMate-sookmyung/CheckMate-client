@@ -9,12 +9,20 @@ import { useRecoilValue } from 'recoil';
 import { eventIDState } from '../../recoil/atoms/state';
 import Switch from 'react-switch';
 
-const DEFAULT_EMAIL_CONTENT = `안녕하세요, [기관명]입니다.
+const DEFAULT_EMAIL_CONTENT = (
+  title,
+  date,
+  time,
+  detail,
+  imageUrl,
+) => `안녕하세요, [기관명]입니다.
 
-[행사명]을 진행합니다.
+${title}을 진행합니다.
 
-- 일시: YYYY-MM-DD HH:MM
-- 내용: 이메일 본문 내용
+- 일시: ${date} ${time}
+- 내용: ${detail}
+
+${imageUrl ? `<img src="${imageUrl}" alt="Event Image" />` : ''}
 
 기타 궁금한 사항이 있으시면 언제든지 문의해주시기 바랍니다.
 
@@ -25,8 +33,10 @@ export default function DashboardEmailPage() {
   const [attendees, setAttendees] = useState([]);
   const [sessions, setSessions] = useState([]);
   const [sessionAttendees, setSessionAttendees] = useState({});
+  const [eventDetail, setEventDetail] = useState({});
+  const [emailContent, setEmailContent] = useState('');
   const EVENT_ID = useRecoilValue(eventIDState);
-  const [emailReminder, setEmailReminder] = useState(false);
+  const [emailReminder, setEmailReminder] = useState(true);
 
   useEffect(() => {
     const fetchSessions = async () => {
@@ -34,14 +44,28 @@ export default function DashboardEmailPage() {
         const response = await axiosInstance.get(
           `/api/v1/events/${USER_ID}/${EVENT_ID}`,
         );
-        const parsedSessions = response.data.eventSchedules.map(
-          (schedule, index) => ({
-            tab: index + 1,
-            date: schedule.eventDate,
-            attendanceList: schedule.attendanceListResponseDtos,
-          }),
-        );
+        const event = response.data;
+        const parsedSessions = event.eventSchedules.map((schedule, index) => ({
+          tab: index + 1,
+          date: schedule.eventDate,
+          time: schedule.eventStartTime,
+          attendanceList: schedule.attendanceListResponseDtos || [],
+        }));
         setSessions(parsedSessions);
+        setEventDetail({
+          title: event.eventTitle,
+          detail: event.eventDetail,
+          imageUrl: event.eventImage,
+        });
+        if (parsedSessions.length > 0) {
+          updateEmailContent(
+            parsedSessions[0],
+            event.eventTitle,
+            event.eventDetail,
+            event.eventImage,
+          );
+          setAttendees(parsedSessions[0].attendanceList);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -57,7 +81,16 @@ export default function DashboardEmailPage() {
         active={activeTab === tab}
         onClick={() => {
           setActiveTab(tab);
-          setAttendees(sessionAttendees[tab]);
+          setAttendees(sessionAttendees[tab] || []);
+          const selectedSession = sessions.find(
+            (session) => session.tab === tab,
+          );
+          updateEmailContent(
+            selectedSession,
+            eventDetail.title,
+            eventDetail.detail,
+            eventDetail.imageUrl,
+          );
         }}
       >
         {tab}회 ({date})
@@ -67,6 +100,17 @@ export default function DashboardEmailPage() {
 
   const handleToggleChange = (checked) => {
     setEmailReminder(checked);
+  };
+
+  const updateEmailContent = (session, title, detail, imageUrl) => {
+    const updatedContent = DEFAULT_EMAIL_CONTENT(
+      title,
+      session.date,
+      session.time,
+      detail,
+      imageUrl,
+    );
+    setEmailContent(updatedContent);
   };
 
   return (
@@ -113,7 +157,10 @@ export default function DashboardEmailPage() {
             <S.Content>
               <S.ContentTitle>내용</S.ContentTitle>
               <S.ContentDesc>발송될 이메일 본문 내용입니다.</S.ContentDesc>
-              <S.ContentInput defaultValue={DEFAULT_EMAIL_CONTENT} />
+              <S.ContentInput
+                value={emailContent}
+                onChange={(e) => setEmailContent(e.target.value)}
+              />
             </S.Content>
           )}
         </S.ContentContainer>
