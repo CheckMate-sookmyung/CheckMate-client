@@ -13,6 +13,7 @@ export default function DashboardAttendee() {
   const [activeTab, setActiveTab] = useState(1);
   const [editMode, setEditMode] = useState(false);
   const [attendees, setAttendees] = useState([]);
+  const [sortConfig, setSortConfig] = useState({ key: '', direction: 'asc' }); // 추가된 상태
   const EVENT_ID = useRecoilValue(eventIDState);
 
   const [sessions] = useState([
@@ -60,6 +61,22 @@ export default function DashboardAttendee() {
   const attendCount = attendees.filter(
     (attendee) => attendee.attendance,
   ).length;
+
+  // 정렬 함수
+  const sortData = (key) => {
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+
+    const sortedData = [...attendees].sort((a, b) => {
+      if (a[key] < b[key]) return direction === 'asc' ? -1 : 1;
+      if (a[key] > b[key]) return direction === 'asc' ? 1 : -1;
+      return 0;
+    });
+    setAttendees(sortedData);
+  };
 
   return (
     <PageLayout sideBar={<Sidebar />}>
@@ -110,13 +127,27 @@ export default function DashboardAttendee() {
                   <S.TableHeader>
                     <input type="checkbox" />
                   </S.TableHeader>
-                  <S.TableHeader>학과</S.TableHeader>
-                  <S.TableHeader>이름</S.TableHeader>
-                  <S.TableHeader>학번</S.TableHeader>
-                  <S.TableHeader>학년</S.TableHeader>
-                  <S.TableHeader>휴대폰 번호</S.TableHeader>
-                  <S.TableHeader>이메일 주소</S.TableHeader>
-                  <S.TableHeader>출석 여부</S.TableHeader>
+                  <S.TableHeader onClick={() => sortData('major')}>
+                    학과
+                  </S.TableHeader>
+                  <S.TableHeader onClick={() => sortData('name')}>
+                    이름
+                  </S.TableHeader>
+                  <S.TableHeader onClick={() => sortData('number')}>
+                    학번
+                  </S.TableHeader>
+                  <S.TableHeader onClick={() => sortData('year')}>
+                    학년
+                  </S.TableHeader>
+                  <S.TableHeader onClick={() => sortData('phoneNumber')}>
+                    휴대폰 번호
+                  </S.TableHeader>
+                  <S.TableHeader onClick={() => sortData('email')}>
+                    이메일 주소
+                  </S.TableHeader>
+                  <S.TableHeader onClick={() => sortData('attendance')}>
+                    출석 여부
+                  </S.TableHeader>
                 </tr>
               </thead>
               <tbody>
