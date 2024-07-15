@@ -44,11 +44,18 @@ export default function DashboardAttendee() {
     { tab: 3, date: '7/14' },
   ]);
 
+  // 참석여부 수정
   const handleAttendanceChange = (index, value) => {
     const updatedAttendees = [...attendees];
     updatedAttendees[index].attendance = value === '출석';
     setAttendees(updatedAttendees);
   };
+
+  // 참석률 계산
+  const totalAttendees = attendees.length;
+  const attendCount = attendees.filter(
+    (attendee) => attendee.attendance,
+  ).length;
 
   return (
     <PageLayout sideBar={<Sidebar />}>
@@ -83,8 +90,10 @@ export default function DashboardAttendee() {
             <S.SearchBox placeholder="이름, 학번, 이메일, 전화번호로 검색" />
           </S.SearchBoxWrapper>
           <S.RateWrapper>
-            <S.Rate>참석률</S.Rate>
-            <S.Attendee>0 / 30</S.Attendee>
+            <S.RateTitle>참석률</S.RateTitle>
+            <S.Attendee>
+              {attendCount} / {totalAttendees}
+            </S.Attendee>
           </S.RateWrapper>
         </S.SearchContainer>
 

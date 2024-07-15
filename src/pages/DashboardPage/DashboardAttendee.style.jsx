@@ -92,11 +92,11 @@ export const RateWrapper = styled.div`
   gap: 10px;
 `;
 
-export const Rate = styled.p`
+export const RateTitle = styled.span`
   display: flex;
   font-size: 14px;
   font-weight: 600;
-  color: #bdbdbd;
+  color: #4e75ff;
 `;
 
 export const Attendee = styled.p`
