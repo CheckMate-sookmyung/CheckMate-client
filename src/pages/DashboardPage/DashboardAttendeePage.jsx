@@ -16,7 +16,6 @@ export default function DashboardAttendeePage() {
   const [sessions, setSessions] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: '', direction: 'asc' });
   const EVENT_ID = useRecoilValue(eventIDState);
-
   const [sessionAttendees, setSessionAttendees] = useState({});
 
   useEffect(() => {
