@@ -92,11 +92,11 @@ export const RateWrapper = styled.div`
   gap: 10px;
 `;
 
-export const Rate = styled.p`
+export const RateTitle = styled.span`
   display: flex;
   font-size: 14px;
   font-weight: 600;
-  color: #bdbdbd;
+  color: #4e75ff;
 `;
 
 export const Attendee = styled.p`
@@ -106,39 +106,38 @@ export const Attendee = styled.p`
   color: #000000;
 `;
 
-// 탭정보
+// 탭정보 및 출석 수정 모드
+export const TabEditWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 
 export const TabContainer = styled.div`
   display: flex;
   gap: 10px;
 `;
 
-// 출석 수정 버튼
 export const EditMode = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: white;
   height: 30px;
   padding: 0 10px;
   margin: 0 5px;
   border-radius: 7px;
-  border: 1px solid #dddee0;
+  border: 1px solid #ff69b4;
   cursor: pointer;
   min-width: 84px;
   font-size: 12px;
   font-weight: 600;
-  color: #4e75ff;
+  background-color: ${(props) => (props.active ? '#ff69b4' : 'white')};
+  color: ${(props) => (props.active ? '#fff' : '#ff69b4')};
   cursor: pointer;
   transition:
     background 0.3s ease,
     box-shadow 0.3s ease,
     transform 0.3s ease;
-
-  &:hover {
-    background-color: #4e75ff;
-    color: #fff;
-  }
 `;
 
 // 행사 정보
@@ -165,7 +164,7 @@ export const TableHeader = styled.th`
   align-items: center;
   padding: 16px;
   text-align: left;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bold;
   color: #909499;
   border-bottom: 1px solid #ccc;
@@ -175,7 +174,6 @@ export const TableHeader = styled.th`
 
 export const TableData = styled.td`
   padding: 16px;
-  text-align: center;
   font-size: 14px;
   color: #555;
   white-space: nowrap;
