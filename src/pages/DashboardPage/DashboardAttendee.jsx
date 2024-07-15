@@ -7,6 +7,7 @@ import { TabButton90 } from '../../components';
 
 export default function DashboardAttendee() {
   const [activeTab, setActiveTab] = useState(1);
+  const [editMode, setEditMode] = useState(false);
 
   return (
     <PageLayout sideBar={<Sidebar />}>
@@ -35,7 +36,9 @@ export default function DashboardAttendee() {
               );
             })}
           </S.TabContainer>
-          <S.EditMode>출석 여부 수정</S.EditMode>
+          <S.EditMode onClick={() => setEditMode(!editMode)} active={editMode}>
+            {editMode ? '수정 완료하기' : '출석 여부 수정하기'}
+          </S.EditMode>
         </S.TabEditWrapper>
 
         <S.SearchContainer>

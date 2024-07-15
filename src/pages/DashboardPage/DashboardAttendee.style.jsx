@@ -122,27 +122,22 @@ export const EditMode = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: white;
   height: 30px;
   padding: 0 10px;
   margin: 0 5px;
   border-radius: 7px;
-  border: 1px solid #dddee0;
+  border: 1px solid #ff69b4;
   cursor: pointer;
   min-width: 84px;
   font-size: 12px;
   font-weight: 600;
-  color: #4e75ff;
+  background-color: ${(props) => (props.active ? '#ff69b4' : 'white')};
+  color: ${(props) => (props.active ? '#fff' : '#ff69b4')};
   cursor: pointer;
   transition:
     background 0.3s ease,
     box-shadow 0.3s ease,
     transform 0.3s ease;
-
-  &:hover {
-    background-color: #4e75ff;
-    color: #fff;
-  }
 `;
 
 // 행사 정보
