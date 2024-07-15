@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const DashboardAttendee = styled.div`
   display: flex;
@@ -182,4 +182,10 @@ export const TableData = styled.td`
   &:first-child {
     text-align: left;
   }
+
+  ${({ attendance }) =>
+    attendance === '결석' &&
+    css`
+      color: #f32121;
+    `}
 `;

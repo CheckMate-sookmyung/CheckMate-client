@@ -17,7 +17,6 @@ export default function DashboardAttendee() {
   const [sortConfig, setSortConfig] = useState({ key: '', direction: 'asc' });
   const EVENT_ID = useRecoilValue(eventIDState);
 
-  // 추가된 상태: 세션별 참석자 데이터를 저장
   const [sessionAttendees, setSessionAttendees] = useState({});
 
   useEffect(() => {
@@ -35,7 +34,6 @@ export default function DashboardAttendee() {
         );
         setSessions(parsedSessions);
 
-        // 세션별 참석자 데이터 설정
         const attendeesData = {};
         parsedSessions.forEach((session) => {
           attendeesData[session.tab] = session.attendanceList.map(
@@ -52,7 +50,6 @@ export default function DashboardAttendee() {
         });
         setSessionAttendees(attendeesData);
 
-        // 초기 참석자 데이터 설정
         if (parsedSessions.length > 0) {
           setAttendees(attendeesData[1]);
         }
@@ -64,7 +61,6 @@ export default function DashboardAttendee() {
     fetchSessions();
   }, [EVENT_ID, USER_ID]);
 
-  // 회차 선택
   const SessionDateTab = ({ tab, activeTab, setActiveTab, date }) => {
     return (
       <TabButton90
@@ -72,7 +68,6 @@ export default function DashboardAttendee() {
         active={activeTab === tab}
         onClick={() => {
           setActiveTab(tab);
-          // 새로운 코드: 해당 회차의 참석자 데이터를 불러옴
           setAttendees(sessionAttendees[tab]);
         }}
       >
@@ -81,26 +76,22 @@ export default function DashboardAttendee() {
     );
   };
 
-  // 참석여부 수정
   const handleAttendanceChange = (index, value) => {
     const updatedAttendees = [...attendees];
     updatedAttendees[index].attendance = value === '출석';
     setAttendees(updatedAttendees);
 
-    // 현재 탭의 참석자 데이터를 업데이트
     setSessionAttendees((prev) => ({
       ...prev,
       [activeTab]: updatedAttendees,
     }));
   };
 
-  // 참석률 계산
   const totalAttendees = attendees.length;
   const attendCount = attendees.filter(
     (attendee) => attendee.attendance,
   ).length;
 
-  // 정렬 함수
   const sortData = (key) => {
     let direction = 'asc';
     if (sortConfig.key === key && sortConfig.direction === 'asc') {
@@ -115,14 +106,12 @@ export default function DashboardAttendee() {
     });
     setAttendees(sortedData);
 
-    // 현재 탭의 정렬된 참석자 데이터를 업데이트
     setSessionAttendees((prev) => ({
       ...prev,
       [activeTab]: sortedData,
     }));
   };
 
-  // 정렬 아이콘 컴포넌트
   const SortIcon = ({ columnKey }) => {
     if (sortConfig.key !== columnKey) return null;
     if (sortConfig.direction === 'asc') return <FaSortUp />;
@@ -169,7 +158,6 @@ export default function DashboardAttendee() {
           </S.RateWrapper>
         </S.SearchContainer>
 
-        {/* 참석자 리스트 */}
         <S.TableContainer>
           <S.TableTitle>
             <S.Table>
@@ -213,7 +201,7 @@ export default function DashboardAttendee() {
                     <S.TableData>{data.year}</S.TableData>
                     <S.TableData>{data.phoneNumber}</S.TableData>
                     <S.TableData>{data.email}</S.TableData>
-                    <S.TableData>
+                    <S.TableData attendance={data.attendance ? '출석' : '결석'}>
                       {editMode ? (
                         <select
                           value={data.attendance ? '출석' : '결석'}
