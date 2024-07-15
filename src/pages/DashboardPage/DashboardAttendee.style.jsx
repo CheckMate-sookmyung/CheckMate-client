@@ -164,7 +164,7 @@ export const TableHeader = styled.th`
   align-items: center;
   padding: 16px;
   text-align: left;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bold;
   color: #909499;
   border-bottom: 1px solid #ccc;
@@ -174,7 +174,6 @@ export const TableHeader = styled.th`
 
 export const TableData = styled.td`
   padding: 16px;
-  text-align: center;
   font-size: 14px;
   color: #555;
   white-space: nowrap;
