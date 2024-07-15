@@ -8,8 +8,7 @@ import { TabButton90 } from '../../components';
 export default function DashboardAttendee() {
   const [activeTab, setActiveTab] = useState(1);
   const [editMode, setEditMode] = useState(false);
-
-  const sampleData = [
+  const [attendees, setAttendees] = useState([
     {
       department: '컴퓨터공학과',
       name: '홍길동',
@@ -37,7 +36,13 @@ export default function DashboardAttendee() {
       email: 'park@example.com',
       attendance: '출석',
     },
-  ];
+  ]);
+
+  const handleAttendanceChange = (index, value) => {
+    const updatedAttendees = [...attendees];
+    updatedAttendees[index].attendance = value;
+    setAttendees(updatedAttendees);
+  };
 
   return (
     <PageLayout sideBar={<Sidebar />}>
@@ -101,7 +106,7 @@ export default function DashboardAttendee() {
                 </tr>
               </thead>
               <tbody>
-                {sampleData.map((data, index) => (
+                {attendees.map((data, index) => (
                   <tr key={index}>
                     <S.TableData>
                       <input type="checkbox" />
@@ -112,7 +117,21 @@ export default function DashboardAttendee() {
                     <S.TableData>{data.year}</S.TableData>
                     <S.TableData>{data.phone}</S.TableData>
                     <S.TableData>{data.email}</S.TableData>
-                    <S.TableData>{data.attendance}</S.TableData>
+                    <S.TableData>
+                      {editMode ? (
+                        <select
+                          value={data.attendance}
+                          onChange={(e) =>
+                            handleAttendanceChange(index, e.target.value)
+                          }
+                        >
+                          <option value="출석">출석</option>
+                          <option value="결석">결석</option>
+                        </select>
+                      ) : (
+                        data.attendance
+                      )}
+                    </S.TableData>
                   </tr>
                 ))}
               </tbody>
