@@ -5,7 +5,7 @@ export const TabButton90 = styled.button`
   border: 1px solid #4e75ff;
   border-radius: 6px;
   background-color: ${(props) => (props.active ? '#4e75ff;' : '#fff')};
-  width: 90px;
+  /* width: 90px; */
   height: 40px;
   color: ${(props) => (props.active ? '#fff' : '#000')};
   cursor: pointer;

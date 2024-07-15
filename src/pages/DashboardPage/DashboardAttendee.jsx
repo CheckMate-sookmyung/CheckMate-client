@@ -13,22 +13,17 @@ export default function DashboardAttendee() {
   const [activeTab, setActiveTab] = useState(1);
   const [editMode, setEditMode] = useState(false);
   const [attendees, setAttendees] = useState([]);
+  const [sessions, setSessions] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: '', direction: 'asc' });
   const EVENT_ID = useRecoilValue(eventIDState);
 
-  const [sessions] = useState([
-    { tab: 1, date: '7/12' },
-    { tab: 2, date: '7/13' },
-    { tab: 3, date: '7/14' },
-  ]);
-
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchAttendees = async () => {
       try {
         const response = await axiosInstance.get(
           `/api/v1/events/attendanceList/${USER_ID}/${EVENT_ID}`,
         );
-        const parsedStudents = response.data[0].attendanceListResponseDtos.map(
+        const parsedAttendees = response.data[0].attendanceListResponseDtos.map(
           (student) => ({
             major: student.major,
             name: student.studentName,
@@ -39,15 +34,33 @@ export default function DashboardAttendee() {
             attendance: student.attendance,
           }),
         );
-        parsedStudents.sort((a, b) => a.name.localeCompare(b.name, 'ko'));
-        setAttendees(parsedStudents);
+        parsedAttendees.sort((a, b) => a.name.localeCompare(b.name, 'ko'));
+        setAttendees(parsedAttendees);
       } catch (error) {
         console.error(error);
       }
     };
 
-    fetchData();
-  }, [EVENT_ID]);
+    const fetchSessions = async () => {
+      try {
+        const response = await axiosInstance.get(
+          `/api/v1/events/${USER_ID}/${EVENT_ID}`,
+        );
+        const parsedSessions = response.data.eventSchedules.map(
+          (schedule, index) => ({
+            tab: index + 1,
+            date: schedule.eventDate,
+          }),
+        );
+        setSessions(parsedSessions);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchAttendees();
+    fetchSessions();
+  }, [EVENT_ID, USER_ID]);
 
   // 회차 선택
   const SessionDateTab = ({ tab, activeTab, setActiveTab, date }) => {
@@ -55,7 +68,9 @@ export default function DashboardAttendee() {
       <TabButton90
         key={tab}
         active={activeTab === tab}
-        onClick={() => setActiveTab(tab)}
+        onClick={() => {
+          setActiveTab(tab);
+        }}
       >
         {tab}회 ({date})
       </TabButton90>
