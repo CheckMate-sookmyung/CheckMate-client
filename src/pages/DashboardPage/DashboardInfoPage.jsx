@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import * as S from './DashboardInfo.style';
+import * as S from './DashboardInfoPage.style';
 import { FaAngleRight } from 'react-icons/fa6';
-import { format } from 'date-fns';
 import { Sidebar } from '../../components/Navigator';
 import { BlueButton90 } from '../../components/Button';
 import PageLayout from '../../Layout/PageLayout';
 
-export default function DashboardInfo() {
+export default function DashboardInfoPage() {
   const [active, setActive] = useState('online');
   const [selectedOption, setSelectedOption] = useState('option1');
   const [startDate, setStartDate] = useState(new Date());

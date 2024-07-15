@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BlueButton90, TabButton90 } from '../../components/Button';
-import * as S from './DashboardEmail.style';
+import * as S from './DashboardEmailPage.style';
 import { Sidebar } from '../../components/Navigator';
 import PageLayout from '../../Layout/PageLayout';
 import { axiosInstance } from '../../axios';
@@ -19,7 +19,7 @@ const DEFAULT_EMAIL_CONTENT = `안녕하세요, [기관명]입니다.
 
 감사합니다.`;
 
-export default function DashboardEmail() {
+export default function DashboardEmailPage() {
   const [selectedOption, setSelectedOption] = useState('option1');
   const [activeTab, setActiveTab] = useState(1);
   const [attendees, setAttendees] = useState([]);

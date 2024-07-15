@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import * as S from './AttendanceStudentIdPage.style';
 import { AttendanceHeader } from '../../components';
-import Modal from '../../components/Modal';
 import { getAttendanceCheck } from '../../services';
 import { EVENT_DATE, EVENT_ID, USER_ID } from '../../constants';
 import { useSessionStorages } from '../../hooks';
