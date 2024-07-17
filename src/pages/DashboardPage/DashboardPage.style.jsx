@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { GrayButton90 } from '../../components';
 
 export const DashboardPage = styled.div`
   flex-grow: 1;
@@ -17,6 +18,54 @@ export const TopContainer = styled.div`
 export const ButtonContainer = styled.div`
   display: flex;
   gap: 10px;
+`;
+
+export const DeleteEventButton = styled(GrayButton90)`
+  box-sizing: border-box;
+  position: relative;
+  display: inline-block;
+  transition:
+    background-color 0.3s ease-in-out,
+    color 0.3s ease-in-out,
+    box-shadow 0.3s ease-in-out;
+
+  &:hover::after {
+    content: '삭제된 행사는 복구할 수 없습니다.';
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 10px;
+    padding: 5px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 4px;
+    white-space: nowrap;
+    font-size: 12px;
+    z-index: 1;
+    opacity: 1;
+    visibility: visible;
+    transition:
+      opacity 0.2s ease-in-out,
+      visibility 0.2s ease-in-out;
+  }
+
+  &:hover::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    right: 50%;
+    transform: translateX(50%);
+    margin-bottom: 5px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent transparent #333 transparent;
+    z-index: 1;
+    opacity: 1;
+    visibility: visible;
+    transition:
+      opacity 0.2s ease-in-out,
+      visibility 0.2s ease-in-out;
+  }
 `;
 
 export const StyledLink = styled(Link)`

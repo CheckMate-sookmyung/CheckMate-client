@@ -4,9 +4,16 @@ import React, { useState, useEffect } from 'react';
 import PageLayout from '../../Layout/PageLayout';
 import { Sidebar } from '../../components/Navigator';
 import { GrayButton90 } from '../../components/Button';
+import { eventIDState } from '../../recoil/atoms/state';
+import { useRecoilValue } from 'recoil';
+import { USER_ID } from '../../constants';
+import { axiosInstance } from '../../axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function DashboardPage() {
   const [copyMessage, setCopyMessage] = useState('');
+  const EVENT_ID = useRecoilValue(eventIDState);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (copyMessage) {
@@ -29,19 +36,42 @@ export default function DashboardPage() {
       });
   };
 
+  const DeleteEvent = async () => {
+    const isConfirmed = window.confirm('행사를 완전히 삭제하시겠습니까?');
+    if (!isConfirmed) {
+      return;
+    }
+    try {
+      const response = await axiosInstance.delete(
+        `api/v1/events/${USER_ID}/${EVENT_ID}`,
+      );
+      if (response.status === 200) {
+        alert('행사가 삭제되었습니다. 목록 페이지로 이동합니다.');
+        navigate('/event');
+        console.log(response);
+      }
+    } catch (error) {
+      alert('행사 삭제에 실패했습니다. 다시 시도해 주세요.');
+      console.log(error);
+    }
+  };
+
   return (
     <PageLayout sideBar={<Sidebar />}>
       <S.DashboardPage>
-        {copyMessage && <S.CopyMessage>{copyMessage}</S.CopyMessage>}{' '}
+        {copyMessage && <S.CopyMessage>{copyMessage}</S.CopyMessage>}
         <S.TopContainer>
           <S.EventTitle>체크메이트 해커톤</S.EventTitle>
           <S.ButtonContainer>
             <S.StyledLink to="/event/dashboard/info">
               <GrayButton90>행사 수정</GrayButton90>
             </S.StyledLink>
-            <GrayButton90>행사 삭제</GrayButton90>
+            <S.DeleteEventButton onClick={DeleteEvent}>
+              행사 삭제
+            </S.DeleteEventButton>
           </S.ButtonContainer>
         </S.TopContainer>
+
         {/* 행사 정보 */}
         <S.ContentContainer>
           <S.OverviewContainer>

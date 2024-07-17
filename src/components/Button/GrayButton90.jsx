@@ -26,7 +26,9 @@ export const GrayButton90 = styled.button`
   transition: background 0.3s ease-in-out;
 
   &:hover {
-    background: #a8b0b6;
+    background-color: var(--gray-300, #636363);
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
 
   &:disabled {
