@@ -12,6 +12,8 @@ export const CardWrapper = styled.div`
   border-radius: 8px;
   background-color: white;
   cursor: pointer;
+  gap: 16px;
+
   &:hover {
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   }
@@ -29,6 +31,7 @@ export const EventImg = styled.img`
   height: 100%;
   aspect-ratio: 420 / 594;
   object-fit: cover;
+  object-position: top;
 `;
 
 export const EventCardList = styled.div`
@@ -37,6 +40,7 @@ export const EventCardList = styled.div`
   gap: 32px;
   width: 100%;
   padding: 50px 20px;
+
   @media (max-width: ${BREAKPOINTS[2]}px) {
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
@@ -52,31 +56,38 @@ export const EventCardList = styled.div`
 export const EventTitle = styled.p`
   font-size: 18px;
   font-weight: 700;
-  margin: 20px 0 10px;
 `;
 
 export const EventDate = styled.div`
   display: flex;
-  gap: 12px;
-  margin: 10px 0px;
+  gap: 10px;
+  color: var(--gray-300, #636363);
 `;
 
 export const CardDay = styled.p`
   font-size: 16px;
+  color: var(--gray-300, #636363);
   font-weight: 700;
 `;
 
-export const BlueButton = styled.button`
+export const CheckButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 40px;
-  margin: 10px 0;
+  margin-top: auto;
   border: none;
   border-radius: 4px;
   color: white;
-  background: linear-gradient(to right, #0a2c83, #1f5fa9);
+  background: #4e75ff;
   cursor: pointer;
   font-size: 16px;
+  transition:
+    background 0.3s,
+    transform 0.3s;
+
+  &:hover {
+    background: #3a5ccf;
+  }
 `;

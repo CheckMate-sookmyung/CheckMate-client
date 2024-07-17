@@ -74,12 +74,12 @@ const EventCard = ({ id, title, poster, startDate, endDate }) => {
       </S.EventImgWrapper>
       <S.EventTitle>{title}</S.EventTitle>
       <S.EventDate>
-        <p>진행 일정</p>
+        <p>일정</p>
         <S.CardDay>
           {endDate ? `${startDate} ~ ${endDate}` : startDate}
         </S.CardDay>
       </S.EventDate>
-      <S.BlueButton onClick={attendanceCheck}>출석 체크</S.BlueButton>
+      <S.CheckButton onClick={attendanceCheck}>출석 체크</S.CheckButton>
     </S.CardWrapper>
   );
 };
