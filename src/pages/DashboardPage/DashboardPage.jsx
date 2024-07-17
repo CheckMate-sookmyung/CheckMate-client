@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 export default function DashboardPage() {
   const [copyMessage, setCopyMessage] = useState('');
   const [parsedEvents, setParsedEvents] = useState(null);
+  const [completedSessions, setCompletedSessions] = useState(0);
   const EVENT_ID = useRecoilValue(eventIDState);
   const navigate = useNavigate();
 
@@ -26,16 +27,32 @@ export default function DashboardPage() {
         );
         const eventData = response.data;
         if (eventData) {
-          const parsedEvent = {
-            title: eventData.eventTitle,
-            detail: eventData.eventDetail,
-            schedules: eventData.eventSchedules.map((schedule) => ({
+          const now = new Date();
+          let completedSessionsCount = 0;
+
+          const schedules = eventData.eventSchedules.map((schedule) => {
+            const scheduleEndDateTime = new Date(
+              `${schedule.eventDate}T${schedule.eventEndTime}`,
+            );
+            if (scheduleEndDateTime < now) {
+              completedSessionsCount += 1;
+            }
+            return {
               date: schedule.eventDate,
               startTime: schedule.eventStartTime,
               endTime: schedule.eventEndTime,
-            })),
+            };
+          });
+
+          const parsedEvent = {
+            title: eventData.eventTitle,
+            detail: eventData.eventDetail,
+            schedules,
+            totalSessions: eventData.eventSchedules.length,
           };
+
           setParsedEvents(parsedEvent);
+          setCompletedSessions(completedSessionsCount);
         }
       } catch (error) {
         console.error('Error fetching event data:', error);
@@ -120,7 +137,7 @@ export default function DashboardPage() {
                     <S.EventDateWrapper>
                       {parsedEvents.schedules.map((schedule, index) => (
                         <S.EventDate key={index}>
-                          {`${schedule.date}  (${schedule.startTime} - ${schedule.endTime})`}
+                          {`${schedule.date} (${schedule.startTime} - ${schedule.endTime})`}
                         </S.EventDate>
                       ))}
                     </S.EventDateWrapper>
@@ -152,7 +169,7 @@ export default function DashboardPage() {
                   <FaUsers />
                 </S.ProgressIcon>
                 <S.ProgressContentWrapper>
-                  <S.ProgressTitle>전체 참석률</S.ProgressTitle>
+                  <S.ProgressTitle>평균 참석 인원</S.ProgressTitle>
                   <S.ProgressText>0 / 30</S.ProgressText>
                 </S.ProgressContentWrapper>
               </S.ProgressBox>
@@ -163,7 +180,9 @@ export default function DashboardPage() {
                 </S.ProgressIcon>
                 <S.ProgressContentWrapper>
                   <S.ProgressTitle>진행 회차</S.ProgressTitle>
-                  <S.ProgressText>0 / 3</S.ProgressText>
+                  <S.ProgressText>
+                    {completedSessions} / {parsedEvents.totalSessions}
+                  </S.ProgressText>
                 </S.ProgressContentWrapper>
               </S.ProgressBox>
             </S.ProgressContainer>
