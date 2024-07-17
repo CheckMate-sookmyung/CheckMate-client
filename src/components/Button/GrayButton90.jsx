@@ -28,7 +28,6 @@ export const GrayButton90 = styled.button`
   &:hover {
     background-color: var(--gray-300, #636363);
     color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
 
   &:disabled {
