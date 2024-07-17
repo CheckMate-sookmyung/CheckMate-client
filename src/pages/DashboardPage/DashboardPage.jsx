@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 export default function DashboardPage() {
   const [copyMessage, setCopyMessage] = useState('');
   const [parsedEvents, setParsedEvents] = useState(null);
+  const [averageAttendance, setAverageAttendance] = useState(0);
   const [completedSessions, setCompletedSessions] = useState(0);
   const EVENT_ID = useRecoilValue(eventIDState);
   const navigate = useNavigate();
@@ -41,17 +42,32 @@ export default function DashboardPage() {
               date: schedule.eventDate,
               startTime: schedule.eventStartTime,
               endTime: schedule.eventEndTime,
+              attendanceList: schedule.attendanceListResponseDtos,
             };
           });
+
+          const totalAttendance = schedules.reduce((acc, schedule) => {
+            const attendedCount = schedule.attendanceList.filter(
+              (attendee) => attendee.attendance,
+            ).length;
+            return acc + attendedCount;
+          }, 0);
+
+          const totalParticipants = schedules[0].attendanceList.length;
+          const averageAttendance = totalParticipants
+            ? (totalAttendance / schedules.length).toFixed(1)
+            : 0;
 
           const parsedEvent = {
             title: eventData.eventTitle,
             detail: eventData.eventDetail,
             schedules,
             totalSessions: eventData.eventSchedules.length,
+            totalParticipants,
           };
 
           setParsedEvents(parsedEvent);
+          setAverageAttendance(averageAttendance);
           setCompletedSessions(completedSessionsCount);
         }
       } catch (error) {
@@ -170,7 +186,9 @@ export default function DashboardPage() {
                 </S.ProgressIcon>
                 <S.ProgressContentWrapper>
                   <S.ProgressTitle>평균 참석 인원</S.ProgressTitle>
-                  <S.ProgressText>0 / 30</S.ProgressText>
+                  <S.ProgressText>
+                    {averageAttendance} / {parsedEvents.totalParticipants}
+                  </S.ProgressText>
                 </S.ProgressContentWrapper>
               </S.ProgressBox>
 
