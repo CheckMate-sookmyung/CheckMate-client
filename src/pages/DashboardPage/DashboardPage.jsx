@@ -29,6 +29,11 @@ export default function DashboardPage() {
           const parsedEvent = {
             title: eventData.eventTitle,
             detail: eventData.eventDetail,
+            schedules: eventData.eventSchedules.map((schedule) => ({
+              date: schedule.eventDate,
+              startTime: schedule.eventStartTime,
+              endTime: schedule.eventEndTime,
+            })),
           };
           setParsedEvents(parsedEvent);
         }
@@ -113,7 +118,11 @@ export default function DashboardPage() {
                       <S.EventVenue>캠퍼스 내부</S.EventVenue>
                     </S.EventTypeWrapper>
                     <S.EventDateWrapper>
-                      <S.EventDate>7월 11일 오전 10:00</S.EventDate>
+                      {parsedEvents.schedules.map((schedule, index) => (
+                        <S.EventDate key={index}>
+                          {`${schedule.date}  (${schedule.startTime} - ${schedule.endTime})`}
+                        </S.EventDate>
+                      ))}
                     </S.EventDateWrapper>
                   </S.ContentInfoWrapper>
                 </S.ContentBox>

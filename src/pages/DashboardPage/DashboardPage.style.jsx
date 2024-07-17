@@ -162,10 +162,13 @@ export const EventVenue = styled.p`
 
 export const EventDateWrapper = styled.div`
   display: flex;
+  flex-direction: column;
+  gap: 6px;
 `;
 
 export const EventDate = styled.p`
   font-size: 14px;
+  color: var(--gray-300, #636363);
 `;
 
 export const QrCode = styled.div`
