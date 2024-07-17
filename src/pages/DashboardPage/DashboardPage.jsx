@@ -153,7 +153,7 @@ export default function DashboardPage() {
                     <S.EventDateWrapper>
                       {parsedEvents.schedules.map((schedule, index) => (
                         <S.EventDate key={index}>
-                          {`${schedule.date} (${schedule.startTime} - ${schedule.endTime})`}
+                          {`• ${schedule.date} (${schedule.startTime} - ${schedule.endTime})`}
                         </S.EventDate>
                       ))}
                     </S.EventDateWrapper>
