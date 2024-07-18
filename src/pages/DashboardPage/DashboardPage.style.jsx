@@ -13,6 +13,7 @@ export const DashboardPage = styled.div`
 export const TopContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-bottom: 30px;
 `;
 
 export const ButtonContainer = styled.div`
@@ -73,12 +74,31 @@ export const StyledLink = styled(Link)`
   color: inherit;
 `;
 
+export const EventTitleWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+`;
+
 export const EventTitle = styled.h1`
   font-weight: bold;
   font-size: 24px;
   line-height: 29px;
   color: var(--gray-400, #212121);
-  margin-bottom: 32px;
+`;
+
+export const Badge = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ff6b6b;
+  border-radius: 12px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #ff6b6b;
 `;
 
 // 행사 정보

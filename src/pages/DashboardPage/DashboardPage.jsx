@@ -118,7 +118,10 @@ export default function DashboardPage() {
         <S.DashboardPage>
           {copyMessage && <S.CopyMessage>{copyMessage}</S.CopyMessage>}
           <S.TopContainer>
-            <S.EventTitle>{parsedEvents.title}</S.EventTitle>
+            <S.EventTitleWrapper>
+              <S.EventTitle>{parsedEvents.title}</S.EventTitle>
+              <S.Badge>행사 종료</S.Badge>
+            </S.EventTitleWrapper>
             <S.ButtonContainer>
               <S.StyledLink to="/event/dashboard/info">
                 <GrayButton90>행사 수정</GrayButton90>
