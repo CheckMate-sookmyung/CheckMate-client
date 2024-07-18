@@ -92,13 +92,17 @@ export const Badge = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #ff6b6b;
   border-radius: 12px;
-  padding: 6px 12px;
+  padding: 4px 10px;
   font-size: 12px;
   font-weight: 600;
   color: #ffffff;
-  background-color: #ff6b6b;
+  background-color: ${(props) =>
+    props.status === '종료'
+      ? '#ff6b6b'
+      : props.status === '진행중'
+        ? 'var(--blue-400, #0075ff)'
+        : '#ffa726'};
 `;
 
 // 행사 정보

@@ -15,6 +15,7 @@ export default function DashboardPage() {
   const [parsedEvents, setParsedEvents] = useState(null);
   const [averageAttendance, setAverageAttendance] = useState(0);
   const [completedSessions, setCompletedSessions] = useState(0);
+  const [eventStatus, setEventStatus] = useState('');
   const EVENT_ID = useRecoilValue(eventIDState);
   const navigate = useNavigate();
 
@@ -69,6 +70,20 @@ export default function DashboardPage() {
           setParsedEvents(parsedEvent);
           setAverageAttendance(averageAttendance);
           setCompletedSessions(completedSessionsCount);
+
+          // 행사 일정 상태
+          const lastSchedule = schedules[schedules.length - 1];
+          const lastScheduleEndDateTime = new Date(
+            `${lastSchedule.date}T${lastSchedule.endTime}`,
+          );
+
+          if (lastScheduleEndDateTime < now) {
+            setEventStatus('종료');
+          } else if (new Date(lastSchedule.date) > now) {
+            setEventStatus('예정');
+          } else {
+            setEventStatus('진행중');
+          }
         }
       } catch (error) {
         console.error('Error fetching event data:', error);
@@ -78,6 +93,7 @@ export default function DashboardPage() {
     fetchData();
   }, [EVENT_ID]);
 
+  // 설문조사 링크 복사
   const handleCopy = (text) => {
     navigator.clipboard
       .writeText(text)
@@ -92,6 +108,7 @@ export default function DashboardPage() {
       });
   };
 
+  // 행사 삭제
   const DeleteEvent = async () => {
     const isConfirmed = window.confirm('행사를 완전히 삭제하시겠습니까?');
     if (!isConfirmed) {
@@ -120,7 +137,7 @@ export default function DashboardPage() {
           <S.TopContainer>
             <S.EventTitleWrapper>
               <S.EventTitle>{parsedEvents.title}</S.EventTitle>
-              <S.Badge>행사 종료</S.Badge>
+              <S.Badge status={eventStatus}>{eventStatus}</S.Badge>
             </S.EventTitleWrapper>
             <S.ButtonContainer>
               <S.StyledLink to="/event/dashboard/info">
