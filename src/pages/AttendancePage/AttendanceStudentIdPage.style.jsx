@@ -85,13 +85,17 @@ export const Dial = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
   border: 1px solid #d9d9d9;
   border-width: 1px 0 0 1px;
+  width: 100%;
   height: 100%;
+  padding: 20px 80px;
   font-size: 40px;
   font-weight: 600;
   color: #838383;
   background-color: white;
+
   &:nth-child(3n) {
     border-right: 1px solid #d9d9d9;
   }
@@ -108,6 +112,16 @@ export const Dial = styled.div`
   }
   &:nth-child(10) {
     border-bottom-left-radius: 10px;
+  }
+
+  @media (max-width: ${BREAKPOINTS[2]}px) {
+    padding: 20px 60px;
+  }
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    padding: 20px 44px;
+  }
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    padding: 20px 30px;
   }
 `;
 
