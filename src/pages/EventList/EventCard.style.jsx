@@ -34,25 +34,6 @@ export const EventImg = styled.img`
   object-position: top;
 `;
 
-export const EventCardList = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 32px;
-  width: 100%;
-  padding: 50px 20px;
-
-  @media (max-width: ${BREAKPOINTS[2]}px) {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-  @media (max-width: ${BREAKPOINTS[1]}px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  @media (max-width: ${BREAKPOINTS[0]}px) {
-    grid-template-columns: repeat(1, 1fr);
-  }
-`;
-
 export const EventTitle = styled.p`
   font-size: 18px;
   font-weight: 700;
@@ -80,7 +61,8 @@ export const CheckButton = styled.button`
   border: none;
   border-radius: 4px;
   color: white;
-  background: #4e75ff;
+  background: ${(props) =>
+    props.isEnded ? 'var(--gray-300, #636363);' : '#4e75ff'};
   cursor: pointer;
   font-size: 16px;
   transition:
@@ -88,6 +70,12 @@ export const CheckButton = styled.button`
     transform 0.3s;
 
   &:hover {
-    background: #3a5ccf;
+    background: ${(props) =>
+      props.isEnded ? 'var(--gray-300, #636363)' : '#3a5ccf'};
+  }
+
+  &:disabled {
+    background-color: var(--gray-300, #636363);
+    cursor: not-allowed;
   }
 `;
