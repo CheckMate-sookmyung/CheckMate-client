@@ -24,14 +24,16 @@ export const LogoMenuWrapper = styled.div`
   }
 `;
 
-export const Logo = styled.h1`
+export const Logo = styled(NavLink)`
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 10px 10px;
+  cursor: pointer;
   font-size: 24px;
   font-weight: 700;
-  cursor: pointer;
+  text-decoration: none;
+  color: black;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     font-size: 20px;
@@ -82,6 +84,7 @@ export const StyledNavLink = styled(NavLink)`
   text-decoration: none;
   font-weight: 700;
   color: black;
+
   &.active {
     color: #4e75ff;
   }

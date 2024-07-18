@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import * as S from './Navigator.style';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '../../recoil/atoms/state';
 import { USER_ID } from '../../constants';
 import { axiosInstance } from '../../axios';
 
 export default function Navigator() {
-  const navigate = useNavigate();
   const location = useLocation();
   const [parsedEvent, setParsedEvent] = useState(null);
   const EVENT_ID = useRecoilValue(eventIDState);
-
-  const clickedLogo = () => {
-    navigate('/');
-  };
 
   useEffect(() => {
     console.log('USER_ID:', USER_ID);
@@ -44,7 +39,7 @@ export default function Navigator() {
   return (
     <S.Wrapper>
       <S.LogoMenuWrapper>
-        <S.Logo onClick={clickedLogo}>체크메이트</S.Logo>
+        <S.Logo to="/">체크메이트</S.Logo>
         <S.MenuContainer>
           <S.Menu>
             <S.StyledNavLink to="/register" activeClassName="active">
