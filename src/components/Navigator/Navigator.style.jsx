@@ -45,11 +45,14 @@ export const MenuContainer = styled.div`
   justify-content: center;
   align-items: center;
   padding: 0 10px;
+  gap: 20px;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
-    gap: 20px;
+    gap: 10px;
   }
   @media (max-width: ${BREAKPOINTS[0]}px) {
+    gap: 0px;
+    padding: 0 6px;
   }
 `;
 

@@ -152,16 +152,6 @@ export default function DashboardPage() {
           {/* 행사 정보 */}
           <S.ContentContainer>
             <S.OverviewContainer>
-              <S.ContentBox>
-                <S.ContentTitle>QR 코드</S.ContentTitle>
-                <S.QrCode>
-                  <img
-                    src="https://www.google.com/url?sa=i&url=http%3A%2F%2Ft3.gstatic.com%2Flicensed-image%3Fq%3Dtbn%3AANd9GcSh-wrQu254qFaRcoYktJ5QmUhmuUedlbeMaQeaozAVD4lh4ICsGdBNubZ8UlMvWjKC&psig=AOvVaw3Zwwv5QaquDAu22BSpbs0n&ust=1720330468548000&source=images&cd=vfe&opi=89978449&ved=0CAkQjRxqFwoTCMijksXYkYcDFQAAAAAdAAAAABAE"
-                    alt=""
-                  />
-                </S.QrCode>
-              </S.ContentBox>
-
               <S.OverviewWrapper>
                 <S.ContentBox>
                   <S.ContentTitle>행사 개요</S.ContentTitle>
@@ -196,6 +186,16 @@ export default function DashboardPage() {
                   </S.ContentTextWrapper>
                 </S.ContentBox>
               </S.OverviewWrapper>
+
+              <S.ContentBox>
+                <S.ContentTitle>QR 코드</S.ContentTitle>
+                <S.QrCode>
+                  <img
+                    src="https://www.google.com/url?sa=i&url=http%3A%2F%2Ft3.gstatic.com%2Flicensed-image%3Fq%3Dtbn%3AANd9GcSh-wrQu254qFaRcoYktJ5QmUhmuUedlbeMaQeaozAVD4lh4ICsGdBNubZ8UlMvWjKC&psig=AOvVaw3Zwwv5QaquDAu22BSpbs0n&ust=1720330468548000&source=images&cd=vfe&opi=89978449&ved=0CAkQjRxqFwoTCMijksXYkYcDFQAAAAAdAAAAABAE"
+                    alt=""
+                  />
+                </S.QrCode>
+              </S.ContentBox>
             </S.OverviewContainer>
 
             {/* 진행 현황 */}

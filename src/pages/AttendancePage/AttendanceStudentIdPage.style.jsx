@@ -24,8 +24,8 @@ export const Title = styled.h1`
   display: flex;
   justify-content: center;
   font-size: 40px;
-  margin-top: 20px;
-  margin-bottom: 10px;
+  margin-top: 30px;
+  /* margin-bottom: 10px; */
   padding: 20px;
   color: var(--gray-300, #636363);
 
@@ -40,6 +40,9 @@ export const StudentIdContainer = styled.div`
   justify-content: center;
   gap: 40px;
 
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    gap: 20px;
+  }
   @media (max-width: ${BREAKPOINTS[0]}px) {
     gap: 10px;
   }
@@ -58,6 +61,10 @@ export const StudentId = styled.div`
   font-size: 60px;
   font-weight: 600;
 
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    --box-size: 50px;
+    font-size: 40px;
+  }
   @media (max-width: ${BREAKPOINTS[0]}px) {
     --box-size: 40px;
     font-size: 36px;
@@ -137,6 +144,7 @@ export const GoToSignBtn = styled.div`
   color: #ffffff;
   font-size: 30px;
   font-weight: 600;
+  word-break: keep-all;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     font-size: 26px;

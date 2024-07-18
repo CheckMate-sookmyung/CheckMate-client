@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { GrayButton90 } from '../../components';
+import { BREAKPOINTS } from '../../styles';
 
 export const DashboardPage = styled.div`
   flex-grow: 1;
@@ -14,6 +15,11 @@ export const TopContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 30px;
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    flex-direction: column;
+    gap: 10px;
+  }
 `;
 
 export const ButtonContainer = styled.div`
@@ -116,6 +122,10 @@ export const OverviewContainer = styled.div`
   display: flex;
   gap: 10px;
   width: 100%;
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    flex-direction: column;
+  }
 `;
 
 export const OverviewWrapper = styled.div`
@@ -247,6 +257,10 @@ export const ProgressContainer = styled.div`
   display: flex;
   gap: 10px;
   width: 100%;
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    flex-direction: column;
+  }
 `;
 
 export const ProgressBox = styled.div`
