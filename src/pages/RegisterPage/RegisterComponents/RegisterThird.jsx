@@ -7,6 +7,7 @@ import { IoIosArrowDown } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { RegisterStep } from '../../../recoil/atoms/state';
+import BackButton from './BackButton';
 
 const RegisterThird = () => {
   const navigate = useNavigate();
@@ -95,8 +96,10 @@ const RegisterThird = () => {
 
   return (
     <>
-      {/* <BackButton /> */}
       <S.Container>
+        <S.ButtonWrapper>
+          <BackButton />
+        </S.ButtonWrapper>
         <S.SubContainer>
           <S.ContentBox style={{ alignItems: 'left' }}>
             <div>

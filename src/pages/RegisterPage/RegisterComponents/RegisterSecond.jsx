@@ -5,6 +5,7 @@ import { RegisterStep } from '../../../recoil/atoms/state';
 import styled from 'styled-components';
 import * as S from '../RegisterStyle';
 import DragnDrop from './DragnDrop';
+import BackButton from './BackButton';
 
 const RegisterSecond = () => {
   const Step = useSetRecoilState(RegisterStep);
@@ -56,21 +57,19 @@ const RegisterSecond = () => {
     }
   };
 
-  const stepDown = () => {
-    Step(1);
-  };
-
   const stepUp = () => {
     Step(3);
   };
 
   return (
     <>
-      {/* <BackButton /> */}
       <S.Container>
+        <S.ButtonWrapper>
+          <BackButton />
+        </S.ButtonWrapper>
         <S.SubContainer>
           <S.ContentBox style={{ alignItems: 'left' }}>
-            <div style={{ width: '60%' }}>
+            <div style={{ width: '70%' }}>
               <CategoryFont>행사 제목</CategoryFont>
               <S.PrimaryInput
                 placeholder="행사 제목"
