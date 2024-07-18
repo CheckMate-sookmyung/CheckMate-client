@@ -24,8 +24,10 @@ export const Title = styled.h1`
   display: flex;
   justify-content: center;
   font-size: 40px;
-  margin-top: 30px;
+  margin-top: 20px;
+  margin-bottom: 10px;
   padding: 20px;
+  color: var(--gray-300, #636363);
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     font-size: 30px;
@@ -37,7 +39,6 @@ export const StudentIdContainer = styled.div`
   display: flex;
   justify-content: center;
   gap: 40px;
-  margin-top: 20px;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     gap: 10px;
@@ -68,11 +69,11 @@ export const DialList = styled.div`
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(4, 1fr);
   width: 80%;
-  /* height: 100%; */
   height: inherit;
   border-collapse: collapse;
   border-radius: 10px;
-  margin: 20px;
+  margin-top: 20px;
+  margin-bottom: 40px;
   overflow: hidden;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
