@@ -24,8 +24,8 @@ export const Title = styled.h1`
   display: flex;
   justify-content: center;
   font-size: 40px;
-  margin-top: 20px;
-  margin-bottom: 10px;
+  margin-top: 30px;
+  /* margin-bottom: 10px; */
   padding: 20px;
   color: var(--gray-300, #636363);
 
@@ -40,6 +40,9 @@ export const StudentIdContainer = styled.div`
   justify-content: center;
   gap: 40px;
 
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    gap: 20px;
+  }
   @media (max-width: ${BREAKPOINTS[0]}px) {
     gap: 10px;
   }
@@ -58,6 +61,10 @@ export const StudentId = styled.div`
   font-size: 60px;
   font-weight: 600;
 
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    --box-size: 50px;
+    font-size: 40px;
+  }
   @media (max-width: ${BREAKPOINTS[0]}px) {
     --box-size: 40px;
     font-size: 36px;
@@ -85,13 +92,17 @@ export const Dial = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
   border: 1px solid #d9d9d9;
   border-width: 1px 0 0 1px;
+  width: 100%;
   height: 100%;
+  padding: 20px 80px;
   font-size: 40px;
   font-weight: 600;
   color: #838383;
   background-color: white;
+
   &:nth-child(3n) {
     border-right: 1px solid #d9d9d9;
   }
@@ -109,6 +120,16 @@ export const Dial = styled.div`
   &:nth-child(10) {
     border-bottom-left-radius: 10px;
   }
+
+  @media (max-width: ${BREAKPOINTS[2]}px) {
+    padding: 20px 60px;
+  }
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    padding: 20px 44px;
+  }
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    padding: 20px 30px;
+  }
 `;
 
 export const GoToSignBtn = styled.div`
@@ -123,6 +144,7 @@ export const GoToSignBtn = styled.div`
   color: #ffffff;
   font-size: 30px;
   font-weight: 600;
+  word-break: keep-all;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     font-size: 26px;
