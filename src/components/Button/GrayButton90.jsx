@@ -23,10 +23,12 @@ export const GrayButton90 = styled.button`
   color: #ffffff;
   font-weight: 600;
   font-size: 14px;
-  transition:
-    background 0.3s ease,
-    box-shadow 0.3s ease,
-    transform 0.3s ease;
+  transition: background 0.3s ease-in-out;
+
+  &:hover {
+    background-color: var(--gray-300, #636363);
+    color: #fff;
+  }
 
   &:disabled {
     background: var(--gray-200, #d9d9d9);
