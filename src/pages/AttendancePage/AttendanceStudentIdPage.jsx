@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import * as S from './AttendanceStudentIdPage.style';
 import { AttendanceHeader } from '../../components';
 import { getAttendanceCheck } from '../../services';
-import { USER_ID } from '../../constants';
+import { USER_ID, EVENT_DATE } from '../../constants';
 import { useSessionStorages } from '../../hooks';
 import { axiosInstance } from '../../axios';
 import { useNavigate } from 'react-router-dom';
@@ -35,6 +35,7 @@ const AttendanceStudentIdPage = () => {
           { userId: USER_ID, eventId: EVENT_ID },
           {
             studentNumber: Number(enteredDials.join('')),
+            eventDate: EVENT_DATE,
           },
         );
 
@@ -63,7 +64,6 @@ const AttendanceStudentIdPage = () => {
       }
     } else {
       if (enteredDials.length < 7 && dial !== '서명하러 가기') {
-        // if (enteredNumbers.length < 7 && number !== '확인') {
         setEnteredDials([...enteredDials, dial]);
       }
     }
