@@ -3,7 +3,7 @@ import * as S from './EventListStyle';
 import { USER_ID } from '../../constants';
 import { useNavigate } from 'react-router-dom';
 import { axiosInstance } from '../../axios';
-import { useSetRecoilState, useRecoilValue } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { eventIDState } from '../../recoil/atoms/state';
 
 const EventList = () => {
@@ -27,7 +27,13 @@ const EventList = () => {
             endDate,
           };
         });
-        setEvents(parsedEvents);
+
+        // 최신순으로 행사 정려
+        const sortedEvents = parsedEvents.sort(
+          (a, b) => new Date(b.startDate) - new Date(a.startDate),
+        );
+
+        setEvents(sortedEvents);
       } catch (error) {
         console.error(error);
       }
