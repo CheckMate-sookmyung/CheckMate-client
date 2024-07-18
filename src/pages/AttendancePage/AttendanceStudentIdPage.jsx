@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import * as S from './AttendanceStudentIdPage.style';
 import { AttendanceHeader } from '../../components';
 import { getAttendanceCheck } from '../../services';
-import { EVENT_DATE, EVENT_ID, USER_ID } from '../../constants';
+import { USER_ID, EVENT_DATE } from '../../constants';
 import { useSessionStorages } from '../../hooks';
 import { axiosInstance } from '../../axios';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { eventIDState } from '../../recoil/atoms/state';
 
 const AttendanceStudentIdPage = () => {
   const navigate = useNavigate();
@@ -14,6 +16,7 @@ const AttendanceStudentIdPage = () => {
   const [eventTitle, setEventTitle] = useState('');
   const [isAlreadyCompleted, setIsAlreadyCompleted] = useState(false);
   const [isNoMatch, setIsNoMatch] = useState(false);
+  const EVENT_ID = useRecoilValue(eventIDState);
 
   const { setSessionStorage } = useSessionStorages();
 
@@ -61,13 +64,14 @@ const AttendanceStudentIdPage = () => {
       }
     } else {
       if (enteredDials.length < 7 && dial !== '서명하러 가기') {
-        // if (enteredNumbers.length < 7 && number !== '확인') {
         setEnteredDials([...enteredDials, dial]);
       }
     }
   };
 
   useEffect(() => {
+    console.log('USER_ID:', USER_ID);
+    console.log('EVENT_ID:', EVENT_ID);
     const fetchEventTitle = async () => {
       try {
         const response = await axiosInstance.get(
