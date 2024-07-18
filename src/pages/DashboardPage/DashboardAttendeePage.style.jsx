@@ -170,6 +170,7 @@ export const TableHeader = styled.th`
   border-bottom: 1px solid #ccc;
   white-space: nowrap;
   overflow: hidden;
+  gap: 2px;
 `;
 
 export const TableData = styled.td`

@@ -1,7 +1,11 @@
 import * as S from './DashboardAttendeePage.style';
 import PageLayout from '../../Layout/PageLayout';
 import { useState, useEffect } from 'react';
-import { FaMagnifyingGlass, FaSortUp, FaSortDown } from 'react-icons/fa6';
+import {
+  FaMagnifyingGlass,
+  FaArrowDownShortWide,
+  FaArrowUpWideShort,
+} from 'react-icons/fa6';
 import { Sidebar } from '../../components/Navigator';
 import { axiosInstance } from '../../axios';
 import { USER_ID } from '../../constants';
@@ -14,10 +18,14 @@ export default function DashboardAttendeePage() {
   const [editMode, setEditMode] = useState(false);
   const [attendees, setAttendees] = useState([]);
   const [sessions, setSessions] = useState([]);
-  const [sortConfig, setSortConfig] = useState({ key: '', direction: 'asc' });
-  const EVENT_ID = useRecoilValue(eventIDState);
+  const [sortConfig, setSortConfig] = useState({
+    key: 'name',
+    direction: 'asc',
+  });
   const [sessionAttendees, setSessionAttendees] = useState({});
+  const EVENT_ID = useRecoilValue(eventIDState);
 
+  // 출석 명단 가져오기
   useEffect(() => {
     const fetchSessions = async () => {
       try {
@@ -37,6 +45,7 @@ export default function DashboardAttendeePage() {
         parsedSessions.forEach((session) => {
           attendeesData[session.tab] = session.attendanceList.map(
             (student) => ({
+              id: student.id,
               major: student.major,
               name: student.studentName,
               number: student.studentNumber,
@@ -50,7 +59,14 @@ export default function DashboardAttendeePage() {
         setSessionAttendees(attendeesData);
 
         if (parsedSessions.length > 0) {
-          setAttendees(attendeesData[1]);
+          const initialAttendees = attendeesData[1].sort((a, b) =>
+            a.name.localeCompare(b.name),
+          );
+          setAttendees(initialAttendees);
+          setSessionAttendees((prev) => ({
+            ...prev,
+            [1]: initialAttendees,
+          }));
         }
       } catch (error) {
         console.error(error);
@@ -60,6 +76,7 @@ export default function DashboardAttendeePage() {
     fetchSessions();
   }, [EVENT_ID, USER_ID]);
 
+  // 탭 정보에 따른 명단 가져오기
   const SessionDateTab = ({ tab, activeTab, setActiveTab, date }) => {
     return (
       <TabButton90
@@ -86,11 +103,44 @@ export default function DashboardAttendeePage() {
     }));
   };
 
+  // 출석 여부 수정
+  const handleEditModeToggle = async () => {
+    if (editMode) {
+      try {
+        const updatedSchedules = sessions.map((session) => ({
+          eventDate: session.date,
+          attendanceList: sessionAttendees[session.tab].map((attendee) => ({
+            id: attendee.id,
+            studentName: attendee.name,
+            studentNumber: attendee.number,
+            major: attendee.major,
+            phoneNumber: attendee.phoneNumber,
+            email: attendee.email,
+            attendance: attendee.attendance,
+          })),
+        }));
+
+        await axiosInstance.put(`/api/v1/events/${USER_ID}/${EVENT_ID}`, {
+          eventId: EVENT_ID,
+          userId: USER_ID,
+          eventSchedules: updatedSchedules,
+        });
+        alert('출석 정보가 성공적으로 업데이트되었습니다.');
+      } catch (error) {
+        console.error(error);
+        alert('출석 정보 업데이트에 실패했습니다.');
+      }
+    }
+    setEditMode(!editMode);
+  };
+
+  // 참석률 정보
   const totalAttendees = attendees.length;
   const attendCount = attendees.filter(
     (attendee) => attendee.attendance,
   ).length;
 
+  // 데이터 정렬
   const sortData = (key) => {
     let direction = 'asc';
     if (sortConfig.key === key && sortConfig.direction === 'asc') {
@@ -113,8 +163,8 @@ export default function DashboardAttendeePage() {
 
   const SortIcon = ({ columnKey }) => {
     if (sortConfig.key !== columnKey) return null;
-    if (sortConfig.direction === 'asc') return <FaSortUp />;
-    return <FaSortDown />;
+    if (sortConfig.direction === 'asc') return <FaArrowUpWideShort />;
+    return <FaArrowDownShortWide />;
   };
 
   return (
@@ -139,7 +189,7 @@ export default function DashboardAttendeePage() {
               />
             ))}
           </S.TabContainer>
-          <S.EditMode onClick={() => setEditMode(!editMode)} active={editMode}>
+          <S.EditMode onClick={handleEditModeToggle} active={editMode}>
             {editMode ? '수정 완료하기' : '출석 여부 수정하기'}
           </S.EditMode>
         </S.TabEditWrapper>
