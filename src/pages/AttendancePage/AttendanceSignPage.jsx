@@ -5,15 +5,18 @@ import SignatureCanvas from 'react-signature-canvas';
 import { useState, useRef, useEffect } from 'react';
 import { postAttendanceSign } from '../../services';
 import { useSessionStorages } from '../../hooks';
-import { USER_ID, EVENT_ID } from '../../constants';
+import { USER_ID } from '../../constants'; // EVENT_ID는 useRecoilValue를 사용하여 가져오도록 수정
 import { useLocation, useNavigate } from 'react-router-dom';
 import { axiosInstance } from '../../axios';
 import { FiRotateCcw } from 'react-icons/fi';
+import { useRecoilValue } from 'recoil';
+import { eventIDState } from '../../recoil/atoms/state';
 
 const AttendanceSignPage = ({ name, major, studentId }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { studentInfo } = location.state;
+  const EVENT_ID = useRecoilValue(eventIDState);
 
   const [isSigned, setIsSigned] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -78,8 +81,12 @@ const AttendanceSignPage = ({ name, major, studentId }) => {
       }
     };
 
-    fetchEventTitle();
-  }, []);
+    if (EVENT_ID) {
+      fetchEventTitle();
+    } else {
+      console.error('EVENT_ID is not defined');
+    }
+  }, [EVENT_ID]);
 
   return (
     <S.Container>
