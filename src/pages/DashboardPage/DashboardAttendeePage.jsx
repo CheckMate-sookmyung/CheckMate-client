@@ -208,70 +208,68 @@ export default function DashboardAttendeePage() {
         </S.SearchContainer>
 
         <S.TableContainer>
-          <S.TableTitle>
-            <S.Table>
-              <thead>
-                <tr>
-                  <S.TableHeader>
+          <S.Table>
+            <thead>
+              <tr>
+                <S.TableHeader>
+                  <input type="checkbox" />
+                </S.TableHeader>
+                <S.TableHeader onClick={() => sortData('major')}>
+                  학과 <SortIcon columnKey="major" />
+                </S.TableHeader>
+                <S.TableHeader onClick={() => sortData('name')}>
+                  이름 <SortIcon columnKey="name" />
+                </S.TableHeader>
+                <S.TableHeader onClick={() => sortData('number')}>
+                  학번 <SortIcon columnKey="number" />
+                </S.TableHeader>
+                <S.TableHeader onClick={() => sortData('year')}>
+                  학년 <SortIcon columnKey="year" />
+                </S.TableHeader>
+                <S.TableHeader onClick={() => sortData('phoneNumber')}>
+                  휴대폰 번호 <SortIcon columnKey="phoneNumber" />
+                </S.TableHeader>
+                <S.TableHeader onClick={() => sortData('email')}>
+                  이메일 주소 <SortIcon columnKey="email" />
+                </S.TableHeader>
+                <S.TableHeader onClick={() => sortData('attendance')}>
+                  출석 여부 <SortIcon columnKey="attendance" />
+                </S.TableHeader>
+              </tr>
+            </thead>
+            <tbody>
+              {attendees.map((data, index) => (
+                <tr key={index}>
+                  <S.TableData>
                     <input type="checkbox" />
-                  </S.TableHeader>
-                  <S.TableHeader onClick={() => sortData('major')}>
-                    학과 <SortIcon columnKey="major" />
-                  </S.TableHeader>
-                  <S.TableHeader onClick={() => sortData('name')}>
-                    이름 <SortIcon columnKey="name" />
-                  </S.TableHeader>
-                  <S.TableHeader onClick={() => sortData('number')}>
-                    학번 <SortIcon columnKey="number" />
-                  </S.TableHeader>
-                  <S.TableHeader onClick={() => sortData('year')}>
-                    학년 <SortIcon columnKey="year" />
-                  </S.TableHeader>
-                  <S.TableHeader onClick={() => sortData('phoneNumber')}>
-                    휴대폰 번호 <SortIcon columnKey="phoneNumber" />
-                  </S.TableHeader>
-                  <S.TableHeader onClick={() => sortData('email')}>
-                    이메일 주소 <SortIcon columnKey="email" />
-                  </S.TableHeader>
-                  <S.TableHeader onClick={() => sortData('attendance')}>
-                    출석 여부 <SortIcon columnKey="attendance" />
-                  </S.TableHeader>
+                  </S.TableData>
+                  <S.TableData>{data.major}</S.TableData>
+                  <S.TableData>{data.name}</S.TableData>
+                  <S.TableData>{data.number}</S.TableData>
+                  <S.TableData>{data.year}</S.TableData>
+                  <S.TableData>{data.phoneNumber}</S.TableData>
+                  <S.TableData>{data.email}</S.TableData>
+                  <S.TableData attendance={data.attendance ? '출석' : '결석'}>
+                    {editMode ? (
+                      <select
+                        value={data.attendance ? '출석' : '결석'}
+                        onChange={(e) =>
+                          handleAttendanceChange(index, e.target.value)
+                        }
+                      >
+                        <option value="출석">출석</option>
+                        <option value="결석">결석</option>
+                      </select>
+                    ) : data.attendance ? (
+                      '출석'
+                    ) : (
+                      '결석'
+                    )}
+                  </S.TableData>
                 </tr>
-              </thead>
-              <tbody>
-                {attendees.map((data, index) => (
-                  <tr key={index}>
-                    <S.TableData>
-                      <input type="checkbox" />
-                    </S.TableData>
-                    <S.TableData>{data.major}</S.TableData>
-                    <S.TableData>{data.name}</S.TableData>
-                    <S.TableData>{data.number}</S.TableData>
-                    <S.TableData>{data.year}</S.TableData>
-                    <S.TableData>{data.phoneNumber}</S.TableData>
-                    <S.TableData>{data.email}</S.TableData>
-                    <S.TableData attendance={data.attendance ? '출석' : '결석'}>
-                      {editMode ? (
-                        <select
-                          value={data.attendance ? '출석' : '결석'}
-                          onChange={(e) =>
-                            handleAttendanceChange(index, e.target.value)
-                          }
-                        >
-                          <option value="출석">출석</option>
-                          <option value="결석">결석</option>
-                        </select>
-                      ) : data.attendance ? (
-                        '출석'
-                      ) : (
-                        '결석'
-                      )}
-                    </S.TableData>
-                  </tr>
-                ))}
-              </tbody>
-            </S.Table>
-          </S.TableTitle>
+              ))}
+            </tbody>
+          </S.Table>
         </S.TableContainer>
       </S.DashboardAttendee>
     </PageLayout>
