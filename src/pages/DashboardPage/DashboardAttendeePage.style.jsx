@@ -142,10 +142,6 @@ export const EditMode = styled.button`
 
 // 행사 정보
 export const TableContainer = styled.div`
-  width: 100%;
-`;
-
-export const TableTitle = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
@@ -162,6 +158,7 @@ export const Table = styled.table`
 export const TableHeader = styled.th`
   justify-content: center;
   align-items: center;
+  align-content: center;
   padding: 16px;
   text-align: left;
   font-size: 14px;
@@ -170,6 +167,8 @@ export const TableHeader = styled.th`
   border-bottom: 1px solid #ccc;
   white-space: nowrap;
   overflow: hidden;
+  gap: 4px;
+  cursor: pointer;
 `;
 
 export const TableData = styled.td`
