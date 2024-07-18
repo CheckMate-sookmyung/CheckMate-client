@@ -92,4 +92,9 @@ export const CheckButton = styled.button`
     background: ${(props) =>
       props.isEnded ? 'var(--gray-300, #636363)' : '#3a5ccf'};
   }
+
+  &:disabled {
+    background-color: var(--gray-300, #636363);
+    cursor: not-allowed;
+  }
 `;

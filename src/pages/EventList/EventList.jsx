@@ -28,7 +28,7 @@ const EventList = () => {
           };
         });
 
-        // 최신순으로 행사 정려
+        // 최신순으로 행사 정렬
         const sortedEvents = parsedEvents.sort(
           (a, b) => new Date(b.startDate) - new Date(a.startDate),
         );
@@ -92,7 +92,11 @@ const EventCard = ({ id, title, poster, startDate, endDate }) => {
           {endDate ? `${startDate} ~ ${endDate}` : startDate}
         </S.CardDay>
       </S.EventDate>
-      <S.CheckButton isEnded={isEventEnded()} onClick={attendanceCheck}>
+      <S.CheckButton
+        isEnded={isEventEnded()}
+        onClick={attendanceCheck}
+        disabled={isEventEnded()}
+      >
         {isEventEnded() ? '행사 종료' : '출석 체크'}
       </S.CheckButton>
     </S.CardWrapper>
