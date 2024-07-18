@@ -15,8 +15,6 @@ export default function Navigator() {
       <S.LogoMenuWrapper>
         <S.Logo onClick={clickedLogo}>체크메이트</S.Logo>
         <S.MenuContainer>
-          {/* <S.Menu>체크메이트 해커톤</S.Menu> */}
-          {/* <S.Menu>|</S.Menu> */}
           <S.Menu>
             <S.StyledNavLink to="/register" activeClassName="active">
               행사 등록
@@ -28,6 +26,9 @@ export default function Navigator() {
             </S.StyledNavLink>
           </S.Menu>
         </S.MenuContainer>
+        <S.PageMenuWrapper>
+          <S.PageMenu>체크메이트 해커톤</S.PageMenu>
+        </S.PageMenuWrapper>
       </S.LogoMenuWrapper>
       <S.Profile>프로필</S.Profile>
     </S.Wrapper>

@@ -8,7 +8,7 @@ export const Wrapper = styled.div`
   align-items: center;
   margin: 0 auto;
   border-bottom: 1px solid #ebedf0;
-  padding: 12px 40px;
+  padding: 10px 30px;
   width: 100%;
   background-color: white;
 
@@ -19,14 +19,16 @@ export const Wrapper = styled.div`
 
 export const LogoMenuWrapper = styled.div`
   display: flex;
-  gap: 50px;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    gap: 20px;
   }
 `;
 
 export const Logo = styled.h1`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 10px;
   font-size: 24px;
   font-weight: 700;
   cursor: pointer;
@@ -40,13 +42,12 @@ export const MenuContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 30px;
+  padding: 0 10px;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
     gap: 20px;
   }
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    /* gap: 10px; */
   }
 `;
 
@@ -54,9 +55,27 @@ export const Menu = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 10px;
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
+`;
+
+export const PageMenuWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const PageMenu = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 20px;
+  border-left: 2px solid var(--gray-300, #636363);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--gray-300, #636363);
 `;
 
 export const StyledNavLink = styled(NavLink)`
