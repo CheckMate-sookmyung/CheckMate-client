@@ -9,7 +9,6 @@ import { axiosInstance } from '../../axios';
 export default function Navigator() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [eventTitle, setEventTitle] = useState('');
   const [parsedEvent, setParsedEvent] = useState(null);
   const EVENT_ID = useRecoilValue(eventIDState);
 
@@ -37,7 +36,9 @@ export default function Navigator() {
         console.error('Fetch event data failed:', error);
       }
     };
-    fetchEventData();
+    if (location.pathname.startsWith('/event/dashboard')) {
+      fetchEventData();
+    }
   }, [location.pathname, EVENT_ID]);
 
   return (
@@ -56,9 +57,11 @@ export default function Navigator() {
             </S.StyledNavLink>
           </S.Menu>
         </S.MenuContainer>
-        <S.PageMenuWrapper>
-          {parsedEvent && <S.PageMenu>{parsedEvent.title}</S.PageMenu>}
-        </S.PageMenuWrapper>
+        {location.pathname.startsWith('/event/dashboard') && (
+          <S.PageMenuWrapper>
+            {parsedEvent && <S.PageMenu>{parsedEvent.title}</S.PageMenu>}
+          </S.PageMenuWrapper>
+        )}
       </S.LogoMenuWrapper>
       <S.Profile>프로필</S.Profile>
     </S.Wrapper>
