@@ -80,7 +80,8 @@ export const CheckButton = styled.button`
   border: none;
   border-radius: 4px;
   color: white;
-  background: #4e75ff;
+  background: ${(props) =>
+    props.isEnded ? 'var(--gray-300, #636363);' : '#4e75ff'};
   cursor: pointer;
   font-size: 16px;
   transition:
@@ -88,6 +89,7 @@ export const CheckButton = styled.button`
     transform 0.3s;
 
   &:hover {
-    background: #3a5ccf;
+    background: ${(props) =>
+      props.isEnded ? 'var(--gray-300, #636363)' : '#3a5ccf'};
   }
 `;

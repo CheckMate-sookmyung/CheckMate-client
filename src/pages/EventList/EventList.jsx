@@ -73,6 +73,13 @@ const EventCard = ({ id, title, poster, startDate, endDate }) => {
     navigate('/attendance/student-id');
   };
 
+  // 행사 종료시
+  const isEventEnded = () => {
+    const today = new Date();
+    const eventEndDate = new Date(endDate || startDate);
+    return today > eventEndDate;
+  };
+
   return (
     <S.CardWrapper onClick={handleDetail}>
       <S.EventImgWrapper>
@@ -85,7 +92,9 @@ const EventCard = ({ id, title, poster, startDate, endDate }) => {
           {endDate ? `${startDate} ~ ${endDate}` : startDate}
         </S.CardDay>
       </S.EventDate>
-      <S.CheckButton onClick={attendanceCheck}>출석 체크</S.CheckButton>
+      <S.CheckButton isEnded={isEventEnded()} onClick={attendanceCheck}>
+        {isEventEnded() ? '행사 종료' : '출석 체크'}
+      </S.CheckButton>
     </S.CardWrapper>
   );
 };
