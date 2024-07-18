@@ -5,7 +5,7 @@ import SignatureCanvas from 'react-signature-canvas';
 import { useState, useRef, useEffect } from 'react';
 import { postAttendanceSign } from '../../services';
 import { useSessionStorages } from '../../hooks';
-import { USER_ID } from '../../constants'; // EVENT_ID는 useRecoilValue를 사용하여 가져오도록 수정
+import { USER_ID } from '../../constants';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { axiosInstance } from '../../axios';
 import { FiRotateCcw } from 'react-icons/fi';
@@ -80,13 +80,8 @@ const AttendanceSignPage = ({ name, major, studentId }) => {
         console.error('이벤트 타이틀 에러', error);
       }
     };
-
-    if (EVENT_ID) {
-      fetchEventTitle();
-    } else {
-      console.error('EVENT_ID is not defined');
-    }
-  }, [EVENT_ID]);
+    fetchEventTitle();
+  }, []);
 
   return (
     <S.Container>
@@ -133,7 +128,7 @@ const AttendanceSignPage = ({ name, major, studentId }) => {
             }}
             ref={signatureRef}
             onEnd={handleSignature}
-          />{' '}
+          />
         </S.SignatureCanvasContainer>
       </S.CanvasWrapper>
 
