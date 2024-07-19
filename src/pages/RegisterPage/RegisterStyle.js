@@ -135,3 +135,11 @@ export const ContentInput = styled.textarea`
     outline: none;
   }
 `;
+
+export const TemplateButton = styled.div`
+  width: 130px;
+  font-size: 14px;
+  text-align: center;
+  color: gray;
+  cursor: pointer;
+`;
