@@ -82,7 +82,6 @@ export const StyledLink = styled(Link)`
 
 export const EventTitleWrapper = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
   gap: 10px;
 `;
