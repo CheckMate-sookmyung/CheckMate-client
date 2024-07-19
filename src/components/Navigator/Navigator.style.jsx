@@ -118,7 +118,7 @@ export const ProfileMenuWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
     --box-size: 24px;
@@ -138,7 +138,7 @@ export const ProfileIconWrapper = styled.button`
   }
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    --box-size: 20px;
+    --box-size: 26px;
     display: flex;
   }
 `;
@@ -158,7 +158,7 @@ export const MenuIconWrapper = styled.div`
   }
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    --box-size: 20px;
+    --box-size: 24px;
     display: flex;
   }
 `;

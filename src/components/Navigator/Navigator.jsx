@@ -7,6 +7,7 @@ import { USER_ID } from '../../constants';
 import { axiosInstance } from '../../axios';
 import { FaBars, FaCircleUser } from 'react-icons/fa6';
 import Sidebar from './Sidebar';
+import { BREAKPOINTS } from '../../styles';
 
 export default function Navigator() {
   const location = useLocation();
@@ -38,6 +39,21 @@ export default function Navigator() {
       fetchEventData();
     }
   }, [location.pathname, EVENT_ID]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > BREAKPOINTS[0]) {
+        setIsSidebarOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
