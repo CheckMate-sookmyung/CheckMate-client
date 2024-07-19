@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { BREAKPOINTS } from '../../styles';
 
 export const DashboardAttendee = styled.div`
   display: flex;
@@ -7,6 +8,10 @@ export const DashboardAttendee = styled.div`
   border-left: 1px solid #ebedf0;
   padding: 50px;
   gap: 10px;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    padding: 20px;
+  }
 `;
 
 // 행사 타이틀 + 버튼
@@ -15,6 +20,10 @@ export const TopContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    margin-bottom: 10px;
+  }
 `;
 
 export const Title = styled.h1`
@@ -50,10 +59,36 @@ export const DownBtn = styled.div`
 `;
 
 // 검색창
-export const SearchContainer = styled.div`
+export const SearchRageContainer = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 10px;
+`;
+
+export const RateWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f2f3f5;
+  border-radius: 8px;
+  padding: 0 20px;
+  min-width: 180px;
+  height: 40px;
+  gap: 10px;
+`;
+
+export const RateTitle = styled.span`
+  display: flex;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4e75ff;
+`;
+
+export const Attendee = styled.p`
+  display: flex;
+  font-size: 14px;
+  font-weight: 600;
+  color: #000000;
 `;
 
 export const SearchBoxWrapper = styled.div`
@@ -78,32 +113,6 @@ export const SearchBox = styled.input`
   &::placeholder {
     color: #aaaeb3;
   }
-`;
-
-export const RateWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f2f3f5;
-  border-radius: 8px;
-  padding: 0 30px;
-  min-width: 180px;
-  height: 40px;
-  gap: 10px;
-`;
-
-export const RateTitle = styled.span`
-  display: flex;
-  font-size: 14px;
-  font-weight: 600;
-  color: #4e75ff;
-`;
-
-export const Attendee = styled.p`
-  display: flex;
-  font-size: 14px;
-  font-weight: 600;
-  color: #000000;
 `;
 
 // 탭정보 및 출석 수정 모드

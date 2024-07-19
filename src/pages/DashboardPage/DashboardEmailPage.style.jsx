@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { BREAKPOINTS } from '../../styles';
 
 export const DashboardEmail = styled.div`
   display: flex;
@@ -7,6 +8,10 @@ export const DashboardEmail = styled.div`
   border-left: 1px solid #ebedf0;
   padding: 50px;
   gap: 10px;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    padding: 20px;
+  }
 `;
 
 // 행사 타이틀 + 버튼
@@ -15,6 +20,10 @@ export const TopContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    margin-bottom: 10px;
+  }
 `;
 
 export const Title = styled.h1`
