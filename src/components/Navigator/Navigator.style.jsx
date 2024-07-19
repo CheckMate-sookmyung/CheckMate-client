@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { BREAKPOINTS } from '../../styles';
 
-export const Wrapper = styled.div`
+export const Navigator = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -79,7 +79,7 @@ export const PageNameWrapper = styled.div`
   justify-content: center;
   align-items: center;
 
-  @media (max-width: ${BREAKPOINTS[0]}px) {
+  @media (max-width: ${BREAKPOINTS[1]}px) {
     display: none;
   }
 `;
@@ -114,20 +114,64 @@ export const StyledNavLink = styled(NavLink)`
   }
 `;
 
-export const Profile = styled.button`
+export const ProfileMenuWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    --box-size: 24px;
+  }
+`;
+
+export const ProfileIconWrapper = styled.button`
   --box-size: 30px;
 
   width: var(--box-size);
   height: var(--box-size);
   color: var(--gray-200, #d9d9d9);
-  cursor: pointer;
 
   svg {
     width: 100%;
     height: 100%;
   }
 
-  @media (max-width: ${BREAKPOINTS[1]}px) {
-    --box-size: 24px;
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    --box-size: 20px;
+    display: flex;
   }
+`;
+
+export const MenuIconWrapper = styled.div`
+  --box-size: 30px;
+
+  display: none;
+  align-items: center;
+  width: var(--box-size);
+  height: var(--box-size);
+  color: var(--gray-200, #d9d9d9);
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    --box-size: 20px;
+    display: flex;
+  }
+`;
+
+export const Sidebar = styled.div`
+  position: fixed;
+  top: 55px;
+  right: 0;
+  height: calc(100% - 60px);
+  width: 180px;
+  background-color: white;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(100%)')};
+  transition: transform 0.3s ease-in-out;
 `;

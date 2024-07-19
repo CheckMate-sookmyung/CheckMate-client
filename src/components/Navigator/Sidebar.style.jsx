@@ -11,9 +11,9 @@ export const Sidebar = styled.div`
   min-width: 180px;
   height: 100vh;
 
-  @media (max-width: ${BREAKPOINTS[0]}px) {
+  /* @media (max-width: ${BREAKPOINTS[0]}px) {
     display: none;
-  }
+  } */
 `;
 
 export const MenuWrapper = styled.div`

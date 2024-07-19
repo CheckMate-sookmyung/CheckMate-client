@@ -5,11 +5,13 @@ import { useRecoilValue } from 'recoil';
 import { eventIDState } from '../../recoil/atoms/state';
 import { USER_ID } from '../../constants';
 import { axiosInstance } from '../../axios';
-import { FaCircleUser } from 'react-icons/fa6';
+import { FaBars, FaCircleUser } from 'react-icons/fa6';
+import Sidebar from './Sidebar';
 
 export default function Navigator() {
   const location = useLocation();
   const [parsedEvent, setParsedEvent] = useState(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const EVENT_ID = useRecoilValue(eventIDState);
 
   useEffect(() => {
@@ -37,31 +39,45 @@ export default function Navigator() {
     }
   }, [location.pathname, EVENT_ID]);
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
-    <S.Wrapper>
-      <S.LogoMenuWrapper>
-        <S.Logo to="/">체크메이트</S.Logo>
-        <S.MenuContainer>
-          <S.Menu>
-            <S.StyledNavLink to="/register" activeClassName="active">
-              행사 등록
-            </S.StyledNavLink>
-          </S.Menu>
-          <S.Menu>
-            <S.StyledNavLink to="/event" activeClassName="active">
-              행사 목록
-            </S.StyledNavLink>
-          </S.Menu>
-        </S.MenuContainer>
-        {location.pathname.startsWith('/event/dashboard') && (
-          <S.PageNameWrapper>
-            {parsedEvent && <S.PageName>{parsedEvent.title}</S.PageName>}
-          </S.PageNameWrapper>
-        )}
-      </S.LogoMenuWrapper>
-      <S.Profile>
-        <FaCircleUser />
-      </S.Profile>
-    </S.Wrapper>
+    <>
+      <S.Navigator>
+        <S.LogoMenuWrapper>
+          <S.Logo to="/">체크메이트</S.Logo>
+          <S.MenuContainer>
+            <S.Menu>
+              <S.StyledNavLink to="/register" activeClassName="active">
+                행사 등록
+              </S.StyledNavLink>
+            </S.Menu>
+            <S.Menu>
+              <S.StyledNavLink to="/event" activeClassName="active">
+                행사 목록
+              </S.StyledNavLink>
+            </S.Menu>
+          </S.MenuContainer>
+          {location.pathname.startsWith('/event/dashboard') && (
+            <S.PageNameWrapper>
+              {parsedEvent && <S.PageName>{parsedEvent.title}</S.PageName>}
+            </S.PageNameWrapper>
+          )}
+        </S.LogoMenuWrapper>
+        <S.ProfileMenuWrapper>
+          <S.ProfileIconWrapper>
+            <FaCircleUser />
+          </S.ProfileIconWrapper>
+          <S.MenuIconWrapper>
+            <FaBars onClick={toggleSidebar} />
+          </S.MenuIconWrapper>
+        </S.ProfileMenuWrapper>
+        <S.Sidebar isOpen={isSidebarOpen}>
+          <Sidebar />
+        </S.Sidebar>
+      </S.Navigator>
+    </>
   );
 }
