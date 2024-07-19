@@ -17,18 +17,44 @@ export const { persistEvent } = recoilPersist({
   storage: sessionStorage,
 });
 
-export const RegisterState = atom({
-  key: 'RegisterInfo',
-  default: {
-    eventType: '',
-    eventTitle: '',
-    eventDetail: '',
-    eventImage: '',
-    attendanceListFile: '',
-    minCompletionTimes: '',
-    eventSchedules: [{ eventDate: '', eventStartTime: '', eventEndTime: '' }],
-  },
-  effects_UNSTABLE: [persistEvent],
+export const offlineStatus = atom({
+  key: 'offlineStatus',
+  default: 'OFFLINE',
+});
+
+export const eventType = atom({
+  key: 'eventType',
+  default: 'INTERNAL',
+});
+
+export const eventTitle = atom({
+  key: 'eventTitle',
+  default: '',
+});
+
+export const eventDetail = atom({
+  key: 'eventDetail',
+  default: '',
+});
+
+export const eventImage = atom({
+  key: 'eventImage',
+  default: '',
+});
+
+export const attendanceListFile = atom({
+  key: 'attendanceListFile',
+  default: '',
+});
+
+export const minCompletionTimes = atom({
+  key: 'minCompletionTimes',
+  default: 0,
+});
+
+export const eventScheduleList = atom({
+  key: 'eventSchedules',
+  default: [],
 });
 
 export const RegisterStep = atom({
