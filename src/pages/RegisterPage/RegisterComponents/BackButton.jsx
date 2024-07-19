@@ -5,10 +5,16 @@ import { useSetRecoilState } from 'recoil';
 import { RegisterStep } from '../../../recoil/atoms/state';
 
 const BackButton = () => {
+  const Step = useSetRecoilState(RegisterStep);
+
+  const stepDown = () => {
+    Step((prevStep) => prevStep - 1);
+  };
+
   return (
     <>
       <BackWrapper>
-        <ArrowBox>
+        <ArrowBox onClick={stepDown}>
           <GoChevronLeft />
         </ArrowBox>
         <BasicFont>이전으로</BasicFont>
@@ -30,6 +36,7 @@ const ArrowBox = styled.div`
   display: flex;
   padding: 5px;
   border-radius: 8px;
+  cursor: pointer;
   box-shadow:
     0 4px 6px rgba(0, 0, 0, 0.1),
     0 1px 3px rgba(0, 0, 0, 0.08);

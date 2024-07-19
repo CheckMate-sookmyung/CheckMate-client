@@ -4,7 +4,6 @@ import { BREAKPOINTS } from '../../styles';
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   height: fit-content;
   width: 100vw;
@@ -12,10 +11,9 @@ export const Container = styled.div`
 
 export const SubContainer = styled.div`
   display: flex;
+  flex-direction: column;
   width: 70%;
   height: 100%;
-  padding-top: 10px;
-  justify-content: center;
   @media (max-width: ${BREAKPOINTS[1]}px) {
     width: 100%;
     padding: 20px;
@@ -56,6 +54,12 @@ export const MainButton = styled.button`
   margin: 5rem 0 1rem 0;
   color: white;
   background-color: #0075ff;
+`;
+
+export const ButtonWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
 `;
 
 //RegisterFirst
@@ -130,4 +134,12 @@ export const ContentInput = styled.textarea`
   &:focus {
     outline: none;
   }
+`;
+
+export const TemplateButton = styled.div`
+  width: 130px;
+  font-size: 14px;
+  text-align: center;
+  color: gray;
+  cursor: pointer;
 `;
