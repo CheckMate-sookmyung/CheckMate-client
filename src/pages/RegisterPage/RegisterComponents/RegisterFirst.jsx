@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import * as S from '../RegisterStyle';
-import { RegisterStep } from '../../../recoil/atoms/state';
-import { useSetRecoilState } from 'recoil';
+import {
+  eventType,
+  offlineStatus,
+  RegisterStep,
+} from '../../../recoil/atoms/state';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 const RegisterFirst = () => {
   const Step = useSetRecoilState(RegisterStep);
-  const [isOnline, setIsOnline] = useState('OFFLINE');
-  const [eventType, setEventType] = useState('INTERNAL');
+  const [isOnline, setIsOnline] = useRecoilState(offlineStatus);
+  const [iseventType, setEventType] = useRecoilState(eventType);
 
-  const handleOnline = () => {
-    setIsOnline('ONLINE');
+  const handleOnlineStatus = (status) => {
+    setIsOnline(status);
   };
 
-  const handleOffline = () => {
-    setIsOnline('OFFLINE');
-  };
-
-  const getEventType = (event) => {
+  const handleEventType = (event) => {
     setEventType(event.target.value);
   };
 
@@ -27,6 +27,7 @@ const RegisterFirst = () => {
   return (
     <>
       <S.Container>
+        <div style={{ height: '50px' }} />
         <S.SubContainer>
           <S.ContentBox>
             <S.MainFont>행사는 온라인인가요, 오프라인인가요?</S.MainFont>
@@ -35,18 +36,17 @@ const RegisterFirst = () => {
             </S.SubFont>
             <S.FlexWrapper>
               <S.Choicebox
-                onClick={handleOnline}
+                onClick={() => handleOnlineStatus('ONLINE')}
                 isSelected={isOnline === 'ONLINE'}
               >
                 <S.CustomImage src="img/ONLINE.png" alt="" />
                 <S.MainFont>온라인 행사</S.MainFont>
               </S.Choicebox>
               <S.Choicebox
-                onClick={handleOffline}
+                onClick={() => handleOnlineStatus('OFFLINE')}
                 isSelected={isOnline === 'OFFLINE'}
               >
                 <S.CustomImage src="img/OFFLINE.png" alt="" />
-
                 <S.MainFont>오프라인 행사</S.MainFont>
               </S.Choicebox>
             </S.FlexWrapper>
@@ -57,7 +57,7 @@ const RegisterFirst = () => {
                   <S.EventRadio
                     name="eventType"
                     value="INTERNAL"
-                    onClick={getEventType}
+                    onClick={handleEventType}
                     defaultChecked
                   />
                   <div>
@@ -74,7 +74,7 @@ const RegisterFirst = () => {
                   <S.EventRadio
                     name="eventType"
                     value="EXTERNAL"
-                    onClick={getEventType}
+                    onClick={handleEventType}
                   />
                   <div>
                     <S.MainFont style={{ fontSize: '24px' }}>

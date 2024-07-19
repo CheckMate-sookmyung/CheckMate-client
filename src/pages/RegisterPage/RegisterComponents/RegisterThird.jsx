@@ -5,17 +5,55 @@ import DateCalendar from '../../../components/Calendar/DateCalendar';
 import TimeCalendar from '../../../components/Calendar/TimeCalendar';
 import { IoIosArrowDown } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
-import { RegisterStep } from '../../../recoil/atoms/state';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import {
+  eventScheduleList,
+  minCompletionTimes,
+  RegisterStep,
+} from '../../../recoil/atoms/state';
 import BackButton from './BackButton';
+import useResetAllStates from '../../../recoil/atoms/useResetAllState';
+
+const MinTimesDropdown = ({ eventSchedules, value, setValue }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleDropdown = () => setIsOpen(!isOpen);
+  const handleItemClick = (idx) => {
+    setValue(idx + 1);
+    setIsOpen(false);
+  };
+
+  return (
+    <DropdownContainer>
+      <DropdownButton onClick={toggleDropdown}>
+        {value}
+        <span style={{ alignItems: 'center' }}>
+          <IoIosArrowDown style={{ fontSize: '18px', color: 'gray' }} />
+        </span>
+      </DropdownButton>
+      {isOpen && (
+        <DropdownList>
+          {eventSchedules.map((event, idx) => (
+            <DropdownListItem key={idx} onClick={() => handleItemClick(idx)}>
+              {idx + 1}
+            </DropdownListItem>
+          ))}
+        </DropdownList>
+      )}
+    </DropdownContainer>
+  );
+};
 
 const RegisterThird = () => {
   const navigate = useNavigate();
   const Step = useSetRecoilState(RegisterStep);
   const [eventDate, setEventDate] = useState(null);
-  const [eventSchedules, setEventSchedules] = useState([]);
   const [eventStartTime, setEventStartTime] = useState('');
   const [eventEndTime, setEventEndTime] = useState('');
+  const [eventSchedules, setEventSchedules] = useRecoilState(eventScheduleList);
+  const [minCompletionTime, setMinCompletionTime] =
+    useRecoilState(minCompletionTimes);
+  const resetAllStates = useResetAllStates();
 
   const handleDateSelect = (day) => {
     setEventDate(day);
@@ -41,9 +79,9 @@ const RegisterThird = () => {
       setEventStartTime('');
       setEventEndTime('');
     }
-  }, [eventDate, eventStartTime, eventEndTime]);
+  }, [eventDate, eventStartTime, eventEndTime, setEventSchedules]);
 
-  const handleRegister = (e) => {
+  const handleRegister = () => {
     // e.preventDefault();
     // if (
     //   !eventTitle ||
@@ -92,6 +130,7 @@ const RegisterThird = () => {
     //   });
     navigate('/event');
     Step(1);
+    resetAllStates();
   };
 
   return (
@@ -116,9 +155,13 @@ const RegisterThird = () => {
                 />
               </S.FlexWrapper>
               <CategoryFont>행사 이수 기준</CategoryFont>
-              <MinTimesDropdown eventSchedules={eventSchedules} />
+              <MinTimesDropdown
+                eventSchedules={eventSchedules}
+                value={minCompletionTime}
+                setValue={setMinCompletionTime}
+              />
             </div>
-            <S.MainButton onClick={handleRegister}>생성</S.MainButton>
+            <S.MainButton onClick={handleRegister}>행사 생성</S.MainButton>
           </S.ContentBox>
         </S.SubContainer>
       </S.Container>
@@ -127,37 +170,6 @@ const RegisterThird = () => {
 };
 
 export default RegisterThird;
-
-const MinTimesDropdown = ({ eventSchedules }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(1);
-
-  const toggleDropdown = () => setIsOpen(!isOpen);
-  const handleItemClick = (idx) => {
-    setSelectedValue(idx + 1);
-    setIsOpen(false);
-  };
-
-  return (
-    <DropdownContainer>
-      <DropdownButton onClick={toggleDropdown}>
-        {selectedValue}
-        <span style={{ alignItems: 'center' }}>
-          <IoIosArrowDown style={{ fontSize: '18px', color: 'gray' }} />
-        </span>
-      </DropdownButton>
-      {isOpen && (
-        <DropdownList>
-          {eventSchedules.map((event, idx) => (
-            <DropdownListItem key={idx} onClick={() => handleItemClick(idx)}>
-              {idx + 1}
-            </DropdownListItem>
-          ))}
-        </DropdownList>
-      )}
-    </DropdownContainer>
-  );
-};
 
 const DropdownContainer = styled.div`
   position: relative;

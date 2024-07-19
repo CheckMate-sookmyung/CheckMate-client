@@ -1,36 +1,43 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
-import { RegisterStep } from '../../../recoil/atoms/state';
+import React from 'react';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import {
+  attendanceListFile,
+  eventDetail,
+  eventImage,
+  eventTitle,
+  eventType,
+  RegisterStep,
+} from '../../../recoil/atoms/state';
 import styled from 'styled-components';
 import * as S from '../RegisterStyle';
-import DragnDrop from './DragnDrop';
 import BackButton from './BackButton';
+import UploadBox from './DragnDrop';
 
 const RegisterSecond = () => {
   const Step = useSetRecoilState(RegisterStep);
-  const navigate = useNavigate();
-  const [eventTitle, setEventTitle] = useState('');
-  const [eventDetail, setEventDetail] = useState('');
-  const [eventImage, setEventImage] = useState(null);
-  const [attendanceListFile, setAttendanceListFile] = useState(null);
-  const [poster, setPoster] = useState(null);
-  const [file, setFile] = useState(null);
+  const type = useRecoilValue(eventType);
+  const [iseventTitle, setEventTitle] = useRecoilState(eventTitle);
+  const [iseventDetail, setEventDetail] = useRecoilState(eventDetail);
+  const [poster, setPoster] = useRecoilState(eventImage);
+  const [file, setFile] = useRecoilState(attendanceListFile);
 
-  const handleFileSelect = (file) => {
-    setFile(file);
+  const handleExcelChange = (event) => {
+    const excel = event.target.files[0];
+    setFile(excel);
   };
 
-  const handlePosterSelect = (event) => {
-    const poster = event.target.files[0];
-    setPoster(poster);
+  const handleImageChange = (event) => {
+    const image = event.target.files[0];
+    setPoster(image);
   };
 
   const handleDownload = async (e) => {
     e.preventDefault();
     try {
       const response = await fetch(
-        'https://checkmate-service-bucket.s3.ap-northeast-2.amazonaws.com/%EC%B2%B4%ED%81%AC%EB%A9%94%EC%9D%B4%ED%8A%B8+%EC%B0%B8%EC%84%9D+%EB%AA%85%EB%8B%A8+%ED%8F%AC%EB%A7%B7.xlsx',
+        type === 'INTERNAL'
+          ? 'https://checkmate-service-bucket.s3.ap-northeast-2.amazonaws.com/%EC%B2%B4%ED%81%AC%EB%A9%94%EC%9D%B4%ED%8A%B8+%EC%B0%B8%EC%84%9D+%EB%AA%85%EB%8B%A8+%ED%8F%AC%EB%A7%B7.xlsx'
+          : '교외 행사 파일 주소로 대체',
         {
           method: 'GET',
         },
@@ -73,34 +80,31 @@ const RegisterSecond = () => {
               <CategoryFont>행사 제목</CategoryFont>
               <S.PrimaryInput
                 placeholder="행사 제목"
-                value={eventTitle}
+                value={iseventTitle}
                 onChange={(e) => setEventTitle(e.target.value)}
               ></S.PrimaryInput>
               <CategoryFont>행사 설명</CategoryFont>
               <S.ContentInput
                 placeholder="행사 상세 설명"
-                value={eventDetail}
+                value={iseventDetail}
                 onChange={(e) => setEventDetail(e.target.value)}
               ></S.ContentInput>
               <CategoryFont>행사 포스터</CategoryFont>
-              <DragnDrop
-                onChangeFile={handlePosterSelect}
+              <UploadBox
+                onChangeFile={handleImageChange}
                 accept=".png, .jpeg, .pdf"
-                description="등록하실 포스터를 선택하거나 드래그해주세요."
+                value={poster}
               />
               <S.FlexWrapper style={{ justifyContent: 'left' }}>
                 <CategoryFont>행사 출석 파일</CategoryFont>
-                <S.MainButton
-                  style={{ margin: '0', padding: '0 5px', width: 'auto' }}
-                  onClick={handleDownload}
-                >
+                <S.TemplateButton onClick={handleDownload}>
                   출석 파일 템플릿 다운
-                </S.MainButton>
+                </S.TemplateButton>
               </S.FlexWrapper>
-              <DragnDrop
-                onChangeFile={handleFileSelect}
+              <UploadBox
+                onChangeFile={handleExcelChange}
                 accept=".xlsx, .xls"
-                description="등록하실 출석 명단을 선택하거나 드래그해주세요."
+                value={file}
               />
             </div>
             <S.MainButton onClick={stepUp}>다음</S.MainButton>
