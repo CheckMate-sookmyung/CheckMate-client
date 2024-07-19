@@ -194,31 +194,34 @@ export default function DashboardAttendeePage() {
           </S.EditMode>
         </S.TabEditWrapper>
 
-        <S.SearchContainer>
-          <S.SearchBoxWrapper>
-            <FaMagnifyingGlass />
-            <S.SearchBox placeholder="이름, 학번, 이메일, 전화번호로 검색" />
-          </S.SearchBoxWrapper>
+        <S.SearchRageContainer>
           <S.RateWrapper>
             <S.RateTitle>참석률</S.RateTitle>
             <S.Attendee>
               {attendCount} / {totalAttendees}
             </S.Attendee>
           </S.RateWrapper>
-        </S.SearchContainer>
+          <S.SearchBoxWrapper>
+            <FaMagnifyingGlass />
+            <S.SearchBox placeholder="이름, 학번, 이메일, 전화번호로 검색" />
+          </S.SearchBoxWrapper>
+        </S.SearchRageContainer>
 
         <S.TableContainer>
           <S.Table>
             <thead>
               <tr>
-                <S.TableHeader>
+                {/* <S.TableHeader>
                   <input type="checkbox" />
+                </S.TableHeader> */}{' '}
+                <S.TableHeader onClick={() => sortData('attendance')}>
+                  출석 여부 <SortIcon columnKey="attendance" />
+                </S.TableHeader>{' '}
+                <S.TableHeader onClick={() => sortData('name')}>
+                  이름 <SortIcon columnKey="name" />
                 </S.TableHeader>
                 <S.TableHeader onClick={() => sortData('major')}>
                   학과 <SortIcon columnKey="major" />
-                </S.TableHeader>
-                <S.TableHeader onClick={() => sortData('name')}>
-                  이름 <SortIcon columnKey="name" />
                 </S.TableHeader>
                 <S.TableHeader onClick={() => sortData('number')}>
                   학번 <SortIcon columnKey="number" />
@@ -232,23 +235,14 @@ export default function DashboardAttendeePage() {
                 <S.TableHeader onClick={() => sortData('email')}>
                   이메일 주소 <SortIcon columnKey="email" />
                 </S.TableHeader>
-                <S.TableHeader onClick={() => sortData('attendance')}>
-                  출석 여부 <SortIcon columnKey="attendance" />
-                </S.TableHeader>
               </tr>
             </thead>
             <tbody>
               {attendees.map((data, index) => (
                 <tr key={index}>
-                  <S.TableData>
+                  {/* <S.TableData>
                     <input type="checkbox" />
-                  </S.TableData>
-                  <S.TableData>{data.major}</S.TableData>
-                  <S.TableData>{data.name}</S.TableData>
-                  <S.TableData>{data.number}</S.TableData>
-                  <S.TableData>{data.year}</S.TableData>
-                  <S.TableData>{data.phoneNumber}</S.TableData>
-                  <S.TableData>{data.email}</S.TableData>
+                  </S.TableData> */}
                   <S.TableData attendance={data.attendance ? '출석' : '결석'}>
                     {editMode ? (
                       <select
@@ -266,6 +260,12 @@ export default function DashboardAttendeePage() {
                       '결석'
                     )}
                   </S.TableData>
+                  <S.TableData>{data.name}</S.TableData>
+                  <S.TableData>{data.major}</S.TableData>
+                  <S.TableData>{data.number}</S.TableData>
+                  <S.TableData>{data.year}</S.TableData>
+                  <S.TableData>{data.phoneNumber}</S.TableData>
+                  <S.TableData>{data.email}</S.TableData>
                 </tr>
               ))}
             </tbody>

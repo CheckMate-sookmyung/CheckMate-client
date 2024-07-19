@@ -8,6 +8,10 @@ export const DashboardPage = styled.div`
   background: #f2f3f5;
   border-left: 1px solid #ebedf0;
   padding: 50px;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    padding: 20px;
+  }
 `;
 
 // 행사 타이틀 + 버튼
@@ -19,6 +23,10 @@ export const TopContainer = styled.div`
   @media (max-width: ${BREAKPOINTS[1]}px) {
     flex-direction: column;
     gap: 10px;
+  }
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    margin-bottom: 10px;
   }
 `;
 
@@ -82,7 +90,6 @@ export const StyledLink = styled(Link)`
 
 export const EventTitleWrapper = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
   gap: 10px;
 `;

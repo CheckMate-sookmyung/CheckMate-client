@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { BREAKPOINTS } from '../../styles';
 
 export const Sidebar = styled.div`
   display: flex;
@@ -9,6 +10,10 @@ export const Sidebar = styled.div`
   padding-top: 35px;
   min-width: 180px;
   height: 100vh;
+
+  /* @media (max-width: ${BREAKPOINTS[0]}px) {
+    display: none;
+  } */
 `;
 
 export const MenuWrapper = styled.div`
