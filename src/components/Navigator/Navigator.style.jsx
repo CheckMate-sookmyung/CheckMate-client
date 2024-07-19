@@ -12,8 +12,11 @@ export const Wrapper = styled.div`
   width: 100%;
   background-color: white;
 
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    padding: 10px 20px;
+  }
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    padding: 12px 20px;
+    padding: 10px 10px;
   }
 `;
 
@@ -28,15 +31,16 @@ export const Logo = styled(NavLink)`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px 10px;
+  padding: 10px;
   cursor: pointer;
   font-size: 24px;
   font-weight: 700;
   text-decoration: none;
   color: black;
 
-  @media (max-width: ${BREAKPOINTS[0]}px) {
+  @media (max-width: ${BREAKPOINTS[1]}px) {
     font-size: 20px;
+    padding: 6px;
   }
 `;
 
@@ -45,14 +49,14 @@ export const MenuContainer = styled.div`
   justify-content: center;
   align-items: center;
   padding: 0 10px;
-  gap: 20px;
+  gap: 10px;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
-    gap: 10px;
+    gap: 0px;
+    padding: 0;
   }
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    gap: 0px;
-    padding: 0 6px;
+    padding: 0;
   }
 `;
 
@@ -64,15 +68,23 @@ export const Menu = styled.div`
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    font-size: 14px;
+  }
 `;
 
-export const PageMenuWrapper = styled.div`
+export const PageNameWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    display: none;
+  }
 `;
 
-export const PageMenu = styled.div`
+export const PageName = styled.span`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -81,6 +93,11 @@ export const PageMenu = styled.div`
   font-size: 16px;
   font-weight: 700;
   color: var(--gray-300, #636363);
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    padding: 0 10px;
+    font-size: 14px;
+  }
 `;
 
 export const StyledNavLink = styled(NavLink)`
@@ -98,15 +115,19 @@ export const StyledNavLink = styled(NavLink)`
 `;
 
 export const Profile = styled.button`
-  width: 86px;
-  height: 30px;
-  border: 2px solid #4e75ff;
-  border-radius: 4px;
-  background-color: white;
-  color: #4e75ff;
+  --box-size: 30px;
+
+  width: var(--box-size);
+  height: var(--box-size);
+  color: var(--gray-200, #d9d9d9);
   cursor: pointer;
 
-  @media (max-width: ${BREAKPOINTS[0]}px) {
-    width: 60px;
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    --box-size: 24px;
   }
 `;

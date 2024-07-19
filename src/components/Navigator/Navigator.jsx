@@ -5,6 +5,7 @@ import { useRecoilValue } from 'recoil';
 import { eventIDState } from '../../recoil/atoms/state';
 import { USER_ID } from '../../constants';
 import { axiosInstance } from '../../axios';
+import { FaCircleUser } from 'react-icons/fa6';
 
 export default function Navigator() {
   const location = useLocation();
@@ -53,12 +54,14 @@ export default function Navigator() {
           </S.Menu>
         </S.MenuContainer>
         {location.pathname.startsWith('/event/dashboard') && (
-          <S.PageMenuWrapper>
-            {parsedEvent && <S.PageMenu>{parsedEvent.title}</S.PageMenu>}
-          </S.PageMenuWrapper>
+          <S.PageNameWrapper>
+            {parsedEvent && <S.PageName>{parsedEvent.title}</S.PageName>}
+          </S.PageNameWrapper>
         )}
       </S.LogoMenuWrapper>
-      <S.Profile>프로필</S.Profile>
+      <S.Profile>
+        <FaCircleUser />
+      </S.Profile>
     </S.Wrapper>
   );
 }
