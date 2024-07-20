@@ -198,3 +198,9 @@ export const ContentDesc = styled.p`
   font-size: 14px;
   color: #666;
 `;
+
+export const ImagePreview = styled.img`
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
+`;

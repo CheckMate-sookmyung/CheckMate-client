@@ -15,6 +15,7 @@ export default function DashboardInfoPage() {
   const [selectedOption, setSelectedOption] = useState('option1');
   const [eventTitle, setEventTitle] = useState('');
   const [eventDescription, setEventDescription] = useState('');
+  const [eventImage, setEventImage] = useState('');
   const [eventSchedules, setEventSchedules] = useState([
     {
       eventDate: new Date(),
@@ -30,6 +31,7 @@ export default function DashboardInfoPage() {
     selectedOption,
     eventTitle,
     eventDescription,
+    eventImage,
     eventSchedules,
   });
 
@@ -45,6 +47,7 @@ export default function DashboardInfoPage() {
         setSelectedOption(eventData.selectedOption || 'option1');
         setEventTitle(eventData.eventTitle);
         setEventDescription(eventData.eventDetail);
+        setEventImage(eventData.eventImage || '');
         setEventSchedules(
           eventData.eventSchedules.map((schedule) => ({
             eventDate: new Date(schedule.eventDate),
@@ -62,6 +65,7 @@ export default function DashboardInfoPage() {
           selectedOption: eventData.selectedOption || 'option1',
           eventTitle: eventData.eventTitle,
           eventDescription: eventData.eventDetail,
+          setImage: eventData.eventImage || '',
           eventSchedules: eventData.eventSchedules.map((schedule) => ({
             eventDate: new Date(schedule.eventDate),
             eventStartTime: new Date(
@@ -86,6 +90,7 @@ export default function DashboardInfoPage() {
       selectedOption !== initialState.current.selectedOption ||
       eventTitle !== initialState.current.eventTitle ||
       eventDescription !== initialState.current.eventDescription ||
+      eventImage !== initialState.current.eventImage ||
       eventSchedules.some(
         (schedule, index) =>
           schedule.eventDate.getTime() !==
@@ -99,7 +104,14 @@ export default function DashboardInfoPage() {
       );
 
     setIsChanged(hasChanged);
-  }, [active, selectedOption, eventTitle, eventDescription, eventSchedules]);
+  }, [
+    active,
+    selectedOption,
+    eventTitle,
+    eventDescription,
+    eventImage,
+    eventSchedules,
+  ]);
 
   const handleScheduleChange = (index, key, value) => {
     const newSchedules = [...eventSchedules];
@@ -112,7 +124,7 @@ export default function DashboardInfoPage() {
       EVENT_ID,
       eventTitle,
       eventDetail: eventDescription,
-      eventImage: '',
+      eventImage,
       eventSchedules: eventSchedules.map((schedule) => ({
         eventDate: schedule.eventDate.toISOString().split('T')[0],
         eventStartTime: schedule.eventStartTime.toISOString().split('T')[1],
@@ -275,6 +287,9 @@ export default function DashboardInfoPage() {
               <S.ContentDesc>
                 사진은 PNG, JPG, JPEG 파일만 가능 합니다.
               </S.ContentDesc>
+              {eventImage && (
+                <S.ImagePreview src={eventImage} alt="Event Cover" />
+              )}
               <UploadBox />
             </S.ContentDescWrapper>
           </S.Content>
