@@ -138,7 +138,7 @@ export const EditMode = styled.button`
   border: 1px solid #ff69b4;
   cursor: pointer;
   min-width: 84px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   background-color: ${(props) => (props.active ? '#ff69b4' : 'white')};
   color: ${(props) => (props.active ? '#fff' : '#ff69b4')};
@@ -168,7 +168,7 @@ export const TableHeader = styled.th`
   justify-content: center;
   align-items: center;
   align-content: center;
-  padding: 16px;
+  padding: 16px 10px;
   text-align: left;
   font-size: 14px;
   font-weight: bold;
@@ -181,7 +181,7 @@ export const TableHeader = styled.th`
 `;
 
 export const TableData = styled.td`
-  padding: 16px;
+  padding: 10px;
   font-size: 14px;
   color: #555;
   white-space: nowrap;
@@ -196,4 +196,12 @@ export const TableData = styled.td`
     css`
       color: #f32121;
     `}
+`;
+
+export const TelAnchor = styled.a`
+  display: flex;
+  /* flex-direction: column; */
+  /* justify-content: center; */
+  margin-left: auto;
+  padding: 6px;
 `;

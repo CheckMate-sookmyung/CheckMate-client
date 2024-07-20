@@ -5,6 +5,7 @@ import {
   FaMagnifyingGlass,
   FaArrowDownShortWide,
   FaArrowUpWideShort,
+  FaPhone,
 } from 'react-icons/fa6';
 import { Sidebar } from '../../components/Navigator';
 import { axiosInstance } from '../../axios';
@@ -190,7 +191,7 @@ export default function DashboardAttendeePage() {
             ))}
           </S.TabContainer>
           <S.EditMode onClick={handleEditModeToggle} active={editMode}>
-            {editMode ? '수정 완료하기' : '출석 여부 수정하기'}
+            {editMode ? '저장하기' : '출석 여부 수정하기'}
           </S.EditMode>
         </S.TabEditWrapper>
 
@@ -211,38 +212,46 @@ export default function DashboardAttendeePage() {
           <S.Table>
             <thead>
               <tr>
-                {/* <S.TableHeader>
-                  <input type="checkbox" />
-                </S.TableHeader> */}{' '}
+                <S.TableHeader>전화</S.TableHeader>
                 <S.TableHeader onClick={() => sortData('attendance')}>
-                  출석 여부 <SortIcon columnKey="attendance" />
-                </S.TableHeader>{' '}
+                  출석
+                  <SortIcon columnKey="attendance" />
+                </S.TableHeader>
                 <S.TableHeader onClick={() => sortData('name')}>
-                  이름 <SortIcon columnKey="name" />
+                  이름
+                  <SortIcon columnKey="name" />
                 </S.TableHeader>
                 <S.TableHeader onClick={() => sortData('major')}>
-                  학과 <SortIcon columnKey="major" />
+                  학과
+                  <SortIcon columnKey="major" />
                 </S.TableHeader>
                 <S.TableHeader onClick={() => sortData('number')}>
-                  학번 <SortIcon columnKey="number" />
+                  학번
+                  <SortIcon columnKey="number" />
                 </S.TableHeader>
                 <S.TableHeader onClick={() => sortData('year')}>
-                  학년 <SortIcon columnKey="year" />
+                  학년
+                  <SortIcon columnKey="year" />
                 </S.TableHeader>
                 <S.TableHeader onClick={() => sortData('phoneNumber')}>
-                  휴대폰 번호 <SortIcon columnKey="phoneNumber" />
+                  휴대폰 번호
+                  <SortIcon columnKey="phoneNumber" />
                 </S.TableHeader>
                 <S.TableHeader onClick={() => sortData('email')}>
-                  이메일 주소 <SortIcon columnKey="email" />
+                  이메일 주소
+                  <SortIcon columnKey="email" />
                 </S.TableHeader>
               </tr>
             </thead>
             <tbody>
               {attendees.map((data, index) => (
                 <tr key={index}>
-                  {/* <S.TableData>
-                    <input type="checkbox" />
-                  </S.TableData> */}
+                  {' '}
+                  <S.TableData>
+                    <S.TelAnchor href={`tel:${data.phoneNumber}`}>
+                      <FaPhone style={{ color: '#0075FF' }} />
+                    </S.TelAnchor>
+                  </S.TableData>
                   <S.TableData attendance={data.attendance ? '출석' : '결석'}>
                     {editMode ? (
                       <select
