@@ -160,26 +160,53 @@ export const OptionDescription = styled.span`
 // 행사 일정 선택
 export const DateTimeContainer = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding-bottom: 6px;
+`;
+
+export const DateTimeWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 `;
 
 export const DateTimeInput = styled(DatePicker)`
   border: 1px solid #ccc;
   border-radius: 8px;
-  padding: 14px 10px;
+  padding: 10px 6px;
   width: 90px;
   height: 14px;
   font-size: 16px;
   text-align: center;
+
+  :focus {
+    border: 1px solid #ccc;
+    outline: none;
+  }
 `;
 
 export const Arrow = styled.div`
-  height: 100%;
   width: 100%;
+  height: 100%;
 `;
 
+export const DeleteIconWrapper = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+`;
+
+export const AddTimeWrapper = styled.div``;
+
+export const AddTimeBtn = styled.button`
+  color: #2253ff;
+  font-weight: 600;
+  padding: 6px;
+`;
+
+// 행사 내용
 export const Textarea = styled.textarea`
   border: 1px solid #ccc;
   border-radius: 8px;

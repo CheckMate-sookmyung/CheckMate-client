@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as S from './DashboardInfoPage.style';
-import { FaAngleRight } from 'react-icons/fa6';
+import { FaAngleRight, FaRegTrashCan } from 'react-icons/fa6';
 import { Sidebar } from '../../components/Navigator';
 import { BlueButton90 } from '../../components/Button';
 import { USER_ID } from '../../constants';
@@ -65,7 +65,7 @@ export default function DashboardInfoPage() {
           selectedOption: eventData.selectedOption || 'option1',
           eventTitle: eventData.eventTitle,
           eventDescription: eventData.eventDetail,
-          setImage: eventData.eventImage || '',
+          eventImage: eventData.eventImage || '',
           eventSchedules: eventData.eventSchedules.map((schedule) => ({
             eventDate: new Date(schedule.eventDate),
             eventStartTime: new Date(
@@ -121,7 +121,7 @@ export default function DashboardInfoPage() {
 
   const handleSave = async () => {
     const eventData = {
-      EVENT_ID,
+      eventId: EVENT_ID,
       eventTitle,
       eventDetail: eventDescription,
       eventImage,
@@ -131,6 +131,8 @@ export default function DashboardInfoPage() {
         eventEndTime: schedule.eventEndTime.toISOString().split('T')[1],
         attendanceListResponseDtos: [],
       })),
+      alaramRequest: true,
+      alarmResponse: true,
     };
 
     try {
@@ -142,6 +144,15 @@ export default function DashboardInfoPage() {
       setIsChanged(false);
     } catch (error) {
       alert('행사 정보를 저장하는 데 실패했습니다. 다시 시도해 주세요.');
+    }
+  };
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const filePath = URL.createObjectURL(file);
+      setEventImage(filePath);
+      setIsChanged(true);
     }
   };
 
@@ -172,51 +183,59 @@ export default function DashboardInfoPage() {
             <S.ContentTitle>행사 기간</S.ContentTitle>
             {eventSchedules.map((schedule, index) => (
               <S.DateTimeContainer key={index}>
-                <S.DateTimeInput
-                  selected={schedule.eventDate}
-                  onChange={(date) =>
-                    handleScheduleChange(index, 'eventDate', date)
-                  }
-                  dateFormat="MM월 dd일"
-                  showYearDropdown={false}
-                  showMonthDropdown={true}
-                  dropdownMode="select"
-                />
-                <S.DateTimeInput
-                  selected={schedule.eventStartTime}
-                  onChange={(date) =>
-                    handleScheduleChange(index, 'eventStartTime', date)
-                  }
-                  showTimeSelect
-                  showTimeSelectOnly
-                  timeIntervals={30}
-                  timeCaption="Time"
-                  dateFormat="h:mm aa"
-                />
-                <FaAngleRight />
-                <S.DateTimeInput
-                  selected={schedule.eventEndTime}
-                  onChange={(date) =>
-                    handleScheduleChange(index, 'eventEndTime', date)
-                  }
-                  dateFormat="MM월 dd일"
-                  showYearDropdown={false}
-                  showMonthDropdown={true}
-                  dropdownMode="select"
-                />
-                <S.DateTimeInput
-                  selected={schedule.eventEndTime}
-                  onChange={(date) =>
-                    handleScheduleChange(index, 'eventEndTime', date)
-                  }
-                  showTimeSelect
-                  showTimeSelectOnly
-                  timeIntervals={30}
-                  timeCaption="Time"
-                  dateFormat="h:mm aa"
-                />
+                <S.DateTimeWrapper>
+                  <S.DateTimeInput
+                    selected={schedule.eventDate}
+                    onChange={(date) =>
+                      handleScheduleChange(index, 'eventDate', date)
+                    }
+                    dateFormat="MM월 dd일"
+                    showYearDropdown={false}
+                    showMonthDropdown={true}
+                    dropdownMode="select"
+                  />
+                  <S.DateTimeInput
+                    selected={schedule.eventStartTime}
+                    onChange={(date) =>
+                      handleScheduleChange(index, 'eventStartTime', date)
+                    }
+                    showTimeSelect
+                    showTimeSelectOnly
+                    timeIntervals={30}
+                    timeCaption="Time"
+                    dateFormat="h:mm aa"
+                  />
+                  <FaAngleRight />
+                  <S.DateTimeInput
+                    selected={schedule.eventEndTime}
+                    onChange={(date) =>
+                      handleScheduleChange(index, 'eventEndTime', date)
+                    }
+                    dateFormat="MM월 dd일"
+                    showYearDropdown={false}
+                    showMonthDropdown={true}
+                    dropdownMode="select"
+                  />
+                  <S.DateTimeInput
+                    selected={schedule.eventEndTime}
+                    onChange={(date) =>
+                      handleScheduleChange(index, 'eventEndTime', date)
+                    }
+                    showTimeSelect
+                    showTimeSelectOnly
+                    timeIntervals={30}
+                    timeCaption="Time"
+                    dateFormat="h:mm aa"
+                  />
+                </S.DateTimeWrapper>
+                <S.DeleteIconWrapper>
+                  <FaRegTrashCan />
+                </S.DeleteIconWrapper>
               </S.DateTimeContainer>
             ))}
+            <S.AddTimeWrapper>
+              <S.AddTimeBtn>헹사 일정 추가하기</S.AddTimeBtn>
+            </S.AddTimeWrapper>
           </S.Content>
 
           <S.Content>
@@ -287,10 +306,10 @@ export default function DashboardInfoPage() {
               <S.ContentDesc>
                 사진은 PNG, JPG, JPEG 파일만 가능 합니다.
               </S.ContentDesc>
-              {eventImage && (
-                <S.ImagePreview src={eventImage} alt="Event Cover" />
-              )}
-              <UploadBox />
+              <UploadBox
+                imageUrl={eventImage}
+                onImageUpload={handleImageUpload}
+              />
             </S.ContentDescWrapper>
           </S.Content>
         </S.ContentContainer>
