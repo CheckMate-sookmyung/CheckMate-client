@@ -11,6 +11,10 @@ export default function DashboardInfoPage() {
   const [selectedOption, setSelectedOption] = useState('option1');
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+  const [eventTitle, setEventTitle] = useState(
+    'IT 실무자와 함께하는 제1회 빅데이터 활용 해커톤',
+  );
+  const [eventDescription, setEventDescription] = useState('행사설명 여기');
 
   return (
     <PageLayout sideBar={<Sidebar />}>
@@ -28,9 +32,11 @@ export default function DashboardInfoPage() {
             <S.ContentTitle>행사 제목</S.ContentTitle>
             <S.ContentInput
               type="text"
-              placeholder="IT 실무자와 함께하는 제1회 빅데이터 활용 해커톤"
+              value={eventTitle}
+              onChange={(e) => setEventTitle(e.target.value)}
             />
           </S.Content>
+
           <S.Content>
             <S.ContentTitle>행사 기간</S.ContentTitle>
             <S.DateTimeContainer>
@@ -81,6 +87,7 @@ export default function DashboardInfoPage() {
               />
             </S.DateTimeContainer>
           </S.Content>
+
           <S.Content>
             <S.ContentTitle>온라인/오프라인 여부</S.ContentTitle>
             <S.ToggleContainer>
@@ -98,6 +105,7 @@ export default function DashboardInfoPage() {
               </S.ToggleBtn>
             </S.ToggleContainer>
           </S.Content>
+
           <S.Content>
             <S.ContentTitle>행사 진행 대상</S.ContentTitle>
             <S.OptionContainer>
@@ -136,7 +144,10 @@ export default function DashboardInfoPage() {
 
           <S.Content>
             <S.ContentTitle>행사 설명</S.ContentTitle>
-            <S.Textarea />
+            <S.Textarea
+              value={eventDescription}
+              onChange={(e) => setEventDescription(e.target.value)}
+            />
           </S.Content>
 
           <S.Content>
