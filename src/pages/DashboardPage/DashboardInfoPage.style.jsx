@@ -210,6 +210,12 @@ export const Textarea = styled.textarea`
   font-size: 16px;
 `;
 
+export const ContentDescWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
 export const ContentDesc = styled.p`
   font-size: 14px;
   color: #666;

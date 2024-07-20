@@ -4,6 +4,7 @@ import { FaAngleRight } from 'react-icons/fa6';
 import { Sidebar } from '../../components/Navigator';
 import { BlueButton90 } from '../../components/Button';
 import PageLayout from '../../Layout/PageLayout';
+import UploadBox from '../../pages/RegisterPage/RegisterComponents/DragnDrop';
 
 export default function DashboardInfoPage() {
   const [active, setActive] = useState('online');
@@ -81,17 +82,6 @@ export default function DashboardInfoPage() {
             </S.DateTimeContainer>
           </S.Content>
           <S.Content>
-            <S.ContentTitle>행사 담당자 이메일</S.ContentTitle>
-            <S.ContentInput
-              type="text"
-              placeholder="checkmate@sookmyung.ac.kr"
-            />
-          </S.Content>
-          <S.Content>
-            <S.ContentTitle>행사 담당자 연락처</S.ContentTitle>
-            <S.ContentInput type="text" placeholder="010-1234-5678" />
-          </S.Content>
-          <S.Content>
             <S.ContentTitle>온라인/오프라인 여부</S.ContentTitle>
             <S.ToggleContainer>
               <S.ToggleBtn
@@ -151,9 +141,12 @@ export default function DashboardInfoPage() {
 
           <S.Content>
             <S.ContentTitle>행사 커버 이미지</S.ContentTitle>
-            <S.ContentDesc>
-              사진은 PNG, JPG, JPEG 파일만 가능 합니다.
-            </S.ContentDesc>
+            <S.ContentDescWrapper>
+              <S.ContentDesc>
+                사진은 PNG, JPG, JPEG 파일만 가능 합니다.
+              </S.ContentDesc>
+              <UploadBox />
+            </S.ContentDescWrapper>
           </S.Content>
         </S.ContentContainer>
       </S.DashboardInfo>
