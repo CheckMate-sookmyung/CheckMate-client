@@ -3,6 +3,10 @@ import * as S from './DashboardInfoPage.style';
 import { FaAngleRight } from 'react-icons/fa6';
 import { Sidebar } from '../../components/Navigator';
 import { BlueButton90 } from '../../components/Button';
+import { USER_ID } from '../../constants';
+import { axiosInstance } from '../../axios';
+import { useRecoilValue } from 'recoil';
+import { eventIDState } from '../../recoil/atoms/state';
 import PageLayout from '../../Layout/PageLayout';
 import UploadBox from '../../pages/RegisterPage/RegisterComponents/DragnDrop';
 
@@ -11,11 +15,10 @@ export default function DashboardInfoPage() {
   const [selectedOption, setSelectedOption] = useState('option1');
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [eventTitle, setEventTitle] = useState(
-    'IT 실무자와 함께하는 제1회 빅데이터 활용 해커톤',
-  );
-  const [eventDescription, setEventDescription] = useState('행사설명 여기');
+  const [eventTitle, setEventTitle] = useState('');
+  const [eventDescription, setEventDescription] = useState('');
   const [isChanged, setIsChanged] = useState(false);
+  const EVENT_ID = useRecoilValue(eventIDState);
 
   const initialState = useRef({
     active,
@@ -25,6 +28,57 @@ export default function DashboardInfoPage() {
     eventTitle,
     eventDescription,
   });
+
+  useEffect(() => {
+    const fetchEventData = async () => {
+      try {
+        const response = await axiosInstance.get(
+          `/api/v1/events/${USER_ID}/${EVENT_ID}`,
+        );
+        const eventData = response.data;
+
+        setActive(eventData.active ? 'online' : 'offline');
+        setSelectedOption(eventData.selectedOption || 'option1');
+        setStartDate(
+          new Date(
+            eventData.eventSchedules[0].eventDate +
+              'T' +
+              eventData.eventSchedules[0].eventStartTime,
+          ),
+        );
+        setEndDate(
+          new Date(
+            eventData.eventSchedules[0].eventDate +
+              'T' +
+              eventData.eventSchedules[0].eventEndTime,
+          ),
+        );
+        setEventTitle(eventData.eventTitle);
+        setEventDescription(eventData.eventDetail);
+
+        initialState.current = {
+          active: eventData.active ? 'online' : 'offline',
+          selectedOption: eventData.selectedOption || 'option1',
+          startDate: new Date(
+            eventData.eventSchedules[0].eventDate +
+              'T' +
+              eventData.eventSchedules[0].eventStartTime,
+          ),
+          endDate: new Date(
+            eventData.eventSchedules[0].eventDate +
+              'T' +
+              eventData.eventSchedules[0].eventEndTime,
+          ),
+          eventTitle: eventData.eventTitle,
+          eventDescription: eventData.eventDetail,
+        };
+      } catch (error) {
+        console.error('Error fetching event data:', error);
+      }
+    };
+
+    fetchEventData();
+  }, [EVENT_ID, USER_ID]);
 
   useEffect(() => {
     const hasChanged =
@@ -45,16 +99,33 @@ export default function DashboardInfoPage() {
     eventDescription,
   ]);
 
-  useEffect(() => {
-    initialState.current = {
-      active,
-      selectedOption,
-      startDate,
-      endDate,
+  const handleSave = async () => {
+    const eventData = {
+      EVENT_ID,
       eventTitle,
-      eventDescription,
+      eventDetail: eventDescription,
+      eventImage: '',
+      eventSchedules: [
+        {
+          eventDate: startDate.toISOString().split('T')[0],
+          eventStartTime: startDate.toISOString().split('T')[1],
+          eventEndTime: endDate.toISOString().split('T')[1],
+          attendanceListResponseDtos: [],
+        },
+      ],
     };
-  }, []);
+
+    try {
+      await axiosInstance.put(
+        `/api/v1/events/${USER_ID}/${EVENT_ID}`,
+        eventData,
+      );
+      alert('행사 정보가 성공적으로 저장되었습니다.');
+      setIsChanged(false);
+    } catch (error) {
+      alert('행사 정보를 저장하는 데 실패했습니다. 다시 시도해 주세요.');
+    }
+  };
 
   return (
     <PageLayout sideBar={<Sidebar />}>
