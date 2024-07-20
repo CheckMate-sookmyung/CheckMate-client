@@ -119,6 +119,24 @@ export default function DashboardInfoPage() {
     setEventSchedules(newSchedules);
   };
 
+  // 행사 일정 추가하기 버튼
+  const handleAddSchedule = () => {
+    const newSchedule = {
+      eventDate: new Date(),
+      eventStartTime: new Date(),
+      eventEndTime: new Date(),
+    };
+    setEventSchedules([...eventSchedules, newSchedule]);
+    setIsChanged(true);
+  };
+
+  // 행사 일정 삭제하기 버튼
+  const handleDeleteSchedule = (index) => {
+    const newSchedules = eventSchedules.filter((_, i) => i !== index);
+    setEventSchedules(newSchedules);
+    setIsChanged(true);
+  };
+
   const handleSave = async () => {
     const eventData = {
       eventId: EVENT_ID,
@@ -228,13 +246,17 @@ export default function DashboardInfoPage() {
                     dateFormat="h:mm aa"
                   />
                 </S.DateTimeWrapper>
-                <S.DeleteIconWrapper>
+                <S.DeleteIconWrapper
+                  onClick={() => handleDeleteSchedule(index)}
+                >
                   <FaRegTrashCan />
                 </S.DeleteIconWrapper>
               </S.DateTimeContainer>
             ))}
             <S.AddTimeWrapper>
-              <S.AddTimeBtn>헹사 일정 추가하기</S.AddTimeBtn>
+              <S.AddTimeBtn onClick={handleAddSchedule}>
+                행사 일정 추가하기
+              </S.AddTimeBtn>
             </S.AddTimeWrapper>
           </S.Content>
 
