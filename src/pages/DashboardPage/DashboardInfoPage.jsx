@@ -91,16 +91,17 @@ export default function DashboardInfoPage() {
       eventTitle !== initialState.current.eventTitle ||
       eventDescription !== initialState.current.eventDescription ||
       eventImage !== initialState.current.eventImage ||
+      eventSchedules.length !== initialState.current.eventSchedules.length ||
       eventSchedules.some(
         (schedule, index) =>
           schedule.eventDate.getTime() !==
-            initialState.current.eventSchedules[index].eventDate.getTime() ||
+            initialState.current.eventSchedules[index]?.eventDate.getTime() ||
           schedule.eventStartTime.getTime() !==
             initialState.current.eventSchedules[
               index
-            ].eventStartTime.getTime() ||
+            ]?.eventStartTime.getTime() ||
           schedule.eventEndTime.getTime() !==
-            initialState.current.eventSchedules[index].eventEndTime.getTime(),
+            initialState.current.eventSchedules[index]?.eventEndTime.getTime(),
       );
 
     setIsChanged(hasChanged);
@@ -117,14 +118,16 @@ export default function DashboardInfoPage() {
     const newSchedules = [...eventSchedules];
     newSchedules[index][key] = value;
     setEventSchedules(newSchedules);
+    setIsChanged(true);
   };
 
   // 행사 일정 추가하기 버튼
   const handleAddSchedule = () => {
+    const lastSchedule = eventSchedules[eventSchedules.length - 1];
     const newSchedule = {
-      eventDate: new Date(),
-      eventStartTime: new Date(),
-      eventEndTime: new Date(),
+      eventDate: new Date(lastSchedule.eventDate),
+      eventStartTime: new Date(lastSchedule.eventStartTime),
+      eventEndTime: new Date(lastSchedule.eventEndTime),
     };
     setEventSchedules([...eventSchedules, newSchedule]);
     setIsChanged(true);
@@ -132,9 +135,11 @@ export default function DashboardInfoPage() {
 
   // 행사 일정 삭제하기 버튼
   const handleDeleteSchedule = (index) => {
-    const newSchedules = eventSchedules.filter((_, i) => i !== index);
-    setEventSchedules(newSchedules);
-    setIsChanged(true);
+    if (eventSchedules.length > 1) {
+      const newSchedules = eventSchedules.filter((_, i) => i !== index);
+      setEventSchedules(newSchedules);
+      setIsChanged(true);
+    }
   };
 
   const handleSave = async () => {
@@ -246,10 +251,12 @@ export default function DashboardInfoPage() {
                     dateFormat="h:mm aa"
                   />
                 </S.DateTimeWrapper>
-                <S.DeleteIconWrapper
-                  onClick={() => handleDeleteSchedule(index)}
-                >
-                  <FaRegTrashCan />
+                <S.DeleteIconWrapper>
+                  {index > 0 && (
+                    <FaRegTrashCan
+                      onClick={() => handleDeleteSchedule(index)}
+                    />
+                  )}
                 </S.DeleteIconWrapper>
               </S.DateTimeContainer>
             ))}
