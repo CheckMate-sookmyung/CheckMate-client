@@ -36,29 +36,6 @@ export const ButtonContainer = styled.div`
   gap: 10px;
 `;
 
-export const SaveBtn = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #2253ff;
-  border-radius: 8px;
-  border: none;
-  padding: 9px 18px;
-  font-weight: 600;
-  font-size: 14px;
-  height: 40px;
-  color: #ffffff;
-  cursor: pointer;
-  transition:
-    background 0.3s ease,
-    box-shadow 0.3s ease,
-    transform 0.3s ease;
-
-  &:hover {
-    background: #4d74ff;
-  }
-`;
-
 // 행사 정보
 export const ContentContainer = styled.div`
   display: flex;

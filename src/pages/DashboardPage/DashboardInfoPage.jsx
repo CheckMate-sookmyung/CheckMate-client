@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import * as S from './DashboardInfoPage.style';
 import { FaAngleRight } from 'react-icons/fa6';
 import { Sidebar } from '../../components/Navigator';
@@ -15,6 +15,46 @@ export default function DashboardInfoPage() {
     'IT 실무자와 함께하는 제1회 빅데이터 활용 해커톤',
   );
   const [eventDescription, setEventDescription] = useState('행사설명 여기');
+  const [isChanged, setIsChanged] = useState(false);
+
+  const initialState = useRef({
+    active,
+    selectedOption,
+    startDate,
+    endDate,
+    eventTitle,
+    eventDescription,
+  });
+
+  useEffect(() => {
+    const hasChanged =
+      active !== initialState.current.active ||
+      selectedOption !== initialState.current.selectedOption ||
+      startDate.getTime() !== initialState.current.startDate.getTime() ||
+      endDate.getTime() !== initialState.current.endDate.getTime() ||
+      eventTitle !== initialState.current.eventTitle ||
+      eventDescription !== initialState.current.eventDescription;
+
+    setIsChanged(hasChanged);
+  }, [
+    active,
+    selectedOption,
+    startDate,
+    endDate,
+    eventTitle,
+    eventDescription,
+  ]);
+
+  useEffect(() => {
+    initialState.current = {
+      active,
+      selectedOption,
+      startDate,
+      endDate,
+      eventTitle,
+      eventDescription,
+    };
+  }, []);
 
   return (
     <PageLayout sideBar={<Sidebar />}>
@@ -22,7 +62,7 @@ export default function DashboardInfoPage() {
         <S.TopContainer>
           <S.Title>행사 기본 정보</S.Title>
           <S.ButtonContainer>
-            <BlueButton90>저장하기</BlueButton90>
+            <BlueButton90 disabled={!isChanged}>저장하기</BlueButton90>
           </S.ButtonContainer>
         </S.TopContainer>
 
