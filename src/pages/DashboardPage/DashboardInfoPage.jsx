@@ -13,20 +13,24 @@ import UploadBox from '../../pages/RegisterPage/RegisterComponents/DragnDrop';
 export default function DashboardInfoPage() {
   const [active, setActive] = useState('online');
   const [selectedOption, setSelectedOption] = useState('option1');
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
   const [eventTitle, setEventTitle] = useState('');
   const [eventDescription, setEventDescription] = useState('');
+  const [eventSchedules, setEventSchedules] = useState([
+    {
+      eventDate: new Date(),
+      eventStartTime: new Date(),
+      eventEndTime: new Date(),
+    },
+  ]);
   const [isChanged, setIsChanged] = useState(false);
   const EVENT_ID = useRecoilValue(eventIDState);
 
   const initialState = useRef({
     active,
     selectedOption,
-    startDate,
-    endDate,
     eventTitle,
     eventDescription,
+    eventSchedules,
   });
 
   useEffect(() => {
@@ -39,38 +43,34 @@ export default function DashboardInfoPage() {
 
         setActive(eventData.active ? 'online' : 'offline');
         setSelectedOption(eventData.selectedOption || 'option1');
-        setStartDate(
-          new Date(
-            eventData.eventSchedules[0].eventDate +
-              'T' +
-              eventData.eventSchedules[0].eventStartTime,
-          ),
-        );
-        setEndDate(
-          new Date(
-            eventData.eventSchedules[0].eventDate +
-              'T' +
-              eventData.eventSchedules[0].eventEndTime,
-          ),
-        );
         setEventTitle(eventData.eventTitle);
         setEventDescription(eventData.eventDetail);
+        setEventSchedules(
+          eventData.eventSchedules.map((schedule) => ({
+            eventDate: new Date(schedule.eventDate),
+            eventStartTime: new Date(
+              `${schedule.eventDate}T${schedule.eventStartTime}`,
+            ),
+            eventEndTime: new Date(
+              `${schedule.eventDate}T${schedule.eventEndTime}`,
+            ),
+          })),
+        );
 
         initialState.current = {
           active: eventData.active ? 'online' : 'offline',
           selectedOption: eventData.selectedOption || 'option1',
-          startDate: new Date(
-            eventData.eventSchedules[0].eventDate +
-              'T' +
-              eventData.eventSchedules[0].eventStartTime,
-          ),
-          endDate: new Date(
-            eventData.eventSchedules[0].eventDate +
-              'T' +
-              eventData.eventSchedules[0].eventEndTime,
-          ),
           eventTitle: eventData.eventTitle,
           eventDescription: eventData.eventDetail,
+          eventSchedules: eventData.eventSchedules.map((schedule) => ({
+            eventDate: new Date(schedule.eventDate),
+            eventStartTime: new Date(
+              `${schedule.eventDate}T${schedule.eventStartTime}`,
+            ),
+            eventEndTime: new Date(
+              `${schedule.eventDate}T${schedule.eventEndTime}`,
+            ),
+          })),
         };
       } catch (error) {
         console.error('Error fetching event data:', error);
@@ -84,20 +84,28 @@ export default function DashboardInfoPage() {
     const hasChanged =
       active !== initialState.current.active ||
       selectedOption !== initialState.current.selectedOption ||
-      startDate.getTime() !== initialState.current.startDate.getTime() ||
-      endDate.getTime() !== initialState.current.endDate.getTime() ||
       eventTitle !== initialState.current.eventTitle ||
-      eventDescription !== initialState.current.eventDescription;
+      eventDescription !== initialState.current.eventDescription ||
+      eventSchedules.some(
+        (schedule, index) =>
+          schedule.eventDate.getTime() !==
+            initialState.current.eventSchedules[index].eventDate.getTime() ||
+          schedule.eventStartTime.getTime() !==
+            initialState.current.eventSchedules[
+              index
+            ].eventStartTime.getTime() ||
+          schedule.eventEndTime.getTime() !==
+            initialState.current.eventSchedules[index].eventEndTime.getTime(),
+      );
 
     setIsChanged(hasChanged);
-  }, [
-    active,
-    selectedOption,
-    startDate,
-    endDate,
-    eventTitle,
-    eventDescription,
-  ]);
+  }, [active, selectedOption, eventTitle, eventDescription, eventSchedules]);
+
+  const handleScheduleChange = (index, key, value) => {
+    const newSchedules = [...eventSchedules];
+    newSchedules[index][key] = value;
+    setEventSchedules(newSchedules);
+  };
 
   const handleSave = async () => {
     const eventData = {
@@ -105,14 +113,12 @@ export default function DashboardInfoPage() {
       eventTitle,
       eventDetail: eventDescription,
       eventImage: '',
-      eventSchedules: [
-        {
-          eventDate: startDate.toISOString().split('T')[0],
-          eventStartTime: startDate.toISOString().split('T')[1],
-          eventEndTime: endDate.toISOString().split('T')[1],
-          attendanceListResponseDtos: [],
-        },
-      ],
+      eventSchedules: eventSchedules.map((schedule) => ({
+        eventDate: schedule.eventDate.toISOString().split('T')[0],
+        eventStartTime: schedule.eventStartTime.toISOString().split('T')[1],
+        eventEndTime: schedule.eventEndTime.toISOString().split('T')[1],
+        attendanceListResponseDtos: [],
+      })),
     };
 
     try {
@@ -133,7 +139,9 @@ export default function DashboardInfoPage() {
         <S.TopContainer>
           <S.Title>행사 기본 정보</S.Title>
           <S.ButtonContainer>
-            <BlueButton90 disabled={!isChanged}>저장하기</BlueButton90>
+            <BlueButton90 disabled={!isChanged} onClick={handleSave}>
+              저장하기
+            </BlueButton90>
           </S.ButtonContainer>
         </S.TopContainer>
 
@@ -150,53 +158,53 @@ export default function DashboardInfoPage() {
 
           <S.Content>
             <S.ContentTitle>행사 기간</S.ContentTitle>
-            <S.DateTimeContainer>
-              <S.DateTimeInput
-                selected={startDate}
-                onChange={(date) => setStartDate(date)}
-                dateFormat="MM월 dd일"
-                showYearDropdown={false}
-                showMonthDropdown={true}
-                dropdownMode="select"
-              />
-              <S.DateTimeInput
-                selected={startDate}
-                onChange={(date) => {
-                  const newDate = new Date(startDate);
-                  newDate.setHours(date.getHours());
-                  newDate.setMinutes(date.getMinutes());
-                  setStartDate(newDate);
-                }}
-                showTimeSelect
-                showTimeSelectOnly
-                timeIntervals={30}
-                timeCaption="Time"
-                dateFormat="h:mm aa"
-              />
-              <FaAngleRight />
-              <S.DateTimeInput
-                selected={endDate}
-                onChange={(date) => setEndDate(date)}
-                dateFormat="MM월 dd일"
-                showYearDropdown={false}
-                showMonthDropdown={true}
-                dropdownMode="select"
-              />
-              <S.DateTimeInput
-                selected={endDate}
-                onChange={(date) => {
-                  const newDate = new Date(endDate);
-                  newDate.setHours(date.getHours());
-                  newDate.setMinutes(date.getMinutes());
-                  setEndDate(newDate);
-                }}
-                showTimeSelect
-                showTimeSelectOnly
-                timeIntervals={30}
-                timeCaption="Time"
-                dateFormat="h:mm aa"
-              />
-            </S.DateTimeContainer>
+            {eventSchedules.map((schedule, index) => (
+              <S.DateTimeContainer key={index}>
+                <S.DateTimeInput
+                  selected={schedule.eventDate}
+                  onChange={(date) =>
+                    handleScheduleChange(index, 'eventDate', date)
+                  }
+                  dateFormat="MM월 dd일"
+                  showYearDropdown={false}
+                  showMonthDropdown={true}
+                  dropdownMode="select"
+                />
+                <S.DateTimeInput
+                  selected={schedule.eventStartTime}
+                  onChange={(date) =>
+                    handleScheduleChange(index, 'eventStartTime', date)
+                  }
+                  showTimeSelect
+                  showTimeSelectOnly
+                  timeIntervals={30}
+                  timeCaption="Time"
+                  dateFormat="h:mm aa"
+                />
+                <FaAngleRight />
+                <S.DateTimeInput
+                  selected={schedule.eventEndTime}
+                  onChange={(date) =>
+                    handleScheduleChange(index, 'eventEndTime', date)
+                  }
+                  dateFormat="MM월 dd일"
+                  showYearDropdown={false}
+                  showMonthDropdown={true}
+                  dropdownMode="select"
+                />
+                <S.DateTimeInput
+                  selected={schedule.eventEndTime}
+                  onChange={(date) =>
+                    handleScheduleChange(index, 'eventEndTime', date)
+                  }
+                  showTimeSelect
+                  showTimeSelectOnly
+                  timeIntervals={30}
+                  timeCaption="Time"
+                  dateFormat="h:mm aa"
+                />
+              </S.DateTimeContainer>
+            ))}
           </S.Content>
 
           <S.Content>

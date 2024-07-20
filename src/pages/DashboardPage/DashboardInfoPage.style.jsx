@@ -162,6 +162,7 @@ export const DateTimeContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-bottom: 6px;
 `;
 
 export const DateTimeInput = styled(DatePicker)`
@@ -169,7 +170,7 @@ export const DateTimeInput = styled(DatePicker)`
   border-radius: 8px;
   padding: 14px 10px;
   width: 90px;
-  height: 19px;
+  height: 14px;
   font-size: 16px;
   text-align: center;
 `;
