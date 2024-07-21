@@ -1,5 +1,5 @@
 import * as S from './DashboardPage.style';
-import { FaRotate, FaUsers } from 'react-icons/fa6';
+import { FaEnvelope, FaPhone, FaRotate, FaUsers } from 'react-icons/fa6';
 import React, { useState, useEffect } from 'react';
 import PageLayout from '../../Layout/PageLayout';
 import { Sidebar } from '../../components/Navigator';
@@ -184,25 +184,47 @@ export default function DashboardPage() {
                 <S.ContentInfoWrapper>
                   {isEditing ? (
                     <>
-                      <S.ContactInput
-                        type="text"
-                        name="phone"
-                        placeholder="핸드폰 번호"
-                        value={contacts.phone}
-                        onChange={handleInputChange}
-                      />
-                      <S.ContactInput
-                        type="email"
-                        name="email"
-                        placeholder="이메일"
-                        value={contacts.email}
-                        onChange={handleInputChange}
-                      />
+                      <S.ContactIconInputWrapper>
+                        <FaPhone />
+                        <S.ContactInputWrapper>
+                          <S.ContactInput
+                            type="text"
+                            name="phone"
+                            placeholder="핸드폰 번호 ex) 010-1234-5678"
+                            value={contacts.phone}
+                            onChange={handleInputChange}
+                          />
+                          <S.ContactCheck>
+                            휴대폰 번호 형식이 올바르지 않습니다.
+                          </S.ContactCheck>
+                        </S.ContactInputWrapper>
+                      </S.ContactIconInputWrapper>
+                      <S.ContactIconInputWrapper>
+                        <FaEnvelope />
+                        <S.ContactInputWrapper>
+                          <S.ContactInput
+                            type="email"
+                            name="email"
+                            placeholder="이메일 ex) checkmate@sookmyung.ac.kr"
+                            value={contacts.email}
+                            onChange={handleInputChange}
+                          />
+                          <S.ContactCheck>
+                            이메일 형식이 올바르지 않습니다.
+                          </S.ContactCheck>
+                        </S.ContactInputWrapper>
+                      </S.ContactIconInputWrapper>
                     </>
                   ) : (
                     <>
-                      <S.ContentText>{contacts.phone}</S.ContentText>
-                      <S.ContentText>{contacts.email}</S.ContentText>
+                      <S.ContactIconTextWrapper>
+                        <FaPhone />
+                        <S.ContactText>{contacts.phone}</S.ContactText>
+                      </S.ContactIconTextWrapper>
+                      <S.ContactIconTextWrapper>
+                        <FaEnvelope />
+                        <S.ContactText>{contacts.email}</S.ContactText>
+                      </S.ContactIconTextWrapper>
                     </>
                   )}
                 </S.ContentInfoWrapper>

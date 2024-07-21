@@ -3,7 +3,7 @@ import * as S from './Sidebar.style';
 import {
   FaTableList,
   FaCircleInfo,
-  FaEnvelope,
+  FaEnvelopeCircleCheck,
   FaUsers,
   FaChartPie,
 } from 'react-icons/fa6';
@@ -18,7 +18,7 @@ const menuItems = [
   },
   {
     to: '/event/dashboard/email',
-    icon: <FaEnvelope />,
+    icon: <FaEnvelopeCircleCheck />,
     text: '이메일 예약 발송',
   },
   { to: '/event/dashboard/attendee', icon: <FaUsers />, text: '참석자 관리' },

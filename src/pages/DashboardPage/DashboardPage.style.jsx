@@ -179,11 +179,43 @@ export const AddContactButton = styled.button`
   border: 1px solid var(--blue-400, #2253ff);
 `;
 
+export const ContactIconInputWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+export const ContactInputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 4px;
+`;
+
 export const ContactInput = styled.input`
   border: 1px solid #ddd;
   border-radius: 6px;
   padding: 6px 10px;
   font-size: 14px;
+`;
+
+export const ContactCheck = styled.p`
+  padding: 0 6px;
+  font-size: 12px;
+  color: #ff6b6b;
+`;
+
+export const ContactIconTextWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+export const ContactText = styled.div`
+  border: none;
+  line-height: 14px;
+  font-size: 14px;
+  color: var(--gray-300, #636363);
 `;
 
 export const ContentInfoWrapper = styled.div`
