@@ -187,14 +187,14 @@ export default function DashboardPage() {
             </S.OverviewContainer>
 
             {/* 진행 현황 */}
-            <S.ProgressContainer>
+            <S.PosterImageContainer>
               <S.ContentBox>
                 <S.ContentTitle>행사 커버 이미지</S.ContentTitle>
                 <S.ImageWrapper>
                   <img src={parsedEvents.image} alt="Event Cover" />
                 </S.ImageWrapper>
               </S.ContentBox>
-            </S.ProgressContainer>
+            </S.PosterImageContainer>
           </S.ContentContainer>
         </S.DashboardPage>
       )}

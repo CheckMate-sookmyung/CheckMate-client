@@ -216,43 +216,13 @@ export const ImageWrapper = styled.div`
 
   img {
     display: block;
-    width: 100%;
+    width: 70%;
     object-fit: contain;
   }
 `;
 
-export const CopyBtn = styled.button`
-  margin-left: auto;
-  border-radius: 4px;
-  border: none;
-  background: var(--blue-400, #0075ff);
-  width: 60px;
-  height: 22px;
-  line-height: 20px;
-  color: #ffffff;
-  font-size: 11px;
-  cursor: pointer;
-
-  &:hover {
-    background: var(--blue-300, #2c8dff);
-  }
-`;
-
-export const CopyMessage = styled.div`
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--blue-400, #0075ff);
-  color: #ffffff;
-  padding: 10px 20px;
-  border-radius: 5px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-`;
-
 // 진행 현황
-export const ProgressContainer = styled.div`
+export const PosterImageContainer = styled.div`
   display: flex;
   gap: 10px;
   width: 100%;
