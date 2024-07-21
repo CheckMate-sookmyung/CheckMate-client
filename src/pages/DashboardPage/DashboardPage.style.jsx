@@ -95,6 +95,7 @@ export const EventTitleWrapper = styled.div`
 `;
 
 export const EventTitle = styled.h1`
+  display: flex;
   font-weight: bold;
   font-size: 24px;
   line-height: 29px;
@@ -116,6 +117,13 @@ export const Badge = styled.span`
       : props.status === '진행중'
         ? 'var(--blue-400, #0075ff)'
         : '#ffa726'};
+  border: 1px solid
+    ${(props) =>
+      props.status === '종료'
+        ? '#ff6b6b'
+        : props.status === '진행중'
+          ? 'var(--blue-400, #0075ff)'
+          : '#ffa726'};
 `;
 
 // 행사 정보
@@ -144,14 +152,38 @@ export const ContentBox = styled.div`
   border-radius: 10px;
 `;
 
-export const ContentTitle = styled.h3`
-  width: 100%;
+export const ContentTitleWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding-bottom: 8px;
-  line-height: 19px;
   border-bottom: 1px solid var(--gray-200, #d9d9d9);
+`;
+
+export const ContentTitle = styled.h3`
+  line-height: 19px;
   color: var(--gray-400, #212121);
   font-weight: bold;
   font-size: 16px;
+`;
+
+export const AddContactButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  padding: 4px 10px;
+  color: #2253ff;
+  font-weight: 600;
+  font-size: 12px;
+  border: 1px solid var(--blue-400, #2253ff);
+`;
+
+export const ContactInput = styled.input`
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 14px;
 `;
 
 export const ContentInfoWrapper = styled.div`

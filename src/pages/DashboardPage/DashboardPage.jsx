@@ -15,6 +15,8 @@ export default function DashboardPage() {
   const [averageAttendance, setAverageAttendance] = useState(0);
   const [completedSessions, setCompletedSessions] = useState(0);
   const [eventStatus, setEventStatus] = useState('');
+  const [contacts, setContacts] = useState({ phone: '', email: '' });
+  const [isEditing, setIsEditing] = useState(false);
   const EVENT_ID = useRecoilValue(eventIDState);
   const navigate = useNavigate();
 
@@ -93,6 +95,23 @@ export default function DashboardPage() {
     fetchData();
   }, [EVENT_ID]);
 
+  // 담당자 연락처 추가 및 입력 필드 생성
+  const handleAddContact = () => {
+    if (isEditing) {
+      setIsEditing(false);
+    } else {
+      setIsEditing(true);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setContacts((prevContacts) => ({
+      ...prevContacts,
+      [name]: value,
+    }));
+  };
+
   // 행사 삭제
   const DeleteEvent = async () => {
     const isConfirmed = window.confirm('행사를 완전히 삭제하시겠습니까?');
@@ -137,7 +156,9 @@ export default function DashboardPage() {
           <S.ContentContainer>
             <S.OverviewContainer>
               <S.ContentBox>
-                <S.ContentTitle>행사 개요</S.ContentTitle>
+                <S.ContentTitleWrapper>
+                  <S.ContentTitle>행사 개요</S.ContentTitle>
+                </S.ContentTitleWrapper>
                 <S.ContentInfoWrapper>
                   <S.EventTypeWrapper>
                     <S.EventType>오프라인 행사</S.EventType>
@@ -154,10 +175,36 @@ export default function DashboardPage() {
               </S.ContentBox>
 
               <S.ContentBox>
-                <S.ContentTitle>담당자</S.ContentTitle>
+                <S.ContentTitleWrapper>
+                  <S.ContentTitle>담당자</S.ContentTitle>
+                  <S.AddContactButton onClick={handleAddContact}>
+                    {isEditing ? '저장' : '추가'}
+                  </S.AddContactButton>
+                </S.ContentTitleWrapper>
                 <S.ContentInfoWrapper>
-                  <S.ContentText>010-1234-5678</S.ContentText>
-                  <S.ContentText>checkmate@sookmyung.ac.kr</S.ContentText>
+                  {isEditing ? (
+                    <>
+                      <S.ContactInput
+                        type="text"
+                        name="phone"
+                        placeholder="핸드폰 번호"
+                        value={contacts.phone}
+                        onChange={handleInputChange}
+                      />
+                      <S.ContactInput
+                        type="email"
+                        name="email"
+                        placeholder="이메일"
+                        value={contacts.email}
+                        onChange={handleInputChange}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <S.ContentText>{contacts.phone}</S.ContentText>
+                      <S.ContentText>{contacts.email}</S.ContentText>
+                    </>
+                  )}
                 </S.ContentInfoWrapper>
               </S.ContentBox>
 
@@ -189,7 +236,9 @@ export default function DashboardPage() {
             {/* 진행 현황 */}
             <S.PosterImageContainer>
               <S.ContentBox>
-                <S.ContentTitle>행사 커버 이미지</S.ContentTitle>
+                <S.ContentTitleWrapper>
+                  <S.ContentTitle>행사 커버 이미지</S.ContentTitle>
+                </S.ContentTitleWrapper>
                 <S.ImageWrapper>
                   <img src={parsedEvents.image} alt="Event Cover" />
                 </S.ImageWrapper>
