@@ -205,19 +205,18 @@ export const EventDate = styled.p`
   color: var(--gray-300, #636363);
 `;
 
-export const QrCode = styled.div`
+export const ImageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 20px 0;
   width: 100%;
   height: 100%;
 
   img {
     display: block;
-    max-width: 100%;
-    max-height: 200px;
+    width: 100%;
     object-fit: contain;
   }
 `;

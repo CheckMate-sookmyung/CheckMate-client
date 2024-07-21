@@ -61,6 +61,7 @@ export default function DashboardPage() {
           const parsedEvent = {
             title: eventData.eventTitle,
             detail: eventData.eventDetail,
+            image: eventData.eventImage,
             schedules,
             totalSessions: eventData.eventSchedules.length,
             totalParticipants,
@@ -188,13 +189,10 @@ export default function DashboardPage() {
             {/* 진행 현황 */}
             <S.ProgressContainer>
               <S.ContentBox>
-                <S.ContentTitle>QR 코드</S.ContentTitle>
-                <S.QrCode>
-                  <img
-                    src="https://www.google.com/url?sa=i&url=http%3A%2F%2Ft3.gstatic.com%2Flicensed-image%3Fq%3Dtbn%3AANd9GcSh-wrQu254qFaRcoYktJ5QmUhmuUedlbeMaQeaozAVD4lh4ICsGdBNubZ8UlMvWjKC&psig=AOvVaw3Zwwv5QaquDAu22BSpbs0n&ust=1720330468548000&source=images&cd=vfe&opi=89978449&ved=0CAkQjRxqFwoTCMijksXYkYcDFQAAAAAdAAAAABAE"
-                    alt=""
-                  />
-                </S.QrCode>
+                <S.ContentTitle>행사 커버 이미지</S.ContentTitle>
+                <S.ImageWrapper>
+                  <img src={parsedEvents.image} alt="Event Cover" />
+                </S.ImageWrapper>
               </S.ContentBox>
             </S.ProgressContainer>
           </S.ContentContainer>
