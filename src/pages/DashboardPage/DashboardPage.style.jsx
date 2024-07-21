@@ -303,6 +303,7 @@ export const ProgressTitle = styled.h3`
 `;
 
 export const ProgressText = styled.p`
+  width: 100px;
   font-weight: bold;
   font-size: 20px;
   color: var(--gray-300, #636363);
