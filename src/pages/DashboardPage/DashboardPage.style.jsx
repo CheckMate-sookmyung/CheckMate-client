@@ -36,9 +36,9 @@ export const ButtonContainer = styled.div`
 `;
 
 export const DeleteEventButton = styled(GrayButton90)`
-  box-sizing: border-box;
-  position: relative;
   display: inline-block;
+  position: relative;
+  box-sizing: border-box;
   transition:
     background-color 0.3s ease-in-out,
     color 0.3s ease-in-out,

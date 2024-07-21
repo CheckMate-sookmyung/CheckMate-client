@@ -251,15 +251,19 @@ export default function DashboardInfoPage() {
                     dateFormat="h:mm aa"
                   />
                 </S.DateTimeWrapper>
-                <S.DeleteIconWrapper>
+                <S.InfoDeleteIconWrapper>
                   {index === 0 ? (
-                    <FaCircleInfo />
+                    <S.InfoIconWrapper>
+                      <FaCircleInfo />
+                    </S.InfoIconWrapper>
                   ) : (
-                    <FaRegTrashCan
+                    <S.DeleteIconWrapper
                       onClick={() => handleDeleteSchedule(index)}
-                    />
+                    >
+                      <FaRegTrashCan />
+                    </S.DeleteIconWrapper>
                   )}
-                </S.DeleteIconWrapper>
+                </S.InfoDeleteIconWrapper>
               </S.DateTimeContainer>
             ))}
             <S.AddTimeWrapper>

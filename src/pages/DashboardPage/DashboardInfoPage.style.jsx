@@ -191,8 +191,59 @@ export const Arrow = styled.div`
   height: 100%;
 `;
 
+export const InfoDeleteIconWrapper = styled.div`
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  transition:
+    background-color 0.3s ease-in-out,
+    color 0.3s ease-in-out,
+    box-shadow 0.3s ease-in-out;
+`;
+
+export const InfoIconWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 10px;
+
+  &:hover::after {
+    content: '최소 1개 이상의 일정을 등록해주세요.';
+    position: absolute;
+    top: 80%;
+    right: 0;
+    margin-top: 5px;
+    padding: 5px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 4px;
+    white-space: nowrap;
+    font-size: 12px;
+    z-index: 1;
+    transition: opacity 0.2s ease-in-out;
+  }
+
+  &:hover::before {
+    content: '';
+    position: absolute;
+    top: 66%;
+    right: 50%;
+    transform: translateX(50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent transparent #333 transparent;
+    z-index: 1;
+    transition: opacity 0.2s ease-in-out;
+  }
+`;
+
 export const DeleteIconWrapper = styled.button`
   display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
   justify-content: center;
   align-items: center;
   padding: 10px;
