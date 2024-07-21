@@ -121,21 +121,14 @@ export const Badge = styled.span`
 // 행사 정보
 export const ContentContainer = styled.div`
   display: flex;
-  flex-direction: column;
   gap: 10px;
-`;
-
-export const OverviewContainer = styled.div`
-  display: flex;
-  gap: 10px;
-  width: 100%;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
     flex-direction: column;
   }
 `;
 
-export const OverviewWrapper = styled.div`
+export const OverviewContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -281,7 +274,7 @@ export const ProgressBox = styled.div`
   gap: 18px;
 `;
 
-export const ProgressIcon = styled.div`
+export const IconWrapper = styled.div`
   display: flex;
   justify-content: center;
   background: var(--blue-400, #0075ff);

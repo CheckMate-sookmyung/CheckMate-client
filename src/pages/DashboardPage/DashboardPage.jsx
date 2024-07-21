@@ -11,7 +11,6 @@ import { axiosInstance } from '../../axios';
 import { useNavigate } from 'react-router-dom';
 
 export default function DashboardPage() {
-  const [copyMessage, setCopyMessage] = useState('');
   const [parsedEvents, setParsedEvents] = useState(null);
   const [averageAttendance, setAverageAttendance] = useState(0);
   const [completedSessions, setCompletedSessions] = useState(0);
@@ -93,21 +92,6 @@ export default function DashboardPage() {
     fetchData();
   }, [EVENT_ID]);
 
-  // 설문조사 링크 복사
-  const handleCopy = (text) => {
-    navigator.clipboard
-      .writeText(text)
-      .then(() => {
-        setCopyMessage('링크가 복사되었습니다!');
-        setTimeout(() => setCopyMessage(''), 3000);
-      })
-      .catch((err) => {
-        setCopyMessage('복사에 실패했습니다. 다시 시도해주세요.');
-        setTimeout(() => setCopyMessage(''), 3000);
-        console.error('복사 실패:', err);
-      });
-  };
-
   // 행사 삭제
   const DeleteEvent = async () => {
     const isConfirmed = window.confirm('행사를 완전히 삭제하시겠습니까?');
@@ -133,7 +117,6 @@ export default function DashboardPage() {
     <PageLayout sideBar={<Sidebar />}>
       {parsedEvents && (
         <S.DashboardPage>
-          {copyMessage && <S.CopyMessage>{copyMessage}</S.CopyMessage>}
           <S.TopContainer>
             <S.EventTitleWrapper>
               <S.EventTitle>{parsedEvents.title}</S.EventTitle>
@@ -152,58 +135,35 @@ export default function DashboardPage() {
           {/* 행사 정보 */}
           <S.ContentContainer>
             <S.OverviewContainer>
-              <S.OverviewWrapper>
-                <S.ContentBox>
-                  <S.ContentTitle>행사 개요</S.ContentTitle>
-                  <S.ContentInfoWrapper>
-                    <S.EventTypeWrapper>
-                      <S.EventType>오프라인 행사</S.EventType>
-                      <S.EventVenue>캠퍼스 내부</S.EventVenue>
-                    </S.EventTypeWrapper>
-                    <S.EventDateWrapper>
-                      {parsedEvents.schedules.map((schedule, index) => (
-                        <S.EventDate key={index}>
-                          {`• ${schedule.date} (${schedule.startTime} - ${schedule.endTime})`}
-                        </S.EventDate>
-                      ))}
-                    </S.EventDateWrapper>
-                  </S.ContentInfoWrapper>
-                </S.ContentBox>
-                <S.ContentBox>
-                  <S.ContentTitle>담당자</S.ContentTitle>
-                  <S.ContentInfoWrapper>
-                    <S.ContentText>010-1234-5678</S.ContentText>
-                    <S.ContentText>checkmate@sookmyung.ac.kr</S.ContentText>
-                  </S.ContentInfoWrapper>
-                </S.ContentBox>
-                <S.ContentBox>
-                  <S.ContentTitle>설문조사 링크</S.ContentTitle>
-                  <S.ContentTextWrapper>
-                    <S.ContentText>naver.com</S.ContentText>
-                    <S.CopyBtn onClick={() => handleCopy('naver.com')}>
-                      복사하기
-                    </S.CopyBtn>
-                  </S.ContentTextWrapper>
-                </S.ContentBox>
-              </S.OverviewWrapper>
+              <S.ContentBox>
+                <S.ContentTitle>행사 개요</S.ContentTitle>
+                <S.ContentInfoWrapper>
+                  <S.EventTypeWrapper>
+                    <S.EventType>오프라인 행사</S.EventType>
+                    <S.EventVenue>캠퍼스 내부</S.EventVenue>
+                  </S.EventTypeWrapper>
+                  <S.EventDateWrapper>
+                    {parsedEvents.schedules.map((schedule, index) => (
+                      <S.EventDate key={index}>
+                        {`• ${schedule.date} (${schedule.startTime} - ${schedule.endTime})`}
+                      </S.EventDate>
+                    ))}
+                  </S.EventDateWrapper>
+                </S.ContentInfoWrapper>
+              </S.ContentBox>
 
               <S.ContentBox>
-                <S.ContentTitle>QR 코드</S.ContentTitle>
-                <S.QrCode>
-                  <img
-                    src="https://www.google.com/url?sa=i&url=http%3A%2F%2Ft3.gstatic.com%2Flicensed-image%3Fq%3Dtbn%3AANd9GcSh-wrQu254qFaRcoYktJ5QmUhmuUedlbeMaQeaozAVD4lh4ICsGdBNubZ8UlMvWjKC&psig=AOvVaw3Zwwv5QaquDAu22BSpbs0n&ust=1720330468548000&source=images&cd=vfe&opi=89978449&ved=0CAkQjRxqFwoTCMijksXYkYcDFQAAAAAdAAAAABAE"
-                    alt=""
-                  />
-                </S.QrCode>
+                <S.ContentTitle>담당자</S.ContentTitle>
+                <S.ContentInfoWrapper>
+                  <S.ContentText>010-1234-5678</S.ContentText>
+                  <S.ContentText>checkmate@sookmyung.ac.kr</S.ContentText>
+                </S.ContentInfoWrapper>
               </S.ContentBox>
-            </S.OverviewContainer>
 
-            {/* 진행 현황 */}
-            <S.ProgressContainer>
               <S.ProgressBox>
-                <S.ProgressIcon>
+                <S.IconWrapper>
                   <FaUsers />
-                </S.ProgressIcon>
+                </S.IconWrapper>
                 <S.ProgressContentWrapper>
                   <S.ProgressTitle>평균 참석 인원</S.ProgressTitle>
                   <S.ProgressText>
@@ -213,9 +173,9 @@ export default function DashboardPage() {
               </S.ProgressBox>
 
               <S.ProgressBox>
-                <S.ProgressIcon>
+                <S.IconWrapper>
                   <FaRotate />
-                </S.ProgressIcon>
+                </S.IconWrapper>
                 <S.ProgressContentWrapper>
                   <S.ProgressTitle>진행 회차</S.ProgressTitle>
                   <S.ProgressText>
@@ -223,6 +183,19 @@ export default function DashboardPage() {
                   </S.ProgressText>
                 </S.ProgressContentWrapper>
               </S.ProgressBox>
+            </S.OverviewContainer>
+
+            {/* 진행 현황 */}
+            <S.ProgressContainer>
+              <S.ContentBox>
+                <S.ContentTitle>QR 코드</S.ContentTitle>
+                <S.QrCode>
+                  <img
+                    src="https://www.google.com/url?sa=i&url=http%3A%2F%2Ft3.gstatic.com%2Flicensed-image%3Fq%3Dtbn%3AANd9GcSh-wrQu254qFaRcoYktJ5QmUhmuUedlbeMaQeaozAVD4lh4ICsGdBNubZ8UlMvWjKC&psig=AOvVaw3Zwwv5QaquDAu22BSpbs0n&ust=1720330468548000&source=images&cd=vfe&opi=89978449&ved=0CAkQjRxqFwoTCMijksXYkYcDFQAAAAAdAAAAABAE"
+                    alt=""
+                  />
+                </S.QrCode>
+              </S.ContentBox>
             </S.ProgressContainer>
           </S.ContentContainer>
         </S.DashboardPage>
