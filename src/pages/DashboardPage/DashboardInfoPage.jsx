@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as S from './DashboardInfoPage.style';
-import { FaAngleRight, FaRegTrashCan } from 'react-icons/fa6';
+import { FaAngleRight, FaRegTrashCan, FaCircleInfo } from 'react-icons/fa6';
 import { Sidebar } from '../../components/Navigator';
 import { BlueButton90 } from '../../components/Button';
 import { USER_ID } from '../../constants';
@@ -252,7 +252,9 @@ export default function DashboardInfoPage() {
                   />
                 </S.DateTimeWrapper>
                 <S.DeleteIconWrapper>
-                  {index > 0 && (
+                  {index === 0 ? (
+                    <FaCircleInfo />
+                  ) : (
                     <FaRegTrashCan
                       onClick={() => handleDeleteSchedule(index)}
                     />
