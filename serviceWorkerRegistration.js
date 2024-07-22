@@ -97,12 +97,18 @@ function checkValidServiceWorker(swUrl, config) {
 
 export function unregister() {
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.ready
+    navigator.serviceWorker
+      .register('/service-worker.js')
       .then((registration) => {
-        registration.unregister();
+        console.log(
+          '서비스 워커가 다음 범위로 등록되었습니다:',
+          registration.scope,
+        );
       })
       .catch((error) => {
-        console.error(error.message);
+        console.error('서비스 워커 등록에 실패했습니다:', error);
       });
+  } else {
+    console.log('이 브라우저에서는 서비스 워커를 지원하지 않습니다.');
   }
 }
