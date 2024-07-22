@@ -11,11 +11,15 @@ import { axiosInstance } from '../../axios';
 import { useNavigate } from 'react-router-dom';
 
 export default function DashboardPage() {
-  const [copyMessage, setCopyMessage] = useState('');
   const [parsedEvents, setParsedEvents] = useState(null);
   const [averageAttendance, setAverageAttendance] = useState(0);
   const [completedSessions, setCompletedSessions] = useState(0);
   const [eventStatus, setEventStatus] = useState('');
+  const [contacts, setContacts] = useState({ phone: '', email: '' });
+  const [isEditing, setIsEditing] = useState(false);
+  const [phoneError, setPhoneError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+
   const EVENT_ID = useRecoilValue(eventIDState);
   const navigate = useNavigate();
 
@@ -62,6 +66,7 @@ export default function DashboardPage() {
           const parsedEvent = {
             title: eventData.eventTitle,
             detail: eventData.eventDetail,
+            image: eventData.eventImage,
             schedules,
             totalSessions: eventData.eventSchedules.length,
             totalParticipants,
@@ -93,21 +98,6 @@ export default function DashboardPage() {
     fetchData();
   }, [EVENT_ID]);
 
-  // 설문조사 링크 복사
-  const handleCopy = (text) => {
-    navigator.clipboard
-      .writeText(text)
-      .then(() => {
-        setCopyMessage('링크가 복사되었습니다!');
-        setTimeout(() => setCopyMessage(''), 3000);
-      })
-      .catch((err) => {
-        setCopyMessage('복사에 실패했습니다. 다시 시도해주세요.');
-        setTimeout(() => setCopyMessage(''), 3000);
-        console.error('복사 실패:', err);
-      });
-  };
-
   // 행사 삭제
   const DeleteEvent = async () => {
     const isConfirmed = window.confirm('행사를 완전히 삭제하시겠습니까?');
@@ -129,11 +119,50 @@ export default function DashboardPage() {
     }
   };
 
+  // 담당자 연락처 추가 및 입력 필드 생성
+  const handleAddContact = () => {
+    if (isEditing) {
+      const isPhoneValid = validatePhoneNumber(contacts.phone);
+      const isEmailValid = validateEmail(contacts.email);
+      setPhoneError(!isPhoneValid);
+      setEmailError(!isEmailValid);
+
+      if (isPhoneValid && isEmailValid) {
+        setIsEditing(false);
+      }
+    } else {
+      setIsEditing(true);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setContacts((prevContacts) => ({
+      ...prevContacts,
+      [name]: value,
+    }));
+
+    if (name === 'phone') {
+      setPhoneError(!validatePhoneNumber(value));
+    } else if (name === 'email') {
+      setEmailError(!validateEmail(value));
+    }
+  };
+
+  const validatePhoneNumber = (phone) => {
+    const phoneRegex = /^010-\d{4}-\d{4}$/;
+    return phoneRegex.test(phone);
+  };
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   return (
     <PageLayout sideBar={<Sidebar />}>
       {parsedEvents && (
         <S.DashboardPage>
-          {copyMessage && <S.CopyMessage>{copyMessage}</S.CopyMessage>}
           <S.TopContainer>
             <S.EventTitleWrapper>
               <S.EventTitle>{parsedEvents.title}</S.EventTitle>
@@ -152,58 +181,98 @@ export default function DashboardPage() {
           {/* 행사 정보 */}
           <S.ContentContainer>
             <S.OverviewContainer>
-              <S.OverviewWrapper>
-                <S.ContentBox>
+              <S.ContentBox>
+                <S.ContentTitleWrapper>
                   <S.ContentTitle>행사 개요</S.ContentTitle>
-                  <S.ContentInfoWrapper>
-                    <S.EventTypeWrapper>
-                      <S.EventType>오프라인 행사</S.EventType>
-                      <S.EventVenue>캠퍼스 내부</S.EventVenue>
-                    </S.EventTypeWrapper>
-                    <S.EventDateWrapper>
-                      {parsedEvents.schedules.map((schedule, index) => (
-                        <S.EventDate key={index}>
-                          {`• ${schedule.date} (${schedule.startTime} - ${schedule.endTime})`}
-                        </S.EventDate>
-                      ))}
-                    </S.EventDateWrapper>
-                  </S.ContentInfoWrapper>
-                </S.ContentBox>
-                <S.ContentBox>
-                  <S.ContentTitle>담당자</S.ContentTitle>
-                  <S.ContentInfoWrapper>
-                    <S.ContentText>010-1234-5678</S.ContentText>
-                    <S.ContentText>checkmate@sookmyung.ac.kr</S.ContentText>
-                  </S.ContentInfoWrapper>
-                </S.ContentBox>
-                <S.ContentBox>
-                  <S.ContentTitle>설문조사 링크</S.ContentTitle>
-                  <S.ContentTextWrapper>
-                    <S.ContentText>naver.com</S.ContentText>
-                    <S.CopyBtn onClick={() => handleCopy('naver.com')}>
-                      복사하기
-                    </S.CopyBtn>
-                  </S.ContentTextWrapper>
-                </S.ContentBox>
-              </S.OverviewWrapper>
+                </S.ContentTitleWrapper>
+                <S.ContentInfoWrapper>
+                  <S.EventTypeWrapper>
+                    <S.EventType>오프라인 행사</S.EventType>
+                    <S.EventVenue>캠퍼스 내부</S.EventVenue>
+                  </S.EventTypeWrapper>
+                  <S.EventDateWrapper>
+                    {parsedEvents.schedules.map((schedule, index) => (
+                      <S.EventDate key={index}>
+                        {`• ${schedule.date} (${schedule.startTime} - ${schedule.endTime})`}
+                      </S.EventDate>
+                    ))}
+                  </S.EventDateWrapper>
+                </S.ContentInfoWrapper>
+              </S.ContentBox>
 
               <S.ContentBox>
-                <S.ContentTitle>QR 코드</S.ContentTitle>
-                <S.QrCode>
-                  <img
-                    src="https://www.google.com/url?sa=i&url=http%3A%2F%2Ft3.gstatic.com%2Flicensed-image%3Fq%3Dtbn%3AANd9GcSh-wrQu254qFaRcoYktJ5QmUhmuUedlbeMaQeaozAVD4lh4ICsGdBNubZ8UlMvWjKC&psig=AOvVaw3Zwwv5QaquDAu22BSpbs0n&ust=1720330468548000&source=images&cd=vfe&opi=89978449&ved=0CAkQjRxqFwoTCMijksXYkYcDFQAAAAAdAAAAABAE"
-                    alt=""
-                  />
-                </S.QrCode>
-              </S.ContentBox>
-            </S.OverviewContainer>
+                <S.ContentTitleWrapper>
+                  <S.ContentTitle>담당자</S.ContentTitle>
+                  <S.AddContactButton onClick={handleAddContact}>
+                    {isEditing ? '저장' : '추가'}
+                  </S.AddContactButton>
+                </S.ContentTitleWrapper>
+                <S.ContentInfoWrapper>
+                  {isEditing ? (
+                    <>
+                      <S.ContactIconInputWrapper>
+                        <S.ContactIconWrapper>
+                          <S.StyledPhoneIcon />
+                        </S.ContactIconWrapper>
+                        <S.ContactInputWrapper>
+                          <S.ContactInput
+                            type="text"
+                            name="phone"
+                            placeholder="핸드폰 번호 ex) 010-1234-5678"
+                            value={contacts.phone}
+                            onChange={handleInputChange}
+                          />
+                          {phoneError && (
+                            <S.ContactCheck>
+                              휴대폰 번호 형식이 올바르지 않습니다.
+                            </S.ContactCheck>
+                          )}
+                        </S.ContactInputWrapper>
+                      </S.ContactIconInputWrapper>
 
-            {/* 진행 현황 */}
-            <S.ProgressContainer>
+                      <S.ContactIconInputWrapper>
+                        <S.ContactIconWrapper>
+                          <S.StyledEnvelopeIcon />
+                        </S.ContactIconWrapper>
+                        <S.ContactInputWrapper>
+                          <S.ContactInput
+                            type="email"
+                            name="email"
+                            placeholder="이메일 ex) checkmate@sookmyung.ac.kr"
+                            value={contacts.email}
+                            onChange={handleInputChange}
+                          />
+                          {emailError && (
+                            <S.ContactCheck>
+                              이메일 형식이 올바르지 않습니다.
+                            </S.ContactCheck>
+                          )}
+                        </S.ContactInputWrapper>
+                      </S.ContactIconInputWrapper>
+                    </>
+                  ) : (
+                    <>
+                      <S.ContactIconTextWrapper>
+                        <S.ContactIconWrapper>
+                          <S.StyledPhoneIcon />
+                        </S.ContactIconWrapper>
+                        <S.ContactText>{contacts.phone}</S.ContactText>
+                      </S.ContactIconTextWrapper>
+                      <S.ContactIconTextWrapper>
+                        <S.ContactIconWrapper>
+                          <S.StyledEnvelopeIcon />
+                        </S.ContactIconWrapper>
+                        <S.ContactText>{contacts.email}</S.ContactText>
+                      </S.ContactIconTextWrapper>
+                    </>
+                  )}
+                </S.ContentInfoWrapper>
+              </S.ContentBox>
+
               <S.ProgressBox>
-                <S.ProgressIcon>
+                <S.IconWrapper>
                   <FaUsers />
-                </S.ProgressIcon>
+                </S.IconWrapper>
                 <S.ProgressContentWrapper>
                   <S.ProgressTitle>평균 참석 인원</S.ProgressTitle>
                   <S.ProgressText>
@@ -213,9 +282,9 @@ export default function DashboardPage() {
               </S.ProgressBox>
 
               <S.ProgressBox>
-                <S.ProgressIcon>
+                <S.IconWrapper>
                   <FaRotate />
-                </S.ProgressIcon>
+                </S.IconWrapper>
                 <S.ProgressContentWrapper>
                   <S.ProgressTitle>진행 회차</S.ProgressTitle>
                   <S.ProgressText>
@@ -223,7 +292,19 @@ export default function DashboardPage() {
                   </S.ProgressText>
                 </S.ProgressContentWrapper>
               </S.ProgressBox>
-            </S.ProgressContainer>
+            </S.OverviewContainer>
+
+            {/* 진행 현황 */}
+            <S.PosterImageContainer>
+              <S.ContentBox>
+                <S.ContentTitleWrapper>
+                  <S.ContentTitle>행사 커버 이미지</S.ContentTitle>
+                </S.ContentTitleWrapper>
+                <S.ImageWrapper>
+                  <img src={parsedEvents.image} alt="Event Cover" />
+                </S.ImageWrapper>
+              </S.ContentBox>
+            </S.PosterImageContainer>
           </S.ContentContainer>
         </S.DashboardPage>
       )}

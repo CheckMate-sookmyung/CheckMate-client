@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { GrayButton90 } from '../../components';
 import { BREAKPOINTS } from '../../styles';
+import { FaEnvelope, FaPhone } from 'react-icons/fa6';
 
 export const DashboardPage = styled.div`
   flex-grow: 1;
@@ -95,6 +96,7 @@ export const EventTitleWrapper = styled.div`
 `;
 
 export const EventTitle = styled.h1`
+  display: flex;
   font-weight: bold;
   font-size: 24px;
   line-height: 29px;
@@ -116,26 +118,26 @@ export const Badge = styled.span`
       : props.status === '진행중'
         ? 'var(--blue-400, #0075ff)'
         : '#ffa726'};
+  border: 1px solid
+    ${(props) =>
+      props.status === '종료'
+        ? '#ff6b6b'
+        : props.status === '진행중'
+          ? 'var(--blue-400, #0075ff)'
+          : '#ffa726'};
 `;
 
 // 행사 정보
 export const ContentContainer = styled.div`
   display: flex;
-  flex-direction: column;
   gap: 10px;
-`;
-
-export const OverviewContainer = styled.div`
-  display: flex;
-  gap: 10px;
-  width: 100%;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
     flex-direction: column;
   }
 `;
 
-export const OverviewWrapper = styled.div`
+export const OverviewContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -151,14 +153,86 @@ export const ContentBox = styled.div`
   border-radius: 10px;
 `;
 
-export const ContentTitle = styled.h3`
-  width: 100%;
+export const ContentTitleWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding-bottom: 8px;
-  line-height: 19px;
   border-bottom: 1px solid var(--gray-200, #d9d9d9);
+`;
+
+export const ContentTitle = styled.h3`
+  line-height: 19px;
   color: var(--gray-400, #212121);
   font-weight: bold;
   font-size: 16px;
+`;
+
+export const AddContactButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  padding: 4px 10px;
+  color: #2253ff;
+  font-weight: 600;
+  font-size: 12px;
+  border: 1px solid var(--blue-400, #2253ff);
+`;
+
+export const ContactIconInputWrapper = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+
+export const ContactInputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 4px;
+`;
+
+export const ContactInput = styled.input`
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 14px;
+`;
+
+export const ContactCheck = styled.p`
+  padding: 0 6px;
+  font-size: 12px;
+  color: #ff6b6b;
+`;
+
+export const ContactIconTextWrapper = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+
+export const ContactIconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding-top: 7px;
+`;
+
+export const StyledPhoneIcon = styled(FaPhone)`
+  color: var(--gray-300, #636363);
+`;
+
+export const StyledEnvelopeIcon = styled(FaEnvelope)`
+  color: var(--gray-300, #636363);
+`;
+
+export const ContactText = styled.div`
+  display: flex;
+  align-items: center;
+  border: none;
+  padding-top: 7px;
+  line-height: 14px;
+  color: var(--gray-300, #636363);
+  font-size: 14px;
 `;
 
 export const ContentInfoWrapper = styled.div`
@@ -212,55 +286,24 @@ export const EventDate = styled.p`
   color: var(--gray-300, #636363);
 `;
 
-export const QrCode = styled.div`
+export const ImageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 20px 0;
   width: 100%;
   height: 100%;
 
   img {
     display: block;
-    max-width: 100%;
-    max-height: 200px;
+    width: 70%;
     object-fit: contain;
   }
 `;
 
-export const CopyBtn = styled.button`
-  margin-left: auto;
-  border-radius: 4px;
-  border: none;
-  background: var(--blue-400, #0075ff);
-  width: 60px;
-  height: 22px;
-  line-height: 20px;
-  color: #ffffff;
-  font-size: 11px;
-  cursor: pointer;
-
-  &:hover {
-    background: var(--blue-300, #2c8dff);
-  }
-`;
-
-export const CopyMessage = styled.div`
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--blue-400, #0075ff);
-  color: #ffffff;
-  padding: 10px 20px;
-  border-radius: 5px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-`;
-
 // 진행 현황
-export const ProgressContainer = styled.div`
+export const PosterImageContainer = styled.div`
   display: flex;
   gap: 10px;
   width: 100%;
@@ -281,7 +324,7 @@ export const ProgressBox = styled.div`
   gap: 18px;
 `;
 
-export const ProgressIcon = styled.div`
+export const IconWrapper = styled.div`
   display: flex;
   justify-content: center;
   background: var(--blue-400, #0075ff);
@@ -309,6 +352,7 @@ export const ProgressTitle = styled.h3`
 `;
 
 export const ProgressText = styled.p`
+  width: 100px;
   font-weight: bold;
   font-size: 20px;
   color: var(--gray-300, #636363);
