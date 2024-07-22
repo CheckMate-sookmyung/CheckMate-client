@@ -6,7 +6,7 @@
   "orientation": "any",
   "scope": "/",
   "short_name": "checkmate",
-  "start_url": "/checkmate.pe.kr",
+  "start_url": "/",
   "theme_color": "#0075ff",
   "icons": [
     {
