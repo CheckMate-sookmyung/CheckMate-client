@@ -7,13 +7,6 @@ import { StaleWhileRevalidate } from 'workbox-strategies';
 // 클라이언트 클레임
 clientsClaim();
 
-self.addEventListener('fetch', function (event) {
-  const { method, headers, url } = event.request;
-  console.log('[SW] Fetch Method : ', method);
-  console.log('[SW] Fetch Headers : ', headers);
-  console.log('[SW] Fetch URL : ', url);
-});
-
 // 프리캐시 및 라우팅 설정
 precacheAndRoute(self.__WB_MANIFEST);
 
