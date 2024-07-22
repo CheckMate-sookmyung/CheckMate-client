@@ -17,6 +17,9 @@ export default function DashboardPage() {
   const [eventStatus, setEventStatus] = useState('');
   const [contacts, setContacts] = useState({ phone: '', email: '' });
   const [isEditing, setIsEditing] = useState(false);
+  const [phoneError, setPhoneError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+
   const EVENT_ID = useRecoilValue(eventIDState);
   const navigate = useNavigate();
 
@@ -95,23 +98,6 @@ export default function DashboardPage() {
     fetchData();
   }, [EVENT_ID]);
 
-  // 담당자 연락처 추가 및 입력 필드 생성
-  const handleAddContact = () => {
-    if (isEditing) {
-      setIsEditing(false);
-    } else {
-      setIsEditing(true);
-    }
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setContacts((prevContacts) => ({
-      ...prevContacts,
-      [name]: value,
-    }));
-  };
-
   // 행사 삭제
   const DeleteEvent = async () => {
     const isConfirmed = window.confirm('행사를 완전히 삭제하시겠습니까?');
@@ -131,6 +117,46 @@ export default function DashboardPage() {
       alert('행사 삭제에 실패했습니다. 다시 시도해 주세요.');
       console.log(error);
     }
+  };
+
+  // 담당자 연락처 추가 및 입력 필드 생성
+  const handleAddContact = () => {
+    if (isEditing) {
+      const isPhoneValid = validatePhoneNumber(contacts.phone);
+      const isEmailValid = validateEmail(contacts.email);
+      setPhoneError(!isPhoneValid);
+      setEmailError(!isEmailValid);
+
+      if (isPhoneValid && isEmailValid) {
+        setIsEditing(false);
+      }
+    } else {
+      setIsEditing(true);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setContacts((prevContacts) => ({
+      ...prevContacts,
+      [name]: value,
+    }));
+
+    if (name === 'phone') {
+      setPhoneError(!validatePhoneNumber(value));
+    } else if (name === 'email') {
+      setEmailError(!validateEmail(value));
+    }
+  };
+
+  const validatePhoneNumber = (phone) => {
+    const phoneRegex = /^010-\d{4}-\d{4}$/;
+    return phoneRegex.test(phone);
+  };
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   };
 
   return (
@@ -196,9 +222,11 @@ export default function DashboardPage() {
                             value={contacts.phone}
                             onChange={handleInputChange}
                           />
-                          <S.ContactCheck>
-                            휴대폰 번호 형식이 올바르지 않습니다.
-                          </S.ContactCheck>
+                          {phoneError && (
+                            <S.ContactCheck>
+                              휴대폰 번호 형식이 올바르지 않습니다.
+                            </S.ContactCheck>
+                          )}
                         </S.ContactInputWrapper>
                       </S.ContactIconInputWrapper>
 
@@ -214,9 +242,11 @@ export default function DashboardPage() {
                             value={contacts.email}
                             onChange={handleInputChange}
                           />
-                          <S.ContactCheck>
-                            이메일 형식이 올바르지 않습니다.
-                          </S.ContactCheck>
+                          {emailError && (
+                            <S.ContactCheck>
+                              이메일 형식이 올바르지 않습니다.
+                            </S.ContactCheck>
+                          )}
                         </S.ContactInputWrapper>
                       </S.ContactIconInputWrapper>
                     </>
