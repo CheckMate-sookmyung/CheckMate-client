@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { GrayButton90 } from '../../components';
 import { BREAKPOINTS } from '../../styles';
+import { FaEnvelope, FaPhone } from 'react-icons/fa6';
 
 export const DashboardPage = styled.div`
   flex-grow: 1;
@@ -181,7 +182,6 @@ export const AddContactButton = styled.button`
 
 export const ContactIconInputWrapper = styled.div`
   display: flex;
-  align-items: center;
   gap: 8px;
 `;
 
@@ -207,15 +207,32 @@ export const ContactCheck = styled.p`
 
 export const ContactIconTextWrapper = styled.div`
   display: flex;
-  align-items: center;
   gap: 8px;
 `;
 
-export const ContactText = styled.div`
-  border: none;
-  line-height: 14px;
-  font-size: 14px;
+export const ContactIconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding-top: 7px;
+`;
+
+export const StyledPhoneIcon = styled(FaPhone)`
   color: var(--gray-300, #636363);
+`;
+
+export const StyledEnvelopeIcon = styled(FaEnvelope)`
+  color: var(--gray-300, #636363);
+`;
+
+export const ContactText = styled.div`
+  display: flex;
+  align-items: center;
+  border: none;
+  padding-top: 7px;
+  line-height: 14px;
+  color: var(--gray-300, #636363);
+  font-size: 14px;
 `;
 
 export const ContentInfoWrapper = styled.div`

@@ -1,5 +1,5 @@
 import * as S from './DashboardPage.style';
-import { FaEnvelope, FaPhone, FaRotate, FaUsers } from 'react-icons/fa6';
+import { FaRotate, FaUsers } from 'react-icons/fa6';
 import React, { useState, useEffect } from 'react';
 import PageLayout from '../../Layout/PageLayout';
 import { Sidebar } from '../../components/Navigator';
@@ -185,7 +185,9 @@ export default function DashboardPage() {
                   {isEditing ? (
                     <>
                       <S.ContactIconInputWrapper>
-                        <FaPhone />
+                        <S.ContactIconWrapper>
+                          <S.StyledPhoneIcon />
+                        </S.ContactIconWrapper>
                         <S.ContactInputWrapper>
                           <S.ContactInput
                             type="text"
@@ -199,8 +201,11 @@ export default function DashboardPage() {
                           </S.ContactCheck>
                         </S.ContactInputWrapper>
                       </S.ContactIconInputWrapper>
+
                       <S.ContactIconInputWrapper>
-                        <FaEnvelope />
+                        <S.ContactIconWrapper>
+                          <S.StyledEnvelopeIcon />
+                        </S.ContactIconWrapper>
                         <S.ContactInputWrapper>
                           <S.ContactInput
                             type="email"
@@ -218,11 +223,15 @@ export default function DashboardPage() {
                   ) : (
                     <>
                       <S.ContactIconTextWrapper>
-                        <FaPhone />
+                        <S.ContactIconWrapper>
+                          <S.StyledPhoneIcon />
+                        </S.ContactIconWrapper>
                         <S.ContactText>{contacts.phone}</S.ContactText>
                       </S.ContactIconTextWrapper>
                       <S.ContactIconTextWrapper>
-                        <FaEnvelope />
+                        <S.ContactIconWrapper>
+                          <S.StyledEnvelopeIcon />
+                        </S.ContactIconWrapper>
                         <S.ContactText>{contacts.email}</S.ContactText>
                       </S.ContactIconTextWrapper>
                     </>
