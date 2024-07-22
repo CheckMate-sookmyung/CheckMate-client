@@ -15,3 +15,6 @@ root.render(
     </React.StrictMode>
   </RecoilRoot>,
 );
+
+// 서비스 워커 등록 (중복 제거)
+ServiceWorkerRegistration.register();
