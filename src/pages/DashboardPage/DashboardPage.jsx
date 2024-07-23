@@ -1,12 +1,12 @@
 import * as S from './DashboardPage.style';
-import { FaRotate, FaUsers } from 'react-icons/fa6';
 import React, { useState, useEffect } from 'react';
 import PageLayout from '../../Layout/PageLayout';
+import { FaRotate, FaUsers } from 'react-icons/fa6';
 import { Sidebar } from '../../components/Navigator';
 import { GrayButton90 } from '../../components/Button';
+import { USER_ID } from '../../constants';
 import { eventIDState } from '../../recoil/atoms/state';
 import { useRecoilValue } from 'recoil';
-import { USER_ID } from '../../constants';
 import { axiosInstance } from '../../axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -90,9 +90,16 @@ export default function DashboardPage() {
           } else {
             setEventStatus('진행중');
           }
+
+          // 담당자 정보 설정
+          setContacts({
+            name: eventData.managerName || '',
+            phone: eventData.managerPhoneNumber || '',
+            email: eventData.managerEmail || '',
+          });
         }
       } catch (error) {
-        console.error('Error fetching event data:', error);
+        console.error('이벤트 데이터를 가져오는 중 오류:', error);
       }
     };
 
@@ -225,9 +232,18 @@ export default function DashboardPage() {
 
               <S.ContentBox>
                 <S.ContentTitleWrapper>
-                  <S.ContentTitle>담당자</S.ContentTitle>
+                  <S.Tooltip>
+                    <S.ContentTitle>담당자</S.ContentTitle>
+                    <S.TooltipText className="tooltiptext">
+                      해당 연락처로 참석자들에게 문자와 메일이 발송됩니다.
+                    </S.TooltipText>
+                  </S.Tooltip>
                   <S.AddContactButton onClick={handleAddContact}>
-                    {isEditing ? '저장' : '추가'}
+                    {isEditing
+                      ? '저장'
+                      : contacts.name || contacts.phone || contacts.email
+                        ? '수정'
+                        : '입력'}
                   </S.AddContactButton>
                 </S.ContentTitleWrapper>
                 <S.ContentInfoWrapper>
