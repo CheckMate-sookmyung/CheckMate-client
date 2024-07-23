@@ -85,7 +85,7 @@ export const ToggleContainer = styled.div`
   width: 160px;
 `;
 
-export const ToggleBtn = styled.button`
+export const ToggleButton = styled.button`
   background: ${(props) => (props.active ? '#ffffff' : 'transparent')};
   border: none;
   border-radius: 50px;
