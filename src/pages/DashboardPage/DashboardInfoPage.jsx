@@ -149,7 +149,7 @@ export default function DashboardInfoPage() {
       eventTitle,
       eventDetail: eventDescription,
       eventImage,
-      eventType: eventType === 'ONLINE' ? 'ONLINE' : 'OFFLINE',
+      eventType: eventType ? 'OFFLINE' : 'ONLINE',
       eventTarget: eventTarget === 'EXTERNAL' ? 'EXTERNAL' : 'INTERNAL',
       eventSchedules: eventSchedules.map((schedule) => ({
         eventDate: schedule.eventDate.toISOString().split('T')[0],
@@ -269,18 +269,18 @@ export default function DashboardInfoPage() {
           <S.Content>
             <S.ContentTitle>온라인/오프라인 여부</S.ContentTitle>
             <S.ToggleContainer>
-              <S.ToggleBtn
+              <S.ToggleButton
                 active={eventType === 'ONLINE'}
                 onClick={() => setEventType('ONLINE')}
               >
                 온라인
-              </S.ToggleBtn>
-              <S.ToggleBtn
+              </S.ToggleButton>
+              <S.ToggleButton
                 active={eventType === 'OFFLINE'}
                 onClick={() => setEventType('OFFLINE')}
               >
                 오프라인
-              </S.ToggleBtn>
+              </S.ToggleButton>
             </S.ToggleContainer>
           </S.Content>
 
@@ -290,7 +290,7 @@ export default function DashboardInfoPage() {
               <S.EventTarget onClick={() => setEventTarget('INTERNAL')}>
                 <S.EventTargetRadioButton
                   type="radio"
-                  name="platform"
+                  name="eventTarget"
                   value="INTERNAL"
                   checked={eventTarget === 'INTERNAL'}
                   readOnly
@@ -305,7 +305,7 @@ export default function DashboardInfoPage() {
               <S.EventTarget onClick={() => setEventTarget('EXTERNAL')}>
                 <S.EventTargetRadioButton
                   type="radio"
-                  name="platform"
+                  name="eventTarget"
                   value="EXTERNAL"
                   checked={eventTarget === 'EXTERNAL'}
                   readOnly
