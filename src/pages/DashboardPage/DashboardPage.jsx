@@ -15,7 +15,7 @@ export default function DashboardPage() {
   const [averageAttendance, setAverageAttendance] = useState(0);
   const [completedSessions, setCompletedSessions] = useState(0);
   const [eventStatus, setEventStatus] = useState('');
-  const [contacts, setContacts] = useState({ phone: '', email: '' });
+  const [contacts, setContacts] = useState({ name: '', phone: '', email: '' });
   const [isEditing, setIsEditing] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
   const [emailError, setEmailError] = useState(false);
@@ -120,7 +120,7 @@ export default function DashboardPage() {
   };
 
   // 담당자 연락처 추가 및 입력 필드 생성
-  const handleAddContact = () => {
+  const handleAddContact = async () => {
     if (isEditing) {
       const isPhoneValid = validatePhoneNumber(contacts.phone);
       const isEmailValid = validateEmail(contacts.email);
@@ -128,7 +128,26 @@ export default function DashboardPage() {
       setEmailError(!isEmailValid);
 
       if (isPhoneValid && isEmailValid) {
-        setIsEditing(false);
+        try {
+          const response = await axiosInstance.put(
+            `/api/v1/events/manager/${USER_ID}/${EVENT_ID}`,
+            {
+              manager: {
+                managerName: contacts.name,
+                managerPhoneNumber: contacts.phone,
+                managerEmail: contacts.email,
+              },
+            },
+          );
+
+          if (response.status === 200) {
+            setIsEditing(false);
+            alert('연락처가 성공적으로 등록되었습니다.');
+          }
+        } catch (error) {
+          console.log('연락처 등록 실패: ', error);
+          alert('연락처 등록에 실패했습니다. 다시 시도해 주세요.');
+        }
       }
     } else {
       setIsEditing(true);
@@ -212,6 +231,21 @@ export default function DashboardPage() {
                     <>
                       <S.ContactIconInputWrapper>
                         <S.ContactIconWrapper>
+                          <S.StyledUserIcon />
+                        </S.ContactIconWrapper>
+                        <S.ContactInputWrapper>
+                          <S.ContactInput
+                            type="text"
+                            name="name"
+                            placeholder="담당자 이름"
+                            value={contacts.name}
+                            onChange={handleInputChange}
+                          />
+                        </S.ContactInputWrapper>
+                      </S.ContactIconInputWrapper>
+
+                      <S.ContactIconInputWrapper>
+                        <S.ContactIconWrapper>
                           <S.StyledPhoneIcon />
                         </S.ContactIconWrapper>
                         <S.ContactInputWrapper>
@@ -254,10 +288,18 @@ export default function DashboardPage() {
                     <>
                       <S.ContactIconTextWrapper>
                         <S.ContactIconWrapper>
+                          <S.StyledUserIcon />
+                        </S.ContactIconWrapper>
+                        <S.ContactText>{contacts.name}</S.ContactText>
+                      </S.ContactIconTextWrapper>
+
+                      <S.ContactIconTextWrapper>
+                        <S.ContactIconWrapper>
                           <S.StyledPhoneIcon />
                         </S.ContactIconWrapper>
                         <S.ContactText>{contacts.phone}</S.ContactText>
                       </S.ContactIconTextWrapper>
+
                       <S.ContactIconTextWrapper>
                         <S.ContactIconWrapper>
                           <S.StyledEnvelopeIcon />

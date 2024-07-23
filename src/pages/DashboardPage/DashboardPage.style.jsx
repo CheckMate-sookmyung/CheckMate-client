@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { GrayButton90 } from '../../components';
 import { BREAKPOINTS } from '../../styles';
-import { FaEnvelope, FaPhone } from 'react-icons/fa6';
+import { FaEnvelope, FaPhone, FaUser } from 'react-icons/fa6';
 
 export const DashboardPage = styled.div`
   flex-grow: 1;
@@ -222,6 +222,10 @@ export const StyledPhoneIcon = styled(FaPhone)`
 `;
 
 export const StyledEnvelopeIcon = styled(FaEnvelope)`
+  color: var(--gray-300, #636363);
+`;
+
+export const StyledUserIcon = styled(FaUser)`
   color: var(--gray-300, #636363);
 `;
 
