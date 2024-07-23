@@ -234,7 +234,11 @@ export default function DashboardPage() {
                 <S.ContentTitleWrapper>
                   <S.ContentTitle>담당자</S.ContentTitle>
                   <S.AddContactButton onClick={handleAddContact}>
-                    {isEditing ? '저장' : '추가'}
+                    {isEditing
+                      ? '저장'
+                      : contacts.name || contacts.phone || contacts.email
+                        ? '수정'
+                        : '입력'}
                   </S.AddContactButton>
                 </S.ContentTitleWrapper>
                 <S.ContentInfoWrapper>
