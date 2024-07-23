@@ -1,8 +1,8 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { GrayButton90 } from '../../components';
 import { BREAKPOINTS } from '../../styles';
-import { FaEnvelope, FaPhone } from 'react-icons/fa6';
+import { FaEnvelope, FaPhone, FaUser } from 'react-icons/fa6';
 
 export const DashboardPage = styled.div`
   flex-grow: 1;
@@ -217,12 +217,18 @@ export const ContactIconWrapper = styled.div`
   padding-top: 7px;
 `;
 
-export const StyledPhoneIcon = styled(FaPhone)`
+const iconStyle = css`
   color: var(--gray-300, #636363);
 `;
 
+export const StyledPhoneIcon = styled(FaPhone)`
+  ${iconStyle}
+`;
 export const StyledEnvelopeIcon = styled(FaEnvelope)`
-  color: var(--gray-300, #636363);
+  ${iconStyle}
+`;
+export const StyledUserIcon = styled(FaUser)`
+  ${iconStyle}
 `;
 
 export const ContactText = styled.div`
