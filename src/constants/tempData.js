@@ -5,7 +5,6 @@ export const EVENT_ID = 1504;
 
 export const EVENT_DATE = '2024-07-12';
 
-
 // APPS
 // export const USER_ID = 300;
 
