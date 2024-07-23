@@ -11,7 +11,7 @@ import PageLayout from '../../Layout/PageLayout';
 import UploadBox from '../../pages/RegisterPage/RegisterComponents/DragnDrop';
 
 export default function DashboardInfoPage() {
-  const [active, setActive] = useState('online');
+  const [eventType, setEventType] = useState('OFFLINE');
   const [selectedOption, setSelectedOption] = useState('option1');
   const [eventTitle, setEventTitle] = useState('');
   const [eventDescription, setEventDescription] = useState('');
@@ -27,7 +27,7 @@ export default function DashboardInfoPage() {
   const EVENT_ID = useRecoilValue(eventIDState);
 
   const initialState = useRef({
-    active,
+    eventType,
     selectedOption,
     eventTitle,
     eventDescription,
@@ -43,7 +43,7 @@ export default function DashboardInfoPage() {
         );
         const eventData = response.data;
 
-        setActive(eventData.active ? 'online' : 'offline');
+        setEventType(eventData.eventType ? 'ONLINE' : 'OFFLINE');
         setSelectedOption(eventData.selectedOption || 'option1');
         setEventTitle(eventData.eventTitle);
         setEventDescription(eventData.eventDetail);
@@ -61,7 +61,7 @@ export default function DashboardInfoPage() {
         );
 
         initialState.current = {
-          active: eventData.active ? 'online' : 'offline',
+          eventType: eventData.eventType ? 'ONLINE' : 'OFFLINE',
           selectedOption: eventData.selectedOption || 'option1',
           eventTitle: eventData.eventTitle,
           eventDescription: eventData.eventDetail,
@@ -86,7 +86,7 @@ export default function DashboardInfoPage() {
 
   useEffect(() => {
     const hasChanged =
-      active !== initialState.current.active ||
+      eventType !== initialState.current.eventType ||
       selectedOption !== initialState.current.selectedOption ||
       eventTitle !== initialState.current.eventTitle ||
       eventDescription !== initialState.current.eventDescription ||
@@ -106,7 +106,7 @@ export default function DashboardInfoPage() {
 
     setIsChanged(hasChanged);
   }, [
-    active,
+    eventType,
     selectedOption,
     eventTitle,
     eventDescription,
@@ -268,14 +268,14 @@ export default function DashboardInfoPage() {
             <S.ContentTitle>온라인/오프라인 여부</S.ContentTitle>
             <S.ToggleContainer>
               <S.ToggleBtn
-                active={active === 'online'}
-                onClick={() => setActive('online')}
+                active={eventType === 'ONLINE'}
+                onClick={() => setEventType('ONLINE')}
               >
                 온라인
               </S.ToggleBtn>
               <S.ToggleBtn
-                active={active === 'offline'}
-                onClick={() => setActive('offline')}
+                active={eventType === 'OFFLINE'}
+                onClick={() => setEventType('OFFLINE')}
               >
                 오프라인
               </S.ToggleBtn>
