@@ -363,3 +363,44 @@ export const ProgressText = styled.p`
   font-size: 20px;
   color: var(--gray-300, #636363);
 `;
+
+// 담당자 tooptip
+export const Tooltip = styled.div`
+  position: relative;
+  display: inline-block;
+
+  &:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }
+`;
+
+export const TooltipText = styled.div`
+  visibility: hidden;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  font-size: 12px;
+  border-radius: 4px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  top: 125%;
+  left: 0;
+  opacity: 0;
+  transition:
+    opacity 0.3s ease-in-out,
+    visibility 0.3s ease-in-out;
+  white-space: nowrap;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 20px;
+    margin-left: -5px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent transparent #333 transparent;
+  }
+`;
