@@ -17,6 +17,7 @@ export default function DashboardPage() {
   const [eventStatus, setEventStatus] = useState('');
   const [contacts, setContacts] = useState({ name: '', phone: '', email: '' });
   const [isEditing, setIsEditing] = useState(false);
+  const [nameError, setNameError] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
   const [emailError, setEmailError] = useState(false);
 
@@ -121,33 +122,34 @@ export default function DashboardPage() {
 
   // 담당자 연락처 추가 및 입력 필드 생성
   const handleAddContact = async () => {
-    if (isEditing) {
-      const isPhoneValid = validatePhoneNumber(contacts.phone);
-      const isEmailValid = validateEmail(contacts.email);
-      setPhoneError(!isPhoneValid);
-      setEmailError(!isEmailValid);
+    const isNameValid = contacts.name.trim() !== '';
+    const isPhoneValid = validatePhoneNumber(contacts.phone);
+    const isEmailValid = validateEmail(contacts.email);
 
-      if (isPhoneValid && isEmailValid) {
-        try {
-          const response = await axiosInstance.post(
-            `/api/v1/events/manager/${USER_ID}/${EVENT_ID}`,
-            {
-              manager: {
-                managerName: contacts.name,
-                managerPhoneNumber: contacts.phone,
-                managerEmail: contacts.email,
-              },
+    setNameError(!isNameValid);
+    setPhoneError(!isPhoneValid);
+    setEmailError(!isEmailValid);
+
+    if (isEditing && isNameValid && isPhoneValid && isEmailValid) {
+      try {
+        const response = await axiosInstance.post(
+          `/api/v1/events/manager/${USER_ID}/${EVENT_ID}`,
+          {
+            manager: {
+              managerName: contacts.name,
+              managerPhoneNumber: contacts.phone,
+              managerEmail: contacts.email,
             },
-          );
+          },
+        );
 
-          if (response.status === 200) {
-            setIsEditing(false);
-            alert('연락처가 성공적으로 등록되었습니다.');
-          }
-        } catch (error) {
-          console.log('연락처 등록 실패: ', error);
-          alert('연락처 등록에 실패했습니다. 다시 시도해 주세요.');
+        if (response.status === 200) {
+          setIsEditing(false);
+          alert('연락처가 성공적으로 등록되었습니다.');
         }
+      } catch (error) {
+        console.log('연락처 등록 실패: ', error);
+        alert('연락처 등록에 실패했습니다. 다시 시도해 주세요.');
       }
     } else {
       setIsEditing(true);
@@ -161,7 +163,9 @@ export default function DashboardPage() {
       [name]: value,
     }));
 
-    if (name === 'phone') {
+    if (name === 'name') {
+      setNameError(value.trim() === '');
+    } else if (name === 'phone') {
       setPhoneError(!validatePhoneNumber(value));
     } else if (name === 'email') {
       setEmailError(!validateEmail(value));
@@ -241,6 +245,11 @@ export default function DashboardPage() {
                             value={contacts.name}
                             onChange={handleInputChange}
                           />
+                          {nameError && (
+                            <S.ContactCheck>
+                              이름을 입력해 주세요.
+                            </S.ContactCheck>
+                          )}
                         </S.ContactInputWrapper>
                       </S.ContactIconInputWrapper>
 
