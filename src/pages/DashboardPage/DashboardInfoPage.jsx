@@ -11,8 +11,8 @@ import PageLayout from '../../Layout/PageLayout';
 import UploadBox from '../../pages/RegisterPage/RegisterComponents/DragnDrop';
 
 export default function DashboardInfoPage() {
-  const [active, setActive] = useState('online');
-  const [selectedOption, setSelectedOption] = useState('option1');
+  const [eventType, setEventType] = useState('OFFLINE');
+  const [eventTarget, setEventTarget] = useState('EXTERNAL');
   const [eventTitle, setEventTitle] = useState('');
   const [eventDescription, setEventDescription] = useState('');
   const [eventImage, setEventImage] = useState('');
@@ -27,8 +27,8 @@ export default function DashboardInfoPage() {
   const EVENT_ID = useRecoilValue(eventIDState);
 
   const initialState = useRef({
-    active,
-    selectedOption,
+    eventType,
+    eventTarget,
     eventTitle,
     eventDescription,
     eventImage,
@@ -43,8 +43,8 @@ export default function DashboardInfoPage() {
         );
         const eventData = response.data;
 
-        setActive(eventData.active ? 'online' : 'offline');
-        setSelectedOption(eventData.selectedOption || 'option1');
+        setEventType(eventData.eventType ? 'ONLINE' : 'OFFLINE');
+        setEventTarget(eventData.eventTarget || 'EXTERNAL : INTERNAL');
         setEventTitle(eventData.eventTitle);
         setEventDescription(eventData.eventDetail);
         setEventImage(eventData.eventImage || '');
@@ -61,8 +61,8 @@ export default function DashboardInfoPage() {
         );
 
         initialState.current = {
-          active: eventData.active ? 'online' : 'offline',
-          selectedOption: eventData.selectedOption || 'option1',
+          eventType: eventData.eventType ? 'ONLINE' : 'OFFLINE',
+          eventTarget: eventData.eventTarget || 'EXTERNAL : INTERNAL',
           eventTitle: eventData.eventTitle,
           eventDescription: eventData.eventDetail,
           eventImage: eventData.eventImage || '',
@@ -86,8 +86,8 @@ export default function DashboardInfoPage() {
 
   useEffect(() => {
     const hasChanged =
-      active !== initialState.current.active ||
-      selectedOption !== initialState.current.selectedOption ||
+      eventType !== initialState.current.eventType ||
+      eventTarget !== initialState.current.eventTarget ||
       eventTitle !== initialState.current.eventTitle ||
       eventDescription !== initialState.current.eventDescription ||
       eventImage !== initialState.current.eventImage ||
@@ -106,8 +106,8 @@ export default function DashboardInfoPage() {
 
     setIsChanged(hasChanged);
   }, [
-    active,
-    selectedOption,
+    eventType,
+    eventTarget,
     eventTitle,
     eventDescription,
     eventImage,
@@ -121,7 +121,7 @@ export default function DashboardInfoPage() {
     setIsChanged(true);
   };
 
-  // 행사 일정 추가하기 버튼
+  // 행사 기간 추가하기 버튼
   const handleAddSchedule = () => {
     const lastSchedule = eventSchedules[eventSchedules.length - 1];
     const newSchedule = {
@@ -133,7 +133,7 @@ export default function DashboardInfoPage() {
     setIsChanged(true);
   };
 
-  // 행사 일정 삭제하기 버튼
+  // 행사 기간 삭제하기 버튼
   const handleDeleteSchedule = (index) => {
     if (eventSchedules.length > 1) {
       const newSchedules = eventSchedules.filter((_, i) => i !== index);
@@ -142,20 +142,21 @@ export default function DashboardInfoPage() {
     }
   };
 
+  // 저장하기 버튼
   const handleSave = async () => {
     const eventData = {
       eventId: EVENT_ID,
       eventTitle,
       eventDetail: eventDescription,
       eventImage,
+      eventType: eventType === 'ONLINE' ? 'ONLINE' : 'OFFLINE',
+      eventTarget: eventTarget === 'EXTERNAL' ? 'EXTERNAL' : 'INTERNAL',
       eventSchedules: eventSchedules.map((schedule) => ({
         eventDate: schedule.eventDate.toISOString().split('T')[0],
         eventStartTime: schedule.eventStartTime.toISOString().split('T')[1],
         eventEndTime: schedule.eventEndTime.toISOString().split('T')[1],
         attendanceListResponseDtos: [],
       })),
-      alaramRequest: true,
-      alarmResponse: true,
     };
 
     try {
@@ -167,6 +168,7 @@ export default function DashboardInfoPage() {
       setIsChanged(false);
     } catch (error) {
       alert('행사 정보를 저장하는 데 실패했습니다. 다시 시도해 주세요.');
+      console.error('행사 정보 저장 실패: ', error);
     }
   };
 
@@ -229,16 +231,7 @@ export default function DashboardInfoPage() {
                     dateFormat="h:mm aa"
                   />
                   <FaAngleRight />
-                  <S.DateTimeInput
-                    selected={schedule.eventEndTime}
-                    onChange={(date) =>
-                      handleScheduleChange(index, 'eventEndTime', date)
-                    }
-                    dateFormat="MM월 dd일"
-                    showYearDropdown={false}
-                    showMonthDropdown={true}
-                    dropdownMode="select"
-                  />
+
                   <S.DateTimeInput
                     selected={schedule.eventEndTime}
                     onChange={(date) =>
@@ -277,14 +270,14 @@ export default function DashboardInfoPage() {
             <S.ContentTitle>온라인/오프라인 여부</S.ContentTitle>
             <S.ToggleContainer>
               <S.ToggleBtn
-                active={active === 'online'}
-                onClick={() => setActive('online')}
+                active={eventType === 'ONLINE'}
+                onClick={() => setEventType('ONLINE')}
               >
                 온라인
               </S.ToggleBtn>
               <S.ToggleBtn
-                active={active === 'offline'}
-                onClick={() => setActive('offline')}
+                active={eventType === 'OFFLINE'}
+                onClick={() => setEventType('OFFLINE')}
               >
                 오프라인
               </S.ToggleBtn>
@@ -293,38 +286,38 @@ export default function DashboardInfoPage() {
 
           <S.Content>
             <S.ContentTitle>행사 진행 대상</S.ContentTitle>
-            <S.OptionContainer>
-              <S.Option onClick={() => setSelectedOption('option1')}>
-                <S.RadioButton
+            <S.EventTargetContainer>
+              <S.EventTarget onClick={() => setEventTarget('EXTERNAL')}>
+                <S.EventTargetRadioButton
                   type="radio"
                   name="platform"
-                  value="option1"
-                  checked={selectedOption === 'option1'}
+                  value="EXTERNAL"
+                  checked={eventTarget === 'EXTERNAL'}
                   readOnly
                 />
-                <S.TextContainer>
-                  <S.OptionTitle>숙명여자대학교 학생</S.OptionTitle>
-                  <S.OptionDescription>
+                <S.EventTargetWrapper>
+                  <S.EventTargetTitle>숙명여자대학교 학생</S.EventTargetTitle>
+                  <S.EventTargetDescription>
                     출석체크시, 학번을 입력받습니다.
-                  </S.OptionDescription>
-                </S.TextContainer>
-              </S.Option>
-              <S.Option onClick={() => setSelectedOption('option2')}>
-                <S.RadioButton
+                  </S.EventTargetDescription>
+                </S.EventTargetWrapper>
+              </S.EventTarget>
+              <S.EventTarget onClick={() => setEventTarget('INTERNAL')}>
+                <S.EventTargetRadioButton
                   type="radio"
                   name="platform"
-                  value="option2"
-                  checked={selectedOption === 'option2'}
+                  value="INTERNAL"
+                  checked={eventTarget === 'INTERNAL'}
                   readOnly
                 />
-                <S.TextContainer>
-                  <S.OptionTitle>외부인</S.OptionTitle>
-                  <S.OptionDescription>
+                <S.EventTargetWrapper>
+                  <S.EventTargetTitle>외부인</S.EventTargetTitle>
+                  <S.EventTargetDescription>
                     출석체크시, 휴대폰 번호를 입력받습니다.
-                  </S.OptionDescription>
-                </S.TextContainer>
-              </S.Option>
-            </S.OptionContainer>
+                  </S.EventTargetDescription>
+                </S.EventTargetWrapper>
+              </S.EventTarget>
+            </S.EventTargetContainer>
           </S.Content>
 
           <S.Content>
