@@ -15,6 +15,7 @@ import { eventIDState } from '../../recoil/atoms/state';
 import { TabButton90 } from '../../components';
 
 export default function DashboardAttendeePage() {
+  const [eventTitle, setEventTitle] = useState('');
   const [activeTab, setActiveTab] = useState(1);
   const [editMode, setEditMode] = useState(false);
   const [attendees, setAttendees] = useState([]);
@@ -33,7 +34,11 @@ export default function DashboardAttendeePage() {
         const response = await axiosInstance.get(
           `/api/v1/events/${USER_ID}/${EVENT_ID}`,
         );
-        const parsedSessions = response.data.eventSchedules.map(
+        const eventData = response.data;
+
+        setEventTitle(eventData.eventTitle); // 이벤트 제목 설정
+
+        const parsedSessions = eventData.eventSchedules.map(
           (schedule, index) => ({
             tab: index + 1,
             date: schedule.eventDate,
@@ -168,13 +173,43 @@ export default function DashboardAttendeePage() {
     return <FaArrowDownShortWide />;
   };
 
+  // 출석 명단 다운로드
+  const handleDownload = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `/api/v1/events/attendanceList/${USER_ID}/${EVENT_ID}`,
+        { responseType: 'blob' },
+      );
+
+      console.log('Response Headers:', response.headers);
+      console.log('Response Data:', response.data);
+
+      const contentType = response.headers['content-type'];
+      const blob = new Blob([response.data], { type: contentType });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+
+      link.setAttribute('download', `${eventTitle}_참석자명단.pdf`);
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('출석 명단 다운로드 중 오류 발생:', error);
+      alert('출석 명단 다운로드에 실패했습니다. 다시 시도해 주세요.');
+    }
+  };
+
   return (
     <PageLayout sideBar={<Sidebar />}>
       <S.DashboardAttendee>
         <S.TopContainer>
           <S.Title>참석자 관리</S.Title>
           <S.ButtonContainer>
-            <S.DownBtn>참석자 데이터 다운로드</S.DownBtn>
+            <S.DownBtn onClick={handleDownload}>
+              참석자 데이터 다운로드
+            </S.DownBtn>
           </S.ButtonContainer>
         </S.TopContainer>
 
