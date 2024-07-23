@@ -149,14 +149,14 @@ export default function DashboardInfoPage() {
       eventTitle,
       eventDetail: eventDescription,
       eventImage,
+      eventType: eventType === 'ONLINE' ? 'ONLINE' : 'OFFLINE',
+      eventTarget: eventTarget === 'EXTERNAL' ? 'EXTERNAL' : 'INTERNAL',
       eventSchedules: eventSchedules.map((schedule) => ({
         eventDate: schedule.eventDate.toISOString().split('T')[0],
         eventStartTime: schedule.eventStartTime.toISOString().split('T')[1],
         eventEndTime: schedule.eventEndTime.toISOString().split('T')[1],
         attendanceListResponseDtos: [],
       })),
-      alaramRequest: true,
-      alarmResponse: true,
     };
 
     try {
@@ -168,6 +168,7 @@ export default function DashboardInfoPage() {
       setIsChanged(false);
     } catch (error) {
       alert('행사 정보를 저장하는 데 실패했습니다. 다시 시도해 주세요.');
+      console.error('행사 정보 저장 실패: ', error);
     }
   };
 
