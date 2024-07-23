@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as S from './AttendanceStudentIdPage.style';
 import { AttendanceHeader } from '../../components';
-import { USER_ID, EVENT_DATE } from '../../constants';
+import { USER_ID } from '../../constants';
 import { useSessionStorages } from '../../hooks';
 import { axiosInstance } from '../../axios';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +13,7 @@ const AttendanceStudentIdPage = () => {
   const [enteredDials, setEnteredDials] = useState([]);
   const [attendanceCheck, setAttendanceCheck] = useState();
   const [eventTitle, setEventTitle] = useState('');
+  const [eventDate, setEventDate] = useState('');
   const [isAlreadyCompleted, setIsAlreadyCompleted] = useState(false);
   const [isNoMatch, setIsNoMatch] = useState(false);
   const EVENT_ID = useRecoilValue(eventIDState);
@@ -27,7 +28,7 @@ const AttendanceStudentIdPage = () => {
 
   const getAttendanceCheck = async (params) => {
     const { data } = await axiosInstance.get(
-      `/api/v1/attendance/check/${params.userId}/${params.eventId}`,
+      `/api/v1/attendance/check/${USER_ID}/${EVENT_ID}`,
       {
         params: {
           studentNumber: params.studentNumber,
@@ -44,10 +45,8 @@ const AttendanceStudentIdPage = () => {
     } else if (dial === '서명하러 가기' && isConfirmEnabled) {
       try {
         const data = await getAttendanceCheck({
-          userId: USER_ID,
-          eventId: EVENT_ID,
           studentNumber: Number(enteredDials.join('')),
-          eventDate: EVENT_DATE,
+          eventDate,
         });
 
         if (!data) {
@@ -87,19 +86,20 @@ const AttendanceStudentIdPage = () => {
   useEffect(() => {
     console.log('USER_ID:', USER_ID);
     console.log('EVENT_ID:', EVENT_ID);
-    const fetchEventTitle = async () => {
+    const fetchEventDetails = async () => {
       try {
         const response = await axiosInstance.get(
           `/api/v1/events/${USER_ID}/${EVENT_ID}`,
         );
         setEventTitle(response.data.eventTitle);
+        setEventDate(response.data.eventSchedules[0].eventDate); // 첫 번째 스케줄의 날짜를 가져옴
       } catch (error) {
-        console.error('이벤트 타이틀 에러', error);
+        console.error('이벤트 정보를 가져오는 중 에러 발생:', error);
       }
     };
 
-    fetchEventTitle();
-  }, []);
+    fetchEventDetails();
+  }, [EVENT_ID, USER_ID]);
 
   return (
     <S.Container>
