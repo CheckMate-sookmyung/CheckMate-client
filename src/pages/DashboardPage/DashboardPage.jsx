@@ -129,7 +129,7 @@ export default function DashboardPage() {
 
       if (isPhoneValid && isEmailValid) {
         try {
-          const response = await axiosInstance.put(
+          const response = await axiosInstance.post(
             `/api/v1/events/manager/${USER_ID}/${EVENT_ID}`,
             {
               manager: {
