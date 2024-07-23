@@ -62,7 +62,7 @@ export default function DashboardInfoPage() {
 
         initialState.current = {
           eventType: eventData.eventType ? 'ONLINE' : 'OFFLINE',
-          eventTarget: eventData.eventTarget || 'EXTERNAL',
+          eventTarget: eventData.eventTarget || 'EXTERNAL : INTERNAL',
           eventTitle: eventData.eventTitle,
           eventDescription: eventData.eventDetail,
           eventImage: eventData.eventImage || '',
@@ -121,7 +121,7 @@ export default function DashboardInfoPage() {
     setIsChanged(true);
   };
 
-  // 행사 일정 추가하기 버튼
+  // 행사 기간 추가하기 버튼
   const handleAddSchedule = () => {
     const lastSchedule = eventSchedules[eventSchedules.length - 1];
     const newSchedule = {
@@ -133,7 +133,7 @@ export default function DashboardInfoPage() {
     setIsChanged(true);
   };
 
-  // 행사 일정 삭제하기 버튼
+  // 행사 기간 삭제하기 버튼
   const handleDeleteSchedule = (index) => {
     if (eventSchedules.length > 1) {
       const newSchedules = eventSchedules.filter((_, i) => i !== index);
@@ -142,6 +142,7 @@ export default function DashboardInfoPage() {
     }
   };
 
+  // 저장하기 버튼
   const handleSave = async () => {
     const eventData = {
       eventId: EVENT_ID,
