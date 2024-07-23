@@ -100,13 +100,13 @@ export const ToggleBtn = styled.button`
 `;
 
 // 장소 옵션
-export const OptionContainer = styled.div`
+export const EventTargetContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
 `;
 
-export const Option = styled.div`
+export const EventTarget = styled.div`
   display: flex;
   align-items: center;
   padding: 7px;
@@ -119,7 +119,7 @@ export const Option = styled.div`
   }
 `;
 
-export const RadioButton = styled.input`
+export const EventTargetRadioButton = styled.input`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -139,20 +139,20 @@ export const RadioButton = styled.input`
   }
 `;
 
-export const TextContainer = styled.div`
+export const EventTargetWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
 `;
 
-export const OptionTitle = styled.p`
+export const EventTargetTitle = styled.p`
   font-size: 16px;
   font-weight: bold;
   line-height: 19px;
   color: #2c2d2e;
 `;
 
-export const OptionDescription = styled.span`
+export const EventTargetDescription = styled.span`
   font-size: 14px;
   color: #76787a;
 `;

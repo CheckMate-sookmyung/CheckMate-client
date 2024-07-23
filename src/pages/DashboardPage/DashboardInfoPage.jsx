@@ -12,7 +12,7 @@ import UploadBox from '../../pages/RegisterPage/RegisterComponents/DragnDrop';
 
 export default function DashboardInfoPage() {
   const [eventType, setEventType] = useState('OFFLINE');
-  const [selectedOption, setSelectedOption] = useState('option1');
+  const [eventTarget, setEventTarget] = useState('EXTERNAL');
   const [eventTitle, setEventTitle] = useState('');
   const [eventDescription, setEventDescription] = useState('');
   const [eventImage, setEventImage] = useState('');
@@ -28,7 +28,7 @@ export default function DashboardInfoPage() {
 
   const initialState = useRef({
     eventType,
-    selectedOption,
+    eventTarget,
     eventTitle,
     eventDescription,
     eventImage,
@@ -44,7 +44,7 @@ export default function DashboardInfoPage() {
         const eventData = response.data;
 
         setEventType(eventData.eventType ? 'ONLINE' : 'OFFLINE');
-        setSelectedOption(eventData.selectedOption || 'option1');
+        setEventTarget(eventData.eventTarget || 'EXTERNAL : INTERNAL');
         setEventTitle(eventData.eventTitle);
         setEventDescription(eventData.eventDetail);
         setEventImage(eventData.eventImage || '');
@@ -62,7 +62,7 @@ export default function DashboardInfoPage() {
 
         initialState.current = {
           eventType: eventData.eventType ? 'ONLINE' : 'OFFLINE',
-          selectedOption: eventData.selectedOption || 'option1',
+          eventTarget: eventData.eventTarget || 'EXTERNAL',
           eventTitle: eventData.eventTitle,
           eventDescription: eventData.eventDetail,
           eventImage: eventData.eventImage || '',
@@ -87,7 +87,7 @@ export default function DashboardInfoPage() {
   useEffect(() => {
     const hasChanged =
       eventType !== initialState.current.eventType ||
-      selectedOption !== initialState.current.selectedOption ||
+      eventTarget !== initialState.current.eventTarget ||
       eventTitle !== initialState.current.eventTitle ||
       eventDescription !== initialState.current.eventDescription ||
       eventImage !== initialState.current.eventImage ||
@@ -107,7 +107,7 @@ export default function DashboardInfoPage() {
     setIsChanged(hasChanged);
   }, [
     eventType,
-    selectedOption,
+    eventTarget,
     eventTitle,
     eventDescription,
     eventImage,
@@ -284,38 +284,38 @@ export default function DashboardInfoPage() {
 
           <S.Content>
             <S.ContentTitle>행사 진행 대상</S.ContentTitle>
-            <S.OptionContainer>
-              <S.Option onClick={() => setSelectedOption('option1')}>
-                <S.RadioButton
+            <S.EventTargetContainer>
+              <S.EventTarget onClick={() => setEventTarget('EXTERNAL')}>
+                <S.EventTargetRadioButton
                   type="radio"
                   name="platform"
-                  value="option1"
-                  checked={selectedOption === 'option1'}
+                  value="EXTERNAL"
+                  checked={eventTarget === 'EXTERNAL'}
                   readOnly
                 />
-                <S.TextContainer>
-                  <S.OptionTitle>숙명여자대학교 학생</S.OptionTitle>
-                  <S.OptionDescription>
+                <S.EventTargetWrapper>
+                  <S.EventTargetTitle>숙명여자대학교 학생</S.EventTargetTitle>
+                  <S.EventTargetDescription>
                     출석체크시, 학번을 입력받습니다.
-                  </S.OptionDescription>
-                </S.TextContainer>
-              </S.Option>
-              <S.Option onClick={() => setSelectedOption('option2')}>
-                <S.RadioButton
+                  </S.EventTargetDescription>
+                </S.EventTargetWrapper>
+              </S.EventTarget>
+              <S.EventTarget onClick={() => setEventTarget('INTERNAL')}>
+                <S.EventTargetRadioButton
                   type="radio"
                   name="platform"
-                  value="option2"
-                  checked={selectedOption === 'option2'}
+                  value="INTERNAL"
+                  checked={eventTarget === 'INTERNAL'}
                   readOnly
                 />
-                <S.TextContainer>
-                  <S.OptionTitle>외부인</S.OptionTitle>
-                  <S.OptionDescription>
+                <S.EventTargetWrapper>
+                  <S.EventTargetTitle>외부인</S.EventTargetTitle>
+                  <S.EventTargetDescription>
                     출석체크시, 휴대폰 번호를 입력받습니다.
-                  </S.OptionDescription>
-                </S.TextContainer>
-              </S.Option>
-            </S.OptionContainer>
+                  </S.EventTargetDescription>
+                </S.EventTargetWrapper>
+              </S.EventTarget>
+            </S.EventTargetContainer>
           </S.Content>
 
           <S.Content>
