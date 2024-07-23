@@ -3,11 +3,11 @@ import {
   AttendanceStudentIdPage,
   AttendanceSignPage,
   DashboardPage,
-  DashboardInfo,
-  DashboardEmail,
-  DashboardAttendee,
+  DashboardInfoPage,
+  DashboardEmailPage,
+  DashboardAttendeePage,
 } from './pages';
-import Register from './pages/registerPage/register';
+import Register from './pages/RegisterPage/RegisterPage';
 import EventList from './pages/EventList/EventList';
 import Layout from './Layout/Layout';
 import EventDetailPage from './pages/EventDetail/EventDetailPage';
@@ -39,15 +39,15 @@ const router = createBrowserRouter([
       },
       {
         path: '/event/dashboard/info',
-        element: <DashboardInfo />,
+        element: <DashboardInfoPage />,
       },
       {
         path: '/event/dashboard/email',
-        element: <DashboardEmail />,
+        element: <DashboardEmailPage />,
       },
       {
         path: '/event/dashboard/attendee',
-        element: <DashboardAttendee />,
+        element: <DashboardAttendeePage />,
       },
     ],
   },

@@ -121,7 +121,7 @@ export const SignatureCanvasContainer = styled.div`
   width: 100%;
   max-width: 900px;
   height: auto;
-  aspect-ratio: 900 / 440;
+  aspect-ratio: 900 / 400;
 
   canvas {
     width: 100%;
@@ -138,7 +138,7 @@ export const SignatureCanvasContainer = styled.div`
 export const ButtonContainer = styled.div`
   display: flex;
   gap: 20px;
-  padding: 30px;
+  padding: 20px 0 40px;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     width: 100%;

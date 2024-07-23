@@ -1,8 +1,7 @@
-export { default as AttendanceStudentIdPage } from './AttendanceStudentIdPage';
-export { default as AttendanceSignPage } from './AttendanceSignPage';
+export { AttendanceStudentIdPage, AttendanceSignPage } from './AttendancePage';
 export {
   DashboardPage,
-  DashboardInfo,
-  DashboardEmail,
-  DashboardAttendee,
+  DashboardInfoPage,
+  DashboardEmailPage,
+  DashboardAttendeePage,
 } from './DashboardPage';

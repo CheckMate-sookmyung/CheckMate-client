@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import * as S from './AttendanceStudentIdPage.style';
 import { AttendanceHeader } from '../../components';
-import Modal from '../../components/Modal';
-import { getAttendanceCheck } from '../../services';
-import { EVENT_DATE, EVENT_ID, USER_ID } from '../../constants';
+import { USER_ID } from '../../constants';
 import { useSessionStorages } from '../../hooks';
 import { axiosInstance } from '../../axios';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { eventIDState } from '../../recoil/atoms/state';
 
 const AttendanceStudentIdPage = () => {
   const navigate = useNavigate();
   const [enteredDials, setEnteredDials] = useState([]);
   const [attendanceCheck, setAttendanceCheck] = useState();
   const [eventTitle, setEventTitle] = useState('');
+  const [eventDate, setEventDate] = useState('');
   const [isAlreadyCompleted, setIsAlreadyCompleted] = useState(false);
   const [isNoMatch, setIsNoMatch] = useState(false);
+  const EVENT_ID = useRecoilValue(eventIDState);
 
   const { setSessionStorage } = useSessionStorages();
 
@@ -24,24 +26,28 @@ const AttendanceStudentIdPage = () => {
   const isSevenDigits = enteredDials.length === 7;
   const isConfirmEnabled = isSevenDigits;
 
+  const getAttendanceCheck = async (params) => {
+    const { data } = await axiosInstance.get(
+      `/api/v1/attendance/check/${USER_ID}/${EVENT_ID}`,
+      {
+        params: {
+          studentNumber: params.studentNumber,
+          eventDate: params.eventDate,
+        },
+      },
+    );
+    return data;
+  };
+
   const handleDialClick = async (dial) => {
     if (dial === '<') {
       setEnteredDials(enteredDials.slice(0, -1));
     } else if (dial === '서명하러 가기' && isConfirmEnabled) {
       try {
-        const data = await getAttendanceCheck(
-          { userId: USER_ID, eventId: EVENT_ID },
-          {
-            studentNumber: Number(enteredDials.join('')),
-            eventDate: EVENT_DATE,
-          },
-        );
-
-        const parsedStudent = {
-          name: data.studentName,
-          number: data.studentNumber,
-          major: data.major,
-        };
+        const data = await getAttendanceCheck({
+          studentNumber: Number(enteredDials.join('')),
+          eventDate,
+        });
 
         if (!data) {
           setIsNoMatch(true);
@@ -50,38 +56,50 @@ const AttendanceStudentIdPage = () => {
           setIsAlreadyCompleted(true);
           alert('이미 출석을 완료하였습니다');
         } else {
+          const parsedStudent = {
+            name: data.studentName,
+            number: data.studentNumber,
+            major: data.major,
+          };
+
           setAttendanceCheck(data);
           setSessionStorage('attendance', JSON.stringify(data));
           navigate('/attendance/sign', {
             state: { studentInfo: parsedStudent },
           });
         }
-      } catch {
+      } catch (error) {
         setEnteredDials([]);
-        alert('API 에러 발생');
+        if (error.response && error.response.status === 404) {
+          alert('일치하는 학번이 없습니다');
+        } else {
+          alert('API 에러 발생');
+        }
       }
     } else {
       if (enteredDials.length < 7 && dial !== '서명하러 가기') {
-        // if (enteredNumbers.length < 7 && number !== '확인') {
         setEnteredDials([...enteredDials, dial]);
       }
     }
   };
 
   useEffect(() => {
-    const fetchEventTitle = async () => {
+    console.log('USER_ID:', USER_ID);
+    console.log('EVENT_ID:', EVENT_ID);
+    const fetchEventDetails = async () => {
       try {
         const response = await axiosInstance.get(
           `/api/v1/events/${USER_ID}/${EVENT_ID}`,
         );
         setEventTitle(response.data.eventTitle);
+        setEventDate(response.data.eventSchedules[0].eventDate); // 첫 번째 스케줄의 날짜를 가져옴
       } catch (error) {
-        console.error('이벤트 타이틀 에러', error);
+        console.error('이벤트 정보를 가져오는 중 에러 발생:', error);
       }
     };
 
-    fetchEventTitle();
-  }, []);
+    fetchEventDetails();
+  }, [EVENT_ID, USER_ID]);
 
   return (
     <S.Container>
