@@ -287,12 +287,12 @@ export default function DashboardInfoPage() {
           <S.Content>
             <S.ContentTitle>행사 진행 대상</S.ContentTitle>
             <S.EventTargetContainer>
-              <S.EventTarget onClick={() => setEventTarget('EXTERNAL')}>
+              <S.EventTarget onClick={() => setEventTarget('INTERNAL')}>
                 <S.EventTargetRadioButton
                   type="radio"
                   name="platform"
-                  value="EXTERNAL"
-                  checked={eventTarget === 'EXTERNAL'}
+                  value="INTERNAL"
+                  checked={eventTarget === 'INTERNAL'}
                   readOnly
                 />
                 <S.EventTargetWrapper>
@@ -302,12 +302,12 @@ export default function DashboardInfoPage() {
                   </S.EventTargetDescription>
                 </S.EventTargetWrapper>
               </S.EventTarget>
-              <S.EventTarget onClick={() => setEventTarget('INTERNAL')}>
+              <S.EventTarget onClick={() => setEventTarget('EXTERNAL')}>
                 <S.EventTargetRadioButton
                   type="radio"
                   name="platform"
-                  value="INTERNAL"
-                  checked={eventTarget === 'INTERNAL'}
+                  value="EXTERNAL"
+                  checked={eventTarget === 'EXTERNAL'}
                   readOnly
                 />
                 <S.EventTargetWrapper>
