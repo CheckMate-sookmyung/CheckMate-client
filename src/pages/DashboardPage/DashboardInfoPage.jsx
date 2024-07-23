@@ -229,16 +229,7 @@ export default function DashboardInfoPage() {
                     dateFormat="h:mm aa"
                   />
                   <FaAngleRight />
-                  <S.DateTimeInput
-                    selected={schedule.eventEndTime}
-                    onChange={(date) =>
-                      handleScheduleChange(index, 'eventEndTime', date)
-                    }
-                    dateFormat="MM월 dd일"
-                    showYearDropdown={false}
-                    showMonthDropdown={true}
-                    dropdownMode="select"
-                  />
+
                   <S.DateTimeInput
                     selected={schedule.eventEndTime}
                     onChange={(date) =>

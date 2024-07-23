@@ -162,6 +162,7 @@ export const DateTimeContainer = styled.div`
   display: flex;
   align-items: center;
   padding-bottom: 6px;
+  width: 80%;
 `;
 
 export const DateTimeWrapper = styled.div`
