@@ -5,14 +5,14 @@ import {
   eventImage,
   eventScheduleList,
   eventTitle,
-  eventType,
+  eventTypeState,
   minCompletionTimes,
-  offlineStatus,
+  eventTargetState,
 } from './state';
 
 const useResetAllStates = () => {
-  const resetOfflineStatus = useResetRecoilState(offlineStatus);
-  const resetEventType = useResetRecoilState(eventType);
+  const resetEventType = useResetRecoilState(eventTypeState);
+  const resetEvenTarget = useResetRecoilState(eventTargetState);
   const resetEventTitle = useResetRecoilState(eventTitle);
   const resetEventDetail = useResetRecoilState(eventDetail);
   const resetEventImage = useResetRecoilState(eventImage);
@@ -21,7 +21,7 @@ const useResetAllStates = () => {
   const resetEventSchedules = useResetRecoilState(eventScheduleList);
 
   const resetAll = () => {
-    resetOfflineStatus();
+    resetEvenTarget();
     resetEventType();
     resetEventTitle();
     resetEventDetail();

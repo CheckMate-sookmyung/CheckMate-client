@@ -4,8 +4,9 @@ import {
   attendanceListFile,
   eventDetail,
   eventImage,
+  eventTargetState,
   eventTitle,
-  eventType,
+  eventTypeState,
   RegisterStep,
 } from '../../../recoil/atoms/state';
 import styled from 'styled-components';
@@ -15,20 +16,20 @@ import UploadBox from './DragnDrop';
 
 const RegisterSecond = () => {
   const Step = useSetRecoilState(RegisterStep);
-  const type = useRecoilValue(eventType);
+  const type = useRecoilValue(eventTargetState);
   const [iseventTitle, setEventTitle] = useRecoilState(eventTitle);
   const [iseventDetail, setEventDetail] = useRecoilState(eventDetail);
   const [poster, setPoster] = useRecoilState(eventImage);
   const [file, setFile] = useRecoilState(attendanceListFile);
 
-  const handleExcelChange = (event) => {
-    const excel = event.target.files[0];
-    setFile(excel);
-  };
-
   const handleImageChange = (event) => {
     const image = event.target.files[0];
     setPoster(image);
+  };
+
+  const handleExcelChange = (event) => {
+    const excel = event.target.files[0];
+    setFile(excel);
   };
 
   const handleDownload = async (e) => {
@@ -36,8 +37,8 @@ const RegisterSecond = () => {
     try {
       const response = await fetch(
         type === 'INTERNAL'
-          ? 'https://checkmate-service-bucket.s3.ap-northeast-2.amazonaws.com/%EC%B2%B4%ED%81%AC%EB%A9%94%EC%9D%B4%ED%8A%B8+%EC%B0%B8%EC%84%9D+%EB%AA%85%EB%8B%A8+%ED%8F%AC%EB%A7%B7.xlsx'
-          : '교외 행사 파일 주소로 대체',
+          ? 'https://checkmate-service-bucket.s3.ap-northeast-2.amazonaws.com/template+(student).xlsx'
+          : 'https://checkmate-service-bucket.s3.ap-northeast-2.amazonaws.com/template+(%EC%99%B8%EB%B6%80%EC%9A%A9)+.xlsx',
         {
           method: 'GET',
         },
@@ -91,9 +92,9 @@ const RegisterSecond = () => {
               ></S.ContentInput>
               <CategoryFont>행사 포스터</CategoryFont>
               <UploadBox
-                onChangeFile={handleImageChange}
+                onFileUpload={handleImageChange}
+                onChange={handleImageChange}
                 accept=".png, .jpeg, .pdf"
-                value={poster}
               />
               <S.FlexWrapper style={{ justifyContent: 'left' }}>
                 <CategoryFont>행사 출석 파일</CategoryFont>
@@ -102,9 +103,9 @@ const RegisterSecond = () => {
                 </S.TemplateButton>
               </S.FlexWrapper>
               <UploadBox
-                onChangeFile={handleExcelChange}
+                onFileUpload={handleExcelChange}
+                onChange={handleExcelChange}
                 accept=".xlsx, .xls"
-                value={file}
               />
             </div>
             <S.MainButton onClick={stepUp}>다음</S.MainButton>

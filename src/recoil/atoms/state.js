@@ -17,13 +17,13 @@ export const { persistEvent } = recoilPersist({
   storage: sessionStorage,
 });
 
-export const offlineStatus = atom({
-  key: 'offlineStatus',
+export const eventTypeState = atom({
+  key: 'eventType',
   default: 'OFFLINE',
 });
 
-export const eventType = atom({
-  key: 'eventType',
+export const eventTargetState = atom({
+  key: 'eventTarget',
   default: 'INTERNAL',
 });
 
