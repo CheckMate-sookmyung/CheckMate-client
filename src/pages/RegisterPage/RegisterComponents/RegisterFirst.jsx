@@ -1,23 +1,23 @@
 import React from 'react';
 import * as S from '../RegisterStyle';
 import {
-  eventType,
-  offlineStatus,
+  eventTargetState,
+  eventTypeState,
   RegisterStep,
 } from '../../../recoil/atoms/state';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 const RegisterFirst = () => {
   const Step = useSetRecoilState(RegisterStep);
-  const [isOnline, setIsOnline] = useRecoilState(offlineStatus);
-  const [iseventType, setEventType] = useRecoilState(eventType);
+  const [eventType, setEventType] = useRecoilState(eventTypeState);
+  const [eventTarget, setEventTarget] = useRecoilState(eventTargetState);
 
-  const handleOnlineStatus = (status) => {
-    setIsOnline(status);
+  const handleEventType = (status) => {
+    setEventType(status);
   };
 
-  const handleEventType = (event) => {
-    setEventType(event.target.value);
+  const handleEventTarget = (event) => {
+    setEventTarget(event.target.value);
   };
 
   const stepUp = () => {
@@ -36,15 +36,15 @@ const RegisterFirst = () => {
             </S.SubFont>
             <S.FlexWrapper>
               <S.Choicebox
-                onClick={() => handleOnlineStatus('ONLINE')}
-                isSelected={isOnline === 'ONLINE'}
+                onClick={() => handleEventType('ONLINE')}
+                isSelected={eventType === 'ONLINE'}
               >
                 <S.CustomImage src="img/ONLINE.png" alt="" />
                 <S.MainFont>온라인 행사</S.MainFont>
               </S.Choicebox>
               <S.Choicebox
-                onClick={() => handleOnlineStatus('OFFLINE')}
-                isSelected={isOnline === 'OFFLINE'}
+                onClick={() => handleEventType('OFFLINE')}
+                isSelected={eventType === 'OFFLINE'}
               >
                 <S.CustomImage src="img/OFFLINE.png" alt="" />
                 <S.MainFont>오프라인 행사</S.MainFont>
@@ -57,7 +57,7 @@ const RegisterFirst = () => {
                   <S.EventRadio
                     name="eventType"
                     value="INTERNAL"
-                    onClick={handleEventType}
+                    onClick={handleEventTarget}
                     defaultChecked
                   />
                   <div>
@@ -74,7 +74,7 @@ const RegisterFirst = () => {
                   <S.EventRadio
                     name="eventType"
                     value="EXTERNAL"
-                    onClick={handleEventType}
+                    onClick={handleEventTarget}
                   />
                   <div>
                     <S.MainFont style={{ fontSize: '24px' }}>

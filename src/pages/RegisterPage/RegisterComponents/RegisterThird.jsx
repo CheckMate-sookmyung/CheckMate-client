@@ -3,57 +3,33 @@ import * as S from '../RegisterStyle';
 import styled from 'styled-components';
 import DateCalendar from '../../../components/Calendar/DateCalendar';
 import TimeCalendar from '../../../components/Calendar/TimeCalendar';
+import BackButton from './BackButton';
 import { IoIosArrowDown } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import {
-  eventScheduleList,
-  minCompletionTimes,
-  RegisterStep,
-} from '../../../recoil/atoms/state';
-import BackButton from './BackButton';
+import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
+import { axiosInstance } from '../../../axios/axiosInstance';
+import { USER_ID } from '../../../constants/tempData';
+import * as A from '../../../recoil/atoms/state';
 import useResetAllStates from '../../../recoil/atoms/useResetAllState';
-
-const MinTimesDropdown = ({ eventSchedules, value, setValue }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleDropdown = () => setIsOpen(!isOpen);
-  const handleItemClick = (idx) => {
-    setValue(idx + 1);
-    setIsOpen(false);
-  };
-
-  return (
-    <DropdownContainer>
-      <DropdownButton onClick={toggleDropdown}>
-        {value}
-        <span style={{ alignItems: 'center' }}>
-          <IoIosArrowDown style={{ fontSize: '18px', color: 'gray' }} />
-        </span>
-      </DropdownButton>
-      {isOpen && (
-        <DropdownList>
-          {eventSchedules.map((event, idx) => (
-            <DropdownListItem key={idx} onClick={() => handleItemClick(idx)}>
-              {idx + 1}
-            </DropdownListItem>
-          ))}
-        </DropdownList>
-      )}
-    </DropdownContainer>
-  );
-};
 
 const RegisterThird = () => {
   const navigate = useNavigate();
-  const Step = useSetRecoilState(RegisterStep);
+  const setStep = useSetRecoilState(A.RegisterStep);
   const [eventDate, setEventDate] = useState(null);
   const [eventStartTime, setEventStartTime] = useState('');
   const [eventEndTime, setEventEndTime] = useState('');
-  const [eventSchedules, setEventSchedules] = useRecoilState(eventScheduleList);
-  const [minCompletionTime, setMinCompletionTime] =
-    useRecoilState(minCompletionTimes);
+  const [eventSchedules, setEventSchedules] = useRecoilState(
+    A.eventScheduleList,
+  );
   const resetAllStates = useResetAllStates();
+
+  const eventTypeState = useRecoilValue(A.eventTypeState);
+  const eventTargetState = useRecoilValue(A.eventTargetState);
+  const eventTitle = useRecoilValue(A.eventTitle);
+  const eventDetail = useRecoilValue(A.eventDetail);
+  const eventImage = useRecoilValue(A.eventImage);
+  const attendanceListFile = useRecoilValue(A.attendanceListFile);
+  const minCompletionTimes = useRecoilValue(A.minCompletionTimes);
 
   const handleDateSelect = (day) => {
     setEventDate(day);
@@ -75,62 +51,50 @@ const RegisterThird = () => {
         eventEndTime,
       };
       setEventSchedules((prevEvents) => [...prevEvents, newEvent]);
-      setEventDate(null);
+      setEventDate('');
       setEventStartTime('');
       setEventEndTime('');
     }
-  }, [eventDate, eventStartTime, eventEndTime, setEventSchedules]);
+  }, [eventDate, eventStartTime, eventEndTime]);
 
-  const handleRegister = () => {
-    // e.preventDefault();
-    // if (
-    //   !eventTitle ||
-    //   !eventDetail ||
-    //   !eventImage ||
-    //   !attendanceListFile ||
-    //   !minCompletionTimes
-    // ) {
-    //   // 예외처리
-    //   alert('모든 카테고리를 채워주세요.');
-    //   return;
-    // }
+  const handleRegister = (e) => {
+    e.preventDefault();
+    const RegisterformData = new FormData();
 
-    // const formData = new FormData();
+    const event = {
+      eventType: eventTypeState,
+      eventTarget: eventTargetState,
+      eventTitle,
+      eventDetail,
+      minCompletionTimes,
+      eventSchedules,
+    };
 
-    // const event = {
-    //   // eventStatus,
-    //   eventType,
-    //   eventTitle,
-    //   eventDetail,
-    //   alarmRequest: true,
-    //   minCompletionTimes,
-    //   eventSchedules,
-    // };
+    RegisterformData.append('event', JSON.stringify(event));
+    RegisterformData.append('eventImage', eventImage);
+    RegisterformData.append('attendanceListFile', attendanceListFile);
 
-    // formData.append('event', JSON.stringify(event));
-    // formData.append('eventImage', eventImage);
-    // formData.append('attendanceListFile', attendanceListFile);
-
-    // axiosInstance
-    //   .post(`/api/v1/events/${USER_ID}`, formData, {
-    //     headers: {
-    //       'Content-Type': 'multipart/form-data',
-    //     },
-    //   })
-    //   .then((response) => {
-    //     alert('행사가 등록됐습니다.');
-    //     console.log(response);
-    //   })
-    //   .catch((error) => {
-    //     alert('행사가 제대로 등록되지 않았습니다.');
-    //     console.error(error);
-    //   })
-    //   .finally(() => {
-    //     navigate('/event');
-    //   });
-    navigate('/event');
-    Step(1);
-    resetAllStates();
+    axiosInstance
+      .post(`/api/v1/events/${USER_ID}`, RegisterformData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then((response) => {
+        alert('행사가 등록됐습니다.');
+        console.log(response);
+        navigate('/event');
+      })
+      .catch((error) => {
+        alert('행사가 제대로 등록되지 않았습니다.');
+        console.error(error);
+        console.log(A.eventImage);
+        console.log(A.attendanceListFile);
+      })
+      .finally(() => {
+        setStep(1);
+        resetAllStates();
+      });
   };
 
   return (
@@ -155,11 +119,6 @@ const RegisterThird = () => {
                 />
               </S.FlexWrapper>
               <CategoryFont>행사 이수 기준</CategoryFont>
-              <MinTimesDropdown
-                eventSchedules={eventSchedules}
-                value={minCompletionTime}
-                setValue={setMinCompletionTime}
-              />
             </div>
             <S.MainButton onClick={handleRegister}>행사 생성</S.MainButton>
           </S.ContentBox>
@@ -170,50 +129,6 @@ const RegisterThird = () => {
 };
 
 export default RegisterThird;
-
-const DropdownContainer = styled.div`
-  position: relative;
-  display: inline-block;
-  width: 100%;
-  height: 56px;
-`;
-
-const DropdownButton = styled.button`
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: white;
-  font-size: 16px;
-  text-align: left;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const DropdownList = styled.ul`
-  position: absolute;
-  width: 100%;
-  max-height: 200px;
-  overflow-y: auto;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: white;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  z-index: 1;
-`;
-
-const DropdownListItem = styled.li`
-  padding: 20px;
-  cursor: pointer;
-  font-size: 16px;
-  &:hover {
-    background-color: #f0f0f0;
-  }
-`;
 
 const CategoryFont = styled.p`
   font-size: 24px;

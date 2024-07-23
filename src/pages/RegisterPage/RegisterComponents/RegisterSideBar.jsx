@@ -4,8 +4,8 @@ import { useRecoilValue } from 'recoil';
 import {
   eventScheduleList,
   eventTitle,
-  eventType,
-  offlineStatus,
+  eventTypeState,
+  eventTargetState,
   RegisterStep,
 } from '../../../recoil/atoms/state';
 
@@ -14,19 +14,18 @@ const RegisterSidebar = () => {
   const title = useRecoilValue(eventTitle);
   const schedules = useRecoilValue(eventScheduleList);
   const status =
-    useRecoilValue(offlineStatus) === 'OFFLINE'
+    useRecoilValue(eventTypeState) === 'OFFLINE'
       ? '오프라인 행사'
       : '온라인 행사';
   const type =
-    useRecoilValue(eventType) === 'INTERNAL' ? '교내 행사' : '교외 행사';
+    useRecoilValue(eventTargetState) === 'INTERNAL' ? '교내 행사' : '교외 행사';
 
   const formatSchedule = (schedule) => {
     const date = new Date(schedule.eventDate);
-    const month = date.getMonth() + 1; // 월은 0부터 시작하므로 1을 더해야 합니다.
+    const month = date.getMonth() + 1;
     const day = date.getDate();
     const formattedDate = `${month}월 ${day}일`;
 
-    // 시간 형식을 "HH:mm" 형식으로 맞추기
     const formatTime = (timeString) => {
       const [hour, minute] = timeString.split(':');
       return `${hour.padStart(2, '0')}:${minute.padStart(2, '0')}`;
