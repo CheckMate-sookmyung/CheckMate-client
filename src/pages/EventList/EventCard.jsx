@@ -3,6 +3,7 @@ import * as S from './EventCard.style';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { eventIDState } from '../../recoil/atoms/state';
+import { isAfter, isWithinInterval, isPast } from 'date-fns';
 
 const EventCard = ({ id, title, poster, startDate, endDate }) => {
   const setContent = useSetRecoilState(eventIDState);
@@ -18,28 +19,20 @@ const EventCard = ({ id, title, poster, startDate, endDate }) => {
     navigate('/attendance/student-id');
   };
 
-  const toKoreanTime = (dateString) => {
-    const date = new Date(dateString);
-    // 한국 시간 (UTC+9)으로 변환
-    return new Date(date.getTime() + 9 * 60 * 60 * 1000);
+  const isEventOngoing = () => {
+    console.log(new Date());
+    console.log(startDate);
+    console.log(new Date(startDate));
+
+    console.log(isAfter(new Date(), new Date(startDate)));
+    return isWithinInterval(new Date(), {
+      startDate: new Date(startDate),
+      endDate: new Date(endDate),
+    });
   };
 
   const isEventEnded = () => {
-    const today = new Date();
-    const eventEndDate = toKoreanTime(endDate || startDate);
-    return today > eventEndDate;
-  };
-
-  const isEventStarted = () => {
-    const today = new Date();
-    const eventStartDate = toKoreanTime(startDate);
-    return today >= eventStartDate;
-  };
-
-  const isAttendanceEnabled = () => {
-    const today = new Date();
-    const eventStartDate = toKoreanTime(startDate);
-    return today >= eventStartDate.setHours(0, 0, 0, 0); // 행사 첫날 자정부터 출석 체크 가능
+    return isPast(new Date(endDate));
   };
 
   return (
@@ -56,13 +49,13 @@ const EventCard = ({ id, title, poster, startDate, endDate }) => {
       </S.EventDate>
       <S.CheckButton
         isEnded={isEventEnded()}
-        isStarted={isEventStarted()}
+        isStarted={isEventOngoing()}
         onClick={attendanceCheck}
-        disabled={!isAttendanceEnabled()}
+        disabled={!isEventOngoing()}
       >
         {isEventEnded()
           ? '행사 종료'
-          : isEventStarted()
+          : isEventOngoing()
             ? '출석 체크'
             : '행사 예정'}
       </S.CheckButton>
