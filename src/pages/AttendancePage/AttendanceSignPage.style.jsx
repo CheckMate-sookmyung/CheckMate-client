@@ -119,9 +119,9 @@ export const CanvasPlaceholder = styled.p`
 
 export const SignatureCanvasContainer = styled.div`
   width: 100%;
-  max-width: 800px;
+  max-width: 1000px;
   height: inherit;
-  aspect-ratio: 900 / 300;
+  aspect-ratio: 900 / 400;
 
   canvas {
     width: 100%;
