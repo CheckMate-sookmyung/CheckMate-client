@@ -148,9 +148,7 @@ export default function Sidebar() {
       <S.ButtonWrapper>
         <S.AttendanceBtn>
           {/* <S.AttendanceBtn disabled={!isAttendanceButtonActive}> */}
-          <S.StyledLink
-            to={isAttendanceButtonActive ? '/attendance/student-id' : '#'}
-          >
+          <S.StyledLink to="/attendance/student-id">
             출석화면으로 이동
           </S.StyledLink>
         </S.AttendanceBtn>
