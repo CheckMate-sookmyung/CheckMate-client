@@ -42,7 +42,9 @@ export default function DashboardAttendeePage() {
           (schedule, index) => ({
             tab: index + 1,
             date: `${schedule.eventDate.substring(5, 7)}/${schedule.eventDate.substring(8, 10)}`,
-            attendanceList: schedule.attendanceListResponseDtos,
+            attendanceList: schedule.attendanceListResponseDtos.sort((a, b) =>
+              a.studentName.localeCompare(b.studentName),
+            ),
           }),
         );
         setSessions(parsedSessions);
@@ -65,9 +67,7 @@ export default function DashboardAttendeePage() {
         setSessionAttendees(attendeesData);
 
         if (parsedSessions.length > 0) {
-          const initialAttendees = attendeesData[1].sort((a, b) =>
-            a.name.localeCompare(b.name),
-          );
+          const initialAttendees = attendeesData[1];
           setAttendees(initialAttendees);
           setSessionAttendees((prev) => ({
             ...prev,
@@ -90,7 +90,10 @@ export default function DashboardAttendeePage() {
         active={activeTab === tab}
         onClick={() => {
           setActiveTab(tab);
-          setAttendees(sessionAttendees[tab]);
+          const sortedAttendees = [...sessionAttendees[tab]].sort((a, b) =>
+            a.name.localeCompare(b.name),
+          );
+          setAttendees(sortedAttendees);
         }}
       >
         {tab}회 ({date})
