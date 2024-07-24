@@ -3,7 +3,7 @@ import * as S from './EventCard.style';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { eventIDState } from '../../recoil/atoms/state';
-import { isAfter, isWithinInterval, isPast } from 'date-fns';
+import { isAfter, isWithinInterval, isPast, isToday } from 'date-fns';
 
 const EventCard = ({ id, title, poster, startDate, endDate }) => {
   const setContent = useSetRecoilState(eventIDState);
@@ -20,18 +20,21 @@ const EventCard = ({ id, title, poster, startDate, endDate }) => {
   };
 
   const isEventOngoing = () => {
-    console.log(new Date());
-    console.log(startDate);
-    console.log(new Date(startDate));
+    if (endDate === null) {
+      return isToday(new Date(startDate));
+    }
 
-    console.log(isAfter(new Date(), new Date(startDate)));
     return isWithinInterval(new Date(), {
-      startDate: new Date(startDate),
-      endDate: new Date(endDate),
+      start: new Date(startDate),
+      end: new Date(endDate),
     });
   };
 
   const isEventEnded = () => {
+    if (endDate === null) {
+      return isPast(new Date(startDate));
+    }
+
     return isPast(new Date(endDate));
   };
 
@@ -53,10 +56,10 @@ const EventCard = ({ id, title, poster, startDate, endDate }) => {
         onClick={attendanceCheck}
         disabled={!isEventOngoing()}
       >
-        {isEventEnded()
-          ? '행사 종료'
-          : isEventOngoing()
-            ? '출석 체크'
+        {isEventOngoing()
+          ? '출석 체크 하기'
+          : isEventEnded()
+            ? '행사 종료'
             : '행사 예정'}
       </S.CheckButton>
     </S.CardWrapper>
