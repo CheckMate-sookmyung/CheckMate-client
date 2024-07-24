@@ -62,7 +62,11 @@ export const CheckButton = styled.button`
   border-radius: 4px;
   color: white;
   background: ${(props) =>
-    props.isEnded ? 'var(--gray-300, #636363);' : '#4e75ff'};
+    props.isEnded
+      ? 'var(--gray-300, #636363);'
+      : props.isStarted
+        ? '#4e75ff'
+        : 'orange'};
   cursor: pointer;
   font-size: 16px;
   transition:
@@ -71,7 +75,11 @@ export const CheckButton = styled.button`
 
   &:hover {
     background: ${(props) =>
-      props.isEnded ? 'var(--gray-300, #636363)' : '#3a5ccf'};
+      props.isEnded
+        ? 'var(--gray-300, #636363)'
+        : props.isStarted
+          ? '#3a5ccf'
+          : 'darkorange'};
   }
 
   &:disabled {
