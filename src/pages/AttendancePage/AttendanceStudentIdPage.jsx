@@ -8,6 +8,7 @@ import { axiosInstance } from '../../axios';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '../../recoil/atoms/state';
+import { format } from 'date-fns';
 
 const AttendanceStudentIdPage = () => {
   const navigate = useNavigate();
@@ -65,7 +66,7 @@ const AttendanceStudentIdPage = () => {
         const numberString = enteredDials.join('');
         const data = await getAttendanceCheck({
           number: numberString,
-          eventDate,
+          eventDate: format(new Date(), 'yyyy-MM-dd'),
         });
 
         if (!data || (Array.isArray(data) && data.length === 0)) {

@@ -25,9 +25,9 @@ const AttendanceSignPage = ({ name, major, studentId }) => {
 
   const signatureRef = useRef(null);
   const { getSessionStorage } = useSessionStorages();
-  const { studentInfoId, studentName } = JSON.parse(
+  const { studentName, studentInfoId } = JSON.parse(
     getSessionStorage('attendance'),
-  );
+  )[0];
 
   const handleCompletedButtonClick = async () => {
     const signatureImageFile = await fetch(signatureRef.current.toDataURL());
