@@ -266,7 +266,7 @@ export const EventTypeWrapper = styled.div`
   display: flex;
 `;
 
-export const EventType = styled.p`
+export const EventType = styled.span`
   padding-right: 12px;
   margin-right: 12px;
   border-right: 1px solid var(--gray-200, #d9d9d9);
@@ -275,7 +275,7 @@ export const EventType = styled.p`
   color: var(--blue-400, #0075ff);
 `;
 
-export const EventVenue = styled.p`
+export const EventTarget = styled.span`
   font-weight: 600;
   font-size: 14px;
   color: var(--blue-400, #0075ff);
