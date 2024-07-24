@@ -15,6 +15,14 @@ export default function Navigator() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const EVENT_ID = useRecoilValue(eventIDState);
 
+  const handleDimClick = () => {
+    setIsSidebarOpen(false);
+  };
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   useEffect(() => {
     console.log('USER_ID:', USER_ID);
     console.log('EVENT_ID:', EVENT_ID);
@@ -55,9 +63,19 @@ export default function Navigator() {
     };
   }, []);
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setIsSidebarOpen(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
     <>
@@ -93,6 +111,7 @@ export default function Navigator() {
         <S.Sidebar isOpen={isSidebarOpen}>
           <Sidebar />
         </S.Sidebar>
+        {isSidebarOpen && <S.Dim onClick={handleDimClick} />}
       </S.Navigator>
     </>
   );
