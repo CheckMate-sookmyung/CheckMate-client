@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as S from './AttendanceStudentIdPage.style';
 import { AttendanceHeader } from '../../components';
+import Modal from '../../components/Modal/Modal';
 import { USER_ID } from '../../constants';
 import { useSessionStorages } from '../../hooks';
 import { axiosInstance } from '../../axios';
@@ -17,6 +18,8 @@ const AttendanceStudentIdPage = () => {
   const [isAlreadyCompleted, setIsAlreadyCompleted] = useState(false);
   const [isNoMatch, setIsNoMatch] = useState(false);
   const [eventTarget, setEventTarget] = useState('INTERNAL');
+  const [attendees, setAttendees] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const EVENT_ID = useRecoilValue(eventIDState);
 
   const { setSessionStorage } = useSessionStorages();
@@ -70,11 +73,15 @@ const AttendanceStudentIdPage = () => {
         } else if (data.isAlreadyCompleted) {
           setIsAlreadyCompleted(true);
           alert('이미 출석을 완료하였습니다');
+        } else if (Array.isArray(data) && data.length > 1) {
+          // 동일한 휴대폰 번호 뒷 4자리를 가진 사람이 여러 명인 경우
+          setAttendees(data);
+          setIsModalOpen(true);
         } else {
           const parsedStudent = {
-            name: data.studentName,
-            number: data.studentNumber,
-            major: data.major,
+            name: data[0].studentName,
+            number: data[0].studentNumber,
+            major: data[0].major,
           };
 
           setAttendanceCheck(data);
@@ -170,6 +177,13 @@ const AttendanceStudentIdPage = () => {
           {'서명하러 가기'}
         </S.GoToSignBtn>
       </S.DialList>
+      {isModalOpen && (
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          attendees={attendees}
+        />
+      )}
     </S.Container>
   );
 };
