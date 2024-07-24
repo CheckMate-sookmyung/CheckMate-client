@@ -32,15 +32,25 @@ const AttendanceStudentIdPage = () => {
   const isConfirmEnabled = isSevenDigits;
 
   const getAttendanceCheck = async (params) => {
-    const { data } = await axiosInstance.get(
-      `/api/v1/attendance/check/${USER_ID}/${EVENT_ID}`,
-      {
-        params: {
-          studentNumber: params.studentNumber,
-          eventDate: params.eventDate,
-        },
+    const url =
+      eventTarget === 'INTERNAL'
+        ? `/api/v1/attendance/check/studentNumber/${USER_ID}/${EVENT_ID}`
+        : `/api/v1/attendance/check/phoneNumber/${USER_ID}/${EVENT_ID}`;
+
+    console.log('API 호출 URL:', url);
+    console.log('API 호출 파라미터:', {
+      [eventTarget === 'INTERNAL' ? 'studentNumber' : 'phoneNumber']:
+        params.number,
+      eventDate: params.eventDate,
+    });
+
+    const { data } = await axiosInstance.get(url, {
+      params: {
+        [eventTarget === 'INTERNAL' ? 'studentNumber' : 'phoneNumber']:
+          params.number,
+        eventDate: params.eventDate,
       },
-    );
+    });
     return data;
   };
 
@@ -50,7 +60,7 @@ const AttendanceStudentIdPage = () => {
     } else if (dial === '서명하러 가기' && isConfirmEnabled) {
       try {
         const data = await getAttendanceCheck({
-          studentNumber: Number(enteredDials.join('')),
+          number: Number(enteredDials.join('')),
           eventDate,
         });
 
@@ -78,6 +88,7 @@ const AttendanceStudentIdPage = () => {
         if (error.response && error.response.status === 404) {
           alert('일치하는 정보가 없습니다');
         } else {
+          console.error('API 에러 발생:', error.response || error);
           alert('API 에러 발생');
         }
       }
