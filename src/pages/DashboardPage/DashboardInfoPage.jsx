@@ -43,8 +43,8 @@ export default function DashboardInfoPage() {
         );
         const eventData = response.data;
 
-        setEventType(eventData.eventType ? 'ONLINE' : 'OFFLINE');
-        setEventTarget(eventData.eventTarget || 'EXTERNAL : INTERNAL');
+        setEventType(eventData.eventType);
+        setEventTarget(eventData.eventTarget);
         setEventTitle(eventData.eventTitle);
         setEventDescription(eventData.eventDetail);
         setEventImage(eventData.eventImage || '');
@@ -61,8 +61,8 @@ export default function DashboardInfoPage() {
         );
 
         initialState.current = {
-          eventType: eventData.eventType ? 'ONLINE' : 'OFFLINE',
-          eventTarget: eventData.eventTarget || 'EXTERNAL : INTERNAL',
+          eventType: eventData.eventType,
+          eventTarget: eventData.eventTarget,
           eventTitle: eventData.eventTitle,
           eventDescription: eventData.eventDetail,
           eventImage: eventData.eventImage || '',
@@ -77,7 +77,7 @@ export default function DashboardInfoPage() {
           })),
         };
       } catch (error) {
-        console.error('Error fetching event data:', error);
+        console.error('이벤트 정보 불러오는 중 에러:', error);
       }
     };
 
