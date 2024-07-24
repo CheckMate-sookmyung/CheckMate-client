@@ -36,7 +36,7 @@ export const ContentContainer = styled.div`
   width: 100%;
   max-width: 900px;
   gap: 16px;
-  padding: 20px 0;
+  padding-bottom: 20px;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     flex-direction: column;
@@ -119,9 +119,9 @@ export const CanvasPlaceholder = styled.p`
 
 export const SignatureCanvasContainer = styled.div`
   width: 100%;
-  max-width: 900px;
-  height: auto;
-  aspect-ratio: 900 / 400;
+  max-width: 800px;
+  height: inherit;
+  aspect-ratio: 900 / 300;
 
   canvas {
     width: 100%;

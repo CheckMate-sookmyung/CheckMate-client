@@ -1,18 +1,19 @@
 import PropTypes from 'prop-types';
 import * as S from './Modal.style';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 import Portal from '../Portal/Portal';
 
-const Modal = ({ name, major, studentId, isOpen, onClose }) => {
+const Modal = ({ isOpen, onClose, attendees }) => {
   const navigate = useNavigate();
 
-  const handleCompletedButtonClick = async () => {
+  const handlePersonClick = (studentInfo) => {
     onClose();
-    navigate('/attendance/sign');
+    navigate('/attendance/sign', {
+      state: { studentInfo },
+    });
   };
 
-  const handleCancelButtonClick = async () => {
+  const handleCancelButtonClick = () => {
     onClose();
     navigate('/attendance/student-id');
   };
@@ -24,26 +25,19 @@ const Modal = ({ name, major, studentId, isOpen, onClose }) => {
   return (
     <Portal portalKey="modal-layout">
       <S.ModalLayout>
-        <S.Title>
-          <strong>{name}</strong>님이 맞으십니까?
-        </S.Title>
+        <S.Title>출석 체크 할 사람을 선택해주세요.</S.Title>
         <S.ContentContainer>
-          <S.Content>
-            <S.ContentTitle>학과</S.ContentTitle>
-            <S.ContentDescription>{major}</S.ContentDescription>
-          </S.Content>
-          <S.Content>
-            <S.ContentTitle>학번</S.ContentTitle>
-            <S.ContentDescription>{studentId}</S.ContentDescription>
-          </S.Content>
+          {attendees.map((attendee, index) => (
+            <S.Content key={index} onClick={() => handlePersonClick(attendee)}>
+              <S.ContentTitle>{attendee.name}</S.ContentTitle>
+              <S.ContentDescription>{attendee.major}</S.ContentDescription>
+            </S.Content>
+          ))}
         </S.ContentContainer>
         <S.ButtonContainer>
           <S.CancelButton onClick={handleCancelButtonClick}>
-            아니요
+            이전페이지로 돌아가기.
           </S.CancelButton>
-          <S.CompletedButton onClick={handleCompletedButtonClick}>
-            네, 서명하러 하기
-          </S.CompletedButton>
         </S.ButtonContainer>
       </S.ModalLayout>
     </Portal>
@@ -51,11 +45,15 @@ const Modal = ({ name, major, studentId, isOpen, onClose }) => {
 };
 
 Modal.propTypes = {
-  name: PropTypes.string.isRequired,
-  major: PropTypes.string.isRequired,
-  studentId: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  attendees: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      major: PropTypes.string.isRequired,
+      studentId: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
 };
 
 export default Modal;
