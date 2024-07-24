@@ -36,12 +36,12 @@ export default function DashboardAttendeePage() {
         );
         const eventData = response.data;
 
-        setEventTitle(eventData.eventTitle); // 이벤트 제목 설정
+        setEventTitle(eventData.eventTitle);
 
         const parsedSessions = eventData.eventSchedules.map(
           (schedule, index) => ({
             tab: index + 1,
-            date: schedule.eventDate,
+            date: `${schedule.eventDate.substring(5, 7)}/${schedule.eventDate.substring(8, 10)}`, // 'MM/DD' 형식으로 변경
             attendanceList: schedule.attendanceListResponseDtos,
           }),
         );
@@ -281,7 +281,6 @@ export default function DashboardAttendeePage() {
             <tbody>
               {attendees.map((data, index) => (
                 <tr key={index}>
-                  {' '}
                   <S.TableData>
                     <S.TelAnchor href={`tel:${data.phoneNumber}`}>
                       <FaPhone style={{ color: '#0075FF' }} />
