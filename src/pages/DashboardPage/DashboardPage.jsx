@@ -71,6 +71,8 @@ export default function DashboardPage() {
             schedules,
             totalSessions: eventData.eventSchedules.length,
             totalParticipants,
+            eventType: eventData.eventType,
+            eventTarget: eventData.eventTarget,
           };
 
           setParsedEvents(parsedEvent);
@@ -78,14 +80,19 @@ export default function DashboardPage() {
           setCompletedSessions(completedSessionsCount);
 
           // 행사 일정 상태
+          const firstSchedule = schedules[0];
           const lastSchedule = schedules[schedules.length - 1];
+
+          const firstScheduleStartDateTime = new Date(
+            `${firstSchedule.date}T${firstSchedule.startTime}`,
+          );
           const lastScheduleEndDateTime = new Date(
             `${lastSchedule.date}T${lastSchedule.endTime}`,
           );
 
-          if (lastScheduleEndDateTime < now) {
+          if (now > lastScheduleEndDateTime) {
             setEventStatus('종료');
-          } else if (new Date(lastSchedule.date) > now) {
+          } else if (now < firstScheduleStartDateTime) {
             setEventStatus('예정');
           } else {
             setEventStatus('진행중');
@@ -126,6 +133,17 @@ export default function DashboardPage() {
       console.log(error);
     }
   };
+
+  // eventType, eventTarget
+  const getEventTypeLabel = (type) =>
+    type === 'OFFLINE' ? '오프라인' : type === 'ONLINE' ? '온라인' : type;
+
+  const getEventTargetLabel = (target) =>
+    target === 'EXTERNAL'
+      ? '외부인 (휴대폰번호로 출석체크)'
+      : target === 'INTERNAL'
+        ? '숙명여자대학교 학생 (학번으로 출석체크)'
+        : target;
 
   // 담당자 연락처 추가 및 입력 필드 생성
   const handleAddContact = async () => {
@@ -217,8 +235,12 @@ export default function DashboardPage() {
                 </S.ContentTitleWrapper>
                 <S.ContentInfoWrapper>
                   <S.EventTypeWrapper>
-                    <S.EventType>오프라인 행사</S.EventType>
-                    <S.EventVenue>캠퍼스 내부</S.EventVenue>
+                    <S.EventType>
+                      {getEventTypeLabel(parsedEvents.eventType)}
+                    </S.EventType>
+                    <S.EventTarget>
+                      {getEventTargetLabel(parsedEvents.eventTarget)}
+                    </S.EventTarget>
                   </S.EventTypeWrapper>
                   <S.EventDateWrapper>
                     {parsedEvents.schedules.map((schedule, index) => (

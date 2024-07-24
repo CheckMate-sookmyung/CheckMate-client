@@ -47,7 +47,7 @@ export default function DashboardEmailPage() {
         const event = response.data;
         const parsedSessions = event.eventSchedules.map((schedule, index) => ({
           tab: index + 1,
-          date: schedule.eventDate,
+          date: `${schedule.eventDate.substring(5, 7)}/${schedule.eventDate.substring(8, 10)}`,
           time: schedule.eventStartTime,
           attendanceList: schedule.attendanceListResponseDtos || [],
         }));
