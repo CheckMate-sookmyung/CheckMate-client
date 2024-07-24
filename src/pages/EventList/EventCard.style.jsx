@@ -61,25 +61,17 @@ export const CheckButton = styled.button`
   border: none;
   border-radius: 4px;
   color: white;
-  background: ${(props) =>
-    props.isEnded
-      ? 'var(--gray-300, #636363);'
-      : props.isStarted
-        ? '#4e75ff'
-        : 'orange'};
+  background: #4e75ff;
   cursor: pointer;
   font-size: 16px;
   transition:
     background 0.3s,
     transform 0.3s;
 
-  &:hover {
-    background: ${(props) =>
-      props.isEnded
-        ? 'var(--gray-300, #636363)'
-        : props.isStarted
-          ? '#3a5ccf'
-          : 'darkorange'};
+  &:not(:disabled) {
+    &:hover {
+      background: #324fb9;
+    }
   }
 
   &:disabled {

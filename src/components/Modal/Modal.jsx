@@ -36,7 +36,7 @@ const Modal = ({ isOpen, onClose, attendees }) => {
         </S.ContentContainer>
         <S.ButtonContainer>
           <S.CancelButton onClick={handleCancelButtonClick}>
-            이전페이지로 돌아가기.
+            이전으로
           </S.CancelButton>
         </S.ButtonContainer>
       </S.ModalLayout>
