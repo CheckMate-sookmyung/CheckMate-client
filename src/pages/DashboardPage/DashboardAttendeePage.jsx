@@ -41,8 +41,10 @@ export default function DashboardAttendeePage() {
         const parsedSessions = eventData.eventSchedules.map(
           (schedule, index) => ({
             tab: index + 1,
-            date: `${schedule.eventDate.substring(5, 7)}/${schedule.eventDate.substring(8, 10)}`, // 'MM/DD' 형식으로 변경
-            attendanceList: schedule.attendanceListResponseDtos,
+            date: `${schedule.eventDate.substring(5, 7)}/${schedule.eventDate.substring(8, 10)}`,
+            attendanceList: schedule.attendanceListResponseDtos.sort((a, b) =>
+              a.studentName.localeCompare(b.studentName),
+            ),
           }),
         );
         setSessions(parsedSessions);
@@ -65,9 +67,7 @@ export default function DashboardAttendeePage() {
         setSessionAttendees(attendeesData);
 
         if (parsedSessions.length > 0) {
-          const initialAttendees = attendeesData[1].sort((a, b) =>
-            a.name.localeCompare(b.name),
-          );
+          const initialAttendees = attendeesData[1];
           setAttendees(initialAttendees);
           setSessionAttendees((prev) => ({
             ...prev,
@@ -90,7 +90,10 @@ export default function DashboardAttendeePage() {
         active={activeTab === tab}
         onClick={() => {
           setActiveTab(tab);
-          setAttendees(sessionAttendees[tab]);
+          const sortedAttendees = [...sessionAttendees[tab]].sort((a, b) =>
+            a.name.localeCompare(b.name),
+          );
+          setAttendees(sortedAttendees);
         }}
       >
         {tab}회 ({date})
@@ -113,31 +116,24 @@ export default function DashboardAttendeePage() {
   const handleEditModeToggle = async () => {
     if (editMode) {
       try {
-        const updatedSchedules = sessions.map((session) => ({
-          eventDate: session.date,
-          attendanceList: sessionAttendees[session.tab].map((attendee) => ({
-            id: attendee.id,
-            studentName: attendee.name,
-            studentNumber: attendee.number,
-            major: attendee.major,
-            phoneNumber: attendee.phoneNumber,
-            email: attendee.email,
-            attendance: attendee.attendance,
-          })),
+        const attendanceList = attendees.map((attendee) => ({
+          studentInfoId: attendee.id,
+          attendance: attendee.attendance,
         }));
 
-        await axiosInstance.put(`/api/v1/events/${USER_ID}/${EVENT_ID}`, {
-          eventId: EVENT_ID,
-          userId: USER_ID,
-          eventSchedules: updatedSchedules,
-        });
+        await axiosInstance.put(
+          `/api/v1/attendance/list/${USER_ID}/${EVENT_ID}`,
+          {
+            attendanceList,
+          },
+        );
         alert('출석 정보가 성공적으로 업데이트되었습니다.');
       } catch (error) {
         console.error(error);
         alert('출석 정보 업데이트에 실패했습니다.');
       }
     }
-    setEditMode(!editMode);
+    setEditMode((prevEditMode) => !prevEditMode);
   };
 
   // 참석률 정보
