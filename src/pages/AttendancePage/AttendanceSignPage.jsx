@@ -12,7 +12,7 @@ import { FiRotateCcw } from 'react-icons/fi';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '../../recoil/atoms/state';
 
-const AttendanceSignPage = ({ name, major, studentId }) => {
+const AttendanceSignPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { studentInfo } = location.state;
@@ -25,9 +25,7 @@ const AttendanceSignPage = ({ name, major, studentId }) => {
 
   const signatureRef = useRef(null);
   const { getSessionStorage } = useSessionStorages();
-  const { studentInfoId, studentName } = JSON.parse(
-    getSessionStorage('attendance'),
-  );
+  const { studentName, studentNumber, studentInfoId, major } = studentInfo;
 
   const handleCompletedButtonClick = async () => {
     const signatureImageFile = await fetch(signatureRef.current.toDataURL());
@@ -35,7 +33,7 @@ const AttendanceSignPage = ({ name, major, studentId }) => {
     const form = new FormData();
 
     form.append('signImage', signatureImageBlob);
-
+    console.log(studentInfo);
     await postAttendanceSign(
       {
         userId: USER_ID,
@@ -90,17 +88,17 @@ const AttendanceSignPage = ({ name, major, studentId }) => {
     <S.Container>
       <AttendanceHeader eventTitle={eventTitle} activeStep={1} />
       <S.Title>
-        <strong>{studentInfo.name}</strong>님이 맞으십니까?
+        <strong>{studentName}</strong>님이 맞으십니까?
       </S.Title>
       <S.ContentContainer>
         <S.Content>
           <S.ContentTitle>소속</S.ContentTitle>
-          <S.ContentDescription>{studentInfo.major}</S.ContentDescription>
+          <S.ContentDescription>{major}</S.ContentDescription>
         </S.Content>
         {eventTarget === 'INTERNAL' && (
           <S.Content>
             <S.ContentTitle>학번</S.ContentTitle>
-            <S.ContentDescription>{studentInfo.number}</S.ContentDescription>
+            <S.ContentDescription>{studentNumber}</S.ContentDescription>
           </S.Content>
         )}
       </S.ContentContainer>
