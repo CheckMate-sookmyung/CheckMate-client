@@ -18,11 +18,28 @@ const EventCard = ({ id, title, poster, startDate, endDate }) => {
     navigate('/attendance/student-id');
   };
 
-  // 행사 종료시
+  const toKoreanTime = (dateString) => {
+    const date = new Date(dateString);
+    // 한국 시간 (UTC+9)으로 변환
+    return new Date(date.getTime() + 9 * 60 * 60 * 1000);
+  };
+
   const isEventEnded = () => {
     const today = new Date();
-    const eventEndDate = new Date(endDate || startDate);
+    const eventEndDate = toKoreanTime(endDate || startDate);
     return today > eventEndDate;
+  };
+
+  const isEventStarted = () => {
+    const today = new Date();
+    const eventStartDate = toKoreanTime(startDate);
+    return today >= eventStartDate;
+  };
+
+  const isAttendanceEnabled = () => {
+    const today = new Date();
+    const eventStartDate = toKoreanTime(startDate);
+    return today >= eventStartDate.setHours(0, 0, 0, 0); // 행사 첫날 자정부터 출석 체크 가능
   };
 
   return (
@@ -39,10 +56,15 @@ const EventCard = ({ id, title, poster, startDate, endDate }) => {
       </S.EventDate>
       <S.CheckButton
         isEnded={isEventEnded()}
+        isStarted={isEventStarted()}
         onClick={attendanceCheck}
-        disabled={isEventEnded()}
+        disabled={!isAttendanceEnabled()}
       >
-        {isEventEnded() ? '행사 종료' : '출석 체크'}
+        {isEventEnded()
+          ? '행사 종료'
+          : isEventStarted()
+            ? '출석 체크'
+            : '행사 예정'}
       </S.CheckButton>
     </S.CardWrapper>
   );

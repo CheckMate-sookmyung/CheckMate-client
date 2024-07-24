@@ -146,7 +146,8 @@ export default function Sidebar() {
       </S.MenuWrapper>
 
       <S.ButtonWrapper>
-        <S.AttendanceBtn disabled={!isAttendanceButtonActive}>
+        <S.AttendanceBtn>
+          {/* <S.AttendanceBtn disabled={!isAttendanceButtonActive}> */}
           <S.StyledLink
             to={isAttendanceButtonActive ? '/attendance/student-id' : '#'}
           >
