@@ -327,7 +327,7 @@ export const ProgressBox = styled.div`
   background: #ffffff;
   width: 100%;
   border-radius: 10px;
-  gap: 18px;
+  gap: 8px;
 `;
 
 export const IconWrapper = styled.div`
@@ -346,18 +346,22 @@ export const IconWrapper = styled.div`
 export const ProgressContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 2px;
 `;
 
 export const ProgressTitle = styled.h3`
+  margin-bottom: 2px;
   font-weight: 600;
   font-size: 12px;
   line-height: 100%;
   color: var(--blue-400, #0075ff);
-  margin-bottom: 2px;
 `;
 
 export const ProgressText = styled.p`
+  display: flex;
+  justify-content: center;
   width: 100px;
   font-weight: bold;
   font-size: 20px;
