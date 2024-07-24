@@ -80,14 +80,19 @@ export default function DashboardPage() {
           setCompletedSessions(completedSessionsCount);
 
           // 행사 일정 상태
+          const firstSchedule = schedules[0];
           const lastSchedule = schedules[schedules.length - 1];
+
+          const firstScheduleStartDateTime = new Date(
+            `${firstSchedule.date}T${firstSchedule.startTime}`,
+          );
           const lastScheduleEndDateTime = new Date(
             `${lastSchedule.date}T${lastSchedule.endTime}`,
           );
 
-          if (lastScheduleEndDateTime < now) {
+          if (now > lastScheduleEndDateTime) {
             setEventStatus('종료');
-          } else if (new Date(lastSchedule.date) > now) {
+          } else if (now < firstScheduleStartDateTime) {
             setEventStatus('예정');
           } else {
             setEventStatus('진행중');
