@@ -78,8 +78,15 @@ export const AttendanceBtn = styled.button`
   line-height: 100%;
   letter-spacing: -0.01em;
   color: #ffffff;
+  cursor: pointer;
+  transition: background 0.3s ease;
 
   &:hover {
     background: #2b90fc;
+  }
+
+  &:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
   }
 `;
