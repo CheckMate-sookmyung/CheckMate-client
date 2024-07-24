@@ -175,3 +175,14 @@ export const Sidebar = styled.div`
   transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(100%)')};
   transition: transform 0.3s ease-in-out;
 `;
+
+export const Dim = styled.div`
+  opacity: 0.2;
+  position: fixed;
+  top: 55px;
+  z-index: 1;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+`;

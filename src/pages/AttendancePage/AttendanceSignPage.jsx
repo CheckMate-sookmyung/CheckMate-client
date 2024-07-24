@@ -21,6 +21,7 @@ const AttendanceSignPage = ({ name, major, studentId }) => {
   const [isSigned, setIsSigned] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [eventTitle, setEventTitle] = useState('');
+  const [eventTarget, setEventTarget] = useState('INTERNAL');
 
   const signatureRef = useRef(null);
   const { getSessionStorage } = useSessionStorages();
@@ -70,17 +71,19 @@ const AttendanceSignPage = ({ name, major, studentId }) => {
   };
 
   useEffect(() => {
-    const fetchEventTitle = async () => {
+    const fetchEventDetails = async () => {
       try {
         const response = await axiosInstance.get(
           `/api/v1/events/${USER_ID}/${EVENT_ID}`,
         );
-        setEventTitle(response.data.eventTitle);
+        const eventData = response.data;
+        setEventTitle(eventData.eventTitle);
+        setEventTarget(eventData.eventTarget);
       } catch (error) {
         console.error('이벤트 타이틀 에러', error);
       }
     };
-    fetchEventTitle();
+    fetchEventDetails();
   }, []);
 
   return (
@@ -91,13 +94,15 @@ const AttendanceSignPage = ({ name, major, studentId }) => {
       </S.Title>
       <S.ContentContainer>
         <S.Content>
-          <S.ContentTitle>학과</S.ContentTitle>
+          <S.ContentTitle>소속</S.ContentTitle>
           <S.ContentDescription>{studentInfo.major}</S.ContentDescription>
         </S.Content>
-        <S.Content>
-          <S.ContentTitle>학번</S.ContentTitle>
-          <S.ContentDescription>{studentInfo.number}</S.ContentDescription>
-        </S.Content>
+        {eventTarget === 'INTERNAL' && (
+          <S.Content>
+            <S.ContentTitle>학번</S.ContentTitle>
+            <S.ContentDescription>{studentInfo.number}</S.ContentDescription>
+          </S.Content>
+        )}
       </S.ContentContainer>
 
       {/* 서명 */}

@@ -257,7 +257,7 @@ export default function DashboardPage() {
                   <S.Tooltip>
                     <S.ContentTitle>담당자</S.ContentTitle>
                     <S.TooltipText className="tooltiptext">
-                      해당 연락처로 참석자들에게 문자와 메일이 발송됩니다.
+                      해당 연락처로 참석자 명단이 발송됩니다.
                     </S.TooltipText>
                   </S.Tooltip>
                   <S.AddContactButton onClick={handleAddContact}>
