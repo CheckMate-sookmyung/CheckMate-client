@@ -24,6 +24,7 @@ const Modal = ({ isOpen, onClose, attendees }) => {
 
   return (
     <Portal portalKey="modal-layout">
+      <S.Backdrop onClick={onClose} />
       <S.ModalLayout>
         <S.Title>출석 체크 할 사람을 선택해주세요.</S.Title>
         <S.ContentContainer>
