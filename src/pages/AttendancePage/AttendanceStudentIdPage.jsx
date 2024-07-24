@@ -62,12 +62,13 @@ const AttendanceStudentIdPage = () => {
       setEnteredDials(enteredDials.slice(0, -1));
     } else if (dial === '서명하러 가기' && isConfirmEnabled) {
       try {
+        const numberString = enteredDials.join('');
         const data = await getAttendanceCheck({
-          number: Number(enteredDials.join('')),
+          number: numberString,
           eventDate,
         });
 
-        if (!data) {
+        if (!data || (Array.isArray(data) && data.length === 0)) {
           setIsNoMatch(true);
           alert('일치하는 정보가 없습니다');
         } else if (data.isAlreadyCompleted) {
@@ -79,9 +80,9 @@ const AttendanceStudentIdPage = () => {
           setIsModalOpen(true);
         } else {
           const parsedStudent = {
-            name: data[0].studentName,
-            number: data[0].studentNumber,
-            major: data[0].major,
+            name: data.studentName || data[0].studentName,
+            number: data.studentNumber || data[0].studentNumber,
+            major: data.major || data[0].major,
           };
 
           setAttendanceCheck(data);
