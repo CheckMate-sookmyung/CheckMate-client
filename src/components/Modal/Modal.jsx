@@ -29,7 +29,7 @@ const Modal = ({ isOpen, onClose, attendees }) => {
         <S.ContentContainer>
           {attendees.map((attendee, index) => (
             <S.Content key={index} onClick={() => handlePersonClick(attendee)}>
-              <S.ContentTitle>{attendee.name}</S.ContentTitle>
+              <S.ContentTitle>{attendee.studentName}</S.ContentTitle>
               <S.ContentDescription>{attendee.major}</S.ContentDescription>
             </S.Content>
           ))}
