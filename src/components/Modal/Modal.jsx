@@ -24,12 +24,13 @@ const Modal = ({ isOpen, onClose, attendees }) => {
 
   return (
     <Portal portalKey="modal-layout">
+      <S.Backdrop onClick={onClose} />
       <S.ModalLayout>
         <S.Title>출석 체크 할 사람을 선택해주세요.</S.Title>
         <S.ContentContainer>
           {attendees.map((attendee, index) => (
             <S.Content key={index} onClick={() => handlePersonClick(attendee)}>
-              <S.ContentTitle>{attendee.name}</S.ContentTitle>
+              <S.ContentTitle>{attendee.studentName}</S.ContentTitle>
               <S.ContentDescription>{attendee.major}</S.ContentDescription>
             </S.Content>
           ))}

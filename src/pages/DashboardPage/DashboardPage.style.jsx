@@ -109,6 +109,7 @@ export const Badge = styled.span`
   align-items: center;
   border-radius: 12px;
   padding: 4px 10px;
+  width: 58px;
   font-size: 12px;
   font-weight: 600;
   color: #ffffff;
