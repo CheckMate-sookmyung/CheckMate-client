@@ -101,8 +101,21 @@ const AttendanceStudentIdPage = () => {
         );
         const eventData = response.data;
         setEventTitle(eventData.eventTitle);
-        setEventDate(eventData.eventSchedules[0].eventDate);
         setEventTarget(eventData.eventTarget);
+
+        const now = new Date();
+        const today = now.toISOString().split('T')[0];
+        const todaySchedule = eventData.eventSchedules.find(
+          (schedule) => schedule.eventDate === today,
+        );
+
+        if (todaySchedule) {
+          setEventDate(todaySchedule.eventDate);
+          console.log('출석 체크가 처리되는 날짜:', todaySchedule.eventDate);
+        } else {
+          setEventDate('');
+          console.log('오늘 날짜에 해당하는 일정이 없습니다.');
+        }
       } catch (error) {
         console.error('이벤트 정보를 가져오는 중 에러 발생:', error);
       }
