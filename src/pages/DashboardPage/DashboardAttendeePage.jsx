@@ -169,6 +169,28 @@ export default function DashboardAttendeePage() {
     return <FaArrowDownShortWide />;
   };
 
+  // 출석 명단 메일로 전송
+  const handleSendEmail = async () => {
+    const isConfirmed = window.confirm(
+      '출석 명단을 이메일로 전송하시겠습니까?\n확인 버튼을 누르면 즉시 전송됩니다.',
+    );
+    if (!isConfirmed) {
+      return;
+    }
+    try {
+      const response = await axiosInstance.get(
+        `api/v1/attendance/list/${USER_ID}/${EVENT_ID}`,
+      );
+      if (response.status === 200) {
+        alert('전송이 완료됐습니다.');
+        console.log(response);
+      }
+    } catch (error) {
+      alert('전송에 실패했습니다.');
+      console.log(error);
+    }
+  };
+
   // 출석 명단 다운로드
   const handleDownload = async () => {
     try {
@@ -203,9 +225,10 @@ export default function DashboardAttendeePage() {
         <S.TopContainer>
           <S.Title>참석자 관리</S.Title>
           <S.ButtonContainer>
-            <S.DownBtn onClick={handleDownload}>
-              참석자 데이터 다운로드
+            <S.DownBtn onClick={handleSendEmail}>
+              출석 명단 메일로 전송
             </S.DownBtn>
+            <S.DownBtn onClick={handleDownload}>출석 명단 다운로드</S.DownBtn>
           </S.ButtonContainer>
         </S.TopContainer>
 

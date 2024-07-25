@@ -83,8 +83,8 @@ export default function DashboardPage() {
           const firstSchedule = schedules[0];
           const lastSchedule = schedules[schedules.length - 1];
 
-          const firstScheduleStartDateTime = new Date(
-            `${firstSchedule.date}T${firstSchedule.startTime}`,
+          const firstScheduleStartDate = new Date(
+            `${firstSchedule.date}T00:00:00`,
           );
           const lastScheduleEndDateTime = new Date(
             `${lastSchedule.date}T${lastSchedule.endTime}`,
@@ -92,7 +92,8 @@ export default function DashboardPage() {
 
           if (now > lastScheduleEndDateTime) {
             setEventStatus('종료');
-          } else if (now < firstScheduleStartDateTime) {
+            await sendAttendanceList();
+          } else if (now < firstScheduleStartDate) {
             setEventStatus('예정');
           } else {
             setEventStatus('진행중');
@@ -112,6 +113,21 @@ export default function DashboardPage() {
 
     fetchData();
   }, [EVENT_ID]);
+
+  const sendAttendanceList = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `/api/v1/attendance/list/sending/${USER_ID}/${EVENT_ID}`,
+      );
+      if (response.data.isSuccess) {
+        console.log('출석 명단이 성공적으로 전송되었습니다.');
+      } else {
+        console.error('출석 명단 전송 실패:', response.data.message);
+      }
+    } catch (error) {
+      console.error('출석 명단 전송 중 오류:', error);
+    }
+  };
 
   // 행사 삭제
   const DeleteEvent = async () => {
