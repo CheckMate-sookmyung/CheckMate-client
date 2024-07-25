@@ -33,6 +33,7 @@ export const Title = styled.h1`
 
 export const ButtonContainer = styled.div`
   display: flex;
+  gap: 10px;
 `;
 
 export const DownBtn = styled.div`
