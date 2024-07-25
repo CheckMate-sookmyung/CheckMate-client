@@ -196,6 +196,12 @@ export const TableData = styled.td`
     css`
       color: #f32121;
     `}
+
+  ${({ attendance }) =>
+    attendance === '출석' &&
+    css`
+      color: #28a745;
+    `}
 `;
 
 export const TelAnchor = styled.a`
