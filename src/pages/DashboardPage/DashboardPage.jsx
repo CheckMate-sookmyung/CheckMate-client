@@ -83,8 +83,8 @@ export default function DashboardPage() {
           const firstSchedule = schedules[0];
           const lastSchedule = schedules[schedules.length - 1];
 
-          const firstScheduleStartDateTime = new Date(
-            `${firstSchedule.date}T${firstSchedule.startTime}`,
+          const firstScheduleStartDate = new Date(
+            `${firstSchedule.date}T00:00:00`,
           );
           const lastScheduleEndDateTime = new Date(
             `${lastSchedule.date}T${lastSchedule.endTime}`,
@@ -92,9 +92,8 @@ export default function DashboardPage() {
 
           if (now > lastScheduleEndDateTime) {
             setEventStatus('종료');
-            // 행사 종료 후 출석 명단 전송
             await sendAttendanceList();
-          } else if (now < firstScheduleStartDateTime) {
+          } else if (now < firstScheduleStartDate) {
             setEventStatus('예정');
           } else {
             setEventStatus('진행중');
