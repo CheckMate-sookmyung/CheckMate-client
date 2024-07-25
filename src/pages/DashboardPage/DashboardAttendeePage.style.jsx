@@ -33,6 +33,7 @@ export const Title = styled.h1`
 
 export const ButtonContainer = styled.div`
   display: flex;
+  gap: 10px;
 `;
 
 export const DownBtn = styled.div`
@@ -195,6 +196,12 @@ export const TableData = styled.td`
     attendance === '결석' &&
     css`
       color: #f32121;
+    `}
+
+  ${({ attendance }) =>
+    attendance === '출석' &&
+    css`
+      color: #28a745;
     `}
 `;
 
