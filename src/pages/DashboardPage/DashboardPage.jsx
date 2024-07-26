@@ -92,7 +92,7 @@ export default function DashboardPage() {
 
           if (now > lastScheduleEndDateTime) {
             setEventStatus('종료');
-            await sendAttendanceList();
+            // await sendAttendanceList();
           } else if (now < firstScheduleStartDate) {
             setEventStatus('예정');
           } else {
@@ -114,20 +114,21 @@ export default function DashboardPage() {
     fetchData();
   }, [EVENT_ID]);
 
-  const sendAttendanceList = async () => {
-    try {
-      const response = await axiosInstance.get(
-        `/api/v1/attendance/list/sending/${USER_ID}/${EVENT_ID}`,
-      );
-      if (response.data.isSuccess) {
-        console.log('출석 명단이 성공적으로 전송되었습니다.');
-      } else {
-        console.error('출석 명단 전송 실패:', response.data.message);
-      }
-    } catch (error) {
-      console.error('출석 명단 전송 중 오류:', error);
-    }
-  };
+  // 출석명단 자동 전송
+  // const sendAttendanceList = async () => {
+  //   try {
+  //     const response = await axiosInstance.get(
+  //       `/api/v1/attendance/list/sending/${USER_ID}/${EVENT_ID}`,
+  //     );
+  //     if (response.data.isSuccess) {
+  //       console.log('출석 명단이 성공적으로 전송되었습니다.');
+  //     } else {
+  //       console.error('출석 명단 전송 실패:', response.data.message);
+  //     }
+  //   } catch (error) {
+  //     console.error('출석 명단 전송 중 오류:', error);
+  //   }
+  // };
 
   // 행사 삭제
   const DeleteEvent = async () => {
