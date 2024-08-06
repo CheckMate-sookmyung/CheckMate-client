@@ -3,7 +3,7 @@ import * as S from '../RegisterStyle';
 import styled from 'styled-components';
 import DateCalendar from '../../../components/Calendar/DateCalendar';
 import TimeCalendar from '../../../components/Calendar/TimeCalendar';
-import BackButton from './BackButton';
+import BackButton from '../RegisterComponents/BackButton';
 import { IoIosArrowDown } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
