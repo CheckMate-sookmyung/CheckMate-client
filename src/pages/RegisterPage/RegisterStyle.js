@@ -101,7 +101,7 @@ export const CustomImage = styled.img`
 
 //RegisterSecond
 export const PrimaryInput = styled.input`
-  width: 70%;
+  width: 100%;
   height: 56px;
   border-radius: 8px;
   border: 1px solid #ccc;
