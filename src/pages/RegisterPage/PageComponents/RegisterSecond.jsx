@@ -2,12 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
+import { format } from 'date-fns';
 import * as S from '../RegisterStyle';
 import BackButton from '../RegisterComponents/BackButton';
 import UploadBox from '../RegisterComponents/UploadBox';
-import DateCalendar from '../../../components/Calendar/DateCalendar';
-import TimeCalendar from '../../../components/Calendar/TimeCalendar';
 import { axiosInstance } from '../../../axios/axiosInstance';
 import { USER_ID } from '../../../constants/tempData';
 import useResetAllStates from '../../../recoil/atoms/useResetAllState';
@@ -22,6 +20,7 @@ import {
   minCompletionTimes,
   RegisterStep,
 } from '../../../recoil/atoms/state';
+import EventScheduleList from '../RegisterComponents/Scheduler';
 
 const RegisterSecond = () => {
   // Recoil state hooks
@@ -41,19 +40,23 @@ const RegisterSecond = () => {
   const [eventDate, setEventDate] = useState(null);
   const [eventStartTime, setEventStartTime] = useState('');
   const [eventEndTime, setEventEndTime] = useState('');
-  const [eventSchedules, setEventSchedules] = useRecoilState(eventScheduleList);
+  const [eventSchedules, setEventSchedules] = useState([
+    {
+      eventDate: new Date(),
+      eventStartTime: new Date(),
+      eventEndTime: new Date(),
+    },
+  ]);
 
   const navigate = useNavigate();
   const resetAllStates = useResetAllStates();
 
   // File upload handlers
   const handleImageChange = (file) => {
-    console.log('Image file:', file);
     setPoster(file);
   };
 
   const handleExcelChange = (file) => {
-    console.log('Excel file:', file);
     setFile(file);
   };
 
@@ -87,9 +90,28 @@ const RegisterSecond = () => {
   };
 
   // Schedule handling
-  const handleDateSelect = (day) => setEventDate(day);
-  const handleStartTimeSelect = (time) => setEventStartTime(time);
-  const handleEndTimeSelect = (time) => setEventEndTime(time);
+  const handleScheduleChange = (index, key, value) => {
+    const newSchedules = [...eventSchedules];
+    newSchedules[index][key] = value;
+    setEventSchedules(newSchedules);
+  };
+
+  const handleAddSchedule = () => {
+    const lastSchedule = eventSchedules[eventSchedules.length - 1];
+    const newSchedule = {
+      eventDate: new Date(lastSchedule.eventDate),
+      eventStartTime: new Date(lastSchedule.eventStartTime),
+      eventEndTime: new Date(lastSchedule.eventEndTime),
+    };
+    setEventSchedules([...eventSchedules, newSchedule]);
+  };
+
+  const handleDeleteSchedule = (index) => {
+    if (eventSchedules.length > 1) {
+      const newSchedules = eventSchedules.filter((_, i) => i !== index);
+      setEventSchedules(newSchedules);
+    }
+  };
 
   useEffect(() => {
     if (eventDate && eventStartTime && eventEndTime) {
@@ -105,6 +127,14 @@ const RegisterSecond = () => {
     }
   }, [eventDate, eventStartTime, eventEndTime]);
 
+  const formatSchedules = (schedules) => {
+    return schedules.map((schedule) => ({
+      eventDate: format(schedule.eventDate, 'yyyy-MM-dd'),
+      eventStartTime: format(schedule.eventStartTime, 'HH:mm'),
+      eventEndTime: format(schedule.eventEndTime, 'HH:mm'),
+    }));
+  };
+
   // Register event
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -116,7 +146,7 @@ const RegisterSecond = () => {
       eventTitle: eventTitleValue,
       eventDetail: eventDetailValue,
       minCompletionTimes: minCompletionTimesValue,
-      eventSchedules,
+      eventSchedules: formatSchedules(eventSchedules),
     };
 
     formData.append('event', JSON.stringify(event));
@@ -175,17 +205,12 @@ const RegisterSecond = () => {
                 accept=".xlsx, .xls"
               />
               <CategoryFont>행사 기간</CategoryFont>
-              <S.FlexWrapper style={{ justifyContent: 'space-between' }}>
-                <DateCalendar onSaveDate={handleDateSelect} />
-                <TimeCalendar
-                  timeLabel="행사 시작 시간 선택"
-                  onSaveTime={handleStartTimeSelect}
-                />
-                <TimeCalendar
-                  timeLabel="행사 종료 시간 선택"
-                  onSaveTime={handleEndTimeSelect}
-                />
-              </S.FlexWrapper>
+              <EventScheduleList
+                eventSchedules={eventSchedules}
+                handleScheduleChange={handleScheduleChange}
+                handleAddSchedule={handleAddSchedule}
+                handleDeleteSchedule={handleDeleteSchedule}
+              />
               <CategoryFont>행사 이수 기준</CategoryFont>
             </div>
             <S.MainButton onClick={handleRegister}>행사 생성</S.MainButton>
