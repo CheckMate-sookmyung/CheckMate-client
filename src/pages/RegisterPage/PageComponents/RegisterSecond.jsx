@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
+import { format } from 'date-fns';
 import * as S from '../RegisterStyle';
 import BackButton from '../RegisterComponents/BackButton';
 import UploadBox from '../RegisterComponents/UploadBox';
@@ -127,6 +127,14 @@ const RegisterSecond = () => {
     }
   }, [eventDate, eventStartTime, eventEndTime]);
 
+  const formatSchedules = (schedules) => {
+    return schedules.map((schedule) => ({
+      eventDate: format(schedule.eventDate, 'yyyy-MM-dd'),
+      eventStartTime: format(schedule.eventStartTime, 'HH:mm'),
+      eventEndTime: format(schedule.eventEndTime, 'HH:mm'),
+    }));
+  };
+
   // Register event
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -138,7 +146,7 @@ const RegisterSecond = () => {
       eventTitle: eventTitleValue,
       eventDetail: eventDetailValue,
       minCompletionTimes: minCompletionTimesValue,
-      eventSchedules,
+      eventSchedules: formatSchedules(eventSchedules),
     };
 
     formData.append('event', JSON.stringify(event));
