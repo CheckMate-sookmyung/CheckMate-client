@@ -276,17 +276,17 @@ export default function DashboardAttendeePage() {
                   <SortIcon columnKey="name" />
                 </S.TableHeader>
                 <S.TableHeader onClick={() => sortData('major')}>
-                  학과
+                  소속
                   <SortIcon columnKey="major" />
                 </S.TableHeader>
-                <S.TableHeader onClick={() => sortData('number')}>
+                {/* <S.TableHeader onClick={() => sortData('number')}>
                   학번
                   <SortIcon columnKey="number" />
                 </S.TableHeader>
                 <S.TableHeader onClick={() => sortData('year')}>
                   학년
                   <SortIcon columnKey="year" />
-                </S.TableHeader>
+                </S.TableHeader> */}
                 <S.TableHeader onClick={() => sortData('phoneNumber')}>
                   휴대폰 번호
                   <SortIcon columnKey="phoneNumber" />
@@ -324,8 +324,8 @@ export default function DashboardAttendeePage() {
                   </S.TableData>
                   <S.TableData>{data.name}</S.TableData>
                   <S.TableData>{data.major}</S.TableData>
-                  <S.TableData>{data.number}</S.TableData>
-                  <S.TableData>{data.year}</S.TableData>
+                  {/* <S.TableData>{data.number}</S.TableData>
+                  <S.TableData>{data.year}</S.TableData> */}
                   <S.TableData>{data.phoneNumber}</S.TableData>
                   <S.TableData>{data.email}</S.TableData>
                 </tr>
