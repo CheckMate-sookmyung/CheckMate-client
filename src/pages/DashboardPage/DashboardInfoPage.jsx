@@ -8,7 +8,7 @@ import { axiosInstance } from '../../axios';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '../../recoil/atoms/state';
 import PageLayout from '../../Layout/PageLayout';
-import UploadBox from '../../pages/RegisterPage/RegisterComponents/DragnDrop';
+import UploadBox from '../../pages/RegisterPage/RegisterComponents/UploadBox';
 
 export default function DashboardInfoPage() {
   const [eventType, setEventType] = useState('OFFLINE');

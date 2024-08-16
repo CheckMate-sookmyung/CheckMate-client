@@ -25,7 +25,7 @@ const Logo = () => (
 );
 
 // UploadBox 컴포넌트
-const UploadBox = ({ accept }) => {
+const UploadBox = ({ accept, onFileUpload }) => {
   const [isActive, setActive] = useState(false);
   const [uploadedInfo, setUploadedInfo] = useState(null);
 
@@ -39,6 +39,9 @@ const UploadBox = ({ accept }) => {
     const { name, size: byteSize } = file;
     const size = (byteSize / (1024 * 1024)).toFixed(2) + 'mb';
     setUploadedInfo({ name, size });
+    if (onFileUpload) {
+      onFileUpload(file);
+    }
   };
 
   const handleDrop = (event) => {

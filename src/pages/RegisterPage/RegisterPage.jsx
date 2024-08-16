@@ -1,9 +1,8 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { RegisterStep } from '../../recoil/atoms/state';
-import RegisterFirst from './RegisterComponents/RegisterFirst';
-import RegisterSecond from './RegisterComponents/RegisterSecond';
-import RegisterThird from './RegisterComponents/RegisterThird';
+import RegisterFirst from './PageComponents/RegisterFirst';
+import RegisterSecond from './PageComponents/RegisterSecond';
 import RegisterSideBar from './RegisterComponents/RegisterSideBar';
 
 const RegisterPage = () => {
@@ -14,7 +13,6 @@ const RegisterPage = () => {
         <RegisterSideBar />
         {Step === 1 && <RegisterFirst />}
         {Step === 2 && <RegisterSecond />}
-        {Step === 3 && <RegisterThird />}
       </div>
     </>
   );
