@@ -211,7 +211,6 @@ const RegisterSecond = () => {
                 handleAddSchedule={handleAddSchedule}
                 handleDeleteSchedule={handleDeleteSchedule}
               />
-              <CategoryFont>행사 이수 기준</CategoryFont>
             </div>
             <S.MainButton onClick={handleRegister}>행사 생성</S.MainButton>
           </S.ContentBox>
