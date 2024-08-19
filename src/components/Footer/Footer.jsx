@@ -27,7 +27,7 @@ const Footer = () => {
         <S.FirstDiv>김수진 (공예 21)</S.FirstDiv>
         <S.SecondBox>문서영 (산업디자인 22)</S.SecondBox>
       </S.Vector403StrokeParent>
-      <S.Logo alt="Logo" src="img/CheckMate.svg" />
+      <S.Logo alt="Logo" src="img/CheckMateBlue.svg" />
     </S.Container>
   );
 };
