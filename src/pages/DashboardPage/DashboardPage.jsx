@@ -3,11 +3,7 @@ import React, { useState, useEffect } from 'react';
 import PageLayout from '../../Layout/PageLayout';
 import { FaRotate, FaUsers } from 'react-icons/fa6';
 import { Sidebar } from '../../components/Navigator';
-import {
-  BlueButton,
-  BlueButtonLarge,
-  GrayButton,
-} from '../../components/Button';
+import { BlueButton, GrayButton } from '../../components/Button';
 import { USER_ID } from '../../constants';
 import { eventIDState } from '../../recoil/atoms/state';
 import { useRecoilValue } from 'recoil';
@@ -237,187 +233,94 @@ export default function DashboardPage() {
               <S.EventTitle>{parsedEvents.title}</S.EventTitle>
               <S.Badge status={eventStatus}>{eventStatus}</S.Badge>
             </S.EventTitleWrapper>
-            <S.ButtonContainer>
-              <S.StyledLink to="/event/dashboard/info">
-                <BlueButton label={'행사 수정'} />
-              </S.StyledLink>
-              <GrayButton
-                onClick={DeleteEvent}
-                label={'행사 삭제'}
-                fontColor={'red'}
-              />
-            </S.ButtonContainer>
           </S.TopContainer>
 
           {/* 행사 정보 */}
           <S.ContentContainer>
             <S.OverviewContainer>
-              <S.ContentBox>
-                <S.ContentTitleWrapper>
-                  <S.ContentTitle>행사 개요</S.ContentTitle>
-                </S.ContentTitleWrapper>
-                <S.ContentInfoWrapper>
-                  <S.EventTypeWrapper>
-                    <S.EventType>
-                      {getEventTypeLabel(parsedEvents.eventType)}
-                    </S.EventType>
-                    <S.EventTarget>
-                      {getEventTargetLabel(parsedEvents.eventTarget)}
-                    </S.EventTarget>
-                  </S.EventTypeWrapper>
-                  <S.EventDateWrapper>
+              <S.ContentBoxWrapper>
+                <S.ContentBoxTitle>행사 개요</S.ContentBoxTitle>
+                <S.ContentBox>
+                  <S.ContentBoxInfo>
+                    <S.ContentBoxSubTitle>이벤트 형식</S.ContentBoxSubTitle>
+                    <S.ContentBoxDetail>
+                      {`${getEventTypeLabel(parsedEvents.eventType)} | ${getEventTargetLabel(parsedEvents.eventTarget)}`}
+                    </S.ContentBoxDetail>
+                  </S.ContentBoxInfo>
+
+                  <S.ContentBoxInfo>
+                    <S.ContentBoxSubTitle>이벤트 일정</S.ContentBoxSubTitle>
                     {parsedEvents.schedules.map((schedule, index) => (
-                      <S.EventDate key={index}>
-                        {`• ${schedule.date} (${schedule.startTime} - ${schedule.endTime})`}
-                      </S.EventDate>
+                      <S.ContentBoxDetail key={index}>
+                        {`${schedule.date} (${schedule.startTime} - ${schedule.endTime})`}
+                      </S.ContentBoxDetail>
                     ))}
-                  </S.EventDateWrapper>
-                </S.ContentInfoWrapper>
-              </S.ContentBox>
+                  </S.ContentBoxInfo>
+                </S.ContentBox>
+              </S.ContentBoxWrapper>
 
-              <S.ContentBox>
-                <S.ContentTitleWrapper>
-                  <S.Tooltip>
-                    <S.ContentTitle>담당자</S.ContentTitle>
-                    <S.TooltipText className="tooltiptext">
-                      해당 연락처로 참석자 명단이 발송됩니다.
-                    </S.TooltipText>
-                  </S.Tooltip>
-                  <S.AddContactButton onClick={handleAddContact}>
-                    {isEditing
-                      ? '저장'
-                      : contacts.name || contacts.phone || contacts.email
-                        ? '수정'
-                        : '입력'}
-                  </S.AddContactButton>
-                </S.ContentTitleWrapper>
-                <S.ContentInfoWrapper>
-                  {isEditing ? (
-                    <>
-                      <S.ContactIconInputWrapper>
-                        <S.ContactIconWrapper>
-                          <S.StyledUserIcon />
-                        </S.ContactIconWrapper>
-                        <S.ContactInputWrapper>
-                          <S.ContactInput
-                            type="text"
-                            name="name"
-                            placeholder="담당자 이름"
-                            value={contacts.name}
-                            onChange={handleInputChange}
-                          />
-                          {nameError && (
-                            <S.ContactCheck>
-                              이름을 입력해 주세요.
-                            </S.ContactCheck>
-                          )}
-                        </S.ContactInputWrapper>
-                      </S.ContactIconInputWrapper>
+              <S.ContentBoxWrapper>
+                <S.ContentBoxTitle>담당자</S.ContentBoxTitle>
+                <S.ContentBox>
+                  <S.ContentBoxInfo>
+                    <S.ContentBoxSubTitle>담당자 명</S.ContentBoxSubTitle>
+                    <S.ContentBoxDetail>김담당 </S.ContentBoxDetail>
+                  </S.ContentBoxInfo>
 
-                      <S.ContactIconInputWrapper>
-                        <S.ContactIconWrapper>
-                          <S.StyledPhoneIcon />
-                        </S.ContactIconWrapper>
-                        <S.ContactInputWrapper>
-                          <S.ContactInput
-                            type="text"
-                            name="phone"
-                            placeholder="핸드폰 번호 ex) 010-1234-5678"
-                            value={contacts.phone}
-                            onChange={handleInputChange}
-                          />
-                          {phoneError && (
-                            <S.ContactCheck>
-                              휴대폰 번호 형식이 올바르지 않습니다.
-                            </S.ContactCheck>
-                          )}
-                        </S.ContactInputWrapper>
-                      </S.ContactIconInputWrapper>
-
-                      <S.ContactIconInputWrapper>
-                        <S.ContactIconWrapper>
-                          <S.StyledEnvelopeIcon />
-                        </S.ContactIconWrapper>
-                        <S.ContactInputWrapper>
-                          <S.ContactInput
-                            type="email"
-                            name="email"
-                            placeholder="이메일 ex) checkmate@sookmyung.ac.kr"
-                            value={contacts.email}
-                            onChange={handleInputChange}
-                          />
-                          {emailError && (
-                            <S.ContactCheck>
-                              이메일 형식이 올바르지 않습니다.
-                            </S.ContactCheck>
-                          )}
-                        </S.ContactInputWrapper>
-                      </S.ContactIconInputWrapper>
-                    </>
-                  ) : (
-                    <>
-                      <S.ContactIconTextWrapper>
-                        <S.ContactIconWrapper>
-                          <S.StyledUserIcon />
-                        </S.ContactIconWrapper>
-                        <S.ContactText>{contacts.name}</S.ContactText>
-                      </S.ContactIconTextWrapper>
-
-                      <S.ContactIconTextWrapper>
-                        <S.ContactIconWrapper>
-                          <S.StyledPhoneIcon />
-                        </S.ContactIconWrapper>
-                        <S.ContactText>{contacts.phone}</S.ContactText>
-                      </S.ContactIconTextWrapper>
-
-                      <S.ContactIconTextWrapper>
-                        <S.ContactIconWrapper>
-                          <S.StyledEnvelopeIcon />
-                        </S.ContactIconWrapper>
-                        <S.ContactText>{contacts.email}</S.ContactText>
-                      </S.ContactIconTextWrapper>
-                    </>
-                  )}
-                </S.ContentInfoWrapper>
-              </S.ContentBox>
-
-              <S.ProgressBox>
-                <S.IconWrapper>
-                  <FaUsers />
-                </S.IconWrapper>
-                <S.ProgressContentWrapper>
-                  <S.ProgressTitle>평균 참석 인원</S.ProgressTitle>
-                  <S.ProgressText>
-                    {averageAttendance} / {parsedEvents.totalParticipants}
-                  </S.ProgressText>
-                </S.ProgressContentWrapper>
-              </S.ProgressBox>
-
-              <S.ProgressBox>
-                <S.IconWrapper>
-                  <FaRotate />
-                </S.IconWrapper>
-                <S.ProgressContentWrapper>
-                  <S.ProgressTitle>진행 회차</S.ProgressTitle>
-                  <S.ProgressText>
-                    {completedSessions} / {parsedEvents.totalSessions}
-                  </S.ProgressText>
-                </S.ProgressContentWrapper>
-              </S.ProgressBox>
+                  <S.ContentBoxInfo>
+                    <S.ContentBoxSubTitle>담당자 연락망</S.ContentBoxSubTitle>
+                    <S.ContentBoxDetail>연락처 </S.ContentBoxDetail>
+                  </S.ContentBoxInfo>
+                </S.ContentBox>
+              </S.ContentBoxWrapper>
             </S.OverviewContainer>
 
             {/* 진행 현황 */}
-            <S.PosterImageContainer>
-              <S.ContentBox>
-                <S.ContentTitleWrapper>
-                  <S.ContentTitle>행사 커버 이미지</S.ContentTitle>
-                </S.ContentTitleWrapper>
-                <S.ImageWrapper>
-                  <img src={parsedEvents.image} alt="Event Cover" />
-                </S.ImageWrapper>
-              </S.ContentBox>
-            </S.PosterImageContainer>
+            <S.OverviewContainer>
+              <S.ContentBoxWrapper>
+                <S.ContentBoxTitle>행사 커버 이미지</S.ContentBoxTitle>
+                <S.ContentBox>
+                  <S.ContentBoxInfo>
+                    <S.ImageWrapper>
+                      <img src={parsedEvents.image} alt="Event Cover" />
+                    </S.ImageWrapper>
+                  </S.ContentBoxInfo>
+                </S.ContentBox>
+              </S.ContentBoxWrapper>
+            </S.OverviewContainer>
           </S.ContentContainer>
+
+          <S.ContentContainer>
+            <S.ProgressBox>
+              <S.ProgressTitle>평균 참석 인원</S.ProgressTitle>
+              <S.ProgressDesc>3회 진행 후 집계된 인원이에요</S.ProgressDesc>
+              <S.ProgressNumber>
+                <strong>{averageAttendance}</strong>
+                {' / '}
+                {parsedEvents.totalParticipants}
+              </S.ProgressNumber>
+            </S.ProgressBox>
+
+            <S.ProgressBox>
+              <S.ProgressTitle>행사 진행 회차</S.ProgressTitle>
+              <S.ProgressNumber>
+                <strong>{completedSessions}</strong>
+                {' / '}
+                {parsedEvents.totalSessions}
+              </S.ProgressNumber>
+            </S.ProgressBox>
+          </S.ContentContainer>
+
+          <S.ButtonContainer>
+            <S.StyledLink to="/event/dashboard/info">
+              <BlueButton label={'행사 수정'} />
+            </S.StyledLink>
+            <GrayButton
+              onClick={DeleteEvent}
+              label={'행사 삭제'}
+              fontColor={'red'}
+            />
+          </S.ButtonContainer>
         </S.DashboardPage>
       )}
     </PageLayout>
