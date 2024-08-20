@@ -3,7 +3,11 @@ import React, { useState, useEffect } from 'react';
 import PageLayout from '../../Layout/PageLayout';
 import { FaRotate, FaUsers } from 'react-icons/fa6';
 import { Sidebar } from '../../components/Navigator';
-import { GrayButton90 } from '../../components/Button';
+import {
+  BlueButton,
+  BlueButtonLarge,
+  GrayButton,
+} from '../../components/Button';
 import { USER_ID } from '../../constants';
 import { eventIDState } from '../../recoil/atoms/state';
 import { useRecoilValue } from 'recoil';
@@ -235,11 +239,13 @@ export default function DashboardPage() {
             </S.EventTitleWrapper>
             <S.ButtonContainer>
               <S.StyledLink to="/event/dashboard/info">
-                <GrayButton90>행사 수정</GrayButton90>
+                <BlueButton label={'행사 수정'} />
               </S.StyledLink>
-              <S.DeleteEventButton onClick={DeleteEvent}>
-                행사 삭제
-              </S.DeleteEventButton>
+              <GrayButton
+                onClick={DeleteEvent}
+                label={'행사 삭제'}
+                fontColor={'red'}
+              />
             </S.ButtonContainer>
           </S.TopContainer>
 
