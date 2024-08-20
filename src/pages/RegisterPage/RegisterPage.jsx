@@ -10,7 +10,6 @@ const RegisterPage = () => {
   return (
     <>
       <div style={{ display: 'flex' }}>
-        <RegisterSideBar />
         {Step === 1 && <RegisterFirst />}
         {Step === 2 && <RegisterSecond />}
       </div>
