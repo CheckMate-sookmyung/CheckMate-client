@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Outlet } from 'react-router-dom';
-import { Navigator } from '@/components/Navigator';
+import { TopNavigation } from '@/components';
 
 export default function Layout() {
   return (
     <StyledLayout>
-      <Navigator />
+      <TopNavigation />
       <Outlet />
     </StyledLayout>
   );

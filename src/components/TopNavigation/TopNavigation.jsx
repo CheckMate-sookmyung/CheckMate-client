@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
-import * as S from './Navigator.style';
+import * as S from './TopNavigation.style';
 import { useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '@/recoil/atoms/state';
 import { USER_ID } from '@/constants';
 import { axiosInstance } from '@/axios';
 import { FaBars, FaCircleUser } from 'react-icons/fa6';
-import Sidebar from './Sidebar';
+import { Sidebar } from '@/components';
 import { BREAKPOINTS } from '@/styles';
 
-export default function Navigator() {
+export default function TopNavigation() {
   const location = useLocation();
   const [parsedEvent, setParsedEvent] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -64,7 +64,7 @@ export default function Navigator() {
   }, []);
 
   return (
-    <S.Navigator>
+    <S.TopNavigation>
       <S.LogoMenuWrapper>
         <S.Logo to="/">
           <img src="img/CheckMateBlue.svg" alt="CheckMate Logo" />
@@ -102,6 +102,6 @@ export default function Navigator() {
         <Sidebar />
       </S.Sidebar>
       {isSidebarOpen && <S.Dim onClick={handleDimClick} />}
-    </S.Navigator>
+    </S.TopNavigation>
   );
 }

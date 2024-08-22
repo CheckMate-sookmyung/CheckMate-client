@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { BREAKPOINTS } from '../../styles';
 
-export const Navigator = styled.div`
+export const TopNavigation = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
