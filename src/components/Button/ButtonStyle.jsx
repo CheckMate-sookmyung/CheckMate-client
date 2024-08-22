@@ -6,7 +6,6 @@ export const Button = styled.button`
   align-items: center;
   border-radius: ${(props) => (props.size === 'large' ? '10px' : '8px')};
   padding: ${(props) => (props.size === 'large' ? '14px 18px' : '0 14px')};
-  gap: 8px;
   background: ${(props) => props.backgroundColor};
   color: ${(props) => props.textColor};
   font-size: ${(props) => (props.size === 'large' ? '16px' : '13px')};

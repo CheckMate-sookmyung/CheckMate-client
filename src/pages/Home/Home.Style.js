@@ -105,42 +105,8 @@ export const ButtonWrapper = styled.div`
   margin: 16px 0;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    flex-direction: column;
     gap: 20px;
   }
-`;
-
-export const GreenButton = styled.button`
-  background-color: #5bfb67;
-  width: 220px;
-  height: 70px;
-  position: relative;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: 20px 28px;
-  box-sizing: border-box;
-  font-weight: 600;
-  position: relative;
-  font-size: 22px;
-  font-weight: 600;
-  font-family: Pretendard;
-  color: #323232;
-  text-align: left;
-  cursor: pointer;
-
-  @media (max-width: ${BREAKPOINTS[0]}px) {
-    width: 200px;
-    height: 40px;
-    font-size: 16px;
-  }
-`;
-
-export const WhiteButton = styled(GreenButton)`
-  background-color: #fff;
-  width: 200px;
 `;
 
 //체크메이트 이력
@@ -235,12 +201,6 @@ export const OnboardContent = styled.p`
 
 export const BlueCheck = styled.img`
   position: relative;
-`;
-
-export const BlueButton = styled(GreenButton)`
-  background-color: #2f7cef;
-  width: 200px;
-  color: white;
 `;
 
 export const SeeMore = styled.div`
