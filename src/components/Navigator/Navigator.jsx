@@ -15,6 +15,12 @@ export default function Navigator() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const EVENT_ID = useRecoilValue(eventIDState);
 
+  const menuItems = [
+    { to: '/register', label: '행사 등록' },
+    { to: '/event', label: '행사 목록' },
+    { to: '/stats', label: '통계' },
+  ];
+
   const handleDimClick = () => {
     setIsSidebarOpen(false);
   };
@@ -70,21 +76,18 @@ export default function Navigator() {
           <img src="img/CheckMateBlue.svg" alt="CheckMate Logo" />
         </S.Logo>
 
+        {/* 메뉴 */}
         <S.MenuContainer>
-          <S.Menu to="/register" activeClassName="active">
-            행사 등록
-          </S.Menu>
-          <S.Menu to="/event" activeClassName="active">
-            행사 목록
-          </S.Menu>
+          {menuItems.map((item) => (
+            <S.Menu key={item.to} to={item.to} activeClassName="active">
+              {item.label}
+            </S.Menu>
+          ))}
           {location.pathname.startsWith('/event/dashboard') && (
             <S.PageNameWrapper>
               {parsedEvent && <S.PageName>{parsedEvent.title}</S.PageName>}
             </S.PageNameWrapper>
           )}
-          <S.Menu to="/stats" activeClassName="active">
-            통계
-          </S.Menu>
         </S.MenuContainer>
       </S.LogoMenuWrapper>
 
