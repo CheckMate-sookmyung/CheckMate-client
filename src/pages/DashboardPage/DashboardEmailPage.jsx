@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import PageLayout from '../../Layout/PageLayout';
-import { Button } from '../../components/Button';
 import * as S from './DashboardEmailPage.style';
-import { Sidebar } from '../../components/Navigator';
+import { Sidebar, Button } from '../../components';
 import { USER_ID } from '../../constants';
 import { axiosInstance } from '../../axios';
 import { useRecoilValue } from 'recoil';
@@ -78,6 +77,7 @@ export default function DashboardEmailPage() {
     return (
       <Button
         key={tab}
+        label={`${tab}회 (${date})`}
         active={activeTab === tab}
         onClick={() => {
           setActiveTab(tab);
@@ -92,9 +92,7 @@ export default function DashboardEmailPage() {
             eventDetail.imageUrl,
           );
         }}
-      >
-        {tab}회 ({date})
-      </Button>
+      />
     );
   };
 
@@ -117,9 +115,9 @@ export default function DashboardEmailPage() {
     <PageLayout sideBar={<Sidebar />}>
       <S.DashboardEmail>
         <S.TopContainer>
-          <S.Title>이메일 예약 발송</S.Title>
+          <S.Title>카카오톡 예약 발송</S.Title>
           <S.ButtonContainer>
-            <Button>저장하기</Button>
+            <Button label={'저장하기'} />
           </S.ButtonContainer>
         </S.TopContainer>
 
@@ -138,9 +136,9 @@ export default function DashboardEmailPage() {
         <S.ContentContainer>
           <S.ToggleWrapper>
             <S.Content>
-              <S.ContentTitle>1시간 전 이메일 발송 여부</S.ContentTitle>
+              <S.ContentTitle>1시간 전 카카오톡 발송 여부</S.ContentTitle>
               <S.ContentDesc>
-                이벤트 시작 1시간 전에 이메일을 발송합니다.
+                이벤트 시작 1시간 전에 카카오톡 메세지를 발송합니다.
               </S.ContentDesc>
             </S.Content>
             <Switch

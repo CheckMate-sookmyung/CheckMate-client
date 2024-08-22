@@ -9,5 +9,5 @@ export const Button = styled.button`
   background: ${(props) => props.backgroundColor};
   color: ${(props) => props.textColor};
   font-size: ${(props) => (props.size === 'large' ? '16px' : '13px')};
-  font-weight: ${(props) => (props.size === 'large' ? '600' : '500')};
+  font-weight: ${(props) => (props.size === 'large' ? '500' : '400')};
 `;

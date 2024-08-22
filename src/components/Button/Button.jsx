@@ -7,6 +7,7 @@ const Button = ({
   size = 'large',
   backgroundColor = '#2f7cef',
   textColor = '#fff',
+  ...props
 }) => {
   return (
     <S.Button
@@ -14,6 +15,7 @@ const Button = ({
       size={size}
       backgroundColor={backgroundColor}
       textColor={textColor}
+      {...props}
     >
       {label}
     </S.Button>

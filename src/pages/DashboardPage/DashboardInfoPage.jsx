@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as S from './DashboardInfoPage.style';
 import { FaAngleRight, FaRegTrashCan, FaCircleInfo } from 'react-icons/fa6';
-import { Sidebar } from '../../components/Navigator';
-import { Button } from '../../components/Button';
+import { Sidebar, Button } from '../../components';
 import { USER_ID } from '../../constants';
 import { axiosInstance } from '../../axios';
 import { useRecoilValue } from 'recoil';
@@ -187,9 +186,11 @@ export default function DashboardInfoPage() {
         <S.TopContainer>
           <S.Title>행사 기본 정보</S.Title>
           <S.ButtonContainer>
-            <Button disabled={!isChanged} onClick={handleSave}>
-              저장하기
-            </Button>
+            <Button
+              label={'저장하기'}
+              disabled={!isChanged}
+              onClick={handleSave}
+            />
           </S.ButtonContainer>
         </S.TopContainer>
 
