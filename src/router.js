@@ -8,7 +8,7 @@ import {
   DashboardAttendeePage,
   Home,
   RegisterPage,
-  EventListPage,
+  EventCardListPage,
   TotalStatisticsPage,
 } from './pages';
 import Layout from './Layout/Layout';
@@ -27,7 +27,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/event',
-        element: <EventListPage />,
+        element: <EventCardListPage />,
       },
       {
         path: '/event/dashboard',

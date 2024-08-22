@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import * as S from './EventListPage.style';
+import * as S from './EventCardListPage.style';
 import { USER_ID } from '@/constants';
 import { axiosInstance } from '@/axios';
-import { EventCard } from '@/components';
+import { EventCard, Dropdown } from '@/components';
 
-const EventListPage = () => {
+const EventCardListPage = () => {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
@@ -42,19 +42,22 @@ const EventListPage = () => {
   }, []);
 
   return (
-    <S.EventCardList>
-      {events.map((event) => (
-        <EventCard
-          key={event.id}
-          id={event.id}
-          title={event.title}
-          startDate={event.startDate.toLocaleDateString()}
-          endDate={event.endDate ? event.endDate.toLocaleDateString() : null}
-          poster={event.poster}
-        />
-      ))}
-    </S.EventCardList>
+    <S.EventCardListPage>
+      <Dropdown />
+      <S.EventCardList>
+        {events.map((event) => (
+          <EventCard
+            key={event.id}
+            id={event.id}
+            title={event.title}
+            startDate={event.startDate.toLocaleDateString()}
+            endDate={event.endDate ? event.endDate.toLocaleDateString() : null}
+            poster={event.poster}
+          />
+        ))}
+      </S.EventCardList>
+    </S.EventCardListPage>
   );
 };
 
-export default EventListPage;
+export default EventCardListPage;

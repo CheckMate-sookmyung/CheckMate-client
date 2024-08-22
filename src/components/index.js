@@ -6,3 +6,4 @@ export { Button } from './Button';
 export { AttendanceConfirmModal } from './AttendanceConfirmModal';
 export { Navigator, Sidebar } from './Navigator';
 export { EventCard } from './EventCard';
+export { Dropdown } from './Dropdown';
