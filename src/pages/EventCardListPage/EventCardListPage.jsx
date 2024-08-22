@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import * as S from './EventListPage.style';
+import * as S from './EventCardListPage.style';
 import { USER_ID } from '@/constants';
 import { axiosInstance } from '@/axios';
 import { EventCard } from '@/components';
 
-const EventListPage = () => {
+const EventCardListPage = () => {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const EventListPage = () => {
   }, []);
 
   return (
-    <S.EventCardList>
+    <S.EventCardListPage>
       {events.map((event) => (
         <EventCard
           key={event.id}
@@ -53,8 +53,8 @@ const EventListPage = () => {
           poster={event.poster}
         />
       ))}
-    </S.EventCardList>
+    </S.EventCardListPage>
   );
 };
 
-export default EventListPage;
+export default EventCardListPage;

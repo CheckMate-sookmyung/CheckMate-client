@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { BREAKPOINTS } from '@/styles';
 
-export const EventCardList = styled.div`
+export const EventCardListPage = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 32px;

@@ -7,5 +7,5 @@ export {
 } from './DashboardPage';
 export { Home } from './Home';
 export { RegisterPage } from './RegisterPage';
-export { EventListPage } from './EventListPage';
+export { EventCardListPage } from './EventCardListPage';
 export { TotalStatisticsPage } from './TotalStatisticsPage';
