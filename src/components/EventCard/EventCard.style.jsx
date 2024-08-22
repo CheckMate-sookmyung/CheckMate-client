@@ -44,7 +44,7 @@ export const EventImgWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 10px;
-  border: 1px solid var(--blue-4, #accdff);
+  border: 1px solid var(--LG-3, #f2f2f2);
   border-radius: 10px;
   background: url(<path-to-image>) lightgray 50% / cover no-repeat;
   aspect-ratio: 344/207;
@@ -83,7 +83,8 @@ export const Button = styled.button`
   }
 
   &:disabled {
-    background-color: var(--gray-300, #636363);
+    background: var(--LG-3, #f2f2f2);
+    color: var(--DG-2, #818181);
     cursor: not-allowed;
   }
 `;
