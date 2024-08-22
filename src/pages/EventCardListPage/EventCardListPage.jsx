@@ -3,6 +3,7 @@ import * as S from './EventCardListPage.style';
 import { USER_ID } from '@/constants';
 import { axiosInstance } from '@/axios';
 import { EventCard } from '@/components';
+import { Dropdown } from '@/components';
 
 const EventCardListPage = () => {
   const [events, setEvents] = useState([]);
@@ -43,16 +44,19 @@ const EventCardListPage = () => {
 
   return (
     <S.EventCardListPage>
-      {events.map((event) => (
-        <EventCard
-          key={event.id}
-          id={event.id}
-          title={event.title}
-          startDate={event.startDate.toLocaleDateString()}
-          endDate={event.endDate ? event.endDate.toLocaleDateString() : null}
-          poster={event.poster}
-        />
-      ))}
+      <Dropdown />
+      <S.EventCardList>
+        {events.map((event) => (
+          <EventCard
+            key={event.id}
+            id={event.id}
+            title={event.title}
+            startDate={event.startDate.toLocaleDateString()}
+            endDate={event.endDate ? event.endDate.toLocaleDateString() : null}
+            poster={event.poster}
+          />
+        ))}
+      </S.EventCardList>
     </S.EventCardListPage>
   );
 };
