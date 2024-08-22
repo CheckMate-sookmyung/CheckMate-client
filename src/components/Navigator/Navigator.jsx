@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as S from './Navigator.style';
 import { useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
@@ -24,8 +24,6 @@ export default function Navigator() {
   };
 
   useEffect(() => {
-    console.log('USER_ID:', USER_ID);
-    console.log('EVENT_ID:', EVENT_ID);
     const fetchEventData = async () => {
       if (!EVENT_ID) return;
       try {
@@ -34,85 +32,75 @@ export default function Navigator() {
         );
         const eventData = response.data;
         if (eventData) {
-          const parsedEvent = {
-            title: eventData.eventTitle,
-          };
-          setParsedEvent(parsedEvent);
+          setParsedEvent({ title: eventData.eventTitle });
         }
       } catch (error) {
         console.error('Fetch event data failed:', error);
       }
     };
+
     if (location.pathname.startsWith('/event/dashboard')) {
       fetchEventData();
     }
   }, [location.pathname, EVENT_ID]);
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > BREAKPOINTS[0]) {
+    const handleResizeOrScroll = () => {
+      if (window.innerWidth > BREAKPOINTS[0] || window.scrollY > 0) {
         setIsSidebarOpen(false);
       }
     };
 
-    window.addEventListener('resize', handleResize);
-    handleResize();
+    window.addEventListener('resize', handleResizeOrScroll);
+    window.addEventListener('scroll', handleResizeOrScroll);
+
+    // 초기 사이드바 상태 설정
+    handleResizeOrScroll();
 
     return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 0) {
-        setIsSidebarOpen(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResizeOrScroll);
+      window.removeEventListener('scroll', handleResizeOrScroll);
     };
   }, []);
 
   return (
-    <>
-      <S.Navigator>
-        <S.LogoMenuWrapper>
-          <S.Logo to="/">체크메이트</S.Logo>
-          <S.MenuContainer>
-            <S.Menu>
-              <S.StyledNavLink to="/register" activeClassName="active">
-                행사 등록
-              </S.StyledNavLink>
-            </S.Menu>
-            <S.Menu>
-              <S.StyledNavLink to="/event" activeClassName="active">
-                행사 목록
-              </S.StyledNavLink>
-            </S.Menu>
-          </S.MenuContainer>
+    <S.Navigator>
+      <S.LogoMenuWrapper>
+        <S.Logo to="/">
+          <img src="img/CheckMateBlue.svg" alt="CheckMate Logo" />
+        </S.Logo>
+
+        <S.MenuContainer>
+          <S.Menu to="/register" activeClassName="active">
+            행사 등록
+          </S.Menu>
+          <S.Menu to="/event" activeClassName="active">
+            행사 목록
+          </S.Menu>
           {location.pathname.startsWith('/event/dashboard') && (
             <S.PageNameWrapper>
               {parsedEvent && <S.PageName>{parsedEvent.title}</S.PageName>}
             </S.PageNameWrapper>
           )}
-        </S.LogoMenuWrapper>
-        <S.ProfileMenuWrapper>
-          <S.ProfileIconWrapper>
-            <FaCircleUser />
-          </S.ProfileIconWrapper>
-          <S.MenuIconWrapper>
-            <FaBars onClick={toggleSidebar} />
-          </S.MenuIconWrapper>
-        </S.ProfileMenuWrapper>
-        <S.Sidebar isOpen={isSidebarOpen}>
-          <Sidebar />
-        </S.Sidebar>
-        {isSidebarOpen && <S.Dim onClick={handleDimClick} />}
-      </S.Navigator>
-    </>
+          <S.Menu to="/stats" activeClassName="active">
+            통계
+          </S.Menu>
+        </S.MenuContainer>
+      </S.LogoMenuWrapper>
+
+      <S.ProfileMenuWrapper>
+        <S.ProfileIconWrapper>
+          <FaCircleUser />
+        </S.ProfileIconWrapper>
+        <S.MenuIconWrapper>
+          <FaBars onClick={toggleSidebar} />
+        </S.MenuIconWrapper>
+      </S.ProfileMenuWrapper>
+
+      <S.Sidebar isOpen={isSidebarOpen}>
+        <Sidebar />
+      </S.Sidebar>
+      {isSidebarOpen && <S.Dim onClick={handleDimClick} />}
+    </S.Navigator>
   );
 }

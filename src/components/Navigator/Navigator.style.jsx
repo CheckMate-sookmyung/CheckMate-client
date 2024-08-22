@@ -22,26 +22,13 @@ export const Navigator = styled.div`
 
 export const LogoMenuWrapper = styled.div`
   display: flex;
-
-  @media (max-width: ${BREAKPOINTS[0]}px) {
-  }
+  gap: 10px;
 `;
 
 export const Logo = styled(NavLink)`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px;
-  cursor: pointer;
-  font-size: 24px;
-  font-weight: 700;
-  text-decoration: none;
-  color: black;
-
-  @media (max-width: ${BREAKPOINTS[1]}px) {
-    font-size: 20px;
-    padding: 6px;
-  }
 `;
 
 export const MenuContainer = styled.div`
@@ -60,17 +47,28 @@ export const MenuContainer = styled.div`
   }
 `;
 
-export const Menu = styled.div`
+export const Menu = styled(NavLink)`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 10px;
   font-size: 16px;
+  text-decoration: none;
+  color: black;
   font-weight: 700;
+  text-align: center;
   cursor: pointer;
+
+  &.active {
+    color: #4e75ff;
+  }
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
     font-size: 14px;
+  }
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    font-size: 12px;
   }
 `;
 
@@ -100,20 +98,7 @@ export const PageName = styled.span`
   }
 `;
 
-export const StyledNavLink = styled(NavLink)`
-  text-decoration: none;
-  font-weight: 700;
-  color: black;
-
-  &.active {
-    color: #4e75ff;
-  }
-
-  @media (max-width: ${BREAKPOINTS[0]}px) {
-    /* font-size: 12px; */
-  }
-`;
-
+// 프로필
 export const ProfileMenuWrapper = styled.div`
   display: flex;
   justify-content: center;
