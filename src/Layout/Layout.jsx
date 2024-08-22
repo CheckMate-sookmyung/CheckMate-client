@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Outlet } from 'react-router-dom';
-import { Navigator } from '../components/Navigator';
+import { Navigator } from '@/components/Navigator';
 
 export default function Layout() {
   return (

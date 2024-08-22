@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import * as S from './EventList.style';
-import { USER_ID } from '../../constants';
-import { axiosInstance } from '../../axios';
-import EventCard from './EventCard';
+import { useEffect, useState } from 'react';
+import * as S from './EventListPage.style';
+import { USER_ID } from '@/constants';
+import { axiosInstance } from '@/axios';
+import { EventCard } from '@/components';
 
-const EventList = () => {
+const EventListPage = () => {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
@@ -57,4 +57,4 @@ const EventList = () => {
   );
 };
 
-export default EventList;
+export default EventListPage;

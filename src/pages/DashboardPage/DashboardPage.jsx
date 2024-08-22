@@ -1,12 +1,12 @@
 import * as S from './DashboardPage.style';
 import { useState, useEffect } from 'react';
-import PageLayout from '../../Layout/PageLayout';
+import PageLayout from '@/Layout/PageLayout';
 import { FaRotate, FaUsers } from 'react-icons/fa6';
-import { Sidebar, Button } from '../../components';
-import { USER_ID } from '../../constants';
-import { eventIDState } from '../../recoil/atoms/state';
+import { Sidebar, Button } from '@/components';
+import { USER_ID } from '@/constants';
+import { eventIDState } from '@/recoil/atoms/state';
 import { useRecoilValue } from 'recoil';
-import { axiosInstance } from '../../axios';
+import { axiosInstance } from '@/axios';
 import { useNavigate } from 'react-router-dom';
 
 export default function DashboardPage() {

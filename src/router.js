@@ -6,12 +6,11 @@ import {
   DashboardInfoPage,
   DashboardEmailPage,
   DashboardAttendeePage,
+  Home,
+  RegisterPage,
+  EventListPage,
 } from './pages';
-import Register from './pages/RegisterPage/RegisterPage';
-import EventList from './pages/EventList/EventList';
 import Layout from './Layout/Layout';
-import EventDetailPage from './pages/EventDetail/EventDetailPage';
-import Home from './pages/Home/Home';
 
 const router = createBrowserRouter([
   {
@@ -23,15 +22,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/register',
-        element: <Register />,
+        element: <RegisterPage />,
       },
       {
         path: '/event',
-        element: <EventList />,
-      },
-      {
-        path: '/event/detail',
-        element: <EventDetailPage />,
+        element: <EventListPage />,
       },
       {
         path: '/event/dashboard',

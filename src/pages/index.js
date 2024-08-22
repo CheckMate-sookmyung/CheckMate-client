@@ -5,3 +5,6 @@ export {
   DashboardEmailPage,
   DashboardAttendeePage,
 } from './DashboardPage';
+export { Home } from './Home';
+export { RegisterPage } from './RegisterPage';
+export { EventListPage } from './EventListPage';

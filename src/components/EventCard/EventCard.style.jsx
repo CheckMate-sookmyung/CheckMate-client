@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { BREAKPOINTS } from '../../styles';
 
 export const CardWrapper = styled.div`
   display: flex;

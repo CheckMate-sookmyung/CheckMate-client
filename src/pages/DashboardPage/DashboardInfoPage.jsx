@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import * as S from './DashboardInfoPage.style';
 import { FaAngleRight, FaRegTrashCan, FaCircleInfo } from 'react-icons/fa6';
-import { Sidebar, Button } from '../../components';
-import { USER_ID } from '../../constants';
-import { axiosInstance } from '../../axios';
+import { Sidebar, Button } from '@/components';
+import { USER_ID } from '@/constants';
+import { axiosInstance } from '@/axios';
 import { useRecoilValue } from 'recoil';
-import { eventIDState } from '../../recoil/atoms/state';
-import PageLayout from '../../Layout/PageLayout';
-import UploadBox from '../../pages/RegisterPage/RegisterComponents/UploadBox';
+import { eventIDState } from '@/recoil/atoms/state';
+import PageLayout from '@/Layout/PageLayout';
+import UploadBox from '@/pages/RegisterPage/RegisterComponents/UploadBox';
 
 export default function DashboardInfoPage() {
   const [eventType, setEventType] = useState('OFFLINE');

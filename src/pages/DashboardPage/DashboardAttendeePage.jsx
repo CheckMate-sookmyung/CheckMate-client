@@ -1,5 +1,5 @@
 import * as S from './DashboardAttendeePage.style';
-import PageLayout from '../../Layout/PageLayout';
+import PageLayout from '@/Layout/PageLayout';
 import { useState, useEffect } from 'react';
 import {
   FaMagnifyingGlass,
@@ -7,11 +7,11 @@ import {
   FaArrowUpWideShort,
   FaPhone,
 } from 'react-icons/fa6';
-import { axiosInstance } from '../../axios';
-import { USER_ID } from '../../constants';
+import { axiosInstance } from '@/axios';
+import { USER_ID } from '@/constants';
 import { useRecoilValue } from 'recoil';
-import { eventIDState } from '../../recoil/atoms/state';
-import { Button, Sidebar } from '../../components';
+import { eventIDState } from '@/recoil/atoms/state';
+import { Button, Sidebar } from '@/components';
 
 export default function DashboardAttendeePage() {
   const [eventTitle, setEventTitle] = useState('');
