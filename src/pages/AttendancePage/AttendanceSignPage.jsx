@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types';
 import * as S from './AttendanceSignPage.style';
-import { AttendanceHeader, AttendanceConfirmModal } from '../../components';
+import { AttendanceHeader, AttendanceConfirmModal } from '@/components';
 import SignatureCanvas from 'react-signature-canvas';
 import { useState, useRef, useEffect } from 'react';
-import { postAttendanceSign } from '../../services';
-import { useSessionStorages } from '../../hooks';
-import { USER_ID } from '../../constants';
+import { postAttendanceSign } from '@/services';
+import { useSessionStorages } from '@/hooks';
+import { USER_ID } from '@/constants';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { axiosInstance } from '../../axios';
+import { axiosInstance } from '@/axios';
 import { FiRotateCcw } from 'react-icons/fi';
 import { useRecoilValue } from 'recoil';
-import { eventIDState } from '../../recoil/atoms/state';
+import { eventIDState } from '@/recoil/atoms/state';
 
 const AttendanceSignPage = () => {
   const navigate = useNavigate();

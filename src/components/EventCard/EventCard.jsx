@@ -1,9 +1,8 @@
-import React from 'react';
 import * as S from './EventCard.style';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { eventIDState } from '../../recoil/atoms/state';
-import { isAfter, isWithinInterval, isPast, isToday } from 'date-fns';
+import { eventIDState } from '@/recoil/atoms/state';
+import { isWithinInterval, isPast, isToday } from 'date-fns';
 
 const EventCard = ({ id, title, poster, startDate, endDate }) => {
   const setContent = useSetRecoilState(eventIDState);

@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import PageLayout from '../../Layout/PageLayout';
+import PageLayout from '@/Layout/PageLayout';
 import * as S from './DashboardEmailPage.style';
-import { Sidebar, Button } from '../../components';
-import { USER_ID } from '../../constants';
-import { axiosInstance } from '../../axios';
+import { Sidebar, Button } from '@/components';
+import { USER_ID } from '@/constants';
+import { axiosInstance } from '@/axios';
 import { useRecoilValue } from 'recoil';
-import { eventIDState } from '../../recoil/atoms/state';
+import { eventIDState } from '@/recoil/atoms/state';
 import Switch from 'react-switch';
 
 const DEFAULT_EMAIL_CONTENT = (

@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as S from './AttendanceStudentIdPage.style';
-import { AttendanceHeader } from '../../components';
-import Modal from '../../components/Modal/Modal';
-import { USER_ID } from '../../constants';
-import { useSessionStorages } from '../../hooks';
-import { axiosInstance } from '../../axios';
+import { AttendanceHeader, Modal } from '@/components';
+import { USER_ID } from '@/constants';
+import { useSessionStorages } from '@/hooks';
+import { axiosInstance } from '@/axios';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { eventIDState } from '../../recoil/atoms/state';
+import { eventIDState } from '@/recoil/atoms/state';
 import { format } from 'date-fns';
 
 const AttendanceStudentIdPage = () => {

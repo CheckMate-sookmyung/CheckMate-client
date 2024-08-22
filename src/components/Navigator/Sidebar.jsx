@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as S from './Sidebar.style';
 import {
   FaTableList,
@@ -7,11 +7,11 @@ import {
   FaUsers,
   FaChartPie,
 } from 'react-icons/fa6';
-import { USER_ID } from '../../constants';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { USER_ID } from '@/constants';
+import { useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { eventIDState } from '../../recoil/atoms/state';
-import { axiosInstance } from '../../axios';
+import { eventIDState } from '@/recoil/atoms/state';
+import { axiosInstance } from '@/axios';
 
 // 개별 메뉴
 const menuItems = [

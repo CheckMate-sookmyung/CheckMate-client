@@ -1,1 +1,1 @@
-export { default } from './AttendanceConfirmModal';
+export { default as AttendanceConfirmModal } from './AttendanceConfirmModal';

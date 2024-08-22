@@ -1,7 +1,7 @@
 import React from 'react';
 import * as S from './Home.Style';
-import Footer from '../../components/Footer/Footer';
-import { Button } from '../../components/Button';
+import Footer from '@/components/Footer/Footer';
+import { Button } from '@/components/Button';
 
 const HomePage = () => {
   return (
