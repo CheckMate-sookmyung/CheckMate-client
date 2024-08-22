@@ -8,3 +8,4 @@ export {
 export { Home } from './Home';
 export { RegisterPage } from './RegisterPage';
 export { EventListPage } from './EventListPage';
+export { TotalStatisticsPage } from './TotalStatisticsPage';

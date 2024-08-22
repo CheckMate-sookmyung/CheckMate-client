@@ -9,6 +9,7 @@ import {
   Home,
   RegisterPage,
   EventListPage,
+  TotalStatisticsPage,
 } from './pages';
 import Layout from './Layout/Layout';
 
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
       {
         path: '/event/dashboard/attendee',
         element: <DashboardAttendeePage />,
+      },
+      {
+        path: '/stats',
+        element: <TotalStatisticsPage />,
       },
     ],
   },
