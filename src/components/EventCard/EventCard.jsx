@@ -38,18 +38,19 @@ const EventCard = ({ id, title, poster, startDate, endDate }) => {
   };
 
   return (
-    <S.CardWrapper onClick={handleDetail}>
+    <S.EventCard onClick={handleDetail}>
+      <S.TopWrapper>
+        <S.EventTitle>{title}</S.EventTitle>
+        <S.EventDate>
+          <span>{`일정 | ${endDate ? `${startDate} ~ ${endDate}` : startDate}`}</span>
+        </S.EventDate>
+      </S.TopWrapper>
+
       <S.EventImgWrapper>
         <S.EventImg src={poster} alt="event_poster" />
       </S.EventImgWrapper>
-      <S.EventTitle>{title}</S.EventTitle>
-      <S.EventDate>
-        <p>일정</p>
-        <S.CardDay>
-          {endDate ? `${startDate} ~ ${endDate}` : startDate}
-        </S.CardDay>
-      </S.EventDate>
-      <S.CheckButton
+
+      <S.Button
         isEnded={isEventEnded()}
         isStarted={isEventOngoing()}
         onClick={attendanceCheck}
@@ -60,8 +61,8 @@ const EventCard = ({ id, title, poster, startDate, endDate }) => {
           : isEventEnded()
             ? '행사 종료'
             : '행사 예정'}
-      </S.CheckButton>
-    </S.CardWrapper>
+      </S.Button>
+    </S.EventCard>
   );
 };
 

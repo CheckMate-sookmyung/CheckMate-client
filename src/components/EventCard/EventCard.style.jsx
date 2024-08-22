@@ -1,71 +1,80 @@
 import styled from 'styled-components';
 
-export const CardWrapper = styled.div`
+export const EventCard = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  padding: 12px;
-  box-shadow:
-    rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
-    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
-  border-radius: 8px;
-  background-color: white;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
+  padding: 22px 18px;
+  border-radius: 20px;
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.07);
+  background: var(--White, #fff);
   cursor: pointer;
-  gap: 16px;
+  gap: 10px;
 
   &:hover {
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 30px 0px rgba(0, 0, 0, 0.1);
   }
 `;
 
+// 행사 타이틀과 일정
+export const TopWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 0 4px;
+  gap: 8px;
+`;
+
+export const EventTitle = styled.p`
+  color: var(--Black-2, #323232);
+  font-size: 22px;
+  font-weight: 600;
+`;
+
+export const EventDate = styled.div`
+  display: flex;
+  color: var(--Black-2, #323232);
+  gap: 10px;
+`;
+
+// 행사 포스터 이미지
 export const EventImgWrapper = styled.div`
   display: flex;
-  overflow: hidden;
-  height: 260px;
   justify-content: center;
+  margin-bottom: 10px;
+  border: 1px solid var(--blue-4, #accdff);
+  border-radius: 10px;
+  background: url(<path-to-image>) lightgray 50% / cover no-repeat;
+  aspect-ratio: 344/207;
+  height: 180px;
+  overflow: hidden;
 `;
 
 export const EventImg = styled.img`
   width: 100%;
   height: 100%;
-  aspect-ratio: 420 / 594;
   object-fit: cover;
   object-position: top;
 `;
 
-export const EventTitle = styled.p`
-  font-size: 18px;
-  font-weight: 700;
-`;
-
-export const EventDate = styled.div`
-  display: flex;
-  gap: 10px;
-  color: var(--gray-300, #636363);
-`;
-
-export const CardDay = styled.p`
-  font-size: 16px;
-  color: var(--gray-300, #636363);
-  font-weight: 700;
-`;
-
-export const CheckButton = styled.button`
+export const Button = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 40px;
-  margin-top: auto;
-  border: none;
-  border-radius: 4px;
-  color: white;
-  background: #4e75ff;
-  cursor: pointer;
-  font-size: 16px;
   transition:
     background 0.3s,
     transform 0.3s;
+  margin-top: auto;
+  border: none;
+  border-radius: 10px;
+  width: 100%;
+  height: 40px;
+  color: white;
+  background: var(--blue-0, #2f7cef);
+  cursor: pointer;
+  font-size: 16px;
 
   &:not(:disabled) {
     &:hover {
