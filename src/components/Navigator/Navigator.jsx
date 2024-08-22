@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import * as S from './Navigator.style';
 import { useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { eventIDState } from '../../recoil/atoms/state';
-import { USER_ID } from '../../constants';
-import { axiosInstance } from '../../axios';
+import { eventIDState } from '@/recoil/atoms/state';
+import { USER_ID } from '@/constants';
+import { axiosInstance } from '@/axios';
 import { FaBars, FaCircleUser } from 'react-icons/fa6';
 import Sidebar from './Sidebar';
-import { BREAKPOINTS } from '../../styles';
+import { BREAKPOINTS } from '@/styles';
 
 export default function Navigator() {
   const location = useLocation();
