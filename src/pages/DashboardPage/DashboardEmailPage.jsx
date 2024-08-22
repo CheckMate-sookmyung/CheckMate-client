@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PageLayout from '../../Layout/PageLayout';
-import { BlueButton90, TabButton90 } from '../../components/Button';
+import { Button } from '../../components/Button';
 import * as S from './DashboardEmailPage.style';
 import { Sidebar } from '../../components/Navigator';
 import { USER_ID } from '../../constants';
@@ -76,7 +76,7 @@ export default function DashboardEmailPage() {
 
   const SessionDateTab = ({ tab, activeTab, setActiveTab, date }) => {
     return (
-      <TabButton90
+      <Button
         key={tab}
         active={activeTab === tab}
         onClick={() => {
@@ -94,7 +94,7 @@ export default function DashboardEmailPage() {
         }}
       >
         {tab}회 ({date})
-      </TabButton90>
+      </Button>
     );
   };
 
@@ -119,7 +119,7 @@ export default function DashboardEmailPage() {
         <S.TopContainer>
           <S.Title>이메일 예약 발송</S.Title>
           <S.ButtonContainer>
-            <BlueButton90>저장하기</BlueButton90>
+            <Button>저장하기</Button>
           </S.ButtonContainer>
         </S.TopContainer>
 

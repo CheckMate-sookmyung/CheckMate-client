@@ -12,7 +12,7 @@ import { axiosInstance } from '../../axios';
 import { USER_ID } from '../../constants';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '../../recoil/atoms/state';
-import { TabButton90 } from '../../components';
+import { Button } from '../../components';
 
 export default function DashboardAttendeePage() {
   const [eventTitle, setEventTitle] = useState('');
@@ -85,7 +85,7 @@ export default function DashboardAttendeePage() {
   // 탭 정보에 따른 명단 가져오기
   const SessionDateTab = ({ tab, activeTab, setActiveTab, date }) => {
     return (
-      <TabButton90
+      <Button
         key={tab}
         active={activeTab === tab}
         onClick={() => {
@@ -97,7 +97,7 @@ export default function DashboardAttendeePage() {
         }}
       >
         {tab}회 ({date})
-      </TabButton90>
+      </Button>
     );
   };
 
