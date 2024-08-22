@@ -6,15 +6,15 @@ export const Dropdown = styled.div`
 `;
 
 export const DropdownButton = styled.button`
-  background-color: white;
-  border: 1px solid #4e75ff;
-  color: #4e75ff;
-  padding: 8px 16px;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
   display: flex;
   align-items: center;
+  border: 1px solid #4e75ff;
+  border-radius: 5px;
+  background-color: white;
+  padding: 8px 16px;
+  color: #4e75ff;
+  font-size: 14px;
+  cursor: pointer;
 
   &:after {
     content: '▼';
@@ -29,27 +29,36 @@ export const DropdownButton = styled.button`
 `;
 
 export const DropdownContent = styled.ul`
+  display: flex;
+  flex-direction: column;
+
   position: absolute;
+  z-index: 1000;
   top: 100%;
   left: 0;
-  background-color: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 5px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 0;
   margin: 8px 0 0;
+  border: 1px solid var(--blue-4, #accdff);
+  border-radius: 7px;
+  background: #f4f8ff;
+  padding: 4px;
+  width: 180px;
+  box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.1);
   list-style: none;
-  z-index: 1000;
-  width: 100%;
 `;
 
 export const DropdownItem = styled.li`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 10px 16px;
+  border-radius: 4px;
+
   font-size: 14px;
   color: #323232;
   cursor: pointer;
 
   &:hover {
-    background-color: #e6f0ff;
+    background: var(--blue-4, #accdff);
   }
 `;

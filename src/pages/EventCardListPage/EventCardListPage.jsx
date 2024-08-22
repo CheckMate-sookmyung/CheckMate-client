@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import * as S from './EventCardListPage.style';
 import { USER_ID } from '@/constants';
 import { axiosInstance } from '@/axios';
-import { EventCard } from '@/components';
-import { Dropdown } from '@/components';
+import { EventCard, Dropdown } from '@/components';
 
 const EventCardListPage = () => {
   const [events, setEvents] = useState([]);

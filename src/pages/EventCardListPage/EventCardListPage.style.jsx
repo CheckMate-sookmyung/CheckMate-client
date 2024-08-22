@@ -5,7 +5,7 @@ export const EventCardListPage = styled.div`
   display: flex;
   flex-direction: column;
   padding: 50px 20px;
-  gap: 20px;
+  gap: 30px;
 `;
 
 export const EventCardList = styled.div`
