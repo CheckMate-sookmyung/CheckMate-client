@@ -7,12 +7,11 @@ import {
   FaArrowUpWideShort,
   FaPhone,
 } from 'react-icons/fa6';
-import { Sidebar } from '../../components/Navigator';
 import { axiosInstance } from '../../axios';
 import { USER_ID } from '../../constants';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '../../recoil/atoms/state';
-import { TabButton90 } from '../../components';
+import { Button, Sidebar } from '../../components';
 
 export default function DashboardAttendeePage() {
   const [eventTitle, setEventTitle] = useState('');
@@ -85,8 +84,9 @@ export default function DashboardAttendeePage() {
   // 탭 정보에 따른 명단 가져오기
   const SessionDateTab = ({ tab, activeTab, setActiveTab, date }) => {
     return (
-      <TabButton90
+      <Button
         key={tab}
+        label={`${tab}회 (${date})`}
         active={activeTab === tab}
         onClick={() => {
           setActiveTab(tab);
@@ -95,9 +95,7 @@ export default function DashboardAttendeePage() {
           );
           setAttendees(sortedAttendees);
         }}
-      >
-        {tab}회 ({date})
-      </TabButton90>
+      />
     );
   };
 

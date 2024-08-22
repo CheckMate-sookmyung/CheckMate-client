@@ -1,6 +1,7 @@
 import React from 'react';
 import * as S from './Home.Style';
 import Footer from '../../components/Footer/Footer';
+import { Button } from '../../components/Button';
 
 const HomePage = () => {
   return (
@@ -14,8 +15,16 @@ const HomePage = () => {
             <S.Description>행사 관리 시스템을 더 쉽고 간편하게,</S.Description>
             <S.Description>언제 어디서나 체크메이트와 함께</S.Description>
             <S.ButtonWrapper>
-              <S.GreenButton>행사 등록하러 가기</S.GreenButton>
-              <S.WhiteButton>행사 보러가기</S.WhiteButton>
+              <Button
+                label="행사 등록하러 가기"
+                backgroundColor="#5BFB67"
+                textColor="#323232"
+              />
+              <Button
+                label="행사 보러가기"
+                backgroundColor="#FFF"
+                textColor="#323232"
+              />
             </S.ButtonWrapper>
           </S.ComponentsWrapper>
         </S.FirstLayer>
@@ -66,7 +75,7 @@ const HomePage = () => {
                   출석 명단과 행사 참여 통계를 통해 행사 효과를 분석하세요
                 </S.OnboardContent>
               </S.FlexBox>
-              <S.BlueButton>무료로 시작하기</S.BlueButton>
+              <Button label="무료로 시작하기" />
             </div>
           </div>
         </S.Layer>
