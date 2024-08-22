@@ -1,65 +1,38 @@
 import styled from 'styled-components';
 import { BREAKPOINTS } from '@/styles';
 
-export const Wrapper = styled.div`
-  position: relative;
-  height: 100vh;
-  width: 100vw;
-`;
-
-export const Container = styled.img`
-  height: auto;
-  width: 100vw;
-  z-index: -1;
-  position: absolute;
-  top: 0;
-  left: 0;
-`;
-
-export const Layer = styled.div`
-  width: 100%;
-  height: 870px;
+export const Container = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
-
-  @media (max-width: ${BREAKPOINTS[0]}px) {
-    height: 450px;
-  }
+  flex-direction: column;
 `;
 
+export const Home = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 auto;
+`;
+
+/* 기본 화면 */
 export const FirstLayer = styled.div`
-  width: 100%;
-  height: 1000px;
   display: flex;
   flex-direction: column;
+  position: relative;
+  width: 100%;
+  height: 600px;
+  background-color: var(--blue-0, #2f7cef);
 
-  @media (max-width: ${BREAKPOINTS[0]}px) {
-    height: 380px;
+  & > img {
+    justify-content: center;
+    height: 1600px;
   }
 `;
 
-export const SecondLayer = styled(Layer)`
-  flex-direction: column;
-  height: 700px;
-`;
-
-export const EmptyBox = styled.div`
-  height: 50px;
-
-  @media (max-width: ${BREAKPOINTS[0]}px) {
-    height: 20px;
-  }
-`;
-
-// 기본 화면
 export const ComponentsWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: auto;
-  height: auto;
   position: absolute;
-  top: 156px;
+  top: 36px;
   left: 72px;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
@@ -68,72 +41,86 @@ export const ComponentsWrapper = styled.div`
   }
 `;
 
-export const Logo = styled.img`
-  width: 100%;
-  position: relative;
-  max-width: 440px;
-  overflow: hidden;
+export const Logo = styled.div`
+  display: flex;
+  width: 260px;
   height: 236px;
-  margin: 10px;
 
-  @media (max-width: ${BREAKPOINTS[0]}px) {
+  & > img {
+    width: 100%;
+    height: 100%;
+  }
+  /* @media (max-width: ${BREAKPOINTS[0]}px) {
     width: 150px;
     height: 110px;
     margin: 0;
-  }
+  } */
 `;
 
-export const Description = styled.p`
-  width: 462px;
-  position: relative;
-  font-size: 32px;
-  line-height: 45px;
-  font-weight: 600;
-  color: #fff;
-
-  @media (max-width: ${BREAKPOINTS[0]}px) {
-    font-weight: 600;
-    font-size: 22px;
-    line-height: 30px;
-  }
-`;
-
-export const ButtonWrapper = styled.div`
+// 체크메이트 지난 사용자
+export const SecondLayer = styled.div`
   display: flex;
-  gap: 30px;
-  padding: 10px 0;
-  margin: 16px 0;
-
-  @media (max-width: ${BREAKPOINTS[0]}px) {
-    gap: 20px;
-  }
+  flex-direction: column;
+  justify-content: center;
+  background: linear-gradient(
+    180deg,
+    #2f7cef 6.77%,
+    rgba(47, 124, 239, 0) 95.41%
+  );
+  height: 660px;
+  gap: 40px;
 `;
 
-//체크메이트 이력
-export const FlexBox = styled.div`
+export const SecondLayerTitleWrapper = styled.div`
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 `;
 
 export const GreenCheckImg = styled.img`
-  margin-top: 104px;
-  margin-bottom: 52px;
+  width: 48px;
+  height: 40px;
 
-  @media (max-width: ${BREAKPOINTS[0]}px) {
+  /* @media (max-width: ${BREAKPOINTS[0]}px) {
     margin-top: 32px;
     margin-bottom: 22px;
+  } */
+`;
+
+export const SecondLayerTitle = styled.h2`
+  color: var(--White, #fff);
+  text-align: center;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 50px;
+`;
+
+export const CardWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 30px;
+  gap: 30px;
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    flex-direction: column;
   }
 `;
-export const BlueBigCard = styled.div`
+
+export const BlueCard = styled.div`
   display: flex;
   flex-direction: column;
-  width: 520px;
   position: relative;
   border-radius: 10px;
   background-color: #2f7cef;
-  height: 300px;
+  width: 100%;
+  max-width: 400px;
+  height: 240px;
   color: white;
   padding: 30px;
-  font-size: 24px;
+  font-size: 20px;
   line-height: 33px;
   font-weight: 600;
   text-align: left;
@@ -149,14 +136,132 @@ export const BlueBigCard = styled.div`
   }
 `;
 
-export const WhiteBigCard = styled(BlueBigCard)`
+export const WhiteCard = styled(BlueCard)`
   background-color: #f2f2f2;
   color: black;
 `;
 
+// 온보딩
+export const ThirdLayer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 660px;
+  margin: 0 auto;
+  padding: 0 30px;
+  gap: 50px;
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    flex-direction: column;
+  }
+`;
+
+export const ThirdLayerContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+`;
+
+export const ThirdLayerDecs = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+`;
+
+// 간편하게 등록하는 행사
+export const FourthLayer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(47, 124, 239, 0.07);
+  height: 660px;
+  gap: 30px;
+  padding: 0 30px;
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    flex-direction: column;
+  }
+`;
+
+export const FourthLayerContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 0 20px;
+`;
+
+// 손쉬운 출석 관리
+export const FifthLayer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 30px;
+  height: 660px;
+  gap: 30px;
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    flex-direction: column;
+  }
+`;
+
+// 한눈에 살펴보는 그래프
+export const SixthLayer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 30px;
+  height: 660px;
+  gap: 30px;
+  background: linear-gradient(
+    180deg,
+    rgba(47, 124, 239, 0.07) 0%,
+    rgba(255, 255, 255, 0.07) 100%
+  );
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    flex-direction: column;
+  }
+`;
+
+// 기본 화면
+export const Description = styled.p`
+  width: 462px;
+  position: relative;
+  font-size: 28px;
+  line-height: 45px;
+  font-weight: 600;
+  color: #fff;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 30px;
+  }
+`;
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  padding: 10px 0;
+  margin: 16px 0;
+  max-width: 1100px;
+  width: 100%;
+  gap: 30px;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    gap: 20px;
+  }
+`;
+
+//체크메이트 이력
+export const FlexBox = styled.div`
+  display: flex;
+  gap: 16px;
+`;
+
 export const BoldNum = styled.p`
   position: absolute;
-  font-size: 70px;
+  font-size: 60px;
   font-weight: 600;
   color: #fff;
   text-align: left;
@@ -169,12 +274,9 @@ export const BoldNum = styled.p`
 `;
 
 // 온보딩
-
 export const ImgBox = styled.img`
   display: flex;
-  width: 500px;
-  height: 500px;
-  margin: 0 40px;
+  height: 400px;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     width: 200px;
@@ -182,21 +284,18 @@ export const ImgBox = styled.img`
   }
 `;
 
-export const OnboardTitle = styled.p`
-  position: relative;
-  font-size: 32px;
+export const OnboardTitle = styled.h2`
+  font-size: 28px;
   font-weight: 600;
   color: #000;
-  text-align: left;
-  margin: 40px;
 `;
 
 export const OnboardContent = styled.p`
   position: relative;
-  font-size: 20px;
-  font-weight: 500;
+  font-size: 16px;
   color: #323232;
   text-align: left;
+  line-height: 1.4;
 `;
 
 export const BlueCheck = styled.img`
@@ -206,7 +305,8 @@ export const BlueCheck = styled.img`
 export const SeeMore = styled.div`
   width: 93px;
   position: relative;
-  font-size: 20px;
+  margin-top: 30px;
+  font-size: 16px;
   font-weight: 500;
   color: #2f7cef;
   text-align: left;
