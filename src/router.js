@@ -12,6 +12,7 @@ import {
   TotalStatisticsPage,
 } from './pages';
 import Layout from './Layout/Layout';
+import RegisterCompleted from './pages/RegisterPage/PageComponents/RegisterCompleted';
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: '/register',
         element: <RegisterPage />,
+      },
+      {
+        path: '/register/completed',
+        element: <RegisterCompleted />,
       },
       {
         path: '/event',
