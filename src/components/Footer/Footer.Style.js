@@ -5,6 +5,10 @@ export const Container = styled.div`
   display: flex;
   background-color: #f8f8f8;
   height: 300px;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    height: 360px;
+  }
 `;
 
 export const Footer = styled.div`
@@ -55,10 +59,6 @@ export const GroupWrapper = styled.div`
   display: flex;
   gap: 80px;
 
-  @media (max-width: ${BREAKPOINTS[2]}px) {
-    flex-direction: column;
-    gap: 40px;
-  }
   @media (max-width: ${BREAKPOINTS[1]}px) {
     flex-direction: column;
     gap: 20px;
@@ -72,6 +72,10 @@ export const Group = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    gap: 4px;
+  }
 `;
 
 export const Category = styled.h4`
@@ -82,14 +86,22 @@ export const Category = styled.h4`
 
 export const MemberList = styled.ul`
   display: flex;
+  flex-wrap: wrap;
 `;
 
 export const MemberItem = styled.li`
-  &:not(:last-of-type) {
+  display: flex;
+  align-items: center;
+
+  &:not(:last-of-type)::after {
+    content: '|';
+    color: #6b7684;
+    margin: 0 8px;
+  }
+
+  &:last-of-type {
     &::after {
-      content: '|';
-      color: #6b7684;
-      margin: 0 8px;
+      content: '';
     }
   }
 `;

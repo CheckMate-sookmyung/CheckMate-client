@@ -30,8 +30,11 @@ const Footer = () => {
               <S.Group key={title}>
                 <S.Category>{title}</S.Category>
                 <S.MemberList>
-                  {contentList.map((content) => (
-                    <S.MemberItem key={content}>
+                  {contentList.map((content, index) => (
+                    <S.MemberItem
+                      key={content}
+                      isLast={index === contentList.length - 1}
+                    >
                       <S.Member>{content}</S.Member>
                     </S.MemberItem>
                   ))}
