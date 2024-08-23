@@ -53,6 +53,7 @@ const HomePage = () => {
               <S.BoldNum>
                 514<span>개</span>
               </S.BoldNum>
+              <S.Character src="/img/character-check.svg" alt="캐릭터" />
             </S.BlueCard>
             <S.WhiteCard>
               <S.CardContent>

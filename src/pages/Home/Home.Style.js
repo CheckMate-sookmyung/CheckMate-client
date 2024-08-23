@@ -112,11 +112,6 @@ export const SecondLayerTitleWrapper = styled.div`
 export const GreenCheckImg = styled.img`
   width: 48px;
   height: 40px;
-
-  @media (max-width: ${BREAKPOINTS[0]}px) {
-    margin-top: 32px;
-    margin-bottom: 22px;
-  }
 `;
 
 export const SecondLayerTitle = styled.h2`
@@ -358,6 +353,23 @@ export const BoldNum = styled.p`
   @media (max-width: ${BREAKPOINTS[0]}px) {
     font-size: 30px;
     bottom: 22px;
+  }
+`;
+
+export const Character = styled.img`
+  display: flex;
+  position: absolute;
+  bottom: -60px;
+  right: 10px;
+  width: 140px;
+  height: 140px;
+  z-index: 1;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    bottom: -30px;
+    right: 10px;
+    width: 80px;
+    height: 80px;
   }
 `;
 
