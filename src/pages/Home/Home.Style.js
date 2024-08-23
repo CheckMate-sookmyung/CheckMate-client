@@ -146,6 +146,7 @@ export const CardWrapper = styled.div`
 export const BlueCard = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   position: relative;
   border-radius: 10px;
   background-color: #2f7cef;
@@ -154,23 +155,32 @@ export const BlueCard = styled.div`
   height: 240px;
   color: white;
   padding: 30px;
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    width: 300px;
+    height: 150px;
+    padding: 10px;
+  }
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    width: 200px;
+    height: 150px;
+    padding: 10px;
+  }
+`;
+
+export const CardContent = styled.p`
+  display: flex;
   font-size: 20px;
   line-height: 33px;
   font-weight: 600;
   text-align: left;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
-    width: 300px;
-    height: 150px;
     font-size: 18px;
-    padding: 10px;
     line-height: 25px;
   }
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    width: 200px;
-    height: 150px;
     font-size: 18px;
-    padding: 10px;
     line-height: 25px;
   }
 `;
@@ -326,12 +336,20 @@ export const FlexBox = styled.div`
 `;
 
 export const BoldNum = styled.p`
-  position: absolute;
+  display: flex;
+  align-items: end;
   font-size: 60px;
   font-weight: 600;
   color: #fff;
   text-align: left;
   bottom: 42px;
+
+  & > span {
+    display: flex;
+    align-items: end;
+    padding: 0 0 10px 10px;
+    font-size: 20px;
+  }
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
     font-size: 38px;

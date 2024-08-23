@@ -46,13 +46,22 @@ const HomePage = () => {
           </S.SecondLayerTitleWrapper>
           <S.CardWrapper>
             <S.BlueCard>
-              체크메이트에서
-              <br /> 열린 행사 수<S.BoldNum>514개</S.BoldNum>
+              <S.CardContent>
+                체크메이트에서
+                <br /> 열린 행사 수
+              </S.CardContent>
+              <S.BoldNum>
+                514<span>개</span>
+              </S.BoldNum>
             </S.BlueCard>
             <S.WhiteCard>
-              체크메이트에서
-              <br /> 출석을 완료한 이용자
-              <S.BoldNum style={{ color: 'black' }}>1028명</S.BoldNum>
+              <S.CardContent>
+                체크메이트에서
+                <br /> 출석을 완료한 이용자
+              </S.CardContent>
+              <S.BoldNum style={{ color: 'black' }}>
+                1028<span>명</span>
+              </S.BoldNum>
             </S.WhiteCard>
           </S.CardWrapper>
         </S.SecondLayer>
