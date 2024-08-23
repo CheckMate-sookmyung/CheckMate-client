@@ -1,9 +1,17 @@
 import styled from 'styled-components';
 import { BREAKPOINTS } from '@/styles';
 
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 export const EventCardListPage = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
   padding: 50px 20px;
   gap: 30px;
 `;
