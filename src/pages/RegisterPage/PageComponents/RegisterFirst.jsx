@@ -122,7 +122,7 @@ const RegisterFirst = () => {
                 </S.ContentBox>
               </S.FlexWrapper>
             </S.ContentBox>
-            <S.MainButton onClick={stepUp}>다음</S.MainButton>
+            <S.MainButton onClick={stepUp}>다음으로 넘어가기</S.MainButton>
           </S.ContentBox>
         </S.SubContainer>
       </S.Container>

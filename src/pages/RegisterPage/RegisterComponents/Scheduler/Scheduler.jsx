@@ -1,7 +1,8 @@
 import React from 'react';
 import { FaAngleRight, FaRegTrashCan, FaCircleInfo } from 'react-icons/fa6';
-import * as S from '../../DashboardPage/DashboardInfoPage.style';
-
+import * as S from './Scheduler.style';
+import { FaRegTrashAlt } from 'react-icons/fa';
+import { PiTildeBold } from 'react-icons/pi';
 const EventScheduleList = ({
   eventSchedules,
   handleScheduleChange,
@@ -35,8 +36,7 @@ const EventScheduleList = ({
                 timeCaption="Time"
                 dateFormat="h:mm aa"
               />
-              <FaAngleRight />
-
+              <PiTildeBold style={{ fontSize: '22px', color: '#5495F6' }} />
               <S.DateTimeInput
                 selected={schedule.eventEndTime}
                 onChange={(date) =>
@@ -51,14 +51,18 @@ const EventScheduleList = ({
             </S.DateTimeWrapper>
             <S.InfoDeleteIconWrapper>
               {index === 0 ? (
-                <S.InfoIconWrapper>
-                  <FaCircleInfo />
-                </S.InfoIconWrapper>
+                <S.DeleteIconWrapper>
+                  <FaRegTrashAlt
+                    style={{ fontSize: '22px', visibility: 'hidden' }}
+                  />
+                </S.DeleteIconWrapper>
               ) : (
                 <S.DeleteIconWrapper
                   onClick={() => handleDeleteSchedule(index)}
                 >
-                  <FaRegTrashCan />
+                  <FaRegTrashAlt
+                    style={{ fontSize: '22px', color: '#5495F6' }}
+                  />
                 </S.DeleteIconWrapper>
               )}
             </S.InfoDeleteIconWrapper>
