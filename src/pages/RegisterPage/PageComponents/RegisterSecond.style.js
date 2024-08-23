@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { IoMdCheckmark } from 'react-icons/io';
 import { BREAKPOINTS } from '../../../styles';
 
 export const Container = styled.div`
@@ -23,6 +24,14 @@ export const SubContainer = styled.div`
   }
 `;
 
+export const CategoryFont = styled.div`
+  font-size: 24px;
+  font-weight: 700;
+  margin: 30px 0;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const ContentBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -30,6 +39,13 @@ export const ContentBox = styled.div`
   width: 100%;
   height: fit-content;
   padding: 10px 0;
+`;
+
+export const FlexWrapper = styled.div`
+  display: flex;
+  margin: 20px 0;
+  gap: 15px;
+  align-items: center;
 `;
 
 export const MainFont = styled.p`
@@ -78,20 +94,34 @@ export const SubFont = styled.p`
   }
 `;
 
-export const MainButton = styled.button`
-  border-radius: 10px;
-  background-color: #f2f2f2;
-  width: fit-content;
-  height: 64px;
+export const BackButton = styled.button`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 20px 28px;
+  width: auto;
+  height: 54px;
+  padding: 14px 18px;
+  border-radius: 10px;
+  background-color: #f2f2f2;
+  font-size: 20px;
+  color: #323232;
+`;
+
+export const MainButton = styled.button`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: 54px;
+  padding: 14px 18px;
   box-sizing: border-box;
-  text-align: left;
-  font-size: 24px;
+  border-radius: 10px;
+  background-color: #f2f2f2;
+  font-size: 20px;
   color: #818181;
+  text-align: left;
   transition: 0.3s;
 
   &:hover {
@@ -100,41 +130,45 @@ export const MainButton = styled.button`
   }
 `;
 
-//RegisterFirst
-export const Choicebox = styled.div`
-  width: 478px;
-  height: 298px;
-  margin: 20px;
-  position: relative;
+//RegisterSecond
+export const PrimaryInput = styled.input`
+  width: auto;
+  border: none;
+  border-radius: 10px;
+  background-color: #f8f8f8;
+  height: 68px;
+  padding-left: 24px;
+  font-size: 16px;
+
+  &::placeholder {
+    color: gray;
+  }
+
+  &:focus {
+    outline: none;
+  }
+`;
+
+export const ContentInput = styled.textarea`
+  width: auto;
+  border: none;
+  border-radius: 10px;
+  background-color: #f8f8f8;
+  height: 260px;
+  padding: 24px 0 0 24px;
+  font-size: 16px;
+
+  &::placeholder {
+    color: gray;
+  }
+
+  &:focus {
+    outline: none;
+  }
+`;
+
+export const CategoryCheck = styled(IoMdCheckmark)`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: ${({ isSelected }) => (isSelected ? '#2F7CEF' : '#F2F2F2')};
-  color: ${({ isSelected }) => (isSelected ? '#FFFFFF' : '#323232')};
-  filter: ${({ isSelected }) =>
-    isSelected ? 'grayscale(0%)' : 'grayscale(100%)'};
-  border-radius: 16px;
-  transition: all 0.5s;
-  cursor: pointer;
-`;
-
-export const FlexWrapper = styled.div`
-  display: flex;
-  margin: 20px 0;
-  gap: 15px;
-  align-items: center;
-`;
-
-export const EventRadio = styled.input.attrs({ type: 'radio' })`
-  margin: 0;
-  padding: 10px;
-  color: blue;
-`;
-
-export const CustomImage = styled.img`
-  position: relative;
-  max-width: 70%;
-  overflow: hidden;
-  height: 168px;
+  margin: 0 5px;
+  color: #5bfb67;
 `;

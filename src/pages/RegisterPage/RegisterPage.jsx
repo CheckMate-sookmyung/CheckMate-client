@@ -3,7 +3,6 @@ import { useRecoilValue } from 'recoil';
 import { RegisterStep } from '../../recoil/atoms/state';
 import RegisterFirst from './PageComponents/RegisterFirst';
 import RegisterSecond from './PageComponents/RegisterSecond';
-import RegisterSideBar from './RegisterComponents/RegisterSideBar';
 
 const RegisterPage = () => {
   const Step = useRecoilValue(RegisterStep);
