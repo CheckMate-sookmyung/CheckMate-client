@@ -42,21 +42,25 @@ const EventCardListPage = () => {
   }, []);
 
   return (
-    <S.EventCardListPage>
-      <Dropdown />
-      <S.EventCardList>
-        {events.map((event) => (
-          <EventCard
-            key={event.id}
-            id={event.id}
-            title={event.title}
-            startDate={event.startDate.toLocaleDateString()}
-            endDate={event.endDate ? event.endDate.toLocaleDateString() : null}
-            poster={event.poster}
-          />
-        ))}
-      </S.EventCardList>
-    </S.EventCardListPage>
+    <S.Container>
+      <S.EventCardListPage>
+        <Dropdown />
+        <S.EventCardList>
+          {events.map((event) => (
+            <EventCard
+              key={event.id}
+              id={event.id}
+              title={event.title}
+              startDate={event.startDate.toLocaleDateString()}
+              endDate={
+                event.endDate ? event.endDate.toLocaleDateString() : null
+              }
+              poster={event.poster}
+            />
+          ))}
+        </S.EventCardList>
+      </S.EventCardListPage>
+    </S.Container>
   );
 };
 

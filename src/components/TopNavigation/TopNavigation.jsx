@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
-import * as S from './Navigator.style';
+import * as S from './TopNavigation.style';
 import { useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '@/recoil/atoms/state';
 import { USER_ID } from '@/constants';
 import { axiosInstance } from '@/axios';
 import { FaBars, FaCircleUser } from 'react-icons/fa6';
-import Sidebar from './Sidebar';
+import { Sidebar } from '@/components';
 import { BREAKPOINTS } from '@/styles';
 
-export default function Navigator() {
+export default function TopNavigation() {
   const location = useLocation();
   const [parsedEvent, setParsedEvent] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -64,44 +64,46 @@ export default function Navigator() {
   }, []);
 
   return (
-    <S.Navigator>
-      <S.LogoMenuWrapper>
-        <S.Logo to="/">
-          <img src="img/CheckMateBlue.svg" alt="CheckMate Logo" />
-        </S.Logo>
+    <S.Top>
+      <S.TopNavigation>
+        <S.LogoMenuWrapper>
+          <S.Logo to="/">
+            <img src="img/CheckMateBlue.svg" alt="CheckMate Logo" />
+          </S.Logo>
 
-        {/* 메뉴 */}
-        <S.MenuContainer>
-          <S.Menu to="/register" activeClassName="active">
-            행사 등록
-          </S.Menu>
-          <S.Menu to="/event" activeClassName="active">
-            행사 목록
-          </S.Menu>
-          {location.pathname.startsWith('/event/dashboard') && (
-            <S.PageNameWrapper>
-              {parsedEvent && <S.PageName>{parsedEvent.title}</S.PageName>}
-            </S.PageNameWrapper>
-          )}
-          <S.Menu to="/stats" activeClassName="active">
-            통계
-          </S.Menu>
-        </S.MenuContainer>
-      </S.LogoMenuWrapper>
+          {/* 메뉴 */}
+          <S.MenuContainer>
+            <S.Menu to="/register" activeClassName="active">
+              행사 등록
+            </S.Menu>
+            <S.Menu to="/event" activeClassName="active">
+              행사 목록
+            </S.Menu>
+            {location.pathname.startsWith('/event/dashboard') && (
+              <S.PageNameWrapper>
+                {parsedEvent && <S.PageName>{parsedEvent.title}</S.PageName>}
+              </S.PageNameWrapper>
+            )}
+            <S.Menu to="/stats" activeClassName="active">
+              통계
+            </S.Menu>
+          </S.MenuContainer>
+        </S.LogoMenuWrapper>
 
-      <S.ProfileMenuWrapper>
-        <S.ProfileIconWrapper>
-          <FaCircleUser />
-        </S.ProfileIconWrapper>
-        <S.MenuIconWrapper>
-          <FaBars onClick={toggleSidebar} />
-        </S.MenuIconWrapper>
-      </S.ProfileMenuWrapper>
+        <S.ProfileMenuWrapper>
+          <S.ProfileIconWrapper>
+            <FaCircleUser />
+          </S.ProfileIconWrapper>
+          <S.MenuIconWrapper>
+            <FaBars onClick={toggleSidebar} />
+          </S.MenuIconWrapper>
+        </S.ProfileMenuWrapper>
 
-      <S.Sidebar isOpen={isSidebarOpen}>
-        <Sidebar />
-      </S.Sidebar>
-      {isSidebarOpen && <S.Dim onClick={handleDimClick} />}
-    </S.Navigator>
+        <S.Sidebar isOpen={isSidebarOpen}>
+          <Sidebar />
+        </S.Sidebar>
+        {isSidebarOpen && <S.Dim onClick={handleDimClick} />}
+      </S.TopNavigation>{' '}
+    </S.Top>
   );
 }
