@@ -1,4 +1,3 @@
-import React from 'react';
 import * as S from './Home.Style';
 import Footer from '@/components/Footer/Footer';
 import { Button } from '@/components/Button';
@@ -7,7 +6,6 @@ const HomePage = () => {
   return (
     <S.Container>
       <S.Home>
-        {/* <S.Container src="/img/HomeBackground.png" /> */}
         {/* 기본 화면 */}
         <S.FirstLayer>
           <img src="/img/onboarding-diagram1.svg" />
@@ -88,6 +86,7 @@ const HomePage = () => {
 
         {/* 간편하게 등록하는 행사 */}
         <S.FourthLayer>
+          {/* <img src="/img/onboarding-diagram2.svg" /> */}
           <S.FourthLayerContent>
             <S.OnboardTitle>간편하게 등록하는 행사</S.OnboardTitle>
             <S.OnboardContent>

@@ -17,27 +17,52 @@ export const Home = styled.div`
 export const FirstLayer = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   position: relative;
   width: 100%;
-  height: 600px;
+  height: 700px;
   background-color: var(--blue-0, #2f7cef);
 
   & > img {
     justify-content: center;
-    height: 1600px;
+    width: 1300px;
+    object-fit: cover;
+  }
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    height: 600px;
+    align-items: center;
+
+    & > img {
+      width: 1000px;
+    }
+  }
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    height: 600px;
+    align-items: center;
+
+    & > img {
+      width: 600px;
+    }
   }
 `;
 
 export const ComponentsWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: start;
   position: absolute;
-  top: 36px;
-  left: 72px;
+  padding: 20px;
+  width: 100%;
+  max-width: 1100px;
 
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    justify-content: center;
+    padding-top: 100px;
+  }
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    top: 0;
-    left: 30px;
+    justify-content: center;
+    padding-top: 180px;
   }
 `;
 
@@ -50,11 +75,10 @@ export const Logo = styled.div`
     width: 100%;
     height: 100%;
   }
-  /* @media (max-width: ${BREAKPOINTS[0]}px) {
+  @media (max-width: ${BREAKPOINTS[0]}px) {
     width: 150px;
     height: 110px;
-    margin: 0;
-  } */
+  }
 `;
 
 // 체크메이트 지난 사용자
@@ -67,7 +91,7 @@ export const SecondLayer = styled.div`
     #2f7cef 6.77%,
     rgba(47, 124, 239, 0) 95.41%
   );
-  height: 660px;
+  height: 700px;
   gap: 40px;
 `;
 
@@ -105,7 +129,11 @@ export const CardWrapper = styled.div`
   gap: 30px;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
+    gap: 20px;
+  }
+  @media (max-width: ${BREAKPOINTS[0]}px) {
     flex-direction: column;
+    gap: 20px;
   }
 `;
 
@@ -125,14 +153,19 @@ export const BlueCard = styled.div`
   font-weight: 600;
   text-align: left;
 
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    width: 300px;
+    height: 150px;
+    font-size: 18px;
+    padding: 10px;
+    line-height: 25px;
+  }
   @media (max-width: ${BREAKPOINTS[0]}px) {
     width: 200px;
     height: 150px;
     font-size: 18px;
     padding: 10px;
     line-height: 25px;
-    font-weight: 600;
-    text-align: left;
   }
 `;
 
@@ -160,6 +193,10 @@ export const ThirdLayerContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 50px;
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    gap: 30px;
+  }
 `;
 
 export const ThirdLayerDecs = styled.div`
@@ -267,8 +304,12 @@ export const BoldNum = styled.p`
   text-align: left;
   bottom: 42px;
 
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    font-size: 38px;
+    bottom: 30px;
+  }
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    font-size: 40px;
+    font-size: 30px;
     bottom: 22px;
   }
 `;
@@ -278,6 +319,10 @@ export const ImgBox = styled.img`
   display: flex;
   height: 400px;
 
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    /* width: 200px; */
+    height: 300px;
+  }
   @media (max-width: ${BREAKPOINTS[0]}px) {
     width: 200px;
     height: 200px;
@@ -288,6 +333,11 @@ export const OnboardTitle = styled.h2`
   font-size: 28px;
   font-weight: 600;
   color: #000;
+  line-height: 1.2;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    font-size: 24px;
+  }
 `;
 
 export const OnboardContent = styled.p`
