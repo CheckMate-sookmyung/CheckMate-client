@@ -86,7 +86,6 @@ const HomePage = () => {
 
         {/* 간편하게 등록하는 행사 */}
         <S.FourthLayer>
-          {/* <img src="/img/onboarding-diagram2.svg" /> */}
           <S.FourthLayerContent>
             <S.OnboardTitle>간편하게 등록하는 행사</S.OnboardTitle>
             <S.OnboardContent>
@@ -100,6 +99,7 @@ const HomePage = () => {
 
         {/* 손쉬운 출석 관리 */}
         <S.FifthLayer>
+          <S.BackgroundDiagram src="/img/onboarding-diagram2.svg" />
           <S.ImgBox src="/img/ThirdOnboarding.png" />
           <S.FourthLayerContent>
             <S.OnboardTitle>손쉬운 출석 관리</S.OnboardTitle>

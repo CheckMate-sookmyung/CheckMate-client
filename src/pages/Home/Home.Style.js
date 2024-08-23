@@ -9,6 +9,7 @@ export const Container = styled.div`
 export const Home = styled.div`
   display: flex;
   flex-direction: column;
+  position: absolute;
   width: 100%;
   margin: 0 auto;
 `;
@@ -93,6 +94,10 @@ export const SecondLayer = styled.div`
   );
   height: 700px;
   gap: 40px;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    gap: 20px;
+  }
 `;
 
 export const SecondLayerTitleWrapper = styled.div`
@@ -107,10 +112,10 @@ export const GreenCheckImg = styled.img`
   width: 48px;
   height: 40px;
 
-  /* @media (max-width: ${BREAKPOINTS[0]}px) {
+  @media (max-width: ${BREAKPOINTS[0]}px) {
     margin-top: 32px;
     margin-bottom: 22px;
-  } */
+  }
 `;
 
 export const SecondLayerTitle = styled.h2`
@@ -239,6 +244,29 @@ export const FifthLayer = styled.div`
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
     flex-direction: column;
+  }
+`;
+
+export const BackgroundDiagram = styled.img`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 1400px;
+  height: 1800px;
+  bottom: 200px;
+  z-index: -1;
+  object-fit: cover;
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    width: 1000px;
+    height: 1400px;
+    bottom: 400px;
+  }
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    width: 500px;
+    height: 900px;
+    bottom: 600px;
   }
 `;
 
