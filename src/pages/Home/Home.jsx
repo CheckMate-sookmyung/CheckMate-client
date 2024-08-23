@@ -1,6 +1,7 @@
 import * as S from './Home.Style';
 import Footer from '@/components/Footer/Footer';
 import { Button } from '@/components/Button';
+import { Link } from 'react-router-dom';
 
 const HomePage = () => {
   return (
@@ -16,16 +17,20 @@ const HomePage = () => {
             <S.Description>행사 관리 시스템을 더 쉽고 간편하게,</S.Description>
             <S.Description>언제 어디서나 체크메이트와 함께</S.Description>
             <S.ButtonWrapper>
-              <Button
-                label="행사 등록하러 가기"
-                backgroundColor="#5BFB67"
-                textColor="#323232"
-              />
-              <Button
-                label="행사 보러가기"
-                backgroundColor="#FFF"
-                textColor="#323232"
-              />
+              <Link to="register">
+                <Button
+                  label="행사 등록하러 가기"
+                  backgroundColor="#5BFB67"
+                  textColor="#323232"
+                />
+              </Link>
+              <Link to="event">
+                <Button
+                  label="행사 보러가기"
+                  backgroundColor="#FFF"
+                  textColor="#323232"
+                />{' '}
+              </Link>
             </S.ButtonWrapper>
           </S.ComponentsWrapper>
         </S.FirstLayer>
@@ -80,7 +85,9 @@ const HomePage = () => {
                 </S.OnboardContent>
               </S.FlexBox>
             </S.ThirdLayerDecs>
-            <Button label="무료로 시작하기" />
+            <Link to="event">
+              <Button label="무료로 시작하기" />
+            </Link>
           </S.ThirdLayerContent>
         </S.ThirdLayer>
 
@@ -92,7 +99,9 @@ const HomePage = () => {
               행사가 온 오프라인으로 열리는지 선택하고 <br /> 선택한 이벤트의
               제목과 날짜를 선택하면 행사 페이지를 완성할 수 있어요
             </S.OnboardContent>
-            <S.SeeMore>더 알아보기 →</S.SeeMore>
+            <Link to="register">
+              <S.SeeMore>더 알아보기 →</S.SeeMore>
+            </Link>
           </S.FourthLayerContent>
           <S.ImgBox src="/img/SecondOnboarding.png" />
         </S.FourthLayer>
@@ -108,7 +117,9 @@ const HomePage = () => {
               <br />
               행사에 출석체크할 수 있어요
             </S.OnboardContent>
-            <S.SeeMore>더 알아보기 →</S.SeeMore>
+            <Link to="event">
+              <S.SeeMore>더 알아보기 →</S.SeeMore>
+            </Link>
           </S.FourthLayerContent>
         </S.FifthLayer>
 
@@ -121,7 +132,9 @@ const HomePage = () => {
               체크메이트에서 제공하는 그래프를 통해
               <br /> 행사 통계를 한눈에 살펴보고 데이터를 관리할 수 있어요
             </S.OnboardContent>
-            <S.SeeMore>더 알아보기 →</S.SeeMore>
+            <Link to="stats">
+              <S.SeeMore>더 알아보기 →</S.SeeMore>
+            </Link>
           </S.FourthLayerContent>
         </S.SixthLayer>
         <Footer />
