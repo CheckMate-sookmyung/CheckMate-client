@@ -53,20 +53,6 @@ export const ContentTitle = styled.div`
   font-size: 18px;
 `;
 
-export const ContentInput = styled.input`
-  background: #ffffff;
-  border: 1px solid #c4c8cc;
-  box-sizing: border-box;
-  border-radius: 8px;
-  padding: 14px 16px;
-  width: 100%;
-  font-size: 16px;
-  line-height: 19px;
-  color: #2c2d2e;
-`;
-
-export const ContentInputText = styled.p``;
-
 // 토글
 export const ToggleContainer = styled.div`
   display: flex;

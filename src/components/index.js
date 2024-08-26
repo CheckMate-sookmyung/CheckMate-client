@@ -7,5 +7,6 @@ export { Button } from './Button';
 export { Dropdown } from './Dropdown';
 export { EventCard } from './EventCard';
 export { EventTargetOption } from './EventTargetOption';
+export { Input } from './Input';
 export { TopNavigation } from './TopNavigation';
 export { Sidebar } from './Sidebar';
