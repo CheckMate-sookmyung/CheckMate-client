@@ -100,57 +100,6 @@ export const EventTargetContainer = styled.div`
   gap: 4px;
 `;
 
-export const EventTarget = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 7px;
-  gap: 10px;
-  border-radius: 8px;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #f0f0f0;
-  }
-`;
-
-export const EventTargetRadioButton = styled.input`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #ffffff;
-  margin: 0;
-  border: 1px solid #2253ff;
-  border-radius: 50px;
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-
-  &:checked::before {
-    width: 10px;
-    height: 10px;
-    background: #4e75ff;
-    border-radius: 50%;
-  }
-`;
-
-export const EventTargetWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-`;
-
-export const EventTargetTitle = styled.p`
-  font-size: 16px;
-  font-weight: bold;
-  line-height: 19px;
-  color: #2c2d2e;
-`;
-
-export const EventTargetDescription = styled.span`
-  font-size: 14px;
-  color: #76787a;
-`;
-
 // 행사 일정 선택
 export const DateTimeContainer = styled.div`
   display: flex;
