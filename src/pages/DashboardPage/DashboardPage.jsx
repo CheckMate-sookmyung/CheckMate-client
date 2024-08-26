@@ -1,8 +1,7 @@
 import * as S from './DashboardPage.style';
 import { useState, useEffect } from 'react';
 import PageLayout from '@/Layout/PageLayout';
-import { FaRotate, FaUsers } from 'react-icons/fa6';
-import { Sidebar, Button } from '@/components';
+import { Sidebar } from '@/components';
 import { USER_ID } from '@/constants';
 import { eventIDState } from '@/recoil/atoms/state';
 import { useRecoilValue } from 'recoil';
@@ -82,8 +81,8 @@ export default function DashboardPage() {
           const firstSchedule = schedules[0];
           const lastSchedule = schedules[schedules.length - 1];
 
-          const firstScheduleStartDate = new Date(
-            `${firstSchedule.date}T00:00:00`,
+          const firstScheduleStartDateTime = new Date(
+            `${firstSchedule.date}T${firstSchedule.startTime}`,
           );
           const lastScheduleEndDateTime = new Date(
             `${lastSchedule.date}T${lastSchedule.endTime}`,
@@ -91,8 +90,7 @@ export default function DashboardPage() {
 
           if (now > lastScheduleEndDateTime) {
             setEventStatus('종료');
-            // await sendAttendanceList();
-          } else if (now < firstScheduleStartDate) {
+          } else if (now < firstScheduleStartDateTime) {
             setEventStatus('예정');
           } else {
             setEventStatus('진행중');
@@ -112,22 +110,6 @@ export default function DashboardPage() {
 
     fetchData();
   }, [EVENT_ID]);
-
-  // 출석명단 자동 전송
-  // const sendAttendanceList = async () => {
-  //   try {
-  //     const response = await axiosInstance.get(
-  //       `/api/v1/attendance/list/sending/${USER_ID}/${EVENT_ID}`,
-  //     );
-  //     if (response.data.isSuccess) {
-  //       console.log('출석 명단이 성공적으로 전송되었습니다.');
-  //     } else {
-  //       console.error('출석 명단 전송 실패:', response.data.message);
-  //     }
-  //   } catch (error) {
-  //     console.error('출석 명단 전송 중 오류:', error);
-  //   }
-  // };
 
   // 행사 삭제
   const DeleteEvent = async () => {
@@ -232,94 +214,180 @@ export default function DashboardPage() {
               <S.EventTitle>{parsedEvents.title}</S.EventTitle>
               <S.Badge status={eventStatus}>{eventStatus}</S.Badge>
             </S.EventTitleWrapper>
+            <S.ButtonContainer>
+              {/* <S.StyledLink to="/event/dashboard/info"></S.StyledLink> */}
+            </S.ButtonContainer>
           </S.TopContainer>
 
           {/* 행사 정보 */}
           <S.ContentContainer>
             <S.OverviewContainer>
-              <S.ContentBoxWrapper>
-                <S.ContentBoxTitle>행사 개요</S.ContentBoxTitle>
-                <S.ContentBox>
-                  <S.ContentBoxInfo>
-                    <S.ContentBoxSubTitle>이벤트 형식</S.ContentBoxSubTitle>
-                    <S.ContentBoxDetail>
-                      {`${getEventTypeLabel(parsedEvents.eventType)} | ${getEventTargetLabel(parsedEvents.eventTarget)}`}
-                    </S.ContentBoxDetail>
-                  </S.ContentBoxInfo>
-
-                  <S.ContentBoxInfo>
-                    <S.ContentBoxSubTitle>이벤트 일정</S.ContentBoxSubTitle>
+              <S.ContentBox>
+                <S.ContentTitleWrapper>
+                  <S.ContentTitle>행사 개요</S.ContentTitle>
+                </S.ContentTitleWrapper>
+                <S.ContentInfoWrapper>
+                  <S.EventTypeWrapper>
+                    <S.EventType>
+                      {getEventTypeLabel(parsedEvents.eventType)}
+                    </S.EventType>
+                    <S.EventTarget>
+                      {getEventTargetLabel(parsedEvents.eventTarget)}
+                    </S.EventTarget>
+                  </S.EventTypeWrapper>
+                  <S.EventDateWrapper>
                     {parsedEvents.schedules.map((schedule, index) => (
-                      <S.ContentBoxDetail key={index}>
-                        {`${schedule.date} (${schedule.startTime} - ${schedule.endTime})`}
-                      </S.ContentBoxDetail>
+                      <S.EventDate key={index}>
+                        {`• ${schedule.date} (${schedule.startTime} - ${schedule.endTime})`}
+                      </S.EventDate>
                     ))}
-                  </S.ContentBoxInfo>
-                </S.ContentBox>
-              </S.ContentBoxWrapper>
+                  </S.EventDateWrapper>
+                </S.ContentInfoWrapper>
+              </S.ContentBox>
 
-              <S.ContentBoxWrapper>
-                <S.ContentBoxTitle>담당자</S.ContentBoxTitle>
-                <S.ContentBox>
-                  <S.ContentBoxInfo>
-                    <S.ContentBoxSubTitle>담당자 명</S.ContentBoxSubTitle>
-                    <S.ContentBoxDetail>김담당 </S.ContentBoxDetail>
-                  </S.ContentBoxInfo>
+              <S.ContentBox>
+                <S.ContentTitleWrapper>
+                  <S.Tooltip>
+                    <S.ContentTitle>담당자</S.ContentTitle>
+                    <S.TooltipText className="tooltiptext">
+                      해당 연락처로 참석자들에게 문자와 메일이 발송됩니다.
+                    </S.TooltipText>
+                  </S.Tooltip>
+                  <S.AddContactButton onClick={handleAddContact}>
+                    {isEditing
+                      ? '저장'
+                      : contacts.name || contacts.phone || contacts.email
+                        ? '수정'
+                        : '입력'}
+                  </S.AddContactButton>
+                </S.ContentTitleWrapper>
+                <S.ContentInfoWrapper>
+                  {isEditing ? (
+                    <>
+                      <S.ContactIconInputWrapper>
+                        <S.ContactIconWrapper>
+                          <S.StyledUserIcon />
+                        </S.ContactIconWrapper>
+                        <S.ContactInputWrapper>
+                          <S.ContactInput
+                            type="text"
+                            name="name"
+                            placeholder="담당자 이름"
+                            value={contacts.name}
+                            onChange={handleInputChange}
+                          />
+                          {nameError && (
+                            <S.ContactCheck>
+                              이름을 입력해 주세요.
+                            </S.ContactCheck>
+                          )}
+                        </S.ContactInputWrapper>
+                      </S.ContactIconInputWrapper>
 
-                  <S.ContentBoxInfo>
-                    <S.ContentBoxSubTitle>담당자 연락망</S.ContentBoxSubTitle>
-                    <S.ContentBoxDetail>연락처 </S.ContentBoxDetail>
-                  </S.ContentBoxInfo>
-                </S.ContentBox>
-              </S.ContentBoxWrapper>
+                      <S.ContactIconInputWrapper>
+                        <S.ContactIconWrapper>
+                          <S.StyledPhoneIcon />
+                        </S.ContactIconWrapper>
+                        <S.ContactInputWrapper>
+                          <S.ContactInput
+                            type="text"
+                            name="phone"
+                            placeholder="핸드폰 번호 ex) 010-1234-5678"
+                            value={contacts.phone}
+                            onChange={handleInputChange}
+                          />
+                          {phoneError && (
+                            <S.ContactCheck>
+                              휴대폰 번호 형식이 올바르지 않습니다.
+                            </S.ContactCheck>
+                          )}
+                        </S.ContactInputWrapper>
+                      </S.ContactIconInputWrapper>
+
+                      <S.ContactIconInputWrapper>
+                        <S.ContactIconWrapper>
+                          <S.StyledEnvelopeIcon />
+                        </S.ContactIconWrapper>
+                        <S.ContactInputWrapper>
+                          <S.ContactInput
+                            type="email"
+                            name="email"
+                            placeholder="이메일 ex) checkmate@sookmyung.ac.kr"
+                            value={contacts.email}
+                            onChange={handleInputChange}
+                          />
+                          {emailError && (
+                            <S.ContactCheck>
+                              이메일 형식이 올바르지 않습니다.
+                            </S.ContactCheck>
+                          )}
+                        </S.ContactInputWrapper>
+                      </S.ContactIconInputWrapper>
+                    </>
+                  ) : (
+                    <>
+                      <S.ContactIconTextWrapper>
+                        <S.ContactIconWrapper>
+                          <S.StyledUserIcon />
+                        </S.ContactIconWrapper>
+                        <S.ContactText>{contacts.name}</S.ContactText>
+                      </S.ContactIconTextWrapper>
+
+                      <S.ContactIconTextWrapper>
+                        <S.ContactIconWrapper>
+                          <S.StyledPhoneIcon />
+                        </S.ContactIconWrapper>
+                        <S.ContactText>{contacts.phone}</S.ContactText>
+                      </S.ContactIconTextWrapper>
+
+                      <S.ContactIconTextWrapper>
+                        <S.ContactIconWrapper>
+                          <S.StyledEnvelopeIcon />
+                        </S.ContactIconWrapper>
+                        <S.ContactText>{contacts.email}</S.ContactText>
+                      </S.ContactIconTextWrapper>
+                    </>
+                  )}
+                </S.ContentInfoWrapper>
+              </S.ContentBox>
             </S.OverviewContainer>
 
-            {/* 진행 현황 */}
-            <S.OverviewContainer>
-              <S.ContentBoxWrapper>
-                <S.ContentBoxTitle>행사 커버 이미지</S.ContentBoxTitle>
-                <S.ContentBox>
-                  <S.ContentBoxInfo>
-                    <S.ImageWrapper>
-                      <img src={parsedEvents.image} alt="Event Cover" />
-                    </S.ImageWrapper>
-                  </S.ContentBoxInfo>
-                </S.ContentBox>
-              </S.ContentBoxWrapper>
-            </S.OverviewContainer>
+            {/* 행사 커버 이미지 */}
+            <S.PosterImageContainer>
+              <S.ContentBox>
+                <S.ContentTitleWrapper>
+                  <S.ContentTitle>행사 커버 이미지</S.ContentTitle>
+                </S.ContentTitleWrapper>
+                <S.ImageWrapper>
+                  <img src={parsedEvents.image} alt="Event Cover" />
+                </S.ImageWrapper>
+              </S.ContentBox>
+            </S.PosterImageContainer>
           </S.ContentContainer>
 
-          <S.ContentContainer>
+          {/* 평균 참석 인원, 행사 진행 회차 */}
+          <S.ProgressContainer>
             <S.ProgressBox>
-              <S.ProgressTitle>평균 참석 인원</S.ProgressTitle>
-              <S.ProgressDesc>3회 진행 후 집계된 인원이에요</S.ProgressDesc>
+              <S.ProgressText>
+                <S.ProgressTitle>평균 참석 인원</S.ProgressTitle>
+                <S.ProgressDescription>
+                  3회 진행 후 집계된 인원이에요
+                </S.ProgressDescription>
+              </S.ProgressText>
               <S.ProgressNumber>
-                <strong>{averageAttendance}</strong>
-                {' / '}
-                {parsedEvents.totalParticipants}
+                <em>12.2</em> / 20
               </S.ProgressNumber>
             </S.ProgressBox>
 
             <S.ProgressBox>
-              <S.ProgressTitle>행사 진행 회차</S.ProgressTitle>
+              <S.ProgressText>
+                <S.ProgressTitle>행사 진행 회차</S.ProgressTitle>
+              </S.ProgressText>
               <S.ProgressNumber>
-                <strong>{completedSessions}</strong>
-                {' / '}
-                {parsedEvents.totalSessions}
+                <em>3</em> / 6
               </S.ProgressNumber>
             </S.ProgressBox>
-          </S.ContentContainer>
-
-          <S.ButtonContainer>
-            <S.StyledLink to="/event/dashboard/info">
-              <Button label={'행사 수정'} />
-            </S.StyledLink>
-            <Button
-              label="행사 삭제"
-              backgroundColor="#F2F2F2"
-              textColor="#F92828"
-            />
-          </S.ButtonContainer>
+          </S.ProgressContainer>
         </S.DashboardPage>
       )}
     </PageLayout>
