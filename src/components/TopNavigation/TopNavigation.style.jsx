@@ -2,18 +2,14 @@ import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { BREAKPOINTS } from '../../styles';
 
-export const Top = styled.div`
-  border-bottom: 1px solid #ebedf0;
-`;
-
 export const TopNavigation = styled.div`
+  border-bottom: 1px solid #ebedf0;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
   padding: 10px 30px;
   width: 100%;
-  max-width: 1100px;
   background-color: white;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
