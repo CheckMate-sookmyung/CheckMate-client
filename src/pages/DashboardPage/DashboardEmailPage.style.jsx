@@ -31,10 +31,6 @@ export const Title = styled.h1`
   font-weight: bold;
 `;
 
-export const ButtonContainer = styled.div`
-  display: flex;
-`;
-
 // 탭정보
 export const TabContainer = styled.div`
   display: flex;
@@ -81,4 +77,12 @@ export const ContentInput = styled.textarea`
   padding: 10px;
   font-size: 14px;
   overflow: auto;
+`;
+
+// 버튼 스타일
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 0;
+  gap: 10px;
 `;

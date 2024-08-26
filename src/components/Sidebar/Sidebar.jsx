@@ -24,7 +24,7 @@ const menuItems = [
   {
     to: '/event/dashboard/email',
     icon: <FaEnvelopeCircleCheck />,
-    text: '이메일 예약 발송',
+    text: '카카오톡 예약 발송',
   },
   { to: '/event/dashboard/attendee', icon: <FaUsers />, text: '참석자 관리' },
   {

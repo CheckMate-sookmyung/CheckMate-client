@@ -116,9 +116,6 @@ export default function DashboardEmailPage() {
       <S.DashboardEmail>
         <S.TopContainer>
           <S.Title>카카오톡 예약 발송</S.Title>
-          <S.ButtonContainer>
-            <Button label={'저장하기'} />
-          </S.ButtonContainer>
         </S.TopContainer>
 
         <S.TabContainer>
@@ -162,6 +159,10 @@ export default function DashboardEmailPage() {
             </S.Content>
           )}
         </S.ContentContainer>
+
+        <S.ButtonContainer>
+          <Button label={'저장하기'} />
+        </S.ButtonContainer>
       </S.DashboardEmail>
     </PageLayout>
   );
