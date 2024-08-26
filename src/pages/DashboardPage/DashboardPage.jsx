@@ -1,12 +1,12 @@
 import * as S from './DashboardPage.style';
 import { useState, useEffect } from 'react';
 import PageLayout from '@/Layout/PageLayout';
-import { Sidebar } from '@/components';
+import { Button, Sidebar } from '@/components';
 import { USER_ID } from '@/constants';
 import { eventIDState } from '@/recoil/atoms/state';
 import { useRecoilValue } from 'recoil';
 import { axiosInstance } from '@/axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function DashboardPage() {
   const [parsedEvents, setParsedEvents] = useState(null);
@@ -210,13 +210,8 @@ export default function DashboardPage() {
       {parsedEvents && (
         <S.DashboardPage>
           <S.TopContainer>
-            <S.EventTitleWrapper>
-              <S.EventTitle>{parsedEvents.title}</S.EventTitle>
-              <S.Badge status={eventStatus}>{eventStatus}</S.Badge>
-            </S.EventTitleWrapper>
-            <S.ButtonContainer>
-              {/* <S.StyledLink to="/event/dashboard/info"></S.StyledLink> */}
-            </S.ButtonContainer>
+            <S.EventTitle>{parsedEvents.title}</S.EventTitle>
+            <S.Badge status={eventStatus}>{eventStatus}</S.Badge>
           </S.TopContainer>
 
           {/* 행사 정보 */}
@@ -247,12 +242,12 @@ export default function DashboardPage() {
 
               <S.ContentBox>
                 <S.ContentTitleWrapper>
-                  <S.Tooltip>
+                  <S.ContactTextWrapper>
                     <S.ContentTitle>담당자</S.ContentTitle>
-                    <S.TooltipText className="tooltiptext">
-                      해당 연락처로 참석자들에게 문자와 메일이 발송됩니다.
-                    </S.TooltipText>
-                  </S.Tooltip>
+                    <S.ContactDescription>
+                      해당 연락처로 참석자 명단이 발송돼요
+                    </S.ContactDescription>
+                  </S.ContactTextWrapper>
                   <S.AddContactButton onClick={handleAddContact}>
                     {isEditing
                       ? '저장'
@@ -375,7 +370,7 @@ export default function DashboardPage() {
                 </S.ProgressDescription>
               </S.ProgressText>
               <S.ProgressNumber>
-                <em>12.2</em> / 20
+                <em>{averageAttendance}</em> / {parsedEvents.totalParticipants}
               </S.ProgressNumber>
             </S.ProgressBox>
 
@@ -384,10 +379,22 @@ export default function DashboardPage() {
                 <S.ProgressTitle>행사 진행 회차</S.ProgressTitle>
               </S.ProgressText>
               <S.ProgressNumber>
-                <em>3</em> / 6
+                <em>{completedSessions}</em> / {parsedEvents.totalSessions}
               </S.ProgressNumber>
             </S.ProgressBox>
           </S.ProgressContainer>
+
+          <S.ButtonContainer>
+            <Link to="/event/dashboard/info">
+              <Button label={'행사 수정'} />
+            </Link>
+            <Button
+              onClick={DeleteEvent}
+              label={'행사 삭제'}
+              backgroundColor="#F2F2F2"
+              textColor="#F92828"
+            />
+          </S.ButtonContainer>
         </S.DashboardPage>
       )}
     </PageLayout>

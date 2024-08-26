@@ -9,7 +9,7 @@ export const DashboardPage = styled.div`
   flex-grow: 1;
   border-left: 1px solid #ebedf0;
   padding: 50px;
-  gap: 10px;
+  gap: 12px;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     padding: 20px;
@@ -19,8 +19,9 @@ export const DashboardPage = styled.div`
 // 행사 타이틀 + 버튼
 export const TopContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 30px;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
     flex-direction: column;
@@ -32,20 +33,9 @@ export const TopContainer = styled.div`
   }
 `;
 
-export const ButtonContainer = styled.div`
-  display: flex;
-  gap: 10px;
-`;
-
 export const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
-`;
-
-export const EventTitleWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
 `;
 
 export const EventTitle = styled.h1`
@@ -83,7 +73,7 @@ export const Badge = styled.span`
 // 행사 정보
 export const ContentContainer = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 12px;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
     flex-direction: column;
@@ -93,7 +83,7 @@ export const ContentContainer = styled.div`
 export const OverviewContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   width: 100%;
 `;
 
@@ -114,11 +104,22 @@ export const ContentTitleWrapper = styled.div`
   border-bottom: 1px solid var(--gray-200, #d9d9d9);
 `;
 
+export const ContactTextWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
 export const ContentTitle = styled.h3`
   line-height: 19px;
   color: var(--gray-400, #212121);
   font-weight: bold;
   font-size: 16px;
+`;
+
+export const ContactDescription = styled.p`
+  color: var(--DG-2, #818181);
+  font-size: 14px;
 `;
 
 export const AddContactButton = styled.button`
@@ -252,12 +253,13 @@ export const ImageWrapper = styled.div`
   align-items: center;
   padding: 20px 0;
   width: 100%;
-  height: 100%;
+  max-height: 300px;
 
   img {
     display: block;
     width: 70%;
     object-fit: contain;
+    height: 100%;
   }
 `;
 
@@ -295,7 +297,7 @@ export const ProgressText = styled.div`
 `;
 
 export const ProgressTitle = styled.h2`
-  color: var(--DG-2, #818181);
+  color: var(--gray-400, #212121);
 `;
 
 export const ProgressDescription = styled.p`
@@ -359,4 +361,12 @@ export const TooltipText = styled.div`
     border-style: solid;
     border-color: transparent transparent #333 transparent;
   }
+`;
+
+// 버튼 스타일
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 0;
+  gap: 10px;
 `;

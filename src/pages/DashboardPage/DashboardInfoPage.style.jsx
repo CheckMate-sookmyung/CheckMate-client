@@ -18,7 +18,7 @@ export const TopContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     margin-bottom: 10px;
@@ -31,17 +31,11 @@ export const Title = styled.h1`
   line-height: 29px;
 `;
 
-export const ButtonContainer = styled.div`
-  display: flex;
-  gap: 10px;
-`;
-
 // 행사 정보
 export const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 500px;
-  height: 100%;
   gap: 32px;
 `;
 
@@ -282,4 +276,11 @@ export const ImagePreview = styled.img`
   max-width: 100%;
   height: auto;
   margin-top: 10px;
+`;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 0;
+  gap: 10px;
 `;

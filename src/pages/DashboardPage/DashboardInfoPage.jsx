@@ -185,13 +185,6 @@ export default function DashboardInfoPage() {
       <S.DashboardInfo>
         <S.TopContainer>
           <S.Title>행사 기본 정보</S.Title>
-          <S.ButtonContainer>
-            <Button
-              label={'저장하기'}
-              disabled={!isChanged}
-              onClick={handleSave}
-            />
-          </S.ButtonContainer>
         </S.TopContainer>
 
         {/* 행사 정보 */}
@@ -342,6 +335,14 @@ export default function DashboardInfoPage() {
             </S.ContentDescWrapper>
           </S.Content>
         </S.ContentContainer>
+
+        <S.ButtonContainer>
+          <Button
+            label={'저장하기'}
+            disabled={!isChanged}
+            onClick={handleSave}
+          />
+        </S.ButtonContainer>
       </S.DashboardInfo>
     </PageLayout>
   );
