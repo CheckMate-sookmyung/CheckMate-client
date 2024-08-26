@@ -1,6 +1,6 @@
 import * as S from './Input.style';
 
-const Input = ({ placeholder, value, onChange, height, props }) => {
+const Input = ({ placeholder, value, onChange, props }) => {
   return (
     <S.Input
       placeholder={placeholder}

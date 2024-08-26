@@ -8,5 +8,6 @@ export { Dropdown } from './Dropdown';
 export { EventCard } from './EventCard';
 export { EventTargetOption } from './EventTargetOption';
 export { Input } from './Input';
+export { Textarea } from './Textarea';
 export { TopNavigation } from './TopNavigation';
 export { Sidebar } from './Sidebar';

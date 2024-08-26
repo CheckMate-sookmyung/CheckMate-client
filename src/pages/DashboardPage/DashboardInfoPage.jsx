@@ -1,7 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import * as S from './DashboardInfoPage.style';
 import { FaAngleRight, FaRegTrashCan, FaCircleInfo } from 'react-icons/fa6';
-import { Sidebar, Button, EventTargetOption, Input } from '@/components';
+import {
+  Sidebar,
+  Button,
+  EventTargetOption,
+  Input,
+  Textarea,
+} from '@/components';
 import { USER_ID } from '@/constants';
 import { axiosInstance } from '@/axios';
 import { useRecoilValue } from 'recoil';
@@ -296,12 +302,10 @@ export default function DashboardInfoPage() {
 
           <S.Content>
             <S.ContentTitle>행사 설명</S.ContentTitle>
-            <Input
+            <Textarea
               placeholder="행사에 대해 상세히 설명해주세요"
               value={eventDescription}
               onChange={(e) => setEventDescription(e.target.value)}
-              height="140px"
-              alignItems="start"
             />
           </S.Content>
 

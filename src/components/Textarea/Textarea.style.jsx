@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Input = styled.input`
+export const Textarea = styled.textarea`
   border: none;
   border-radius: 8px;
   background-color: #f8f8f8;
@@ -11,6 +11,7 @@ export const Input = styled.input`
   outline: none;
   transition: border-color 0.3s ease;
   box-sizing: border-box;
+  height: 100px;
 
   &::placeholder {
     color: #aaa;
