@@ -82,11 +82,14 @@ export default function DashboardAttendeePage() {
 
   // 탭 정보에 따른 명단 가져오기
   const SessionDateTab = ({ tab, activeTab, setActiveTab, date }) => {
+    const isActive = activeTab === tab;
     return (
       <Button
         key={tab}
         label={`${tab}회 (${date})`}
-        active={activeTab === tab}
+        active={isActive}
+        backgroundColor={isActive ? '#2f7cef' : '#F2F2F2'}
+        textColor={isActive ? '#fff' : '#323232'}
         onClick={() => {
           setActiveTab(tab);
           const sortedAttendees = [...sessionAttendees[tab]].sort((a, b) =>
@@ -167,7 +170,6 @@ export default function DashboardAttendeePage() {
   };
 
   // 출석 명단 메일로 전송
-  // 출석 명단 메일로 전송
   const handleSendEmail = async () => {
     const isConfirmed = window.confirm(
       '출석 명단을 이메일로 전송하시겠습니까?\n확인 버튼을 누르면 즉시 전송됩니다.',
@@ -232,6 +234,10 @@ export default function DashboardAttendeePage() {
                 key={session.tab}
                 label={`${session.tab}회 (${session.date})`}
                 active={activeTab === session.tab}
+                backgroundColor={
+                  activeTab === session.tab ? '#2f7cef' : '#F2F2F2'
+                }
+                textColor={activeTab === session.tab ? '#fff' : '#323232'}
                 onClick={() => {
                   setActiveTab(session.tab);
                   const sortedAttendees = [
