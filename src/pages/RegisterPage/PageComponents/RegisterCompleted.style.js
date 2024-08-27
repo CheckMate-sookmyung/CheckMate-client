@@ -2,6 +2,11 @@ import styled from 'styled-components';
 import { IoMdCheckmark } from 'react-icons/io';
 
 export const Wrapper = styled.div`
+  background: linear-gradient(
+    180deg,
+    rgba(47, 124, 239, 0.07),
+    rgba(255, 255, 255, 0.07)
+  );
   display: flex;
   width: 100vw;
   height: 100vh;
@@ -45,7 +50,7 @@ export const InfoBox = styled.div`
   background-color: #fff;
   border: 2px solid #accdff;
   box-sizing: border-box;
-  color: #accdff;
+  color: #2f7cef;
   font-size: 22px;
   line-height: 140%;
   padding: 20px 0;
