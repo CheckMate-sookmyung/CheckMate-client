@@ -7,7 +7,6 @@ import {
   FaArrowUpWideShort,
   FaPhone,
   FaPaperclip,
-  FaEnvelope,
   FaRegEnvelope,
 } from 'react-icons/fa6';
 import { axiosInstance } from '@/axios';
@@ -15,6 +14,7 @@ import { USER_ID } from '@/constants';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '@/recoil/atoms/state';
 import { Button, Sidebar, Dropdown } from '@/components';
+import { BsEye } from 'react-icons/bs';
 
 export default function DashboardAttendeePage() {
   const [eventTitle, setEventTitle] = useState('');
@@ -306,6 +306,7 @@ export default function DashboardAttendeePage() {
                   이메일 주소
                   <SortIcon columnKey="email" />
                 </S.TableHeader>
+                <S.TableHeader></S.TableHeader>
               </tr>
             </thead>
             <tbody>
@@ -337,6 +338,9 @@ export default function DashboardAttendeePage() {
                   <S.TableData>{data.year}</S.TableData> */}
                   <S.TableData>{data.phoneNumber}</S.TableData>
                   <S.TableData>{data.email}</S.TableData>
+                  <S.TableData>
+                    <BsEye />
+                  </S.TableData>
                 </tr>
               ))}
             </tbody>
