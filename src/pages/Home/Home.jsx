@@ -69,7 +69,7 @@ const HomePage = () => {
 
         {/* 온보딩 */}
         <S.ThirdLayer>
-          <S.ImgBox src="/img/FirstOnboarding.png" />
+          <S.ImgBox src="/img/onboarding-1.png" />
           <S.ThirdLayerContent>
             <S.OnboardTitle>
               이제 체크메이트로
@@ -113,13 +113,13 @@ const HomePage = () => {
               <S.SeeMore>더 알아보기 →</S.SeeMore>
             </Link>
           </S.FourthLayerContent>
-          <S.ImgBox src="/img/SecondOnboarding.png" />
+          <S.ImgBox src="/img/onboarding-2.png" />
         </S.FourthLayer>
 
         {/* 손쉬운 출석 관리 */}
         <S.FifthLayer>
           <S.BackgroundDiagram src="/img/onboarding-diagram2.svg" />
-          <S.ImgBox src="/img/ThirdOnboarding.png" />
+          <S.ImgBox src="/img/onboarding-3.png" />
           <S.FourthLayerContent>
             <S.OnboardTitle>손쉬운 출석 관리</S.OnboardTitle>
             <S.OnboardContent>
@@ -135,7 +135,7 @@ const HomePage = () => {
 
         {/* 한눈에 살펴보는 그래프 */}
         <S.SixthLayer>
-          <S.ImgBox src="/img/FourthOnboarding.png" />
+          <S.ImgBox src="/img/onboarding-4.png" />
           <S.FourthLayerContent>
             <S.OnboardTitle>한눈에 살펴보는 그래프</S.OnboardTitle>
             <S.OnboardContent>

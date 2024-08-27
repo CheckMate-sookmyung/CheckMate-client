@@ -1,7 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import * as S from './DashboardInfoPage.style';
 import { FaAngleRight, FaRegTrashCan, FaCircleInfo } from 'react-icons/fa6';
-import { Sidebar, Button } from '@/components';
+import {
+  Sidebar,
+  Button,
+  EventTargetOption,
+  Input,
+  Textarea,
+} from '@/components';
 import { USER_ID } from '@/constants';
 import { axiosInstance } from '@/axios';
 import { useRecoilValue } from 'recoil';
@@ -191,8 +197,8 @@ export default function DashboardInfoPage() {
         <S.ContentContainer>
           <S.Content>
             <S.ContentTitle>행사 제목</S.ContentTitle>
-            <S.ContentInput
-              type="text"
+            <Input
+              placeholder="행사 제목을 입력해주세요"
               value={eventTitle}
               onChange={(e) => setEventTitle(e.target.value)}
             />
@@ -281,42 +287,23 @@ export default function DashboardInfoPage() {
           <S.Content>
             <S.ContentTitle>행사 진행 대상</S.ContentTitle>
             <S.EventTargetContainer>
-              <S.EventTarget onClick={() => setEventTarget('INTERNAL')}>
-                <S.EventTargetRadioButton
-                  type="radio"
-                  name="eventTarget"
-                  value="INTERNAL"
-                  checked={eventTarget === 'INTERNAL'}
-                  readOnly
-                />
-                <S.EventTargetWrapper>
-                  <S.EventTargetTitle>숙명여자대학교 학생</S.EventTargetTitle>
-                  <S.EventTargetDescription>
-                    출석체크시, 학번을 입력받습니다.
-                  </S.EventTargetDescription>
-                </S.EventTargetWrapper>
-              </S.EventTarget>
-              <S.EventTarget onClick={() => setEventTarget('EXTERNAL')}>
-                <S.EventTargetRadioButton
-                  type="radio"
-                  name="eventTarget"
-                  value="EXTERNAL"
-                  checked={eventTarget === 'EXTERNAL'}
-                  readOnly
-                />
-                <S.EventTargetWrapper>
-                  <S.EventTargetTitle>외부인</S.EventTargetTitle>
-                  <S.EventTargetDescription>
-                    출석체크시, 휴대폰 번호를 입력받습니다.
-                  </S.EventTargetDescription>
-                </S.EventTargetWrapper>
-              </S.EventTarget>
+              <EventTargetOption
+                value="INTERNAL"
+                selectedValue={eventTarget}
+                onSelect={setEventTarget}
+              />
+              <EventTargetOption
+                value="EXTERNAL"
+                selectedValue={eventTarget}
+                onSelect={setEventTarget}
+              />
             </S.EventTargetContainer>
           </S.Content>
 
           <S.Content>
             <S.ContentTitle>행사 설명</S.ContentTitle>
-            <S.Textarea
+            <Textarea
+              placeholder="행사에 대해 상세히 설명해주세요"
               value={eventDescription}
               onChange={(e) => setEventDescription(e.target.value)}
             />
