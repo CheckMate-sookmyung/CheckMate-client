@@ -8,6 +8,7 @@ import {
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import BlueButton from '../RegisterComponents/Button/BlueButton';
 import Stepper from '../RegisterComponents/Stepper/Stepper';
+import EventTypeCard from '../RegisterComponents/EventTypeCard/EventTypeCard';
 
 const RegisterFirst = () => {
   const Step = useSetRecoilState(RegisterStep);
@@ -30,16 +31,6 @@ const RegisterFirst = () => {
     <>
       <S.Container>
         <S.SubContainer>
-          <Stepper />
-          <S.FlexWrapper>
-            <S.SubFont style={{ color: '#6b6b6b' }}>이벤트 유형</S.SubFont>
-            <BlueButton
-              contents={
-                eventType == 'OFFLINE' ? '오프라인 행사' : '온라인 행사'
-              }
-              s
-            />
-          </S.FlexWrapper>
           <S.ContentBox>
             <S.FlexWrapper>
               <BlueButton contents={'진행 방식'} />
@@ -52,29 +43,7 @@ const RegisterFirst = () => {
             <S.SubFont>
               다른 라이브 스트리밍 플랫폼을 활용하여 행사를 진행합니다.
             </S.SubFont>
-            <S.FlexWrapper>
-              <S.Choicebox
-                onClick={() => handleEventType('ONLINE')}
-                isSelected={eventType === 'ONLINE'}
-              >
-                <S.FlexWrapper>
-                  <S.Category>온라인 행사</S.Category>
-                  <S.CategoryMini>On-line Event</S.CategoryMini>
-                </S.FlexWrapper>
-                <S.CustomImage src="img/ONLINE.svg" alt="" />
-              </S.Choicebox>
-              <S.Choicebox
-                onClick={() => handleEventType('OFFLINE')}
-                isSelected={eventType === 'OFFLINE'}
-              >
-                <S.FlexWrapper>
-                  <S.Category>오프라인 행사</S.Category>
-                  <S.CategoryMini>Off-line Event</S.CategoryMini>
-                </S.FlexWrapper>
-
-                <S.CustomImage src="img/OFFLINE.svg" alt="" />
-              </S.Choicebox>
-            </S.FlexWrapper>
+            <EventTypeCard handleEventType={handleEventType} />
             <S.ContentBox style={{ textAlign: 'left' }}>
               <S.FlexWrapper>
                 <BlueButton contents={'행사 유형'} />
@@ -122,7 +91,13 @@ const RegisterFirst = () => {
                 </S.ContentBox>
               </S.FlexWrapper>
             </S.ContentBox>
-            <S.MainButton onClick={stepUp}>다음으로 넘어가기</S.MainButton>
+            <S.FlexWrapper
+              style={{
+                justifyContent: 'end',
+              }}
+            >
+              <S.MainButton onClick={stepUp}>다음으로 넘어가기</S.MainButton>
+            </S.FlexWrapper>{' '}
           </S.ContentBox>
         </S.SubContainer>
       </S.Container>

@@ -159,10 +159,10 @@ const RegisterSecond = () => {
       await axiosInstance.post(`/api/v1/events/${USER_ID}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      alert('행사가 등록됐습니다.');
-      navigate('/event');
+      navigate('/register/completed');
     } catch (error) {
       alert('행사가 제대로 등록되지 않았습니다.');
+      navigate('/register');
       console.error(error);
     } finally {
       Step(1);
@@ -174,7 +174,6 @@ const RegisterSecond = () => {
     <>
       <S.Container>
         <S.SubContainer>
-          <Stepper />
           <S.ContentBox>
             <S.FlexWrapper>
               <BlueButton contents={'이벤트 개요'} />
@@ -238,7 +237,11 @@ const RegisterSecond = () => {
                 onChange={(e) => setMinCompletionTimesValue(e.target.value)}
               />
             </S.ContentBox>
-            <S.FlexWrapper>
+            <S.FlexWrapper
+              style={{
+                justifyContent: 'end',
+              }}
+            >
               <S.BackButton onClick={stepDown}>이전</S.BackButton>
               <S.MainButton onClick={handleRegister}>
                 행사 등록 완료하기

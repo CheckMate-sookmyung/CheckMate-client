@@ -27,10 +27,12 @@ export const Category = styled.p`
   font-weight: 500;
   color: #323232;
   text-align: left;
+  width: 390px;
 `;
 
 export const DateTimeInput = styled(DatePicker)`
-  border: 2px solid #accdff;
+  border: none;
+  background-color: #f8f8f8;
   padding: 10px 20px;
   width: auto;
   height: 24px;
@@ -38,8 +40,7 @@ export const DateTimeInput = styled(DatePicker)`
   position: relative;
   border-radius: 10px;
 
-  :focus {
-    border: 1px solid #ccc;
+  &:focus {
     outline: none;
   }
 `;
@@ -105,7 +106,22 @@ export const DeleteIconWrapper = styled.button`
 export const AddTimeWrapper = styled.div``;
 
 export const AddTimeBtn = styled.button`
-  color: #2253ff;
-  font-weight: 600;
-  padding: 6px;
+  border-radius: 8px;
+  background-color: #2f7cef;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  box-sizing: border-box;
+  text-align: left;
+  font-size: 16px;
+  color: #fff;
+`;
+
+export const FlexWrapper = styled.div`
+  display: flex;
+  margin: 20px 0;
+  gap: 15px;
+  align-items: center;
 `;

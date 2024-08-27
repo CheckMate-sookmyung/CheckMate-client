@@ -1,5 +1,4 @@
 import React from 'react';
-import { FaAngleRight, FaRegTrashCan, FaCircleInfo } from 'react-icons/fa6';
 import * as S from './Scheduler.style';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { PiTildeBold } from 'react-icons/pi';
@@ -12,6 +11,12 @@ const EventScheduleList = ({
   return (
     <>
       <S.Content>
+        <S.FlexWrapper>
+          <S.Category>행사 날짜 선택</S.Category>
+          <S.Category>행사 시작 시간 선택</S.Category>
+          <S.Category>행사 종료 시간 선택</S.Category>
+        </S.FlexWrapper>
+
         {eventSchedules.map((schedule, index) => (
           <S.DateTimeContainer key={index}>
             <S.DateTimeWrapper>
@@ -22,9 +27,10 @@ const EventScheduleList = ({
                 }
                 dateFormat="MM월 dd일"
                 showYearDropdown={false}
-                showMonthDropdown={true}
+                showMonthDropdown={false}
                 dropdownMode="select"
               />
+
               <S.DateTimeInput
                 selected={schedule.eventStartTime}
                 onChange={(date) =>
@@ -53,7 +59,11 @@ const EventScheduleList = ({
               {index === 0 ? (
                 <S.DeleteIconWrapper>
                   <FaRegTrashAlt
-                    style={{ fontSize: '22px', visibility: 'hidden' }}
+                    style={{
+                      fontSize: '22px',
+                      visibility: 'hidden',
+                      cursor: 'default',
+                    }}
                   />
                 </S.DeleteIconWrapper>
               ) : (
@@ -69,9 +79,15 @@ const EventScheduleList = ({
           </S.DateTimeContainer>
         ))}
         <S.AddTimeWrapper>
-          <S.AddTimeBtn onClick={handleAddSchedule}>
-            행사 일정 추가하기
-          </S.AddTimeBtn>
+          <S.FlexWrapper
+            style={{
+              justifyContent: 'end',
+            }}
+          >
+            <S.AddTimeBtn onClick={handleAddSchedule}>
+              행사 일정 추가하기
+            </S.AddTimeBtn>
+          </S.FlexWrapper>
         </S.AddTimeWrapper>
       </S.Content>
     </>
