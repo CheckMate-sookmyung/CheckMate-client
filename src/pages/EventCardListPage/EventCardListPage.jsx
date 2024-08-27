@@ -6,6 +6,8 @@ import { EventCard, Dropdown } from '@/components';
 
 const EventCardListPage = () => {
   const [events, setEvents] = useState([]);
+  const [filteredEvents, setFilteredEvents] = useState([]);
+  const [selectedFilter, setSelectedFilter] = useState('전체');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,6 +25,11 @@ const EventCardListPage = () => {
             poster: event.eventImage,
             startDate: new Date(startDate),
             endDate: endDate ? new Date(endDate) : null,
+            status: endDate
+              ? new Date() > new Date(endDate)
+                ? '마감'
+                : '진행중'
+              : '진행중', // 현재 날짜와 비교해 상태 결정
           };
         });
 
@@ -34,6 +41,7 @@ const EventCardListPage = () => {
         });
 
         setEvents(parsedEvents);
+        setFilteredEvents(parsedEvents); // 초기 필터 설정
       } catch (error) {
         console.error(error);
       }
@@ -41,12 +49,30 @@ const EventCardListPage = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (selectedFilter === '전체') {
+      setFilteredEvents(events);
+    } else {
+      setFilteredEvents(
+        events.filter((event) => event.status === selectedFilter),
+      );
+    }
+  }, [selectedFilter, events]);
+
+  const handleFilterChange = (filter) => {
+    setSelectedFilter(filter);
+  };
+
   return (
     <S.Container>
       <S.EventCardListPage>
-        <Dropdown />
+        <Dropdown
+          items={['전체', '진행중', '마감']}
+          defaultItem="전체"
+          onSelect={handleFilterChange}
+        />
         <S.EventCardList>
-          {events.map((event) => (
+          {filteredEvents.map((event) => (
             <EventCard
               key={event.id}
               id={event.id}

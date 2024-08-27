@@ -41,7 +41,7 @@ export const DropdownContent = styled.ul`
   border-radius: 7px;
   background: #f4f8ff;
   padding: 4px;
-  width: 180px;
+  width: 100;
   box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.1);
   list-style: none;
 `;

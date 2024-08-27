@@ -24,7 +24,6 @@ export const TopContainer = styled.div`
   margin-bottom: 10px;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
-    flex-direction: column;
     gap: 10px;
   }
 

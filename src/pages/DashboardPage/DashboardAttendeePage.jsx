@@ -11,7 +11,7 @@ import { axiosInstance } from '@/axios';
 import { USER_ID } from '@/constants';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '@/recoil/atoms/state';
-import { Button, Sidebar } from '@/components';
+import { Button, Sidebar, Dropdown } from '@/components';
 
 export default function DashboardAttendeePage() {
   const [eventTitle, setEventTitle] = useState('');
@@ -26,7 +26,6 @@ export default function DashboardAttendeePage() {
   const [sessionAttendees, setSessionAttendees] = useState({});
   const EVENT_ID = useRecoilValue(eventIDState);
 
-  // 출석 명단 가져오기
   useEffect(() => {
     const fetchSessions = async () => {
       try {
@@ -168,6 +167,7 @@ export default function DashboardAttendeePage() {
   };
 
   // 출석 명단 메일로 전송
+  // 출석 명단 메일로 전송
   const handleSendEmail = async () => {
     const isConfirmed = window.confirm(
       '출석 명단을 이메일로 전송하시겠습니까?\n확인 버튼을 누르면 즉시 전송됩니다.',
@@ -197,17 +197,12 @@ export default function DashboardAttendeePage() {
         { responseType: 'blob' },
       );
 
-      console.log('Response Headers:', response.headers);
-      console.log('Response Data:', response.data);
-
       const contentType = response.headers['content-type'];
       const blob = new Blob([response.data], { type: contentType });
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-
       link.setAttribute('download', `${eventTitle}_참석자명단.pdf`);
-
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -233,12 +228,17 @@ export default function DashboardAttendeePage() {
         <S.TabEditWrapper>
           <S.TabContainer>
             {sessions.map((session) => (
-              <SessionDateTab
+              <Button
                 key={session.tab}
-                tab={session.tab}
-                activeTab={activeTab}
-                setActiveTab={setActiveTab}
-                date={session.date}
+                label={`${session.tab}회 (${session.date})`}
+                active={activeTab === session.tab}
+                onClick={() => {
+                  setActiveTab(session.tab);
+                  const sortedAttendees = [
+                    ...sessionAttendees[session.tab],
+                  ].sort((a, b) => a.name.localeCompare(b.name));
+                  setAttendees(sortedAttendees);
+                }}
               />
             ))}
           </S.TabContainer>
@@ -251,7 +251,8 @@ export default function DashboardAttendeePage() {
           <S.RateWrapper>
             <S.RateTitle>참석률</S.RateTitle>
             <S.Attendee>
-              {attendCount} / {totalAttendees}
+              {attendees.filter((attendee) => attendee.attendance).length} /{' '}
+              {attendees.length}
             </S.Attendee>
           </S.RateWrapper>
           <S.SearchBoxWrapper>
@@ -305,15 +306,13 @@ export default function DashboardAttendeePage() {
                   </S.TableData>
                   <S.TableData attendance={data.attendance ? '출석' : '결석'}>
                     {editMode ? (
-                      <select
-                        value={data.attendance ? '출석' : '결석'}
-                        onChange={(e) =>
-                          handleAttendanceChange(index, e.target.value)
+                      <Dropdown
+                        items={['출석', '결석']}
+                        defaultItem={data.attendance ? '출석' : '결석'}
+                        onSelect={(value) =>
+                          handleAttendanceChange(index, value)
                         }
-                      >
-                        <option value="출석">출석</option>
-                        <option value="결석">결석</option>
-                      </select>
+                      />
                     ) : data.attendance ? (
                       '출석'
                     ) : (
