@@ -6,6 +6,7 @@ export { AttendanceConfirmModal } from './AttendanceConfirmModal';
 export { Button } from './Button';
 export { Dropdown } from './Dropdown';
 export { EventCard } from './EventCard';
+export { EventScheduleItem } from './EventScheduleItem';
 export { EventTargetOption } from './EventTargetOption';
 export { Input } from './Input';
 export { Textarea } from './Textarea';

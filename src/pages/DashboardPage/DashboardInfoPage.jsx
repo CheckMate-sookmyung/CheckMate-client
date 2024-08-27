@@ -1,12 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import * as S from './DashboardInfoPage.style';
-import { FaAngleRight, FaRegTrashCan, FaCircleInfo } from 'react-icons/fa6';
 import {
   Sidebar,
   Button,
   EventTargetOption,
   Input,
   Textarea,
+  EventScheduleItem,
 } from '@/components';
 import { USER_ID } from '@/constants';
 import { axiosInstance } from '@/axios';
@@ -126,6 +126,26 @@ export default function DashboardInfoPage() {
     setIsChanged(true);
   };
 
+  const handleDateChange = (index, date) => {
+    handleScheduleChange(index, 'eventDate', date);
+  };
+
+  const handleStartTimeChange = (index, date) => {
+    handleScheduleChange(index, 'eventStartTime', date);
+  };
+
+  const handleEndTimeChange = (index, date) => {
+    handleScheduleChange(index, 'eventEndTime', date);
+  };
+
+  const handleDeleteSchedule = (index) => {
+    if (eventSchedules.length > 1) {
+      const newSchedules = eventSchedules.filter((_, i) => i !== index);
+      setEventSchedules(newSchedules);
+      setIsChanged(true);
+    }
+  };
+
   // 행사 기간 추가하기 버튼
   const handleAddSchedule = () => {
     const lastSchedule = eventSchedules[eventSchedules.length - 1];
@@ -136,15 +156,6 @@ export default function DashboardInfoPage() {
     };
     setEventSchedules([...eventSchedules, newSchedule]);
     setIsChanged(true);
-  };
-
-  // 행사 기간 삭제하기 버튼
-  const handleDeleteSchedule = (index) => {
-    if (eventSchedules.length > 1) {
-      const newSchedules = eventSchedules.filter((_, i) => i !== index);
-      setEventSchedules(newSchedules);
-      setIsChanged(true);
-    }
   };
 
   // 저장하기 버튼
@@ -207,63 +218,19 @@ export default function DashboardInfoPage() {
           <S.Content>
             <S.ContentTitle>행사 기간</S.ContentTitle>
             {eventSchedules.map((schedule, index) => (
-              <S.DateTimeContainer key={index}>
-                <S.DateTimeWrapper>
-                  <S.DateTimeInput
-                    selected={schedule.eventDate}
-                    onChange={(date) =>
-                      handleScheduleChange(index, 'eventDate', date)
-                    }
-                    dateFormat="MM월 dd일"
-                    showYearDropdown={false}
-                    showMonthDropdown={true}
-                    dropdownMode="select"
-                  />
-                  <S.DateTimeInput
-                    selected={schedule.eventStartTime}
-                    onChange={(date) =>
-                      handleScheduleChange(index, 'eventStartTime', date)
-                    }
-                    showTimeSelect
-                    showTimeSelectOnly
-                    timeIntervals={30}
-                    timeCaption="Time"
-                    dateFormat="h:mm aa"
-                  />
-                  <FaAngleRight />
-
-                  <S.DateTimeInput
-                    selected={schedule.eventEndTime}
-                    onChange={(date) =>
-                      handleScheduleChange(index, 'eventEndTime', date)
-                    }
-                    showTimeSelect
-                    showTimeSelectOnly
-                    timeIntervals={30}
-                    timeCaption="Time"
-                    dateFormat="h:mm aa"
-                  />
-                </S.DateTimeWrapper>
-                <S.InfoDeleteIconWrapper>
-                  {index === 0 ? (
-                    <S.InfoIconWrapper>
-                      <FaCircleInfo />
-                    </S.InfoIconWrapper>
-                  ) : (
-                    <S.DeleteIconWrapper
-                      onClick={() => handleDeleteSchedule(index)}
-                    >
-                      <FaRegTrashCan />
-                    </S.DeleteIconWrapper>
-                  )}
-                </S.InfoDeleteIconWrapper>
-              </S.DateTimeContainer>
+              <EventScheduleItem
+                key={index}
+                index={index}
+                schedule={schedule}
+                onDateChange={handleDateChange}
+                onStartTimeChange={handleStartTimeChange}
+                onEndTimeChange={handleEndTimeChange}
+                onDelete={handleDeleteSchedule}
+                onAddSchedule={handleAddSchedule} // 일정 추가 함수 전달
+                isDeletable={index !== 0}
+                isLastItem={index === eventSchedules.length - 1} // 마지막 항목인지 확인
+              />
             ))}
-            <S.AddTimeWrapper>
-              <S.AddTimeBtn onClick={handleAddSchedule}>
-                행사 일정 추가하기
-              </S.AddTimeBtn>
-            </S.AddTimeWrapper>
           </S.Content>
 
           <S.Content>
