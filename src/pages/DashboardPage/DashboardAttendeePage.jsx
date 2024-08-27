@@ -6,6 +6,9 @@ import {
   FaArrowDownShortWide,
   FaArrowUpWideShort,
   FaPhone,
+  FaPaperclip,
+  FaEnvelope,
+  FaRegEnvelope,
 } from 'react-icons/fa6';
 import { axiosInstance } from '@/axios';
 import { USER_ID } from '@/constants';
@@ -221,9 +224,12 @@ export default function DashboardAttendeePage() {
           <S.Title>참석자 관리</S.Title>
           <S.ButtonContainer>
             <S.DownBtn onClick={handleSendEmail}>
-              출석 명단 메일로 전송
+              <FaRegEnvelope /> 출석 명단 메일로 전송
             </S.DownBtn>
-            <S.DownBtn onClick={handleDownload}>출석 명단 다운로드</S.DownBtn>
+            <S.DownBtn onClick={handleDownload}>
+              <FaPaperclip />
+              출석 명단 다운로드
+            </S.DownBtn>
           </S.ButtonContainer>
         </S.TopContainer>
 

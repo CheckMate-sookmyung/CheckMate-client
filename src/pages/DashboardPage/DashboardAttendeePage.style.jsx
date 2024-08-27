@@ -48,6 +48,7 @@ export const DownBtn = styled.div`
   height: 30px;
   color: #4e75ff;
   cursor: pointer;
+  gap: 6px;
   transition:
     background 0.3s ease,
     box-shadow 0.3s ease,
