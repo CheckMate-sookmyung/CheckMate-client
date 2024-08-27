@@ -292,7 +292,7 @@ export const ProgressBox = styled.div`
 export const ProgressText = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 8px;
 `;
 
 export const ProgressTitle = styled.h2`

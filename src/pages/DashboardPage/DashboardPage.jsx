@@ -366,7 +366,7 @@ export default function DashboardPage() {
               <S.ProgressText>
                 <S.ProgressTitle>평균 참석 인원</S.ProgressTitle>
                 <S.ProgressDescription>
-                  3회 진행 후 집계된 인원이에요
+                  {parsedEvents.totalSessions}회 진행 후 집계된 인원이에요
                 </S.ProgressDescription>
               </S.ProgressText>
               <S.ProgressNumber>
