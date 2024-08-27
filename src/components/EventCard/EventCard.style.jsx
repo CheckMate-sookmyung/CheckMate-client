@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const EventCard = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
   transition:
     transform 0.3s,
     box-shadow 0.3s;
