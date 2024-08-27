@@ -3,7 +3,6 @@ import * as S from './Sidebar.style';
 import {
   FaTableList,
   FaCircleInfo,
-  FaEnvelopeCircleCheck,
   FaUsers,
   FaChartPie,
 } from 'react-icons/fa6';
@@ -12,6 +11,7 @@ import { useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '@/recoil/atoms/state';
 import { axiosInstance } from '@/axios';
+import { BiSolidMessageRounded } from 'react-icons/bi';
 
 // 개별 메뉴
 const menuItems = [
@@ -23,7 +23,7 @@ const menuItems = [
   },
   {
     to: '/event/dashboard/email',
-    icon: <FaEnvelopeCircleCheck />,
+    icon: <BiSolidMessageRounded />,
     text: '카카오톡 예약 발송',
   },
   { to: '/event/dashboard/attendee', icon: <FaUsers />, text: '참석자 관리' },
