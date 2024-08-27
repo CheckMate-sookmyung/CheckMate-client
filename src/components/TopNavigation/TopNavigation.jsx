@@ -67,7 +67,7 @@ export default function TopNavigation() {
     <S.TopNavigation>
       <S.LogoMenuWrapper>
         <S.Logo to="/">
-          <img src="img/CheckMateBlue.svg" alt="CheckMate Logo" />
+          <img src="/img/CheckMateBlue.svg" alt="CheckMate Logo" />
         </S.Logo>
 
         {/* 메뉴 */}
@@ -78,14 +78,14 @@ export default function TopNavigation() {
           <S.Menu to="/event" activeClassName="active">
             행사 목록
           </S.Menu>
+          <S.Menu to="/stats" activeClassName="active">
+            통계
+          </S.Menu>
           {location.pathname.startsWith('/event/dashboard') && (
             <S.PageNameWrapper>
               {parsedEvent && <S.PageName>{parsedEvent.title}</S.PageName>}
             </S.PageNameWrapper>
           )}
-          <S.Menu to="/stats" activeClassName="active">
-            통계
-          </S.Menu>
         </S.MenuContainer>
       </S.LogoMenuWrapper>
 
