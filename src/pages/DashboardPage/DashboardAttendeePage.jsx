@@ -1,20 +1,12 @@
 import * as S from './DashboardAttendeePage.style';
 import PageLayout from '@/Layout/PageLayout';
 import { useState, useEffect } from 'react';
-import {
-  FaMagnifyingGlass,
-  FaArrowDownShortWide,
-  FaArrowUpWideShort,
-  FaPhone,
-  FaPaperclip,
-  FaRegEnvelope,
-} from 'react-icons/fa6';
+import { FaMagnifyingGlass, FaPaperclip, FaRegEnvelope } from 'react-icons/fa6';
 import { axiosInstance } from '@/axios';
 import { USER_ID } from '@/constants';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '@/recoil/atoms/state';
-import { Button, Sidebar, Dropdown } from '@/components';
-import { BsEye } from 'react-icons/bs';
+import { Button, Sidebar, AttendeeTable } from '@/components';
 
 export default function DashboardAttendeePage() {
   const [eventTitle, setEventTitle] = useState('');
@@ -83,27 +75,6 @@ export default function DashboardAttendeePage() {
     fetchSessions();
   }, [EVENT_ID, USER_ID]);
 
-  // 탭 정보에 따른 명단 가져오기
-  const SessionDateTab = ({ tab, activeTab, setActiveTab, date }) => {
-    const isActive = activeTab === tab;
-    return (
-      <Button
-        key={tab}
-        label={`${tab}회 (${date})`}
-        active={isActive}
-        backgroundColor={isActive ? '#2f7cef' : '#F2F2F2'}
-        textColor={isActive ? '#fff' : '#323232'}
-        onClick={() => {
-          setActiveTab(tab);
-          const sortedAttendees = [...sessionAttendees[tab]].sort((a, b) =>
-            a.name.localeCompare(b.name),
-          );
-          setAttendees(sortedAttendees);
-        }}
-      />
-    );
-  };
-
   const handleAttendanceChange = (index, value) => {
     const updatedAttendees = [...attendees];
     updatedAttendees[index].attendance = value === '출석';
@@ -139,12 +110,6 @@ export default function DashboardAttendeePage() {
     setEditMode((prevEditMode) => !prevEditMode);
   };
 
-  // 참석률 정보
-  const totalAttendees = attendees.length;
-  const attendCount = attendees.filter(
-    (attendee) => attendee.attendance,
-  ).length;
-
   // 데이터 정렬
   const sortData = (key) => {
     let direction = 'asc';
@@ -166,13 +131,6 @@ export default function DashboardAttendeePage() {
     }));
   };
 
-  const SortIcon = ({ columnKey }) => {
-    if (sortConfig.key !== columnKey) return null;
-    if (sortConfig.direction === 'asc') return <FaArrowUpWideShort />;
-    return <FaArrowDownShortWide />;
-  };
-
-  // 출석 명단 메일로 전송
   const handleSendEmail = async () => {
     const isConfirmed = window.confirm(
       '출석 명단을 이메일로 전송하시겠습니까?\n확인 버튼을 누르면 즉시 전송됩니다.',
@@ -194,7 +152,6 @@ export default function DashboardAttendeePage() {
     }
   };
 
-  // 출석 명단 다운로드
   const handleDownload = async () => {
     try {
       const response = await axiosInstance.get(
@@ -273,79 +230,13 @@ export default function DashboardAttendeePage() {
           </S.SearchBoxWrapper>
         </S.SearchRageContainer>
 
-        <S.TableContainer>
-          <S.Table>
-            <thead>
-              <tr>
-                <S.TableHeader>전화</S.TableHeader>
-                <S.TableHeader onClick={() => sortData('attendance')}>
-                  출석
-                  <SortIcon columnKey="attendance" />
-                </S.TableHeader>
-                <S.TableHeader onClick={() => sortData('name')}>
-                  이름
-                  <SortIcon columnKey="name" />
-                </S.TableHeader>
-                <S.TableHeader onClick={() => sortData('major')}>
-                  소속
-                  <SortIcon columnKey="major" />
-                </S.TableHeader>
-                {/* <S.TableHeader onClick={() => sortData('number')}>
-                  학번
-                  <SortIcon columnKey="number" />
-                </S.TableHeader>
-                <S.TableHeader onClick={() => sortData('year')}>
-                  학년
-                  <SortIcon columnKey="year" />
-                </S.TableHeader> */}
-                <S.TableHeader onClick={() => sortData('phoneNumber')}>
-                  휴대폰 번호
-                  <SortIcon columnKey="phoneNumber" />
-                </S.TableHeader>
-                <S.TableHeader onClick={() => sortData('email')}>
-                  이메일 주소
-                  <SortIcon columnKey="email" />
-                </S.TableHeader>
-                <S.TableHeader></S.TableHeader>
-              </tr>
-            </thead>
-            <tbody>
-              {attendees.map((data, index) => (
-                <tr key={index}>
-                  <S.TableData>
-                    <S.TelAnchor href={`tel:${data.phoneNumber}`}>
-                      <FaPhone style={{ color: '#0075FF' }} />
-                    </S.TelAnchor>
-                  </S.TableData>
-                  <S.TableData attendance={data.attendance ? '출석' : '결석'}>
-                    {editMode ? (
-                      <Dropdown
-                        items={['출석', '결석']}
-                        defaultItem={data.attendance ? '출석' : '결석'}
-                        onSelect={(value) =>
-                          handleAttendanceChange(index, value)
-                        }
-                      />
-                    ) : data.attendance ? (
-                      '출석'
-                    ) : (
-                      '결석'
-                    )}
-                  </S.TableData>
-                  <S.TableData>{data.name}</S.TableData>
-                  <S.TableData>{data.major}</S.TableData>
-                  {/* <S.TableData>{data.number}</S.TableData>
-                  <S.TableData>{data.year}</S.TableData> */}
-                  <S.TableData>{data.phoneNumber}</S.TableData>
-                  <S.TableData>{data.email}</S.TableData>
-                  <S.TableData>
-                    <BsEye />
-                  </S.TableData>
-                </tr>
-              ))}
-            </tbody>
-          </S.Table>
-        </S.TableContainer>
+        <AttendeeTable
+          attendees={attendees}
+          editMode={editMode}
+          sortData={sortData}
+          handleAttendanceChange={handleAttendanceChange}
+          sortConfig={sortConfig}
+        />
       </S.DashboardAttendee>
     </PageLayout>
   );
