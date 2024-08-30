@@ -13,17 +13,16 @@ export const EventCardListPage = styled.div`
   max-width: 1100px;
   margin: 0 auto;
   padding: 50px 20px;
-  gap: 30px;
+  gap: 28px;
 `;
 
 export const EventCardList = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 32px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
   width: 100%;
 
   @media (max-width: ${BREAKPOINTS[2]}px) {
-    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
   }
   @media (max-width: ${BREAKPOINTS[1]}px) {

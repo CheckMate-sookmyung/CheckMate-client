@@ -1,5 +1,5 @@
 import React from 'react';
-import * as S from './ButtonStyle';
+import * as S from './Button.style';
 
 const Button = ({
   label,
