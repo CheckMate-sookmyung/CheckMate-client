@@ -1,11 +1,14 @@
-import { Button } from '@/components';
+import { Button, TopNavigation } from '@/components';
 import * as S from './RegisterCompleted.style';
 import { useNavigate } from 'react-router-dom';
+import { PageLayout } from '@/Layout';
+import { TopContainer } from '@/pages/DashboardPage/DashboardAttendeePage.style';
 
 const RegisterCompleted = () => {
   const nav = useNavigate();
+
   return (
-    <div>
+    <PageLayout topNavigation={<TopNavigation />}>
       <S.Wrapper>
         <S.ComponentContainer>
           <S.Check />
@@ -31,7 +34,7 @@ const RegisterCompleted = () => {
           </S.ButtonWrapper>
         </S.ComponentContainer>
       </S.Wrapper>
-    </div>
+    </PageLayout>
   );
 };
 

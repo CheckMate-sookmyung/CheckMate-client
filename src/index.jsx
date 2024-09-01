@@ -6,15 +6,20 @@ import router from './router';
 import { RecoilRoot } from 'recoil';
 import ScrollToTop from './components/ScrolltoTop/ScrolltoTop';
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-  <RecoilRoot>
-    <React.StrictMode>
-      <GlobalStyle />
-      <RouterProvider router={router}>
-        <ScrollToTop />
-      </RouterProvider>
-    </React.StrictMode>
-  </RecoilRoot>,
+  <QueryClientProvider client={queryClient}>
+    <RecoilRoot>
+      <React.StrictMode>
+        <GlobalStyle />
+        <RouterProvider router={router}>
+          <ScrollToTop />
+        </RouterProvider>
+      </React.StrictMode>
+    </RecoilRoot>
+  </QueryClientProvider>,
 );

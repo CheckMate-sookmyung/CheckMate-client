@@ -1,12 +1,18 @@
 import * as S from './DashboardAttendeePage.style';
-import PageLayout from '@/Layout/PageLayout';
+import { PageLayout } from '@/Layout';
 import { useState, useEffect } from 'react';
 import { FaMagnifyingGlass, FaPaperclip, FaRegEnvelope } from 'react-icons/fa6';
 import { axiosInstance } from '@/axios';
 import { USER_ID } from '@/constants';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '@/recoil/atoms/state';
-import { Button, Sidebar, AttendeeTable } from '@/components';
+import { Button, Sidebar, AttendeeTable, TopNavigation } from '@/components';
+import {
+  getAttendanceList,
+  getEventDetail,
+  updateAttendanceList,
+} from '@/apis';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export default function DashboardAttendeePage() {
   const [eventTitle, setEventTitle] = useState('');
@@ -19,61 +25,86 @@ export default function DashboardAttendeePage() {
     direction: 'asc',
   });
   const [sessionAttendees, setSessionAttendees] = useState({});
-  const EVENT_ID = useRecoilValue(eventIDState);
+  const eventId = useRecoilValue(eventIDState);
+
+  const queryClient = useQueryClient();
+
+  const {
+    data: eventDetail,
+    isPending,
+    isError,
+  } = useQuery({
+    queryKey: ['getEventDetail', eventId],
+    queryFn: () => getEventDetail(USER_ID, eventId),
+  });
+
+  const {
+    data: attendanceList,
+    isPending: isAttendanceListPending,
+    isError: isAttendanceListError,
+  } = useQuery({
+    queryKey: ['getAttendanceList', eventId],
+    queryFn: () => getAttendanceList(USER_ID, eventId),
+  });
+
+  const {
+    mutate: updateAttendanceListMutate,
+    isPending: isUpdateAttendanceListPending,
+  } = useMutation({
+    mutationKey: ['updateAttendanceList', eventId],
+    mutationFn: (body) => updateAttendanceList(USER_ID, eventId, body),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['getEventDetail']);
+      alert('출석 정보가 성공적으로 업데이트되었습니다.');
+    },
+    onError: () => {
+      alert('출석 정보 업데이트에 실패했습니다.');
+    },
+  });
 
   useEffect(() => {
-    const fetchSessions = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `/api/v1/events/${USER_ID}/${EVENT_ID}`,
-        );
-        const eventData = response.data;
+    if (eventDetail === undefined) {
+      return;
+    }
 
-        setEventTitle(eventData.eventTitle);
+    setEventTitle(eventDetail.eventTitle);
 
-        const parsedSessions = eventData.eventSchedules.map(
-          (schedule, index) => ({
-            tab: index + 1,
-            date: `${schedule.eventDate.substring(5, 7)}/${schedule.eventDate.substring(8, 10)}`,
-            attendanceList: schedule.attendanceListResponseDtos.sort((a, b) =>
-              a.studentName.localeCompare(b.studentName),
-            ),
-          }),
-        );
-        setSessions(parsedSessions);
+    const parsedSessions = eventDetail.eventSchedules.map(
+      (schedule, index) => ({
+        tab: index + 1,
+        date: `${schedule.eventDate.substring(5, 7)}/${schedule.eventDate.substring(8, 10)}`,
+        attendanceList: schedule.attendanceListResponseDtos.sort((a, b) =>
+          a.studentName.localeCompare(b.studentName),
+        ),
+      }),
+    );
+    setSessions(parsedSessions);
 
-        const attendeesData = {};
-        parsedSessions.forEach((session) => {
-          attendeesData[session.tab] = session.attendanceList.map(
-            (student) => ({
-              id: student.id,
-              major: student.major,
-              name: student.studentName,
-              number: student.studentNumber,
-              year: student.year || '-',
-              phoneNumber: student.phoneNumber || '-',
-              email: student.email || '-',
-              attendance: student.attendance,
-            }),
-          );
-        });
-        setSessionAttendees(attendeesData);
+    const attendeesData = {};
 
-        if (parsedSessions.length > 0) {
-          const initialAttendees = attendeesData[1];
-          setAttendees(initialAttendees);
-          setSessionAttendees((prev) => ({
-            ...prev,
-            [1]: initialAttendees,
-          }));
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    parsedSessions.forEach((session) => {
+      attendeesData[session.tab] = session.attendanceList.map((student) => ({
+        id: student.id,
+        major: student.major,
+        name: student.studentName,
+        number: student.studentNumber,
+        year: student.year || '-',
+        phoneNumber: student.phoneNumber || '-',
+        email: student.email || '-',
+        attendance: student.attendance,
+      }));
+    });
+    setSessionAttendees(attendeesData);
 
-    fetchSessions();
-  }, [EVENT_ID, USER_ID]);
+    if (parsedSessions.length > 0) {
+      const initialAttendees = attendeesData[1];
+      setAttendees(initialAttendees);
+      setSessionAttendees((prev) => ({
+        ...prev,
+        [1]: initialAttendees,
+      }));
+    }
+  }, [eventDetail]);
 
   const handleAttendanceChange = (index, value) => {
     const updatedAttendees = [...attendees];
@@ -89,24 +120,14 @@ export default function DashboardAttendeePage() {
   // 출석 여부 수정
   const handleEditModeToggle = async () => {
     if (editMode) {
-      try {
-        const attendanceList = attendees.map((attendee) => ({
-          studentInfoId: attendee.id,
-          attendance: attendee.attendance,
-        }));
-
-        await axiosInstance.put(
-          `/api/v1/attendance/list/${USER_ID}/${EVENT_ID}`,
-          {
-            attendanceList,
-          },
-        );
-        alert('출석 정보가 성공적으로 업데이트되었습니다.');
-      } catch (error) {
-        console.error(error);
-        alert('출석 정보 업데이트에 실패했습니다.');
-      }
+      updateAttendanceListMutate({
+        attendanceList: attendees.map(({ id, attendance }) => ({
+          studentInfoId: id,
+          attendance: attendance,
+        })),
+      });
     }
+
     setEditMode((prevEditMode) => !prevEditMode);
   };
 
@@ -135,27 +156,16 @@ export default function DashboardAttendeePage() {
     const isConfirmed = window.confirm(
       '출석 명단을 이메일로 전송하시겠습니까?\n확인 버튼을 누르면 즉시 전송됩니다.',
     );
-    if (!isConfirmed) {
+
+    if (isConfirmed) {
       return;
-    }
-    try {
-      const response = await axiosInstance.get(
-        `api/v1/attendance/list/${USER_ID}/${EVENT_ID}`,
-      );
-      if (response.status === 200) {
-        alert('전송이 완료됐습니다.');
-        console.log(response);
-      }
-    } catch (error) {
-      alert('전송에 실패했습니다.');
-      console.log(error);
     }
   };
 
   const handleDownload = async () => {
     try {
       const response = await axiosInstance.get(
-        `/api/v1/events/attendanceList/${USER_ID}/${EVENT_ID}`,
+        `/api/v1/events/attendanceList/${USER_ID}/${eventId}`,
         { responseType: 'blob' },
       );
 
@@ -174,8 +184,19 @@ export default function DashboardAttendeePage() {
     }
   };
 
+  if (isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return null;
+  }
+
   return (
-    <PageLayout sideBar={<Sidebar />}>
+    <PageLayout
+      topNavigation={<TopNavigation eventTitle={eventTitle} />}
+      sideBar={<Sidebar />}
+    >
       <S.DashboardAttendee>
         <S.TopContainer>
           <S.Title>참석자 관리</S.Title>
@@ -211,7 +232,12 @@ export default function DashboardAttendeePage() {
               />
             ))}
           </S.TabContainer>
-          <S.EditMode onClick={handleEditModeToggle} active={editMode}>
+          <S.EditMode
+            type="button"
+            disabled={isUpdateAttendanceListPending}
+            active={editMode}
+            onClick={handleEditModeToggle}
+          >
             {editMode ? '저장하기' : '출석 여부 수정하기'}
           </S.EditMode>
         </S.TabEditWrapper>

@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
-import PageLayout from '@/Layout/PageLayout';
-import * as S from './DashboardEmailPage.style';
-import { Sidebar, Button } from '@/components';
+import { PageLayout } from '@/Layout';
+import * as S from './DashboardMessagePage.style';
+import { Sidebar, Button, TopNavigation } from '@/components';
 import { USER_ID } from '@/constants';
-import { axiosInstance } from '@/axios';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '@/recoil/atoms/state';
 import Switch from 'react-switch';
+import { useQuery } from '@tanstack/react-query';
+import { getEventDetail } from '@/apis';
 
-const DEFAULT_EMAIL_CONTENT = (
+const DEFAULT_MESSAGE_CONTENT = (
   title,
   date,
   time,
@@ -27,65 +28,67 @@ ${imageUrl ? `<img src="${imageUrl}" alt="Event Image" />` : ''}
 
 감사합니다.`;
 
-export default function DashboardEmailPage() {
+export default function DashboardMessagePage() {
   const [activeTab, setActiveTab] = useState(1);
   const [attendees, setAttendees] = useState([]);
   const [sessions, setSessions] = useState([]);
   const [sessionAttendees, setSessionAttendees] = useState({});
-  const [eventDetail, setEventDetail] = useState({});
-  const [emailContent, setEmailContent] = useState('');
-  const EVENT_ID = useRecoilValue(eventIDState);
-  const [emailReminder, setEmailReminder] = useState(true);
+  const [messageContent, setMessageContent] = useState('');
+  const eventId = useRecoilValue(eventIDState);
+  const [messageReminder, setMessageReminder] = useState(true);
+
+  const {
+    data: eventDetail,
+    isPending,
+    isError,
+  } = useQuery({
+    queryKey: ['getEventDetail', eventId],
+    queryFn: () => getEventDetail(USER_ID, eventId),
+  });
 
   useEffect(() => {
-    const fetchSessions = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `/api/v1/events/${USER_ID}/${EVENT_ID}`,
-        );
-        const event = response.data;
-        const parsedSessions = event.eventSchedules.map((schedule, index) => ({
-          tab: index + 1,
-          date: `${schedule.eventDate.substring(5, 7)}/${schedule.eventDate.substring(8, 10)}`,
-          time: schedule.eventStartTime,
-          attendanceList: schedule.attendanceListResponseDtos || [],
-        }));
-        setSessions(parsedSessions);
-        setEventDetail({
-          title: event.eventTitle,
-          detail: event.eventDetail,
-          imageUrl: event.eventImage,
-        });
-        if (parsedSessions.length > 0) {
-          updateEmailContent(
-            parsedSessions[0],
-            event.eventTitle,
-            event.eventDetail,
-            event.eventImage,
-          );
-          setAttendees(parsedSessions[0].attendanceList);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    if (eventDetail === undefined) {
+      return;
+    }
 
-    fetchSessions();
-  }, [EVENT_ID, USER_ID]);
+    const parsedSessions = eventDetail.eventSchedules.map(
+      (schedule, index) => ({
+        tab: index + 1,
+        date: `${schedule.eventDate.substring(5, 7)}/${schedule.eventDate.substring(8, 10)}`,
+        time: schedule.eventStartTime,
+        attendanceList: schedule.attendanceListResponseDtos || [],
+      }),
+    );
 
-  const SessionDateTab = ({ tab, activeTab, setActiveTab, date }) => {
+    setSessions(parsedSessions);
+
+    if (parsedSessions.length > 0) {
+      updateMessageContent(
+        parsedSessions[0],
+        eventDetail.eventTitle,
+        eventDetail.eventDetail,
+        eventDetail.eventImage,
+      );
+      setAttendees(parsedSessions[0].attendanceList);
+    }
+  }, [eventDetail]);
+
+  const SessionDateTab = ({ tab, medium, activeTab, setActiveTab, date }) => {
     return (
       <Button
         key={tab}
+        size={medium}
         label={`${tab}회 (${date})`}
         active={activeTab === tab}
         onClick={() => {
           setActiveTab(tab);
           setAttendees(sessionAttendees[tab] || []);
+
           const selectedSession = sessions.find(
             (session) => session.tab === tab,
           );
-          updateEmailContent(
+
+          updateMessageContent(
             selectedSession,
             eventDetail.title,
             eventDetail.detail,
@@ -97,25 +100,39 @@ export default function DashboardEmailPage() {
   };
 
   const handleToggleChange = (checked) => {
-    setEmailReminder(checked);
+    setMessageReminder(checked);
   };
 
-  const updateEmailContent = (session, title, detail, imageUrl) => {
-    const updatedContent = DEFAULT_EMAIL_CONTENT(
+  const updateMessageContent = (session, title, detail, imageUrl) => {
+    const updatedContent = DEFAULT_MESSAGE_CONTENT(
       title,
       session.date,
       session.time,
       detail,
       imageUrl,
     );
-    setEmailContent(updatedContent);
+    setMessageContent(updatedContent);
   };
 
+  if (isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return null;
+  }
+
   return (
-    <PageLayout sideBar={<Sidebar />}>
-      <S.DashboardEmail>
+    <PageLayout
+      topNavigation={<TopNavigation eventTitle={eventDetail.title} />}
+      sideBar={<Sidebar />}
+    >
+      <S.DashboardMessagePage>
         <S.TopContainer>
-          <S.Title>카카오톡 예약 발송</S.Title>
+          <S.Title>카카오톡 예약 발송</S.Title>{' '}
+          <S.ButtonContainer>
+            <Button label={'저장하기'} />
+          </S.ButtonContainer>
         </S.TopContainer>
 
         <S.TabContainer>
@@ -140,7 +157,7 @@ export default function DashboardEmailPage() {
             </S.Content>
             <Switch
               onChange={handleToggleChange}
-              checked={emailReminder}
+              checked={messageReminder}
               offColor="#888"
               onColor="#0075FF"
               checkedIcon={false}
@@ -148,22 +165,18 @@ export default function DashboardEmailPage() {
             />
           </S.ToggleWrapper>
 
-          {emailReminder && (
+          {messageReminder && (
             <S.Content>
               <S.ContentTitle>내용</S.ContentTitle>
               <S.ContentDesc>발송될 이메일 본문 내용입니다.</S.ContentDesc>
               <S.ContentInput
-                value={emailContent}
-                onChange={(e) => setEmailContent(e.target.value)}
+                value={messageContent}
+                onChange={(e) => setMessageContent(e.target.value)}
               />
             </S.Content>
           )}
         </S.ContentContainer>
-
-        <S.ButtonContainer>
-          <Button label={'저장하기'} />
-        </S.ButtonContainer>
-      </S.DashboardEmail>
+      </S.DashboardMessagePage>
     </PageLayout>
   );
 }
