@@ -1,12 +1,12 @@
 import * as S from './DashboardAttendeePage.style';
-import PageLayout from '@/Layout/PageLayout';
+import { PageLayout } from '@/Layout';
 import { useState, useEffect } from 'react';
 import { FaMagnifyingGlass, FaPaperclip, FaRegEnvelope } from 'react-icons/fa6';
 import { axiosInstance } from '@/axios';
 import { USER_ID } from '@/constants';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '@/recoil/atoms/state';
-import { Button, Sidebar, AttendeeTable } from '@/components';
+import { Button, Sidebar, AttendeeTable, TopNavigation } from '@/components';
 
 export default function DashboardAttendeePage() {
   const [eventTitle, setEventTitle] = useState('');
@@ -175,7 +175,10 @@ export default function DashboardAttendeePage() {
   };
 
   return (
-    <PageLayout sideBar={<Sidebar />}>
+    <PageLayout
+      topNavigation={<TopNavigation eventTitle={eventTitle} />}
+      sideBar={<Sidebar />}
+    >
       <S.DashboardAttendee>
         <S.TopContainer>
           <S.Title>참석자 관리</S.Title>

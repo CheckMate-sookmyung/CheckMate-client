@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import * as S from './EventCardListPage.style';
 import { USER_ID } from '@/constants';
 import { axiosInstance } from '@/axios';
-import { EventCard, Dropdown } from '@/components';
+import { EventCard, Dropdown, TopNavigation } from '@/components';
+import { PageLayout } from '@/Layout';
 
 const EventCardListPage = () => {
   const [events, setEvents] = useState([]);
@@ -64,29 +65,31 @@ const EventCardListPage = () => {
   };
 
   return (
-    <S.Container>
-      <S.EventCardListPage>
-        <Dropdown
-          items={['전체', '진행중', '마감']}
-          defaultItem="전체"
-          onSelect={handleFilterChange}
-        />
-        <S.EventCardList>
-          {filteredEvents.map((event) => (
-            <EventCard
-              key={event.id}
-              id={event.id}
-              title={event.title}
-              startDate={event.startDate.toLocaleDateString()}
-              endDate={
-                event.endDate ? event.endDate.toLocaleDateString() : null
-              }
-              poster={event.poster}
-            />
-          ))}
-        </S.EventCardList>
-      </S.EventCardListPage>
-    </S.Container>
+    <PageLayout topNavigation={<TopNavigation />}>
+      <S.Container>
+        <S.EventCardListPage>
+          <Dropdown
+            items={['전체', '진행중', '마감']}
+            defaultItem="전체"
+            onSelect={handleFilterChange}
+          />
+          <S.EventCardList>
+            {filteredEvents.map((event) => (
+              <EventCard
+                key={event.id}
+                id={event.id}
+                title={event.title}
+                startDate={event.startDate.toLocaleDateString()}
+                endDate={
+                  event.endDate ? event.endDate.toLocaleDateString() : null
+                }
+                poster={event.poster}
+              />
+            ))}
+          </S.EventCardList>
+        </S.EventCardListPage>
+      </S.Container>
+    </PageLayout>
   );
 };
 

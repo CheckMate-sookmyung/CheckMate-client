@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import PageLayout from '@/Layout/PageLayout';
+import { PageLayout } from '@/Layout';
 import * as S from './DashboardEmailPage.style';
-import { Sidebar, Button } from '@/components';
+import { Sidebar, Button, TopNavigation } from '@/components';
 import { USER_ID } from '@/constants';
 import { axiosInstance } from '@/axios';
 import { useRecoilValue } from 'recoil';
@@ -112,7 +112,10 @@ export default function DashboardEmailPage() {
   };
 
   return (
-    <PageLayout sideBar={<Sidebar />}>
+    <PageLayout
+      topNavigation={<TopNavigation eventTitle={eventDetail.eventTitle} />}
+      sideBar={<Sidebar />}
+    >
       <S.DashboardEmail>
         <S.TopContainer>
           <S.Title>카카오톡 예약 발송</S.Title>

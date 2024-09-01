@@ -1,12 +1,14 @@
 import * as S from './DashboardPage.style';
 import { useState, useEffect } from 'react';
-import PageLayout from '@/Layout/PageLayout';
-import { Button, Sidebar } from '@/components';
+import { PageLayout } from '@/Layout';
+import { Button, Sidebar, TopNavigation } from '@/components';
 import { USER_ID } from '@/constants';
 import { eventIDState } from '@/recoil/atoms/state';
 import { useRecoilValue } from 'recoil';
 import { axiosInstance } from '@/axios';
 import { Link, useNavigate } from 'react-router-dom';
+import { getEventDetail } from '@/apis';
+import { useQuery } from '@tanstack/react-query';
 
 export default function DashboardPage() {
   const [parsedEvents, setParsedEvents] = useState(null);
@@ -19,97 +21,94 @@ export default function DashboardPage() {
   const [phoneError, setPhoneError] = useState(false);
   const [emailError, setEmailError] = useState(false);
 
-  const EVENT_ID = useRecoilValue(eventIDState);
+  const eventId = useRecoilValue(eventIDState);
   const navigate = useNavigate();
 
+  const {
+    data: eventDetail,
+    isPending,
+    isError,
+  } = useQuery({
+    queryKey: 'getEventDetail',
+    queryFn: () => getEventDetail(USER_ID, eventId),
+  });
+
   useEffect(() => {
-    console.log('USER_ID:', USER_ID);
-    console.log('EVENT_ID:', EVENT_ID);
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `/api/v1/events/${USER_ID}/${EVENT_ID}`,
-        );
-        const eventData = response.data;
-        if (eventData) {
-          const now = new Date();
-          let completedSessionsCount = 0;
+    if (eventDetail === undefined) {
+      return;
+    }
 
-          const schedules = eventData.eventSchedules.map((schedule) => {
-            const scheduleEndDateTime = new Date(
-              `${schedule.eventDate}T${schedule.eventEndTime}`,
-            );
-            if (scheduleEndDateTime < now) {
-              completedSessionsCount += 1;
-            }
-            return {
-              date: schedule.eventDate,
-              startTime: schedule.eventStartTime,
-              endTime: schedule.eventEndTime,
-              attendanceList: schedule.attendanceListResponseDtos,
-            };
-          });
+    const now = new Date();
+    let completedSessionsCount = 0;
 
-          const totalAttendance = schedules.reduce((acc, schedule) => {
-            const attendedCount = schedule.attendanceList.filter(
-              (attendee) => attendee.attendance,
-            ).length;
-            return acc + attendedCount;
-          }, 0);
-
-          const totalParticipants = schedules[0].attendanceList.length;
-          const averageAttendance = totalParticipants
-            ? (totalAttendance / schedules.length).toFixed(1)
-            : 0;
-
-          const parsedEvent = {
-            title: eventData.eventTitle,
-            detail: eventData.eventDetail,
-            image: eventData.eventImage,
-            schedules,
-            totalSessions: eventData.eventSchedules.length,
-            totalParticipants,
-            eventType: eventData.eventType,
-            eventTarget: eventData.eventTarget,
-          };
-
-          setParsedEvents(parsedEvent);
-          setAverageAttendance(averageAttendance);
-          setCompletedSessions(completedSessionsCount);
-
-          // 행사 일정 상태
-          const firstSchedule = schedules[0];
-          const lastSchedule = schedules[schedules.length - 1];
-
-          const firstScheduleStartDateTime = new Date(
-            `${firstSchedule.date}T${firstSchedule.startTime}`,
-          );
-          const lastScheduleEndDateTime = new Date(
-            `${lastSchedule.date}T${lastSchedule.endTime}`,
-          );
-
-          if (now > lastScheduleEndDateTime) {
-            setEventStatus('종료');
-          } else if (now < firstScheduleStartDateTime) {
-            setEventStatus('예정');
-          } else {
-            setEventStatus('진행중');
-          }
-
-          // 담당자 정보 설정
-          setContacts({
-            name: eventData.managerName || '',
-            phone: eventData.managerPhoneNumber || '',
-            email: eventData.managerEmail || '',
-          });
-        }
-      } catch (error) {
-        console.error('이벤트 데이터를 가져오는 중 오류:', error);
+    const schedules = eventDetail.eventSchedules.map((schedule) => {
+      const scheduleEndDateTime = new Date(
+        `${schedule.eventDate}T${schedule.eventEndTime}`,
+      );
+      if (scheduleEndDateTime < now) {
+        completedSessionsCount += 1;
       }
+      return {
+        date: schedule.eventDate,
+        startTime: schedule.eventStartTime,
+        endTime: schedule.eventEndTime,
+        attendanceList: schedule.attendanceListResponseDtos,
+      };
+    });
+
+    const totalAttendance = schedules.reduce((acc, schedule) => {
+      const attendedCount = schedule.attendanceList.filter(
+        (attendee) => attendee.attendance,
+      ).length;
+      return acc + attendedCount;
+    }, 0);
+
+    const totalParticipants = schedules[0].attendanceList.length;
+    const averageAttendance = totalParticipants
+      ? (totalAttendance / schedules.length).toFixed(1)
+      : 0;
+
+    const parsedEvent = {
+      title: eventDetail.eventTitle,
+      detail: eventDetail.eventDetail,
+      image: eventDetail.eventImage,
+      schedules,
+      totalSessions: eventDetail.eventSchedules.length,
+      totalParticipants,
+      eventType: eventDetail.eventType,
+      eventTarget: eventDetail.eventTarget,
     };
 
-    fetchData();
-  }, [EVENT_ID]);
+    setParsedEvents(parsedEvent);
+    setAverageAttendance(averageAttendance);
+    setCompletedSessions(completedSessionsCount);
+
+    // 행사 일정 상태
+    const firstSchedule = schedules[0];
+    const lastSchedule = schedules[schedules.length - 1];
+
+    const firstScheduleStartDateTime = new Date(
+      `${firstSchedule.date}T${firstSchedule.startTime}`,
+    );
+    const lastScheduleEndDateTime = new Date(
+      `${lastSchedule.date}T${lastSchedule.endTime}`,
+    );
+
+    if (now > lastScheduleEndDateTime) {
+      setEventStatus('종료');
+    } else if (now < firstScheduleStartDateTime) {
+      setEventStatus('예정');
+    } else {
+      setEventStatus('진행중');
+    }
+
+    // 담당자 정보 설정
+    setContacts({
+      name: eventDetail.managerName || '',
+      phone: eventDetail.managerPhoneNumber || '',
+      email: eventDetail.managerEmail || '',
+    });
+  }, [eventDetail]);
 
   // 행사 삭제
   const DeleteEvent = async () => {
@@ -119,7 +118,7 @@ export default function DashboardPage() {
     }
     try {
       const response = await axiosInstance.delete(
-        `api/v1/events/${USER_ID}/${EVENT_ID}`,
+        `api/v1/events/${USER_ID}/${eventId}`,
       );
       if (response.status === 200) {
         alert('행사가 삭제되었습니다. 목록 페이지로 이동합니다.');
@@ -156,7 +155,7 @@ export default function DashboardPage() {
     if (isEditing && isNameValid && isPhoneValid && isEmailValid) {
       try {
         const response = await axiosInstance.post(
-          `/api/v1/events/manager/${USER_ID}/${EVENT_ID}`,
+          `/api/v1/events/manager/${USER_ID}/${eventId}`,
           {
             manager: {
               managerName: contacts.name,
@@ -205,8 +204,21 @@ export default function DashboardPage() {
     return emailRegex.test(email);
   };
 
+  if (isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    console.log('이벤트 데이터를 가져오는 중 오류');
+
+    return null;
+  }
+
   return (
-    <PageLayout sideBar={<Sidebar />}>
+    <PageLayout
+      topNavigation={<TopNavigation eventTitle={eventDetail.eventTitle} />}
+      sideBar={<Sidebar />}
+    >
       {parsedEvents && (
         <S.DashboardPage>
           <S.TopContainer>

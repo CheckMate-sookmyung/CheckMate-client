@@ -7,12 +7,13 @@ import {
   Input,
   Textarea,
   EventScheduleItem,
+  TopNavigation,
 } from '@/components';
 import { USER_ID } from '@/constants';
 import { axiosInstance } from '@/axios';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '@/recoil/atoms/state';
-import PageLayout from '@/Layout/PageLayout';
+import { PageLayout } from '@/Layout';
 import UploadBox from '../RegisterPage/RegisterComponents/UploadBox/UploadBox';
 
 export default function DashboardInfoPage() {
@@ -40,52 +41,52 @@ export default function DashboardInfoPage() {
     eventSchedules,
   });
 
+  const fetchEventData = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `/api/v1/events/${USER_ID}/${EVENT_ID}`,
+      );
+      const eventData = response.data;
+
+      setEventType(eventData.eventType);
+      setEventTarget(eventData.eventTarget);
+      setEventTitle(eventData.eventTitle);
+      setEventDescription(eventData.eventDetail);
+      setEventImage(eventData.eventImage || '');
+      setEventSchedules(
+        eventData.eventSchedules.map((schedule) => ({
+          eventDate: new Date(schedule.eventDate),
+          eventStartTime: new Date(
+            `${schedule.eventDate}T${schedule.eventStartTime}`,
+          ),
+          eventEndTime: new Date(
+            `${schedule.eventDate}T${schedule.eventEndTime}`,
+          ),
+        })),
+      );
+
+      initialState.current = {
+        eventType: eventData.eventType,
+        eventTarget: eventData.eventTarget,
+        eventTitle: eventData.eventTitle,
+        eventDescription: eventData.eventDetail,
+        eventImage: eventData.eventImage || '',
+        eventSchedules: eventData.eventSchedules.map((schedule) => ({
+          eventDate: new Date(schedule.eventDate),
+          eventStartTime: new Date(
+            `${schedule.eventDate}T${schedule.eventStartTime}`,
+          ),
+          eventEndTime: new Date(
+            `${schedule.eventDate}T${schedule.eventEndTime}`,
+          ),
+        })),
+      };
+    } catch (error) {
+      console.error('이벤트 정보 불러오는 중 에러:', error);
+    }
+  };
+
   useEffect(() => {
-    const fetchEventData = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `/api/v1/events/${USER_ID}/${EVENT_ID}`,
-        );
-        const eventData = response.data;
-
-        setEventType(eventData.eventType);
-        setEventTarget(eventData.eventTarget);
-        setEventTitle(eventData.eventTitle);
-        setEventDescription(eventData.eventDetail);
-        setEventImage(eventData.eventImage || '');
-        setEventSchedules(
-          eventData.eventSchedules.map((schedule) => ({
-            eventDate: new Date(schedule.eventDate),
-            eventStartTime: new Date(
-              `${schedule.eventDate}T${schedule.eventStartTime}`,
-            ),
-            eventEndTime: new Date(
-              `${schedule.eventDate}T${schedule.eventEndTime}`,
-            ),
-          })),
-        );
-
-        initialState.current = {
-          eventType: eventData.eventType,
-          eventTarget: eventData.eventTarget,
-          eventTitle: eventData.eventTitle,
-          eventDescription: eventData.eventDetail,
-          eventImage: eventData.eventImage || '',
-          eventSchedules: eventData.eventSchedules.map((schedule) => ({
-            eventDate: new Date(schedule.eventDate),
-            eventStartTime: new Date(
-              `${schedule.eventDate}T${schedule.eventStartTime}`,
-            ),
-            eventEndTime: new Date(
-              `${schedule.eventDate}T${schedule.eventEndTime}`,
-            ),
-          })),
-        };
-      } catch (error) {
-        console.error('이벤트 정보 불러오는 중 에러:', error);
-      }
-    };
-
     fetchEventData();
   }, [EVENT_ID, USER_ID]);
 
@@ -198,7 +199,10 @@ export default function DashboardInfoPage() {
   };
 
   return (
-    <PageLayout sideBar={<Sidebar />}>
+    <PageLayout
+      topNavigation={<TopNavigation eventTitle={eventTitle} />}
+      sideBar={<Sidebar />}
+    >
       <S.DashboardInfo>
         <S.TopContainer>
           <S.Title>행사 기본 정보</S.Title>

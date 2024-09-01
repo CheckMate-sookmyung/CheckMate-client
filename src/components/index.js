@@ -13,3 +13,4 @@ export * from './Textarea';
 export * from './TopNavigation';
 export * from './Sidebar';
 export * from './Table';
+export * from './Footer';
