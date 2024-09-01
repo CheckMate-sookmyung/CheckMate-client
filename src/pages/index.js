@@ -4,6 +4,7 @@ export {
   DashboardInfoPage,
   DashboardMessagePage,
   DashboardAttendeePage,
+  DashboardStatisticPage,
 } from './DashboardPage';
 export { Home } from './Home';
 export { RegisterPage } from './RegisterPage';

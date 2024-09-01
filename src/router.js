@@ -10,6 +10,7 @@ import {
   EventCardListPage,
   DashboardMessagePage,
   TotalStatisticsPage,
+  DashboardStatisticPage,
 } from './pages';
 import Layout from './Layout/Layout';
 import RegisterCompleted from './pages/RegisterPage/PageComponents/RegisterCompleted';
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: '/event/dashboard/attendee',
         element: <DashboardAttendeePage />,
+      },
+      {
+        path: '/event/dashboard/stats',
+        element: <DashboardStatisticPage />,
       },
       {
         path: '/stats',

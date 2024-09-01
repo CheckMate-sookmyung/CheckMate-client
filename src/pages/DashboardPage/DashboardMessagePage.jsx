@@ -114,7 +114,7 @@ export default function DashboardMessagePage() {
 
   return (
     <PageLayout
-      topNavigation={<TopNavigation eventTitle={eventDetail.eventTitle} />}
+      topNavigation={<TopNavigation eventTitle={eventDetail.title} />}
       sideBar={<Sidebar />}
     >
       <S.DashboardMessagePage>

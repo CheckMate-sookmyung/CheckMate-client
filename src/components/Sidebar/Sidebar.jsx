@@ -10,7 +10,11 @@ import { BiSolidMessageRounded } from 'react-icons/bi';
 
 // 개별 메뉴
 const menuItems = [
-  { to: '/event/dashboard', icon: <FaTableList />, text: '대시보드' },
+  {
+    to: '/event/dashboard',
+    icon: <FaTableList />,
+    text: '대시보드',
+  },
   {
     to: '/event/dashboard/info',
     icon: <FaCircleInfo />,
@@ -21,9 +25,13 @@ const menuItems = [
     icon: <BiSolidMessageRounded />,
     text: '카카오톡 예약 발송',
   },
-  { to: '/event/dashboard/attendee', icon: <FaUsers />, text: '참석자 관리' },
   {
-    to: '#',
+    to: '/event/dashboard/attendee',
+    icon: <FaUsers />,
+    text: '참석자 관리',
+  },
+  {
+    to: '/event/dashboard/stats',
     icon: <FaChartPie />,
     text: '통계 (오픈예정)',
   },
