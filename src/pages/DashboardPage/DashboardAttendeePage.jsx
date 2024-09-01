@@ -6,7 +6,7 @@ import { axiosInstance } from '@/axios';
 import { USER_ID } from '@/constants';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '@/recoil/atoms/state';
-import { Button, Sidebar, AttendeeTable, TopNavigation } from '@/components';
+import { Sidebar, AttendeeTable, TopNavigation, TabMenu } from '@/components';
 import {
   getAttendanceList,
   getEventDetail,
@@ -214,14 +214,10 @@ export default function DashboardAttendeePage() {
         <S.TabEditWrapper>
           <S.TabContainer>
             {sessions.map((session) => (
-              <Button
+              <TabMenu
                 key={session.tab}
                 label={`${session.tab}회 (${session.date})`}
                 active={activeTab === session.tab}
-                backgroundColor={
-                  activeTab === session.tab ? '#2f7cef' : '#F2F2F2'
-                }
-                textColor={activeTab === session.tab ? '#fff' : '#323232'}
                 onClick={() => {
                   setActiveTab(session.tab);
                   const sortedAttendees = [

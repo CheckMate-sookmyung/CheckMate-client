@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { PageLayout } from '@/Layout';
 import * as S from './DashboardMessagePage.style';
-import { Sidebar, Button, TopNavigation } from '@/components';
+import { Sidebar, Button, TopNavigation, TabMenu } from '@/components';
 import { USER_ID } from '@/constants';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '@/recoil/atoms/state';
@@ -27,6 +27,39 @@ ${imageUrl ? `<img src="${imageUrl}" alt="Event Image" />` : ''}
 기타 궁금한 사항이 있으시면 언제든지 문의해주시기 바랍니다.
 
 감사합니다.`;
+
+const SessionDateTab = ({
+  tab,
+  activeTab,
+  setActiveTab,
+  date,
+  sessions,
+  eventDetail,
+  updateMessageContent,
+  sessionAttendees,
+  setAttendees,
+}) => {
+  return (
+    <TabMenu
+      key={tab}
+      label={`${tab}회 (${date})`}
+      active={activeTab === tab}
+      onClick={() => {
+        setActiveTab(tab);
+        setAttendees(sessionAttendees[tab] || []);
+
+        const selectedSession = sessions.find((session) => session.tab === tab);
+
+        updateMessageContent(
+          selectedSession,
+          eventDetail.eventTitle,
+          eventDetail.eventDetail,
+          eventDetail.eventImage,
+        );
+      }}
+    />
+  );
+};
 
 export default function DashboardMessagePage() {
   const [activeTab, setActiveTab] = useState(1);
@@ -73,32 +106,6 @@ export default function DashboardMessagePage() {
     }
   }, [eventDetail]);
 
-  const SessionDateTab = ({ tab, medium, activeTab, setActiveTab, date }) => {
-    return (
-      <Button
-        key={tab}
-        size={medium}
-        label={`${tab}회 (${date})`}
-        active={activeTab === tab}
-        onClick={() => {
-          setActiveTab(tab);
-          setAttendees(sessionAttendees[tab] || []);
-
-          const selectedSession = sessions.find(
-            (session) => session.tab === tab,
-          );
-
-          updateMessageContent(
-            selectedSession,
-            eventDetail.title,
-            eventDetail.detail,
-            eventDetail.imageUrl,
-          );
-        }}
-      />
-    );
-  };
-
   const handleToggleChange = (checked) => {
     setMessageReminder(checked);
   };
@@ -124,12 +131,12 @@ export default function DashboardMessagePage() {
 
   return (
     <PageLayout
-      topNavigation={<TopNavigation eventTitle={eventDetail.title} />}
+      topNavigation={<TopNavigation eventTitle={eventDetail.eventTitle} />}
       sideBar={<Sidebar />}
     >
       <S.DashboardMessagePage>
         <S.TopContainer>
-          <S.Title>카카오톡 예약 발송</S.Title>{' '}
+          <S.Title>카카오톡 예약 발송</S.Title>
           <S.ButtonContainer>
             <Button label={'저장하기'} />
           </S.ButtonContainer>
@@ -143,6 +150,11 @@ export default function DashboardMessagePage() {
               activeTab={activeTab}
               setActiveTab={setActiveTab}
               date={session.date}
+              sessions={sessions}
+              eventDetail={eventDetail}
+              updateMessageContent={updateMessageContent}
+              sessionAttendees={sessionAttendees}
+              setAttendees={setAttendees}
             />
           ))}
         </S.TabContainer>
