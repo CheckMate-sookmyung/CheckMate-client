@@ -3,10 +3,11 @@ import { PageLayout } from '@/Layout';
 import * as S from './DashboardMessagePage.style';
 import { Sidebar, Button, TopNavigation } from '@/components';
 import { USER_ID } from '@/constants';
-import { axiosInstance } from '@/axios';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '@/recoil/atoms/state';
 import Switch from 'react-switch';
+import { useQuery } from '@tanstack/react-query';
+import { getEventDetail } from '@/apis';
 
 const DEFAULT_MESSAGE_CONTENT = (
   title,
@@ -32,46 +33,45 @@ export default function DashboardMessagePage() {
   const [attendees, setAttendees] = useState([]);
   const [sessions, setSessions] = useState([]);
   const [sessionAttendees, setSessionAttendees] = useState({});
-  const [eventDetail, setEventDetail] = useState({});
   const [messageContent, setMessageContent] = useState('');
-  const EVENT_ID = useRecoilValue(eventIDState);
+  const eventId = useRecoilValue(eventIDState);
   const [messageReminder, setMessageReminder] = useState(true);
 
-  useEffect(() => {
-    const fetchSessions = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `/api/v1/events/${USER_ID}/${EVENT_ID}`,
-        );
-        const event = response.data;
-        const parsedSessions = event.eventSchedules.map((schedule, index) => ({
-          tab: index + 1,
-          date: `${schedule.eventDate.substring(5, 7)}/${schedule.eventDate.substring(8, 10)}`,
-          time: schedule.eventStartTime,
-          attendanceList: schedule.attendanceListResponseDtos || [],
-        }));
-        setSessions(parsedSessions);
-        setEventDetail({
-          title: event.eventTitle,
-          detail: event.eventDetail,
-          imageUrl: event.eventImage,
-        });
-        if (parsedSessions.length > 0) {
-          updateMessageContent(
-            parsedSessions[0],
-            event.eventTitle,
-            event.eventDetail,
-            event.eventImage,
-          );
-          setAttendees(parsedSessions[0].attendanceList);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  const {
+    data: eventDetail,
+    isPending,
+    isError,
+  } = useQuery({
+    queryKey: ['getEventDetail', eventId],
+    queryFn: () => getEventDetail(USER_ID, eventId),
+  });
 
-    fetchSessions();
-  }, [EVENT_ID, USER_ID]);
+  useEffect(() => {
+    if (eventDetail === undefined) {
+      return;
+    }
+
+    const parsedSessions = eventDetail.eventSchedules.map(
+      (schedule, index) => ({
+        tab: index + 1,
+        date: `${schedule.eventDate.substring(5, 7)}/${schedule.eventDate.substring(8, 10)}`,
+        time: schedule.eventStartTime,
+        attendanceList: schedule.attendanceListResponseDtos || [],
+      }),
+    );
+
+    setSessions(parsedSessions);
+
+    if (parsedSessions.length > 0) {
+      updateMessageContent(
+        parsedSessions[0],
+        eventDetail.eventTitle,
+        eventDetail.eventDetail,
+        eventDetail.eventImage,
+      );
+      setAttendees(parsedSessions[0].attendanceList);
+    }
+  }, [eventDetail]);
 
   const SessionDateTab = ({ tab, medium, activeTab, setActiveTab, date }) => {
     return (
@@ -83,9 +83,11 @@ export default function DashboardMessagePage() {
         onClick={() => {
           setActiveTab(tab);
           setAttendees(sessionAttendees[tab] || []);
+
           const selectedSession = sessions.find(
             (session) => session.tab === tab,
           );
+
           updateMessageContent(
             selectedSession,
             eventDetail.title,
@@ -111,6 +113,14 @@ export default function DashboardMessagePage() {
     );
     setMessageContent(updatedContent);
   };
+
+  if (isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return null;
+  }
 
   return (
     <PageLayout

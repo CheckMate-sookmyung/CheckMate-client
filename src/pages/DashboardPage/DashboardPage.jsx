@@ -5,10 +5,9 @@ import { Button, Sidebar, TopNavigation } from '@/components';
 import { USER_ID } from '@/constants';
 import { eventIDState } from '@/recoil/atoms/state';
 import { useRecoilValue } from 'recoil';
-import { axiosInstance } from '@/axios';
 import { Link, useNavigate } from 'react-router-dom';
-import { getEventDetail } from '@/apis';
-import { useQuery } from '@tanstack/react-query';
+import { deleteEvent, getEventDetail, postEventManager } from '@/apis';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export default function DashboardPage() {
   const [parsedEvents, setParsedEvents] = useState(null);
@@ -23,15 +22,114 @@ export default function DashboardPage() {
 
   const eventId = useRecoilValue(eventIDState);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
+  // 행사 정보 불러오기
   const {
     data: eventDetail,
     isPending,
     isError,
   } = useQuery({
-    queryKey: 'getEventDetail',
+    queryKey: ['getEventDetail', eventId],
     queryFn: () => getEventDetail(USER_ID, eventId),
   });
+
+  const { mutate: deleteEventMutate, isPending: isDeleteEventPending } =
+    useMutation({
+      mutationKey: ['deleteEvent', eventId],
+      mutationFn: () => deleteEvent(USER_ID, eventId),
+      onSuccess: () => {
+        alert('행사가 삭제되었습니다. 목록 페이지로 이동합니다.');
+        navigate('/event');
+      },
+      onError: () => {
+        alert('행사 삭제에 실패했습니다. 다시 시도해 주세요.');
+      },
+    });
+
+  const {
+    mutate: postEventManagerMutate,
+    isPending: isPostEventManagerPending,
+  } = useMutation({
+    mutationKey: ['postEventManager', eventId],
+    mutationFn: (body) => postEventManager(USER_ID, eventId, body),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['getEventDetail']);
+      setIsEditing(false);
+      alert('연락처가 성공적으로 등록되었습니다.');
+    },
+    onError: () => {
+      alert('연락처 등록에 실패했습니다. 다시 시도해 주세요.');
+    },
+  });
+
+  const handleEventDeleteButtonClick = () => {
+    const isConfirmed = window.confirm('행사를 완전히 삭제하시겠습니까?');
+
+    if (isConfirmed) {
+      deleteEventMutate();
+    }
+  };
+
+  // eventType, eventTarget
+  const getEventTypeLabel = (type) =>
+    type === 'OFFLINE' ? '오프라인' : type === 'ONLINE' ? '온라인' : type;
+
+  const getEventTargetLabel = (target) =>
+    target === 'EXTERNAL'
+      ? '외부인 (휴대폰번호로 출석체크)'
+      : target === 'INTERNAL'
+        ? '숙명여자대학교 학생 (학번으로 출석체크)'
+        : target;
+
+  // 담당자 연락처 추가 및 입력 필드 생성
+  const handleAddContactButtonClick = () => {
+    const isNameValid = contacts.name.trim() !== '';
+    const isPhoneValid = validatePhoneNumber(contacts.phone);
+    const isEmailValid = validateEmail(contacts.email);
+
+    setNameError(!isNameValid);
+    setPhoneError(!isPhoneValid);
+    setEmailError(!isEmailValid);
+
+    if (isEditing && isNameValid && isPhoneValid && isEmailValid) {
+      postEventManagerMutate({
+        manager: {
+          managerName: contacts.name,
+          managerPhoneNumber: contacts.phone,
+          managerEmail: contacts.email,
+        },
+      });
+    } else {
+      setIsEditing(true);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setContacts((prevContacts) => ({
+      ...prevContacts,
+      [name]: value,
+    }));
+
+    if (name === 'name') {
+      setNameError(value.trim() === '');
+    } else if (name === 'phone') {
+      setPhoneError(!validatePhoneNumber(value));
+    } else if (name === 'email') {
+      setEmailError(!validateEmail(value));
+    }
+  };
+
+  const validatePhoneNumber = (phone) => {
+    const phoneRegex = /^010-\d{4}-\d{4}$/;
+    return phoneRegex.test(phone);
+  };
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   useEffect(() => {
     if (eventDetail === undefined) {
@@ -110,107 +208,11 @@ export default function DashboardPage() {
     });
   }, [eventDetail]);
 
-  // 행사 삭제
-  const DeleteEvent = async () => {
-    const isConfirmed = window.confirm('행사를 완전히 삭제하시겠습니까?');
-    if (!isConfirmed) {
-      return;
-    }
-    try {
-      const response = await axiosInstance.delete(
-        `api/v1/events/${USER_ID}/${eventId}`,
-      );
-      if (response.status === 200) {
-        alert('행사가 삭제되었습니다. 목록 페이지로 이동합니다.');
-        navigate('/event');
-        console.log(response);
-      }
-    } catch (error) {
-      alert('행사 삭제에 실패했습니다. 다시 시도해 주세요.');
-      console.log(error);
-    }
-  };
-
-  // eventType, eventTarget
-  const getEventTypeLabel = (type) =>
-    type === 'OFFLINE' ? '오프라인' : type === 'ONLINE' ? '온라인' : type;
-
-  const getEventTargetLabel = (target) =>
-    target === 'EXTERNAL'
-      ? '외부인 (휴대폰번호로 출석체크)'
-      : target === 'INTERNAL'
-        ? '숙명여자대학교 학생 (학번으로 출석체크)'
-        : target;
-
-  // 담당자 연락처 추가 및 입력 필드 생성
-  const handleAddContact = async () => {
-    const isNameValid = contacts.name.trim() !== '';
-    const isPhoneValid = validatePhoneNumber(contacts.phone);
-    const isEmailValid = validateEmail(contacts.email);
-
-    setNameError(!isNameValid);
-    setPhoneError(!isPhoneValid);
-    setEmailError(!isEmailValid);
-
-    if (isEditing && isNameValid && isPhoneValid && isEmailValid) {
-      try {
-        const response = await axiosInstance.post(
-          `/api/v1/events/manager/${USER_ID}/${eventId}`,
-          {
-            manager: {
-              managerName: contacts.name,
-              managerPhoneNumber: contacts.phone,
-              managerEmail: contacts.email,
-            },
-          },
-        );
-
-        if (response.status === 200) {
-          setIsEditing(false);
-          alert('연락처가 성공적으로 등록되었습니다.');
-        }
-      } catch (error) {
-        console.log('연락처 등록 실패: ', error);
-        alert('연락처 등록에 실패했습니다. 다시 시도해 주세요.');
-      }
-    } else {
-      setIsEditing(true);
-    }
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setContacts((prevContacts) => ({
-      ...prevContacts,
-      [name]: value,
-    }));
-
-    if (name === 'name') {
-      setNameError(value.trim() === '');
-    } else if (name === 'phone') {
-      setPhoneError(!validatePhoneNumber(value));
-    } else if (name === 'email') {
-      setEmailError(!validateEmail(value));
-    }
-  };
-
-  const validatePhoneNumber = (phone) => {
-    const phoneRegex = /^010-\d{4}-\d{4}$/;
-    return phoneRegex.test(phone);
-  };
-
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
   if (isPending) {
     return <div>Loading...</div>;
   }
 
   if (isError) {
-    console.log('이벤트 데이터를 가져오는 중 오류');
-
     return null;
   }
 
@@ -231,10 +233,11 @@ export default function DashboardPage() {
                 <Button label={'행사 수정'} />
               </Link>
               <Button
-                onClick={DeleteEvent}
-                label={'행사 삭제'}
+                label="행사 삭제"
                 backgroundColor="#F2F2F2"
                 textColor="#F92828"
+                disabled={isDeleteEventPending}
+                onClick={handleEventDeleteButtonClick}
               />
             </S.ButtonContainer>
           </S.TopContainer>
@@ -273,7 +276,11 @@ export default function DashboardPage() {
                       해당 연락처로 참석자 명단이 발송돼요
                     </S.ContactDescription>
                   </S.ContactTextWrapper>
-                  <S.AddContactButton onClick={handleAddContact}>
+                  <S.AddContactButton
+                    type="button"
+                    disabled={isPostEventManagerPending}
+                    onClick={handleAddContactButtonClick}
+                  >
                     {isEditing
                       ? '저장'
                       : contacts.name || contacts.phone || contacts.email

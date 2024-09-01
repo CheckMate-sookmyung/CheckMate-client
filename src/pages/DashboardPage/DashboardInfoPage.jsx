@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import * as S from './DashboardInfoPage.style';
 import {
   Sidebar,
@@ -10,11 +11,11 @@ import {
   TopNavigation,
 } from '@/components';
 import { USER_ID } from '@/constants';
-import { axiosInstance } from '@/axios';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '@/recoil/atoms/state';
 import { PageLayout } from '@/Layout';
 import UploadBox from '../RegisterPage/RegisterComponents/UploadBox/UploadBox';
+import { getEventDetail, updateEventDetail } from '@/apis';
 
 export default function DashboardInfoPage() {
   const [eventType, setEventType] = useState('OFFLINE');
@@ -30,7 +31,7 @@ export default function DashboardInfoPage() {
     },
   ]);
   const [isChanged, setIsChanged] = useState(false);
-  const EVENT_ID = useRecoilValue(eventIDState);
+  const eventId = useRecoilValue(eventIDState);
 
   const initialState = useRef({
     eventType,
@@ -41,54 +42,72 @@ export default function DashboardInfoPage() {
     eventSchedules,
   });
 
-  const fetchEventData = async () => {
-    try {
-      const response = await axiosInstance.get(
-        `/api/v1/events/${USER_ID}/${EVENT_ID}`,
-      );
-      const eventData = response.data;
+  const {
+    data: eventDetail,
+    isPending,
+    isError,
+  } = useQuery({
+    queryKey: ['getEventDetail', eventId],
+    queryFn: () => getEventDetail(USER_ID, eventId),
+  });
 
-      setEventType(eventData.eventType);
-      setEventTarget(eventData.eventTarget);
-      setEventTitle(eventData.eventTitle);
-      setEventDescription(eventData.eventDetail);
-      setEventImage(eventData.eventImage || '');
-      setEventSchedules(
-        eventData.eventSchedules.map((schedule) => ({
-          eventDate: new Date(schedule.eventDate),
-          eventStartTime: new Date(
-            `${schedule.eventDate}T${schedule.eventStartTime}`,
-          ),
-          eventEndTime: new Date(
-            `${schedule.eventDate}T${schedule.eventEndTime}`,
-          ),
-        })),
-      );
-
-      initialState.current = {
-        eventType: eventData.eventType,
-        eventTarget: eventData.eventTarget,
-        eventTitle: eventData.eventTitle,
-        eventDescription: eventData.eventDetail,
-        eventImage: eventData.eventImage || '',
-        eventSchedules: eventData.eventSchedules.map((schedule) => ({
-          eventDate: new Date(schedule.eventDate),
-          eventStartTime: new Date(
-            `${schedule.eventDate}T${schedule.eventStartTime}`,
-          ),
-          eventEndTime: new Date(
-            `${schedule.eventDate}T${schedule.eventEndTime}`,
-          ),
-        })),
-      };
-    } catch (error) {
-      console.error('이벤트 정보 불러오는 중 에러:', error);
-    }
-  };
+  const {
+    mutate: updateEventDetailMutate,
+    isPending: isUpdateEventDetailPending,
+  } = useMutation({
+    mutationKey: ['updateEventDetail', eventId],
+    mutationFn: (body) => updateEventDetail(USER_ID, eventId, body),
+    onSuccess: () => {
+      alert('행사 정보가 성공적으로 저장되었습니다.');
+      setIsChanged(false);
+    },
+    onError: () => {
+      alert('행사 정보를 저장하는 데 실패했습니다. 다시 시도해 주세요.');
+    },
+  });
 
   useEffect(() => {
-    fetchEventData();
-  }, [EVENT_ID, USER_ID]);
+    if (eventDetail === undefined) {
+      return;
+    }
+
+    const {
+      eventType,
+      eventTarget,
+      eventTitle,
+      eventDetail: eventDescription,
+      eventImage,
+      eventSchedules,
+    } = eventDetail;
+
+    setEventType(eventType);
+    setEventTarget(eventTarget);
+    setEventTitle(eventTitle);
+    setEventDescription(eventDescription);
+    setEventImage(eventImage || '');
+    setEventSchedules(
+      eventSchedules.map(({ eventDate, eventStartTime, eventEndTime }) => ({
+        eventDate: new Date(eventDate),
+        eventStartTime: new Date(`${eventDate}T${eventStartTime}`),
+        eventEndTime: new Date(`${eventDate}T${eventEndTime}`),
+      })),
+    );
+
+    initialState.current = {
+      eventType,
+      eventTarget,
+      eventTitle,
+      eventDescription,
+      eventImage: eventImage || '',
+      eventSchedules: eventSchedules.map(
+        ({ eventDate, eventStartTime, eventEndTime }) => ({
+          eventDate: new Date(eventDate),
+          eventStartTime: new Date(`${eventDate}T${eventStartTime}`),
+          eventEndTime: new Date(`${eventDate}T${eventEndTime}`),
+        }),
+      ),
+    };
+  }, [eventDetail]);
 
   useEffect(() => {
     const hasChanged =
@@ -122,6 +141,7 @@ export default function DashboardInfoPage() {
 
   const handleScheduleChange = (index, key, value) => {
     const newSchedules = [...eventSchedules];
+
     newSchedules[index][key] = value;
     setEventSchedules(newSchedules);
     setIsChanged(true);
@@ -142,6 +162,7 @@ export default function DashboardInfoPage() {
   const handleDeleteSchedule = (index) => {
     if (eventSchedules.length > 1) {
       const newSchedules = eventSchedules.filter((_, i) => i !== index);
+
       setEventSchedules(newSchedules);
       setIsChanged(true);
     }
@@ -155,14 +176,15 @@ export default function DashboardInfoPage() {
       eventStartTime: new Date(lastSchedule.eventStartTime),
       eventEndTime: new Date(lastSchedule.eventEndTime),
     };
+
     setEventSchedules([...eventSchedules, newSchedule]);
     setIsChanged(true);
   };
 
   // 저장하기 버튼
-  const handleSave = async () => {
-    const eventData = {
-      eventId: EVENT_ID,
+  const handleSaveButtonClick = () => {
+    updateEventDetailMutate({
+      eventId,
       eventTitle,
       eventDetail: eventDescription,
       eventImage,
@@ -174,19 +196,7 @@ export default function DashboardInfoPage() {
         eventEndTime: schedule.eventEndTime.toISOString().split('T')[1],
         attendanceListResponseDtos: [],
       })),
-    };
-
-    try {
-      await axiosInstance.put(
-        `/api/v1/events/${USER_ID}/${EVENT_ID}`,
-        eventData,
-      );
-      alert('행사 정보가 성공적으로 저장되었습니다.');
-      setIsChanged(false);
-    } catch (error) {
-      alert('행사 정보를 저장하는 데 실패했습니다. 다시 시도해 주세요.');
-      console.error('행사 정보 저장 실패: ', error);
-    }
+    });
   };
 
   const handleImageUpload = (event) => {
@@ -198,6 +208,14 @@ export default function DashboardInfoPage() {
     }
   };
 
+  if (isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return null;
+  }
+
   return (
     <PageLayout
       topNavigation={<TopNavigation eventTitle={eventTitle} />}
@@ -208,9 +226,9 @@ export default function DashboardInfoPage() {
           <S.Title>행사 기본 정보</S.Title>
           <S.ButtonContainer>
             <Button
-              label={'저장하기'}
-              disabled={!isChanged}
-              onClick={handleSave}
+              label="저장하기"
+              disabled={!isChanged || isUpdateEventDetailPending}
+              onClick={handleSaveButtonClick}
             />
           </S.ButtonContainer>
         </S.TopContainer>
