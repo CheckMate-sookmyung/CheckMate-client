@@ -5,9 +5,17 @@ export const TabMenu = styled.button`
   justify-content: center;
   align-items: center;
   border-radius: 8px;
-  padding: 0 14px;
-  background: '#2f7cef';
-  color: #fff;
+  padding: 9px 18px;
+  background: ${(props) => (props.active ? '#2f7cef' : '#F2F2F2')};
+  color: ${(props) => (props.active ? '#fff' : '#000')};
   font-size: 13px;
-  font-weight: 400;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+
+  &:hover {
+    background: #2f7cef;
+    color: #fff;
+  }
 `;

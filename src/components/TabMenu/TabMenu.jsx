@@ -1,8 +1,8 @@
 import * as S from './TabMenu.style';
 
-const TabMenu = ({ label, onClick, ...props }) => {
+const TabMenu = ({ label, onClick, active, ...props }) => {
   return (
-    <S.TabMenu onClick={onClick} {...props}>
+    <S.TabMenu onClick={onClick} active={active} {...props}>
       {label}
     </S.TabMenu>
   );
