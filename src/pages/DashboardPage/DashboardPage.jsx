@@ -222,8 +222,21 @@ export default function DashboardPage() {
       {parsedEvents && (
         <S.DashboardPage>
           <S.TopContainer>
-            <S.EventTitle>{parsedEvents.title}</S.EventTitle>
-            <S.Badge status={eventStatus}>{eventStatus}</S.Badge>
+            <S.EventTitleWrapper>
+              <S.EventTitle>{parsedEvents.title}</S.EventTitle>
+              <S.Badge status={eventStatus}>{eventStatus}</S.Badge>
+            </S.EventTitleWrapper>
+            <S.ButtonContainer>
+              <Link to="/event/dashboard/info">
+                <Button label={'행사 수정'} />
+              </Link>
+              <Button
+                onClick={DeleteEvent}
+                label={'행사 삭제'}
+                backgroundColor="#F2F2F2"
+                textColor="#F92828"
+              />
+            </S.ButtonContainer>
           </S.TopContainer>
 
           {/* 행사 정보 */}
@@ -395,18 +408,6 @@ export default function DashboardPage() {
               </S.ProgressNumber>
             </S.ProgressBox>
           </S.ProgressContainer>
-
-          <S.ButtonContainer>
-            <Link to="/event/dashboard/info">
-              <Button label={'행사 수정'} />
-            </Link>
-            <Button
-              onClick={DeleteEvent}
-              label={'행사 삭제'}
-              backgroundColor="#F2F2F2"
-              textColor="#F92828"
-            />
-          </S.ButtonContainer>
         </S.DashboardPage>
       )}
     </PageLayout>

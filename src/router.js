@@ -4,11 +4,11 @@ import {
   AttendanceSignPage,
   DashboardPage,
   DashboardInfoPage,
-  DashboardEmailPage,
   DashboardAttendeePage,
   Home,
   RegisterPage,
   EventCardListPage,
+  DashboardMessagePage,
   TotalStatisticsPage,
 } from './pages';
 import Layout from './Layout/Layout';
@@ -43,8 +43,8 @@ const router = createBrowserRouter([
         element: <DashboardInfoPage />,
       },
       {
-        path: '/event/dashboard/email',
-        element: <DashboardEmailPage />,
+        path: '/event/dashboard/message',
+        element: <DashboardMessagePage />,
       },
       {
         path: '/event/dashboard/attendee',

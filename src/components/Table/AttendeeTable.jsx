@@ -37,7 +37,7 @@ const AttendeeTable = ({
             <S.TableHeader onClick={() => sortData('major')}>
               소속
               <SortIcon columnKey="major" />
-            </S.TableHeader>{' '}
+            </S.TableHeader>
             <S.TableHeader onClick={() => sortData('number')}>
               학번
               <SortIcon columnKey="number" />

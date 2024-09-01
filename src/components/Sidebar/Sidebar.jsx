@@ -17,7 +17,7 @@ const menuItems = [
     text: '행사 기본 정보',
   },
   {
-    to: '/event/dashboard/email',
+    to: '/event/dashboard/message',
     icon: <BiSolidMessageRounded />,
     text: '카카오톡 예약 발송',
   },
