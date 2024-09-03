@@ -1,13 +1,26 @@
 import styled from 'styled-components';
-import { BREAKPOINTS } from '../../styles';
+import { BREAKPOINTS } from '@/styles';
 
-export const Container = styled.div`
+export const AttendanceStudentIdPage = styled.div`
   display: flex;
   flex-direction: column;
   justify-items: center;
   align-items: center;
   height: 100vh;
   width: 100vw;
+`;
+
+export const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  height: 100%;
+  width: 90%;
+  border-radius: 20px;
+  background: var(--White, #fff);
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.07);
+  margin-bottom: 20px;
 `;
 
 export const OutputContainer = styled.div`
@@ -23,11 +36,9 @@ export const OutputContainer = styled.div`
 export const Title = styled.h1`
   display: flex;
   justify-content: center;
-  font-size: 40px;
-  margin-top: 30px;
-  /* margin-bottom: 10px; */
   padding: 20px;
-  color: var(--gray-300, #636363);
+  color: var(--blue-0, #2f7cef);
+  font-size: 24px;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     font-size: 30px;
