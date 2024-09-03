@@ -6,8 +6,8 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  height: 160px;
-  padding: 10px;
+  height: 100px;
+  padding: 20px;
   font-size: 32px;
   font-weight: 700;
   color: var(--Black-0, #000);
@@ -36,10 +36,10 @@ export const ContentContainer = styled.div`
 
 export const Title = styled.h1`
   display: flex;
+  position: relative;
   align-items: center;
   gap: 10px;
   font-weight: 600;
-  position: relative;
 
   &::after {
     content: '';
@@ -47,7 +47,7 @@ export const Title = styled.h1`
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 10px;
+    height: 14px;
     background-color: #7cff69;
     z-index: -1;
   }
