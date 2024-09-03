@@ -21,6 +21,8 @@ export const ContentContainer = styled.div`
   background: var(--White, #fff);
   box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.07);
   margin-bottom: 20px;
+  padding: 20px;
+  gap: 20px;
 `;
 
 export const OutputContainer = styled.div`
@@ -36,7 +38,6 @@ export const OutputContainer = styled.div`
 export const Title = styled.h1`
   display: flex;
   justify-content: center;
-  padding: 20px;
   color: var(--blue-0, #2f7cef);
   font-size: 24px;
   font-weight: 600;
@@ -49,7 +50,7 @@ export const Title = styled.h1`
 
 export const StudentIdContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   gap: 40px;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
@@ -89,17 +90,11 @@ export const DialList = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(4, 1fr);
-  width: 80%;
+  width: 100%;
   height: inherit;
   border-collapse: collapse;
   border-radius: 10px;
-  margin-top: 20px;
-  margin-bottom: 40px;
   overflow: hidden;
-
-  @media (max-width: ${BREAKPOINTS[0]}px) {
-    width: 90%;
-  }
 `;
 
 export const Dial = styled.div`
