@@ -6,8 +6,11 @@ export const AttendanceStudentIdPage = styled.div`
   flex-direction: column;
   justify-items: center;
   align-items: center;
-  height: 100vh;
   width: 100vw;
+  height: 100vh;
+  background-image: url('/img/background-attendance.svg');
+  background-size: cover;
+  background-position: center;
 `;
 
 export const ContentContainer = styled.div`
@@ -15,13 +18,13 @@ export const ContentContainer = styled.div`
   flex-direction: column;
   justify-items: center;
   align-items: center;
-  height: 100%;
   width: 90%;
+  height: 100%;
   border-radius: 20px;
   background: var(--White, #fff);
   box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.07);
   margin-bottom: 20px;
-  padding: 20px;
+  padding: 30px 20px;
   gap: 20px;
 `;
 
@@ -41,9 +44,11 @@ export const Title = styled.h1`
   color: var(--blue-0, #2f7cef);
   font-size: 28px;
   font-weight: 600;
+  text-align: center;
+  word-break: keep-all;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    font-size: 30px;
+    font-size: 20px;
     margin-top: 10px;
   }
 `;
@@ -72,11 +77,11 @@ export const StudentId = styled.div`
   margin: 0 10px;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
-    --box-size: 50px;
+    --box-size: 60px;
     font-size: 40px;
   }
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    --box-size: 40px;
+    --box-size: 50px;
     font-size: 36px;
   }
 `;
@@ -148,7 +153,7 @@ export const GoToSignBtn = styled.div`
 
   &:hover {
     background-color: ${({ isSevenDigits }) =>
-      isSevenDigits ? '#1e5bbf' : '#BDDBFF'}; /* 호버 시 색상 변경 */
+      isSevenDigits ? '#1e5bbf' : '#BDDBFF'};
   }
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
