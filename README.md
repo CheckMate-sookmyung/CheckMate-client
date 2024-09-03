@@ -1,6 +1,10 @@
 <div align="center">
-  <p>내 손 안에 간편한 행사 관리 시스템</p>
+
+![Generic badge](https://img.shields.io/badge/version-2.3.1-blue.svg)
+
   <h1>CheckMate | 체크메이트</h1>
+  <p>내 손 안에 간편한 행사 관리 시스템</p>
+
 </div>
 
 <br />
@@ -21,7 +25,7 @@
 ### Front-end
 
 <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black"> <img src="https://img.shields.io/badge/React Router-CA4245?style=for-the-badge&logo=reactrouter&logoColor=white"> <img src="https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white">
-<img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=black"><img src="https://img.shields.io/badge/recoil-3578E5?style=for-the-badge&logo=recoil&logoColor=white">
+<img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=black"> <img src="https://img.shields.io/badge/recoil-3578E5?style=for-the-badge&logo=recoil&logoColor=white">
 
 ### Version Control
 
@@ -35,8 +39,9 @@
 
 ## 📖 Using Library
 
-| 라이브러리 | 사용 목적 | Management Tool |
-| :--------: | :-------: | :-------------: |
+|      라이브러리명      |    사용 목적     |              기능               |
+| :--------------------: | :--------------: | :-----------------------------: |
+| react-signature-canvas | 참석자 서명 구현 | 캔버스 관리 및 서명 데이터 처리 |
 
 <br>
 
@@ -61,8 +66,8 @@
 
 ### 커밋 예시
 
-- git commit -m "커밋 태그: 커밋 내용"
-  - `ex ) git commit -m "feat: 회원가입 기능 구현"`
+- git commit -m "#이슈번호 커밋 태그: 커밋 내용"
+  - ex) `git commit -m "#198 feat: 회원가입 기능 구현"`
 
 <br>
 
@@ -78,8 +83,8 @@
 
 ### 브랜치 명 예시
 
-- feat/기능 이름
-  - `ex) feat/login`
+- feat/#이슈번호-기능 이름
+  - ex) `feat/#198-login`
 
 <br>
 
@@ -104,6 +109,57 @@
 
 - [이슈 항목] 개발 내용
   - `ex) [공통] 홈화면 구현`
+
+<br>
+
+## 🏄🏻‍♀️ 개발 팀 소개
+
+<table style="text-align:center">
+  <thead>
+    <tr>
+      <th style="text-align: center;">프로필</th>
+      <th style="text-align: center;">이름 (세부 전공)</th>
+      <th style="text-align: center;">역할</th>
+      <th style="text-align: center;">개발 내용</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="https://github.com/misung-dev" target="_blank"><img src="https://avatars.githubusercontent.com/u/128569095?v=4" alt="류미성 프로필" width="100px" /></a></td>
+      <td style="text-align: center;">류미성<br>(컴퓨터과학 21)</td>
+      <td>Front-end</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/dudrhy12" target="_blank"><img src="https://avatars.githubusercontent.com/u/90203803?v=4" alt="김준희 프로필" width="100px" /></a></td>
+      <td style="text-align: center;">조영서<br>(컴퓨터과학 21)</td>
+      <td>Back-end</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/hanjeonghyun" target="_blank"><img src="https://avatars.githubusercontent.com/u/129199377?v=4" alt="한정현 프로필" width="100px" /></a></td>
+     <td style="text-align: center;">한정현<br>(컴퓨터과학 21)</td>
+      <td>Front-end</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+
+## 👷 버전 기록
+
+|   버전   | <div align="center">업데이트 내용</div>                                                                                           | 업데이트 날짜 |
+| :------: | :-------------------------------------------------------------------------------------------------------------------------------- | :-----------: |
+| `v1.0.0` | - 체크메이트 서비스 오픈<br/>- 출석체크 기능 구현                                                                                 |  24. 05. 12   |
+| `v1.1.0` | - 출석체크 플로우 수정 (모달창 간소화)<br/>- 참석명단 조회 기능 추가                                                              |  24. 05. 19   |
+| `v1.2.0` | - 참석명단 이메일로 전송 기능 추가                                                                                                |  24. 05. 25   |
+| `v1.3.0` | - 반응형 구현<br/>- 행사 상세 페이지 내 참석여부 확인 기능 구현<br> - 행사 참석자 전화 연결 기능 구현<br/>- 행사 등록 페이지 구현 |  24. 07. 11   |
+| `v2.0.0` | -                                                                                                                                 |  24. 07. 24   |
+| `v2.1.0` | -                                                                                                                                 |  24. 07. 26   |
+| `v2.1.1` | -                                                                                                                                 |               |
+
+<br />
 
 ## 📅 개발 기간
 
