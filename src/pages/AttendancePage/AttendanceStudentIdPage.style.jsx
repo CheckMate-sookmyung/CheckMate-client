@@ -39,7 +39,7 @@ export const Title = styled.h1`
   display: flex;
   justify-content: center;
   color: var(--blue-0, #2f7cef);
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 600;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
@@ -86,10 +86,9 @@ export const DialList = styled.div`
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(4, 1fr);
   width: 100%;
-  height: inherit;
-  border-collapse: collapse;
-  border-radius: 10px;
-  overflow: hidden;
+  height: 100%;
+  gap: 10px;
+  padding: 10px;
 `;
 
 export const Dial = styled.div`
@@ -97,42 +96,37 @@ export const Dial = styled.div`
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  border: 1px solid #d9d9d9;
-  border-width: 1px 0 0 1px;
+  border-radius: 10px;
   width: 100%;
   height: 100%;
-  padding: 20px 80px;
   font-size: 40px;
   font-weight: 600;
-  color: #838383;
-  background-color: white;
+  color: #2f7cef;
+  background-color: #f5faff;
+  cursor: pointer;
+  flex-grow: 1;
 
-  &:nth-child(3n) {
-    border-right: 1px solid #d9d9d9;
-  }
-  &:nth-last-child(-n + 3) {
-    border-bottom: 1px solid #d9d9d9;
+  &:hover {
+    background-color: #e0f0ff;
   }
 
-  // 모서리 부분 스타일 추가
-  &:first-child {
-    border-top-left-radius: 10px;
-  }
-  &:nth-child(3) {
-    border-top-right-radius: 10px;
-  }
   &:nth-child(10) {
-    border-bottom-left-radius: 10px;
+    grid-column: span 1;
+    background-color: #fff;
+    font-size: 40px;
   }
 
-  @media (max-width: ${BREAKPOINTS[2]}px) {
-    padding: 20px 60px;
+  &:nth-child(11) {
+    color: #2f7cef;
+    grid-column: span 1;
+    border-radius: 10px;
   }
+
   @media (max-width: ${BREAKPOINTS[1]}px) {
-    padding: 20px 44px;
+    font-size: 32px;
   }
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    padding: 20px 30px;
+    font-size: 24px;
   }
 `;
 
@@ -144,13 +138,20 @@ export const GoToSignBtn = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-  width: 100%;
+
+  border-radius: 10px;
   color: #fff;
   font-size: 30px;
   font-weight: 600;
   word-break: keep-all;
+  cursor: ${({ isSevenDigits }) => (isSevenDigits ? 'pointer' : 'default')};
+
+  &:hover {
+    background-color: ${({ isSevenDigits }) =>
+      isSevenDigits ? '#1e5bbf' : '#BDDBFF'}; /* 호버 시 색상 변경 */
+  }
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    font-size: 26px;
+    font-size: 20px;
   }
 `;
