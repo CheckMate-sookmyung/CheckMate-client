@@ -40,6 +40,7 @@ export const Title = styled.h1`
   align-items: center;
   gap: 10px;
   font-weight: 600;
+  z-index: 10;
 
   &::after {
     content: '';
