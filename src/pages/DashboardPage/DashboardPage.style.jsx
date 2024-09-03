@@ -22,7 +22,7 @@ export const TopContainer = styled.div`
   justify-content: space-between;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    margin-bottom: 10px;
+    flex-direction: column;
   }
 `;
 
