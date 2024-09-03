@@ -39,6 +39,7 @@ export const Title = styled.h1`
   padding: 20px;
   color: var(--blue-0, #2f7cef);
   font-size: 24px;
+  font-weight: 600;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     font-size: 30px;
@@ -66,11 +67,13 @@ export const StudentId = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  border-bottom: solid 3px #d9d9d9;
+  border-radius: 10px;
+  border: 1px solid var(--LG-2, #e4e4e4);
+  background: var(--LG-4, #f8f8f8);
   width: var(--box-size);
   height: var(--box-size);
-  font-size: 60px;
-  font-weight: 600;
+  font-size: 28px;
+  font-weight: 500;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
     --box-size: 50px;
