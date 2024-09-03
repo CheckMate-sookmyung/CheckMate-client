@@ -50,22 +50,14 @@ export const Title = styled.h1`
 
 export const StudentIdContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  gap: 40px;
-
-  @media (max-width: ${BREAKPOINTS[1]}px) {
-    gap: 20px;
-  }
-  @media (max-width: ${BREAKPOINTS[0]}px) {
-    gap: 10px;
-  }
+  justify-content: space-evenly;
+  width: 100%;
 `;
 
 export const StudentId = styled.div`
-  --box-size: 60px;
+  --box-size: 80px;
 
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
@@ -75,6 +67,9 @@ export const StudentId = styled.div`
   height: var(--box-size);
   font-size: 28px;
   font-weight: 500;
+  flex-grow: 1;
+  max-width: var(--box-size);
+  margin: 0 10px;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
     --box-size: 50px;
@@ -143,14 +138,14 @@ export const Dial = styled.div`
 
 export const GoToSignBtn = styled.div`
   background-color: ${({ isSevenDigits }) =>
-    isSevenDigits ? '#0075FF' : '#BDDBFF'};
+    isSevenDigits ? '#2f7cef' : '#BDDBFF'};
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
   width: 100%;
-  color: #ffffff;
+  color: #fff;
   font-size: 30px;
   font-weight: 600;
   word-break: keep-all;
