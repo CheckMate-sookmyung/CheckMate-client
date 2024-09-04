@@ -20,6 +20,8 @@ export default function DashboardAttendeePage() {
   const [activeTab, setActiveTab] = useState(1);
   const [editMode, setEditMode] = useState(false);
   const [attendees, setAttendees] = useState([]);
+  const [filteredAttendees, setFilteredAttendees] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
   const [sessions, setSessions] = useState([]);
   const [sortConfig, setSortConfig] = useState({
     key: 'name',
@@ -101,12 +103,29 @@ export default function DashboardAttendeePage() {
     if (parsedSessions.length > 0) {
       const initialAttendees = attendeesData[1];
       setAttendees(initialAttendees);
+      setFilteredAttendees(initialAttendees); // 초기 필터된 참석자 리스트 설정
       setSessionAttendees((prev) => ({
         ...prev,
         [1]: initialAttendees,
       }));
     }
   }, [eventDetail]);
+
+  // 참석자 검색
+  useEffect(() => {
+    const filtered = attendees.filter((attendee) => {
+      const searchLower = searchQuery.toLowerCase();
+      return (
+        attendee.name.toLowerCase().includes(searchLower) ||
+        (attendee.number
+          ? String(attendee.number).toLowerCase().includes(searchLower)
+          : false) ||
+        attendee.email.toLowerCase().includes(searchLower) ||
+        attendee.phoneNumber.toLowerCase().includes(searchLower)
+      );
+    });
+    setFilteredAttendees(filtered);
+  }, [searchQuery, attendees]);
 
   const handleAttendanceChange = (index, value) => {
     const updatedAttendees = [...attendees];
@@ -226,6 +245,7 @@ export default function DashboardAttendeePage() {
                     ...sessionAttendees[session.tab],
                   ].sort((a, b) => a.name.localeCompare(b.name));
                   setAttendees(sortedAttendees);
+                  setFilteredAttendees(sortedAttendees); // 필터된 리스트도 업데이트
                 }}
               />
             ))}
@@ -250,12 +270,16 @@ export default function DashboardAttendeePage() {
           </S.RateWrapper>
           <S.SearchBoxWrapper>
             <FaMagnifyingGlass />
-            <S.SearchBox placeholder="이름, 학번, 이메일, 전화번호로 검색" />
+            <S.SearchBox
+              placeholder="이름, 학번, 이메일, 전화번호로 검색"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)} // 검색어 업데이트
+            />
           </S.SearchBoxWrapper>
         </S.SearchRageContainer>
 
         <AttendeeTable
-          attendees={attendees}
+          attendees={filteredAttendees} // 필터된 참석자 리스트를 전달
           editMode={editMode}
           sortData={sortData}
           handleAttendanceChange={handleAttendanceChange}
