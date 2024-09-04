@@ -26,7 +26,7 @@ const Modal = ({ isOpen, onClose, attendees }) => {
     <Portal portalKey="modal-layout">
       <S.Backdrop onClick={onClose} />
       <S.ModalLayout>
-        <S.Title>출석 체크 할 사람을 선택해주세요.</S.Title>
+        <S.Title>출석체크할 사람을 선택해주세요.</S.Title>
         <S.ContentContainer>
           {attendees.map((attendee, index) => (
             <S.Content key={index} onClick={() => handlePersonClick(attendee)}>
