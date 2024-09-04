@@ -60,29 +60,27 @@ export const StudentIdContainer = styled.div`
 `;
 
 export const StudentId = styled.div`
-  --box-size: 80px;
-
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
   border: 1px solid var(--LG-2, #e4e4e4);
   background: var(--LG-4, #f8f8f8);
-  width: var(--box-size);
-  height: var(--box-size);
+  width: 100%;
+  height: 80px;
   font-size: 28px;
   font-weight: 500;
   flex-grow: 1;
-  max-width: var(--box-size);
+  max-width: 110px;
   margin: 0 10px;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
-    --box-size: 60px;
+    height: 60px;
     font-size: 40px;
   }
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    --box-size: 50px;
     font-size: 36px;
+    margin: 2px;
   }
 `;
 
