@@ -85,81 +85,72 @@ const AttendanceSignPage = () => {
   }, []);
 
   return (
-    <S.Container>
+    <S.AttendanceSignPage>
       <AttendanceHeader eventTitle={eventTitle} activeStep={1} />
-      <S.Title>
-        <strong>{studentName}</strong>님이 맞으십니까?
-      </S.Title>
+
       <S.ContentContainer>
-        <S.Content>
-          <S.ContentTitle>소속</S.ContentTitle>
+        <S.StudentInfoContainer>
           <S.ContentDescription>{major}</S.ContentDescription>
-        </S.Content>
-        {eventTarget === 'INTERNAL' && (
-          <S.Content>
-            <S.ContentTitle>학번</S.ContentTitle>
-            <S.ContentDescription>{studentNumber}</S.ContentDescription>
-          </S.Content>
+          <S.Title>
+            <strong>{studentName}</strong>님이 맞으십니까?
+          </S.Title>
+        </S.StudentInfoContainer>
+        {/* 서명 */}
+        <S.CanvasWrapper>
+          <S.SignatureResetButton
+            onClick={() => {
+              signatureRef.current.clear(); // 서명 리셋
+              setIsSigned(false);
+            }}
+          >
+            <FiRotateCcw color="#838383" size="28" />
+          </S.SignatureResetButton>
+          {!isSigned && (
+            <S.CanvasPlaceholder>
+              본인 확인을 위해, 서명을 입력해주세요.
+            </S.CanvasPlaceholder>
+          )}
+          <S.SignatureCanvasContainer>
+            <SignatureCanvas
+              penColor="black"
+              minWidth={4}
+              canvasProps={{
+                className: 'sigCanvas',
+                style: {
+                  borderRadius: '10px',
+                  backgroundColor: '#f0eeee',
+                },
+              }}
+              ref={signatureRef}
+              onEnd={handleSignature}
+            />
+          </S.SignatureCanvasContainer>
+        </S.CanvasWrapper>
+        {/* 버튼 */}
+        <S.ButtonContainer>
+          <S.CancelButton onClick={handleCancelButtonClick}>
+            본인이 아닙니다
+          </S.CancelButton>
+          <S.CompletedButton
+            onClick={handleCompletedButtonClick}
+            disabled={!isSigned}
+          >
+            입력 완료
+          </S.CompletedButton>
+        </S.ButtonContainer>
+        {/* 출석 완료 모달 */}
+        {isOpen && (
+          <>
+            <S.ModalOverlay />
+            <AttendanceConfirmModal
+              isOpen={isOpen}
+              name={studentName}
+              onClose={closeModal}
+            />
+          </>
         )}
       </S.ContentContainer>
-
-      {/* 서명 */}
-      <S.CanvasWrapper>
-        <S.SignatureResetButton
-          onClick={() => {
-            signatureRef.current.clear(); // 서명 리셋
-            setIsSigned(false);
-          }}
-        >
-          <FiRotateCcw color="#838383" size="28" />
-        </S.SignatureResetButton>
-        {!isSigned && (
-          <S.CanvasPlaceholder>
-            본인 확인을 위해, 서명을 입력해주세요.
-          </S.CanvasPlaceholder>
-        )}
-        <S.SignatureCanvasContainer>
-          <SignatureCanvas
-            penColor="black"
-            minWidth={4}
-            canvasProps={{
-              className: 'sigCanvas',
-              style: {
-                borderRadius: '4px',
-                backgroundColor: '#f0eeee',
-              },
-            }}
-            ref={signatureRef}
-            onEnd={handleSignature}
-          />
-        </S.SignatureCanvasContainer>
-      </S.CanvasWrapper>
-
-      {/* 버튼 */}
-      <S.ButtonContainer>
-        <S.CancelButton onClick={handleCancelButtonClick}>
-          본인이 아닙니다
-        </S.CancelButton>
-        <S.CompletedButton
-          onClick={handleCompletedButtonClick}
-          disabled={!isSigned}
-        >
-          입력 완료
-        </S.CompletedButton>
-      </S.ButtonContainer>
-
-      {/* 출석 완료 모달 */}
-      {isOpen && (
-        <>
-          <S.ModalOverlay />
-          <AttendanceConfirmModal
-            isOpen={isOpen}
-            name={studentName}
-            onClose={closeModal}
-          />
-        </>
-      )}
-    </S.Container>
+    </S.AttendanceSignPage>
   );
 };
 
