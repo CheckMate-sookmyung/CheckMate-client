@@ -99,10 +99,11 @@ export const CanvasPlaceholder = styled.p`
 `;
 
 export const SignatureCanvasContainer = styled.div`
-  width: 900px;
+  /* width: 100%; */
   /* max-width: 900px; */
   height: auto;
-  aspect-ratio: 900 / 400;
+  aspect-ratio: 900 / 300;
+  flex-grow: 1;
 
   canvas {
     width: 100%;
@@ -118,13 +119,13 @@ export const SignatureCanvasContainer = styled.div`
 
 export const ButtonContainer = styled.div`
   display: flex;
+  justify-content: center;
+  width: 100%;
   gap: 20px;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     width: 100%;
     gap: 10px;
-    padding: 10px;
-    margin: 10px 0 20px;
   }
 `;
 
@@ -137,8 +138,12 @@ export const CancelButton = styled.button`
   font-weight: 600;
   color: var(--DG-2, #818181);
 
-  @media (max-width: ${BREAKPOINTS[0]}px) {
+  @media (max-width: ${BREAKPOINTS[1]}px) {
     width: 100%;
+    height: 50px;
+    font-size: 24px;
+  }
+  @media (max-width: ${BREAKPOINTS[0]}px) {
     height: 40px;
     font-size: 20px;
   }
@@ -167,8 +172,12 @@ export const CompletedButton = styled.button`
       cursor: pointer;
     `}
 
-    @media (max-width: ${BREAKPOINTS[0]}px) {
+  @media (max-width: ${BREAKPOINTS[1]}px) {
     width: 100%;
+    height: 50px;
+    font-size: 24px;
+  }
+  @media (max-width: ${BREAKPOINTS[0]}px) {
     height: 40px;
     font-size: 20px;
   }
