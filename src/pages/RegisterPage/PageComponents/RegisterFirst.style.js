@@ -6,7 +6,8 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   height: fit-content;
-  width: 100vw;
+  width: 100%;
+  padding: 10px;
 `;
 
 export const SubContainer = styled.div`
@@ -79,19 +80,19 @@ export const SubFont = styled.p`
 `;
 
 export const MainButton = styled.button`
-  border-radius: 10px;
-  background-color: #f2f2f2;
-  width: fit-content;
-  height: 64px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 20px 28px;
+  width: auto;
+  height: 54px;
+  padding: 14px 18px;
   box-sizing: border-box;
-  text-align: left;
-  font-size: 24px;
+  border-radius: 10px;
+  background-color: #f2f2f2;
+  font-size: 20px;
   color: #818181;
+  text-align: left;
   transition: 0.3s;
 
   &:hover {
@@ -105,6 +106,7 @@ export const Choicebox = styled.div`
   width: 478px;
   height: 298px;
   margin: 20px;
+  padding: 0 10px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -117,6 +119,10 @@ export const Choicebox = styled.div`
   border-radius: 16px;
   transition: all 0.5s;
   cursor: pointer;
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    width: 280px;
+  }
 `;
 
 export const FlexWrapper = styled.div`
