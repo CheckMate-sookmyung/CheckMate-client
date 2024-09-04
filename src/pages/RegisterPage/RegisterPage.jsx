@@ -5,13 +5,24 @@ import RegisterSecond from './PageComponents/RegisterSecond';
 import RegisterSidebar from './RegisterComponents/RegisterSideBar';
 import { PageLayout } from '@/Layout';
 import { TopNavigation } from '@/components';
+import styled from 'styled-components';
+
+const Sidebar = styled.div`
+  display: block;
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
+`;
 
 const RegisterPage = () => {
   const Step = useRecoilValue(RegisterStep);
   return (
     <PageLayout topNavigation={<TopNavigation />}>
       <div style={{ display: 'flex' }}>
-        <RegisterSidebar />
+        <Sidebar>
+          <RegisterSidebar />
+        </Sidebar>
         {Step === 1 && <RegisterFirst />}
         {Step === 2 && <RegisterSecond />}
       </div>
