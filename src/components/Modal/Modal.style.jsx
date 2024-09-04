@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { BREAKPOINTS } from '@/styles';
 
 export const Backdrop = styled.div`
   position: fixed;
@@ -25,10 +26,19 @@ export const ModalLayout = styled.div`
   height: auto;
   border-radius: 12px;
   background-color: #ffffff;
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    width: 600px;
+  }
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    width: 300px;
+    padding: 30px 16px 20px;
+  }
 `;
 
 export const Title = styled.h1`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -36,6 +46,16 @@ export const Title = styled.h1`
   font-size: 32px;
   font-weight: 600;
   color: var(--blue-0, #2f7cef);
+  word-break: keep-all;
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    font-size: 28px;
+    margin-bottom: 30px;
+  }
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    font-size: 26px;
+    margin-bottom: 26px;
+  }
 `;
 
 export const ContentContainer = styled.div`
@@ -43,6 +63,13 @@ export const ContentContainer = styled.div`
   flex-direction: column;
   width: 100%;
   gap: 28px;
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    gap: 20px;
+  }
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    gap: 10px;
+  }
 `;
 
 export const Content = styled.div`
@@ -54,6 +81,14 @@ export const Content = styled.div`
   background: #f4f8ff;
   font-size: 16px;
   gap: 26px;
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    padding: 10px 18px;
+  }
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    padding: 10px 18px;
+    gap: 10px;
+  }
 `;
 
 export const ContentTitle = styled.span`
@@ -61,6 +96,10 @@ export const ContentTitle = styled.span`
   font-size: 24px;
   font-weight: 500;
   padding: 0 10px;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    font-size: 20px;
+  }
 `;
 
 export const ContentDescription = styled.div`
@@ -75,6 +114,11 @@ export const ContentDescription = styled.div`
   color: var(--blue-0, #2f7cef);
   font-size: 20px;
   font-weight: 500;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    padding: 8px 16px;
+    font-size: 20px;
+  }
 `;
 
 export const ButtonContainer = styled.div`
@@ -91,4 +135,9 @@ export const CancelButton = styled.button`
   font-size: 20px;
   font-weight: 600;
   color: var(--DG-2, #818181);
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    padding: 12px 20px;
+    font-size: 16px;
+  }
 `;
