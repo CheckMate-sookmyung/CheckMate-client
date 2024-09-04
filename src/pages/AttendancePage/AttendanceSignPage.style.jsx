@@ -1,13 +1,31 @@
 import styled, { css } from 'styled-components';
-import { BREAKPOINTS } from '../../styles';
+import { BREAKPOINTS } from '@/styles';
 
-export const Container = styled.div`
+export const AttendanceSignPage = styled.div`
   display: flex;
   flex-direction: column;
   justify-items: center;
   align-items: center;
   height: 100vh;
   width: 100vw;
+  background-image: url('/img/background-attendance.svg');
+  background-size: cover;
+  background-position: center;
+`;
+
+export const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  width: 90%;
+  height: 100%;
+  border-radius: 20px;
+  background: var(--White, #fff);
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.07);
+  margin-bottom: 20px;
+  padding: 30px 20px;
+  gap: 20px;
 `;
 
 export const Title = styled.h1`
@@ -15,9 +33,10 @@ export const Title = styled.h1`
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-top: 30px;
-  padding: 20px;
-  font-size: 40px;
+  font-size: 28px;
+  font-weight: 600;
+  text-align: center;
+  word-break: keep-all;
 
   & > strong {
     color: #0075ff;
@@ -30,13 +49,12 @@ export const Title = styled.h1`
   }
 `;
 
-export const ContentContainer = styled.div`
+export const StudentInfoContainer = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
   max-width: 900px;
   gap: 16px;
-  padding-bottom: 20px;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     flex-direction: column;
@@ -106,10 +124,9 @@ export const CanvasPlaceholder = styled.p`
   top: 30px;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: #838383;
+  color: var(--Black-2, #323232);
   text-align: center;
   font-size: 20px;
-  font-weight: 700;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     top: 30px;
@@ -138,7 +155,6 @@ export const SignatureCanvasContainer = styled.div`
 export const ButtonContainer = styled.div`
   display: flex;
   gap: 20px;
-  padding: 20px 0 40px;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     width: 100%;
@@ -151,11 +167,11 @@ export const ButtonContainer = styled.div`
 export const CancelButton = styled.button`
   width: 260px;
   height: 62px;
-  border-radius: 4px;
-  background: #838383;
+  border-radius: 10px;
+  background: var(--LG-3, #f2f2f2);
   font-size: 28px;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--DG-2, #818181);
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     width: 100%;
@@ -167,7 +183,7 @@ export const CancelButton = styled.button`
 export const CompletedButton = styled.button`
   width: 360px;
   height: 62px;
-  border-radius: 4px;
+  border-radius: 10px;
   font-size: 28px;
   font-weight: 600;
   color: #ffffff;
