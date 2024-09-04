@@ -28,6 +28,18 @@ export const ContentContainer = styled.div`
   gap: 20px;
 `;
 
+export const StudentInfoContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+`;
+
 export const Title = styled.h1`
   display: flex;
   justify-content: center;
@@ -39,68 +51,20 @@ export const Title = styled.h1`
   word-break: keep-all;
 
   & > strong {
-    color: #0075ff;
-  }
-
-  @media (max-width: ${BREAKPOINTS[0]}px) {
-    font-size: 30px;
-    padding: 20px;
-    margin-top: 10px;
+    color: #2f7cef;
   }
 `;
 
-export const StudentInfoContainer = styled.div`
+export const ContentDescription = styled.div`
   display: flex;
   justify-content: center;
-  width: 100%;
-  max-width: 900px;
-  gap: 16px;
-
-  @media (max-width: ${BREAKPOINTS[0]}px) {
-    flex-direction: column;
-    padding: 10px;
-  }
-`;
-
-export const Content = styled.div`
-  display: flex;
-  width: 442px;
-  height: 50px;
-  font-size: 16px;
-  padding: 10px;
-  background-color: #f9f9f9;
-  align-items: center;
-  border-radius: 4px;
-
-  @media (max-width: ${BREAKPOINTS[0]}px) {
-    width: 100%;
-    height: 40px;
-    padding: 6px;
-  }
-`;
-
-export const ContentTitle = styled.span`
+  border-radius: 30px;
+  padding: 12px 26px;
+  background: #2f7cef;
   font-size: 20px;
-  font-weight: 700;
-  padding: 0 10px;
-  position: relative;
-
-  &::after {
-    content: '|';
-    position: absolute;
-    right: -15px;
-    color: #000;
-    font-weight: 400;
-  }
-
-  @media (max-width: ${BREAKPOINTS[0]}px) {
-    font-size: 16px;
-  }
-`;
-
-export const ContentDescription = styled.span`
-  padding: 0 30px;
-  font-size: 20px;
+  border: 1px solid #aecfff;
+  color: #fff;
+  white-space: nowrap;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     font-size: 16px;
@@ -191,7 +155,7 @@ export const CompletedButton = styled.button`
   ${(props) =>
     props.disabled &&
     css`
-      background-color: #bddbff;
+      background-color: #aecfff;
       color: #ffffff;
       cursor: not-allowed;
     `}
@@ -199,7 +163,7 @@ export const CompletedButton = styled.button`
   ${(props) =>
     !props.disabled &&
     css`
-      background: #0075ff;
+      background: #2f7cef;
       cursor: pointer;
     `}
 

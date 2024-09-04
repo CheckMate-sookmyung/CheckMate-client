@@ -89,20 +89,11 @@ const AttendanceSignPage = () => {
       <AttendanceHeader eventTitle={eventTitle} activeStep={1} />
 
       <S.ContentContainer>
-        <S.Title>
-          <strong>{studentName}</strong>님이 맞으십니까?
-        </S.Title>
         <S.StudentInfoContainer>
-          <S.Content>
-            <S.ContentTitle>소속</S.ContentTitle>
-            <S.ContentDescription>{major}</S.ContentDescription>
-          </S.Content>
-          {/* {eventTarget === 'INTERNAL' && (
-            <S.Content>
-              <S.ContentTitle>학번</S.ContentTitle>
-              <S.ContentDescription>{studentNumber}</S.ContentDescription>
-            </S.Content>
-          )} */}
+          <S.ContentDescription>{major}</S.ContentDescription>
+          <S.Title>
+            <strong>{studentName}</strong>님이 맞으십니까?
+          </S.Title>
         </S.StudentInfoContainer>
         {/* 서명 */}
         <S.CanvasWrapper>
