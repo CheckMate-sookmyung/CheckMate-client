@@ -19,13 +19,11 @@ const RegisterPage = () => {
   const Step = useRecoilValue(RegisterStep);
   return (
     <PageLayout topNavigation={<TopNavigation />}>
-      <div style={{ display: 'flex' }}>
-        <Sidebar>
-          <RegisterSidebar />
-        </Sidebar>
-        {Step === 1 && <RegisterFirst />}
-        {Step === 2 && <RegisterSecond />}
-      </div>
+      <Sidebar>
+        <RegisterSidebar />
+      </Sidebar>
+      {Step === 1 && <RegisterFirst />}
+      {Step === 2 && <RegisterSecond />}
     </PageLayout>
   );
 };
