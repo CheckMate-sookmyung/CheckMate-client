@@ -6,8 +6,10 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  align-items: center;
   height: fit-content;
-  width: 100vw;
+  width: 100%;
+  padding: 10px;
 `;
 
 export const SubContainer = styled.div`
@@ -15,7 +17,6 @@ export const SubContainer = styled.div`
   flex-direction: column;
   width: 70%;
   height: 100%;
-  align-items: start;
   padding: 28px 0;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
@@ -53,7 +54,6 @@ export const MainFont = styled.p`
   font-size: 28px;
   line-height: 38px;
   font-weight: 600;
-  font-family: Pretendard;
   color: #0d0d0d;
   text-align: left;
   display: inline-block;
@@ -68,14 +68,12 @@ export const Category = styled.p`
   display: inline-block;
   font-size: 28px;
   font-weight: 600;
-  font-family: Pretendard;
   text-align: left;
 `;
 
 export const CategoryMini = styled.p`
   position: relative;
   font-size: 14px;
-  font-family: Pretendard;
   text-align: left;
   display: inline-block;
 `;
@@ -84,7 +82,6 @@ export const SubFont = styled.p`
   position: relative;
   font-size: 20px;
   font-weight: 500;
-  font-family: Pretendard;
   /* color: #323232; */
   text-align: left;
   display: inline-block;
@@ -132,7 +129,7 @@ export const MainButton = styled.button`
 
 //RegisterSecond
 export const PrimaryInput = styled.input`
-  width: auto;
+  width: 100%;
   border: none;
   border-radius: 10px;
   background-color: #f8f8f8;

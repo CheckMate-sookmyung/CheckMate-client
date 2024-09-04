@@ -7,8 +7,8 @@ import {
 } from '../../../recoil/atoms/state';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import BlueButton from '../RegisterComponents/Button/BlueButton';
-import Stepper from '../RegisterComponents/Stepper/Stepper';
-import EventTypeCard from '../RegisterComponents/EventTypeCard/EventTypeCard';
+import EventTypeCard from '../../../components/EventTypeCard/EventTypeCard';
+import { EventTargetOption } from '@/components';
 
 const RegisterFirst = () => {
   const Step = useSetRecoilState(RegisterStep);
@@ -17,10 +17,6 @@ const RegisterFirst = () => {
 
   const handleEventType = (status) => {
     setEventType(status);
-  };
-
-  const handleEventTarget = (event) => {
-    setEventTarget(event.target.value);
   };
 
   const stepUp = () => {
@@ -58,37 +54,18 @@ const RegisterFirst = () => {
                 선택해주세요.
               </S.SubFont>
               <S.FlexWrapper style={{ justifyContent: 'start' }}>
-                <S.EventRadio
-                  name="eventType"
+                <EventTargetOption
                   value="INTERNAL"
-                  onClick={handleEventTarget}
-                  defaultChecked
+                  selectedValue={eventTarget}
+                  onSelect={setEventTarget}
                 />
-                <S.ContentBox>
-                  <S.MainFont style={{ fontSize: '24px' }}>
-                    교내 행사
-                  </S.MainFont>
-                  <S.SubFont>
-                    숙명여대 학생들만이 참가하는 행사로, <b>학번</b>을 통해
-                    출석을 확인해요.
-                  </S.SubFont>
-                </S.ContentBox>
               </S.FlexWrapper>
               <S.FlexWrapper style={{ justifyContent: 'start' }}>
-                <S.EventRadio
-                  name="eventType"
+                <EventTargetOption
                   value="EXTERNAL"
-                  onClick={handleEventTarget}
+                  selectedValue={eventTarget}
+                  onSelect={setEventTarget}
                 />
-                <S.ContentBox>
-                  <S.MainFont style={{ fontSize: '24px' }}>
-                    교외 행사
-                  </S.MainFont>
-                  <S.SubFont>
-                    외부인들이 참가하는 행사로, <b>전화번호</b>를 통해 출석을
-                    확인해요.
-                  </S.SubFont>
-                </S.ContentBox>
               </S.FlexWrapper>
             </S.ContentBox>
             <S.FlexWrapper

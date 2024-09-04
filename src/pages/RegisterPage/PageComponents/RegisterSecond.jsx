@@ -11,16 +11,17 @@ import {
   attendanceListFile,
   eventDetail,
   eventImage,
+  eventScheduleList,
   eventTargetState,
   eventTitle,
   eventTypeState,
   minCompletionTimes,
   RegisterStep,
 } from '../../../recoil/atoms/state';
-import EventScheduleList from '../RegisterComponents/Scheduler/Scheduler';
-import Stepper from '../RegisterComponents/Stepper/Stepper';
+import { Input, Textarea } from '@/components';
 import BlueButton from '../RegisterComponents/Button/BlueButton';
 import FileButton from '../RegisterComponents/Button/FileButton';
+import EventScheduleList from '@/components/Scheduler/Scheduler';
 
 const RegisterSecond = () => {
   const Step = useSetRecoilState(RegisterStep);
@@ -46,13 +47,7 @@ const RegisterSecond = () => {
   const [eventStartTime, setEventStartTime] = useState('');
   const [eventEndTime, setEventEndTime] = useState('');
   const [isminCompletionTimesValue, setMinCompletionTimesValue] = useState();
-  const [eventSchedules, setEventSchedules] = useState([
-    {
-      eventDate: new Date(),
-      eventStartTime: new Date(),
-      eventEndTime: new Date(),
-    },
-  ]);
+  const [eventSchedules, setEventSchedules] = useRecoilState(eventScheduleList);
 
   const navigate = useNavigate();
   const resetAllStates = useResetAllStates();
@@ -94,8 +89,9 @@ const RegisterSecond = () => {
   };
 
   const handleScheduleChange = (index, key, value) => {
-    const newSchedules = [...eventSchedules];
-    newSchedules[index][key] = value;
+    const newSchedules = eventSchedules.map((schedule, i) =>
+      i === index ? { ...schedule, [key]: value } : schedule,
+    );
     setEventSchedules(newSchedules);
   };
 
@@ -172,7 +168,7 @@ const RegisterSecond = () => {
 
   return (
     <>
-      <S.Container>
+      <S.Container className="container">
         <S.SubContainer>
           <S.ContentBox>
             <S.FlexWrapper>
@@ -180,19 +176,19 @@ const RegisterSecond = () => {
             </S.FlexWrapper>
             <S.ContentBox>
               <S.CategoryFont>행사 제목</S.CategoryFont>
-              <S.PrimaryInput
+              <Input
                 placeholder="행사 제목을 입력해주세요"
                 value={iseventTitle}
                 onChange={(e) => setEventTitle(e.target.value)}
-              ></S.PrimaryInput>
+              ></Input>
             </S.ContentBox>
             <S.ContentBox>
               <S.CategoryFont>행사 설명</S.CategoryFont>
-              <S.ContentInput
+              <Textarea
                 placeholder="행사에 대해 상세히 설명해주세요"
                 value={iseventDetail}
                 onChange={(e) => setEventDetail(e.target.value)}
-              ></S.ContentInput>
+              />
             </S.ContentBox>
             <S.ContentBox>
               <S.CategoryFont>행사 포스터</S.CategoryFont>
@@ -230,7 +226,7 @@ const RegisterSecond = () => {
             </S.ContentBox>
             <S.ContentBox>
               <S.CategoryFont>행사 이수 기준</S.CategoryFont>
-              <S.PrimaryInput
+              <Input
                 type="number"
                 placeholder="행사 이수 기준을 입력해주세요"
                 value={isminCompletionTimesValue}

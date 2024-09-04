@@ -7,7 +7,7 @@ import {
   eventTypeState,
   eventTargetState,
   RegisterStep,
-} from '../../../recoil/atoms/state';
+} from '@/recoil/atoms/state';
 
 const RegisterSidebar = () => {
   const step = useRecoilValue(RegisterStep);
@@ -24,11 +24,23 @@ const RegisterSidebar = () => {
     const date = new Date(schedule.eventDate);
     const month = date.getMonth() + 1;
     const day = date.getDate();
-    const formattedDate = `${month}월 ${day}일`;
+    const formattedDate = `${month}월 ${String(day).padStart(2, '0')}일`;
 
-    const formatTime = (timeString) => {
-      const [hour, minute] = timeString.split(':');
-      return `${hour.padStart(2, '0')}:${minute.padStart(2, '0')}`;
+    const formatTime = (time) => {
+      if (time instanceof Date) {
+        return time.toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false,
+        });
+      }
+
+      if (typeof time === 'string') {
+        const [hour, minute] = time.split(':');
+        return `${hour.padStart(2, '0')}:${minute.padStart(2, '0')}`;
+      }
+
+      return 'Invalid Time';
     };
 
     const startTime = formatTime(schedule.eventStartTime);

@@ -1,12 +1,12 @@
 import { eventTypeState } from '@/recoil/atoms/state';
-import * as S from '../../PageComponents/RegisterFirst.style';
 import { useRecoilState } from 'recoil';
+import * as S from './EventTypeCard.style';
 
 const EventTypeCard = ({ handleEventType }) => {
   const [eventType, setEventType] = useRecoilState(eventTypeState);
 
   return (
-    <S.FlexWrapper>
+    <S.FlexWrapper style={{ flexWrap: 'wrap' }}>
       <S.Choicebox
         onClick={() => handleEventType('ONLINE')}
         isSelected={eventType === 'ONLINE'}
