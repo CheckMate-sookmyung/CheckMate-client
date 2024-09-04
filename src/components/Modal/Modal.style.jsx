@@ -14,7 +14,7 @@ export const ModalLayout = styled.div`
   position: fixed;
   top: 50%;
   left: 50%;
-  justify-content: space-around;
+  justify-content: space-between;
   transform: translate(-50%, -50%);
   z-index: 100;
   display: flex;
@@ -22,7 +22,7 @@ export const ModalLayout = styled.div`
   align-items: center;
   padding: 50px 66px;
   width: 800px;
-  height: 460px;
+  height: auto;
   border-radius: 12px;
   background-color: #ffffff;
 `;
@@ -32,7 +32,7 @@ export const Title = styled.h1`
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-bottom: 6px;
+  margin-bottom: 34px;
   font-size: 32px;
   font-weight: 600;
   color: var(--blue-0, #2f7cef);
@@ -68,7 +68,8 @@ export const ContentDescription = styled.div`
   flex-direction: column;
   align-items: flex-start;
   border-radius: 30px;
-  border: 1px #aecfff;
+  border: 1px solid #aecfff;
+  padding: 12px 26px;
   background: var(--White, #fff);
   gap: 8px;
   color: var(--blue-0, #2f7cef);
@@ -83,7 +84,7 @@ export const ButtonContainer = styled.div`
 `;
 
 export const CancelButton = styled.button`
-  margin-top: 8px;
+  margin-top: 36px;
   border-radius: 10px;
   padding: 20px 28px;
   background: var(--LG-3, #f2f2f2);
