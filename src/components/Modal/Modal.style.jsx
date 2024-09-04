@@ -28,7 +28,7 @@ export const ModalLayout = styled.div`
   background-color: #ffffff;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
-    width: 600px;
+    width: 500px;
   }
   @media (max-width: ${BREAKPOINTS[0]}px) {
     width: 300px;
@@ -46,7 +46,9 @@ export const Title = styled.h1`
   font-size: 32px;
   font-weight: 600;
   color: var(--blue-0, #2f7cef);
+  line-height: 1.2;
   word-break: keep-all;
+  text-align: center;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
     font-size: 28px;
@@ -68,7 +70,7 @@ export const ContentContainer = styled.div`
     gap: 20px;
   }
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    gap: 10px;
+    gap: 14px;
   }
 `;
 
