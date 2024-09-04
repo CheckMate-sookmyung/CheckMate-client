@@ -13,6 +13,7 @@ const AttendeeTable = ({
   sortData,
   handleAttendanceChange,
   sortConfig,
+  showStudentInfo,
 }) => {
   const SortIcon = ({ columnKey }) => {
     if (sortConfig.key !== columnKey) return null;
@@ -38,14 +39,18 @@ const AttendeeTable = ({
               소속
               <SortIcon columnKey="major" />
             </S.TableHeader>
-            <S.TableHeader onClick={() => sortData('number')}>
-              학번
-              <SortIcon columnKey="number" />
-            </S.TableHeader>
-            <S.TableHeader onClick={() => sortData('year')}>
-              학년
-              <SortIcon columnKey="year" />
-            </S.TableHeader>
+            {showStudentInfo && (
+              <>
+                <S.TableHeader onClick={() => sortData('number')}>
+                  학번
+                  <SortIcon columnKey="number" />
+                </S.TableHeader>
+                <S.TableHeader onClick={() => sortData('year')}>
+                  학년
+                  <SortIcon columnKey="year" />
+                </S.TableHeader>
+              </>
+            )}
             <S.TableHeader onClick={() => sortData('phoneNumber')}>
               휴대폰 번호
               <SortIcon columnKey="phoneNumber" />
@@ -80,8 +85,12 @@ const AttendeeTable = ({
               </S.TableData>
               <S.TableData>{data.name}</S.TableData>
               <S.TableData>{data.major}</S.TableData>
-              <S.TableData>{data.number}</S.TableData>
-              <S.TableData>{data.year}</S.TableData>
+              {showStudentInfo && (
+                <>
+                  <S.TableData>{data.number}</S.TableData>
+                  <S.TableData>{data.year}</S.TableData>
+                </>
+              )}
               <S.TableData>{data.phoneNumber}</S.TableData>
               <S.TableData>{data.email}</S.TableData>
               <S.TableData>

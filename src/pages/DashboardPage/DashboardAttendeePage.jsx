@@ -16,6 +16,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export default function DashboardAttendeePage() {
   const [eventTitle, setEventTitle] = useState('');
+  const [eventTarget, setEventTarget] = useState('INTERNAL');
   const [activeTab, setActiveTab] = useState(1);
   const [editMode, setEditMode] = useState(false);
   const [attendees, setAttendees] = useState([]);
@@ -68,6 +69,7 @@ export default function DashboardAttendeePage() {
     }
 
     setEventTitle(eventDetail.eventTitle);
+    setEventTarget(eventDetail.eventTarget);
 
     const parsedSessions = eventDetail.eventSchedules.map(
       (schedule, index) => ({
@@ -258,6 +260,7 @@ export default function DashboardAttendeePage() {
           sortData={sortData}
           handleAttendanceChange={handleAttendanceChange}
           sortConfig={sortConfig}
+          showStudentInfo={eventTarget === 'INTERNAL'}
         />
       </S.DashboardAttendee>
     </PageLayout>
