@@ -1,6 +1,6 @@
 import { eventTypeState } from '@/recoil/atoms/state';
-import * as S from '../../pages/RegisterPage/PageComponents/RegisterFirst.style';
 import { useRecoilState } from 'recoil';
+import * as S from './EventTypeCard.style';
 
 const EventTypeCard = ({ handleEventType }) => {
   const [eventType, setEventType] = useRecoilState(eventTypeState);
