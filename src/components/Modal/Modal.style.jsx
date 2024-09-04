@@ -20,7 +20,7 @@ export const ModalLayout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 50px 66px;
+  padding: 50px 66px 40px;
   width: 800px;
   height: auto;
   border-radius: 12px;
@@ -80,7 +80,7 @@ export const ContentDescription = styled.div`
 export const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
-  gap: 20px;
+  width: 100%;
 `;
 
 export const CancelButton = styled.button`
@@ -91,14 +91,4 @@ export const CancelButton = styled.button`
   font-size: 20px;
   font-weight: 600;
   color: var(--DG-2, #818181);
-`;
-
-export const CompletedButton = styled.button`
-  width: 300px;
-  height: 62px;
-  border-radius: 4px;
-  background: #0075ff;
-  font-size: 28px;
-  font-weight: 600;
-  color: #ffffff;
 `;
