@@ -33,7 +33,7 @@ export const StudentInfoContainer = styled.div`
   justify-content: center;
   gap: 20px;
 
-  @media (max-width: ${BREAKPOINTS[0]}px) {
+  @media (max-width: ${BREAKPOINTS[1]}px) {
     flex-direction: column;
     justify-content: center;
     align-items: center;
