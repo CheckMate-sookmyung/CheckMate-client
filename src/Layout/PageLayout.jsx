@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Container = styled.div`
+const Inner = styled.div`
   display: ${({ hasSideBar }) =>
     hasSideBar === undefined ? undefined : 'flex'};
   width: 100%;
@@ -13,11 +13,14 @@ const SideBarLayout = styled.div`
   }
 `;
 
-export default function PageLayout({ sideBar, children }) {
+export default function PageLayout({ topNavigation, sideBar, children }) {
   return (
-    <Container hasSideBar={sideBar !== undefined}>
-      <SideBarLayout>{sideBar}</SideBarLayout>
-      {children}
-    </Container>
+    <div>
+      {topNavigation}
+      <Inner hasSideBar={sideBar !== undefined}>
+        <SideBarLayout>{sideBar}</SideBarLayout>
+        {children}
+      </Inner>
+    </div>
   );
 }

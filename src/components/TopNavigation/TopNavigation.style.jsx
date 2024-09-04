@@ -3,6 +3,9 @@ import { NavLink } from 'react-router-dom';
 import { BREAKPOINTS } from '../../styles';
 
 export const TopNavigation = styled.div`
+  position: sticky;
+  top: 0;
+  z-index: 800;
   border-bottom: 1px solid #ebedf0;
   display: flex;
   justify-content: space-between;

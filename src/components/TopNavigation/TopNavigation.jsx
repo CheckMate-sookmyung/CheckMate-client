@@ -1,19 +1,14 @@
 import { useEffect, useState } from 'react';
 import * as S from './TopNavigation.style';
 import { useLocation } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { eventIDState } from '@/recoil/atoms/state';
-import { USER_ID } from '@/constants';
-import { axiosInstance } from '@/axios';
 import { FaBars, FaCircleUser } from 'react-icons/fa6';
 import { Sidebar } from '@/components';
 import { BREAKPOINTS } from '@/styles';
 
-export default function TopNavigation() {
-  const location = useLocation();
-  const [parsedEvent, setParsedEvent] = useState(null);
+export default function TopNavigation({ eventTitle } = {}) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const EVENT_ID = useRecoilValue(eventIDState);
+
+  const location = useLocation();
 
   const handleDimClick = () => {
     setIsSidebarOpen(false);
@@ -22,27 +17,6 @@ export default function TopNavigation() {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-
-  useEffect(() => {
-    const fetchEventData = async () => {
-      if (!EVENT_ID) return;
-      try {
-        const response = await axiosInstance.get(
-          `/api/v1/events/${USER_ID}/${EVENT_ID}`,
-        );
-        const eventData = response.data;
-        if (eventData) {
-          setParsedEvent({ title: eventData.eventTitle });
-        }
-      } catch (error) {
-        console.error('Fetch event data failed:', error);
-      }
-    };
-
-    if (location.pathname.startsWith('/event/dashboard')) {
-      fetchEventData();
-    }
-  }, [location.pathname, EVENT_ID]);
 
   useEffect(() => {
     const handleResizeOrScroll = () => {
@@ -83,7 +57,9 @@ export default function TopNavigation() {
           </S.Menu>
           {location.pathname.startsWith('/event/dashboard') && (
             <S.PageNameWrapper>
-              {parsedEvent && <S.PageName>{parsedEvent.title}</S.PageName>}
+              {eventTitle !== undefined && (
+                <S.PageName>{eventTitle}</S.PageName>
+              )}
             </S.PageNameWrapper>
           )}
         </S.MenuContainer>

@@ -19,22 +19,23 @@ export const DashboardPage = styled.div`
 // 행사 타이틀 + 버튼
 export const TopContainer = styled.div`
   display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
-
-  @media (max-width: ${BREAKPOINTS[1]}px) {
-    gap: 10px;
-  }
+  justify-content: space-between;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    margin-bottom: 10px;
+    flex-direction: column;
   }
 `;
 
 export const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
+`;
+
+export const EventTitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
 `;
 
 export const EventTitle = styled.h1`

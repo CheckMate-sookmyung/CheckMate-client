@@ -1,4 +1,3 @@
-import React from 'react';
 import * as S from './Footer.Style';
 
 const FOOTER_INFO_LIST = [

@@ -1,11 +1,6 @@
 import styled from 'styled-components';
 import { BREAKPOINTS } from '@/styles';
 
-export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
 export const EventCardListPage = styled.div`
   display: flex;
   flex-direction: column;

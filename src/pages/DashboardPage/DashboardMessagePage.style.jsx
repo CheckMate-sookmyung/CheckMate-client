@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { BREAKPOINTS } from '../../styles';
 
-export const DashboardEmail = styled.div`
+export const DashboardMessagePage = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -29,6 +29,14 @@ export const TopContainer = styled.div`
 export const Title = styled.h1`
   font-size: 24px;
   font-weight: bold;
+`;
+
+// 버튼 스타일
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 0;
+  gap: 10px;
 `;
 
 // 탭정보
@@ -77,12 +85,4 @@ export const ContentInput = styled.textarea`
   padding: 10px;
   font-size: 14px;
   overflow: auto;
-`;
-
-// 버튼 스타일
-export const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  padding: 10px 0;
-  gap: 10px;
 `;

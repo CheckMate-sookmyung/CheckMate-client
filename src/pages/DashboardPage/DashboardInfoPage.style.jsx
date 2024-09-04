@@ -30,6 +30,13 @@ export const Title = styled.h1`
   line-height: 29px;
 `;
 
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 0;
+  gap: 10px;
+`;
+
 // 행사 정보
 export const ContentContainer = styled.div`
   display: flex;
@@ -109,11 +116,4 @@ export const ImagePreview = styled.img`
   max-width: 100%;
   height: auto;
   margin-top: 10px;
-`;
-
-export const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  padding: 10px 0;
-  gap: 10px;
 `;

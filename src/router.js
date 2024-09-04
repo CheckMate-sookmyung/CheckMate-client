@@ -4,12 +4,13 @@ import {
   AttendanceSignPage,
   DashboardPage,
   DashboardInfoPage,
-  DashboardEmailPage,
   DashboardAttendeePage,
   Home,
   RegisterPage,
   EventCardListPage,
+  DashboardMessagePage,
   TotalStatisticsPage,
+  DashboardStatisticPage,
 } from './pages';
 import Layout from './Layout/Layout';
 import RegisterCompleted from './pages/RegisterPage/PageComponents/RegisterCompleted';
@@ -43,12 +44,16 @@ const router = createBrowserRouter([
         element: <DashboardInfoPage />,
       },
       {
-        path: '/event/dashboard/email',
-        element: <DashboardEmailPage />,
+        path: '/event/dashboard/message',
+        element: <DashboardMessagePage />,
       },
       {
         path: '/event/dashboard/attendee',
         element: <DashboardAttendeePage />,
+      },
+      {
+        path: '/event/dashboard/stats',
+        element: <DashboardStatisticPage />,
       },
       {
         path: '/stats',
