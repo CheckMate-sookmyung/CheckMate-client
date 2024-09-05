@@ -16,6 +16,7 @@ export const AttendanceSignPage = styled.div`
 export const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
   justify-items: center;
   align-items: center;
   width: 90%;
@@ -45,7 +46,7 @@ export const Title = styled.h1`
   justify-content: center;
   align-items: center;
   width: 100%;
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 600;
   text-align: center;
   word-break: keep-all;
@@ -99,10 +100,11 @@ export const CanvasPlaceholder = styled.p`
 `;
 
 export const SignatureCanvasContainer = styled.div`
+  width: 900px;
   /* width: 100%; */
   /* max-width: 900px; */
   height: auto;
-  aspect-ratio: 900 / 300;
+  aspect-ratio: 900 / 500;
   flex-grow: 1;
 
   canvas {
@@ -131,7 +133,7 @@ export const ButtonContainer = styled.div`
 
 export const CancelButton = styled.button`
   width: 260px;
-  height: 62px;
+  height: 70px;
   border-radius: 10px;
   background: var(--LG-3, #f2f2f2);
   font-size: 28px;
@@ -151,7 +153,7 @@ export const CancelButton = styled.button`
 
 export const CompletedButton = styled.button`
   width: 360px;
-  height: 62px;
+  height: 70px;
   border-radius: 10px;
   font-size: 28px;
   font-weight: 600;
