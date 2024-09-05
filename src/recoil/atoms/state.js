@@ -54,7 +54,13 @@ export const minCompletionTimes = atom({
 
 export const eventScheduleList = atom({
   key: 'eventSchedules',
-  default: [],
+  default: [
+    {
+      eventDate: new Date(),
+      eventStartTime: new Date(),
+      eventEndTime: new Date(),
+    },
+  ],
 });
 
 export const RegisterStep = atom({

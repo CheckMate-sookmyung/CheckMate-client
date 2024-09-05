@@ -1,13 +1,31 @@
 import styled from 'styled-components';
-import { BREAKPOINTS } from '../../styles';
+import { BREAKPOINTS } from '@/styles';
 
-export const Container = styled.div`
+export const AttendanceStudentIdPage = styled.div`
   display: flex;
   flex-direction: column;
   justify-items: center;
   align-items: center;
-  height: 100vh;
   width: 100vw;
+  height: 100vh;
+  background-image: url('/img/background-attendance.svg');
+  background-size: cover;
+  background-position: center;
+`;
+
+export const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  width: 90%;
+  height: 100%;
+  border-radius: 20px;
+  background: var(--White, #fff);
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.07);
+  margin-bottom: 20px;
+  padding: 30px 20px;
+  gap: 20px;
 `;
 
 export const OutputContainer = styled.div`
@@ -23,51 +41,46 @@ export const OutputContainer = styled.div`
 export const Title = styled.h1`
   display: flex;
   justify-content: center;
-  font-size: 40px;
-  margin-top: 30px;
-  /* margin-bottom: 10px; */
-  padding: 20px;
-  color: var(--gray-300, #636363);
+  color: var(--blue-0, #2f7cef);
+  font-size: 32px;
+  font-weight: 600;
+  text-align: center;
+  word-break: keep-all;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    font-size: 30px;
+    font-size: 20px;
     margin-top: 10px;
   }
 `;
 
 export const StudentIdContainer = styled.div`
   display: flex;
-  justify-content: center;
-  gap: 40px;
-
-  @media (max-width: ${BREAKPOINTS[1]}px) {
-    gap: 20px;
-  }
-  @media (max-width: ${BREAKPOINTS[0]}px) {
-    gap: 10px;
-  }
+  justify-content: space-evenly;
+  width: 100%;
 `;
 
 export const StudentId = styled.div`
-  --box-size: 60px;
-
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
-  border-bottom: solid 3px #d9d9d9;
-  width: var(--box-size);
-  height: var(--box-size);
-  font-size: 60px;
+  border-radius: 10px;
+  border: 1px solid var(--LG-2, #e4e4e4);
+  background: var(--LG-4, #f8f8f8);
+  width: 100%;
+  height: 80px;
+  font-size: 32px;
   font-weight: 600;
+  flex-grow: 1;
+  max-width: 110px;
+  margin: 0 10px;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
-    --box-size: 50px;
+    height: 60px;
     font-size: 40px;
   }
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    --box-size: 40px;
     font-size: 36px;
+    margin: 2px;
   }
 `;
 
@@ -75,17 +88,10 @@ export const DialList = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(4, 1fr);
-  width: 80%;
-  height: inherit;
-  border-collapse: collapse;
-  border-radius: 10px;
-  margin-top: 20px;
-  margin-bottom: 40px;
-  overflow: hidden;
-
-  @media (max-width: ${BREAKPOINTS[0]}px) {
-    width: 90%;
-  }
+  width: 100%;
+  height: 100%;
+  gap: 10px;
+  padding: 10px;
 `;
 
 export const Dial = styled.div`
@@ -93,60 +99,61 @@ export const Dial = styled.div`
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  border: 1px solid #d9d9d9;
-  border-width: 1px 0 0 1px;
+  border-radius: 10px;
   width: 100%;
   height: 100%;
-  padding: 20px 80px;
   font-size: 40px;
   font-weight: 600;
-  color: #838383;
-  background-color: white;
+  color: #2f7cef;
+  background-color: #f5faff;
+  cursor: pointer;
+  flex-grow: 1;
 
-  &:nth-child(3n) {
-    border-right: 1px solid #d9d9d9;
-  }
-  &:nth-last-child(-n + 3) {
-    border-bottom: 1px solid #d9d9d9;
+  &:hover {
+    background-color: #e0f0ff;
   }
 
-  // 모서리 부분 스타일 추가
-  &:first-child {
-    border-top-left-radius: 10px;
-  }
-  &:nth-child(3) {
-    border-top-right-radius: 10px;
-  }
   &:nth-child(10) {
-    border-bottom-left-radius: 10px;
+    grid-column: span 1;
+    background-color: #fff;
+    font-size: 40px;
   }
 
-  @media (max-width: ${BREAKPOINTS[2]}px) {
-    padding: 20px 60px;
+  &:nth-child(11) {
+    color: #2f7cef;
+    grid-column: span 1;
+    border-radius: 10px;
   }
+
   @media (max-width: ${BREAKPOINTS[1]}px) {
-    padding: 20px 44px;
+    font-size: 32px;
   }
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    padding: 20px 30px;
+    font-size: 24px;
   }
 `;
 
 export const GoToSignBtn = styled.div`
   background-color: ${({ isSevenDigits }) =>
-    isSevenDigits ? '#0075FF' : '#BDDBFF'};
+    isSevenDigits ? '#2f7cef' : '#BDDBFF'};
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  width: 100%;
-  color: #ffffff;
+  border-radius: 10px;
+  color: #fff;
   font-size: 30px;
   font-weight: 600;
   word-break: keep-all;
+  cursor: ${({ isSevenDigits }) => (isSevenDigits ? 'pointer' : 'default')};
+
+  &:hover {
+    background-color: ${({ isSevenDigits }) =>
+      isSevenDigits ? '#1e5bbf' : '#BDDBFF'};
+  }
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    font-size: 26px;
+    font-size: 20px;
   }
 `;

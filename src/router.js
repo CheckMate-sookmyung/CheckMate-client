@@ -4,14 +4,16 @@ import {
   AttendanceSignPage,
   DashboardPage,
   DashboardInfoPage,
-  DashboardEmailPage,
   DashboardAttendeePage,
+  Home,
+  RegisterPage,
+  EventCardListPage,
+  DashboardMessagePage,
+  TotalStatisticsPage,
+  DashboardStatisticPage,
 } from './pages';
-import Register from './pages/RegisterPage/RegisterPage';
-import EventList from './pages/EventList/EventList';
 import Layout from './Layout/Layout';
-import EventDetailPage from './pages/EventDetail/EventDetailPage';
-import Home from './pages/Home/Home';
+import RegisterCompleted from './pages/RegisterPage/PageComponents/RegisterCompleted';
 
 const router = createBrowserRouter([
   {
@@ -23,15 +25,15 @@ const router = createBrowserRouter([
       },
       {
         path: '/register',
-        element: <Register />,
+        element: <RegisterPage />,
+      },
+      {
+        path: '/register/completed',
+        element: <RegisterCompleted />,
       },
       {
         path: '/event',
-        element: <EventList />,
-      },
-      {
-        path: '/event/detail',
-        element: <EventDetailPage />,
+        element: <EventCardListPage />,
       },
       {
         path: '/event/dashboard',
@@ -42,12 +44,20 @@ const router = createBrowserRouter([
         element: <DashboardInfoPage />,
       },
       {
-        path: '/event/dashboard/email',
-        element: <DashboardEmailPage />,
+        path: '/event/dashboard/message',
+        element: <DashboardMessagePage />,
       },
       {
         path: '/event/dashboard/attendee',
         element: <DashboardAttendeePage />,
+      },
+      {
+        path: '/event/dashboard/stats',
+        element: <DashboardStatisticPage />,
+      },
+      {
+        path: '/stats',
+        element: <TotalStatisticsPage />,
       },
     ],
   },

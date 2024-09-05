@@ -1,7 +1,6 @@
 import styled from 'styled-components';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { BREAKPOINTS } from '../../styles';
+import { BREAKPOINTS } from '@/styles';
 
 export const DashboardInfo = styled.div`
   flex-grow: 1;
@@ -18,7 +17,7 @@ export const TopContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     margin-bottom: 10px;
@@ -33,6 +32,8 @@ export const Title = styled.h1`
 
 export const ButtonContainer = styled.div`
   display: flex;
+  justify-content: flex-end;
+  padding: 10px 0;
   gap: 10px;
 `;
 
@@ -41,7 +42,6 @@ export const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 500px;
-  height: 100%;
   gap: 32px;
 `;
 
@@ -58,20 +58,6 @@ export const ContentTitle = styled.div`
   font-weight: bold;
   font-size: 18px;
 `;
-
-export const ContentInput = styled.input`
-  background: #ffffff;
-  border: 1px solid #c4c8cc;
-  box-sizing: border-box;
-  border-radius: 8px;
-  padding: 14px 16px;
-  width: 100%;
-  font-size: 16px;
-  line-height: 19px;
-  color: #2c2d2e;
-`;
-
-export const ContentInputText = styled.p``;
 
 // 토글
 export const ToggleContainer = styled.div`
@@ -104,158 +90,6 @@ export const EventTargetContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
-`;
-
-export const EventTarget = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 7px;
-  gap: 10px;
-  border-radius: 8px;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #f0f0f0;
-  }
-`;
-
-export const EventTargetRadioButton = styled.input`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #ffffff;
-  margin: 0;
-  border: 1px solid #2253ff;
-  border-radius: 50px;
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-
-  &:checked::before {
-    width: 10px;
-    height: 10px;
-    background: #4e75ff;
-    border-radius: 50%;
-  }
-`;
-
-export const EventTargetWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-`;
-
-export const EventTargetTitle = styled.p`
-  font-size: 16px;
-  font-weight: bold;
-  line-height: 19px;
-  color: #2c2d2e;
-`;
-
-export const EventTargetDescription = styled.span`
-  font-size: 14px;
-  color: #76787a;
-`;
-
-// 행사 일정 선택
-export const DateTimeContainer = styled.div`
-  display: flex;
-  align-items: center;
-  padding-bottom: 6px;
-  width: 80%;
-`;
-
-export const DateTimeWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-`;
-
-export const DateTimeInput = styled(DatePicker)`
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 10px 6px;
-  width: 90px;
-  height: 14px;
-  font-size: 16px;
-  text-align: center;
-
-  :focus {
-    border: 1px solid #ccc;
-    outline: none;
-  }
-`;
-
-export const Arrow = styled.div`
-  width: 100%;
-  height: 100%;
-`;
-
-export const InfoDeleteIconWrapper = styled.div`
-  display: flex;
-  position: relative;
-  justify-content: center;
-  align-items: center;
-  transition:
-    background-color 0.3s ease-in-out,
-    color 0.3s ease-in-out,
-    box-shadow 0.3s ease-in-out;
-`;
-
-export const InfoIconWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  padding: 10px;
-
-  &:hover::after {
-    content: '최소 1개 이상의 일정을 등록해주세요.';
-    position: absolute;
-    top: 80%;
-    right: 0;
-    margin-top: 5px;
-    padding: 5px;
-    background-color: #333;
-    color: #fff;
-    border-radius: 4px;
-    white-space: nowrap;
-    font-size: 12px;
-    z-index: 1;
-    transition: opacity 0.2s ease-in-out;
-  }
-
-  &:hover::before {
-    content: '';
-    position: absolute;
-    top: 66%;
-    right: 50%;
-    transform: translateX(50%);
-    border-width: 6px;
-    border-style: solid;
-    border-color: transparent transparent #333 transparent;
-    z-index: 1;
-    transition: opacity 0.2s ease-in-out;
-  }
-`;
-
-export const DeleteIconWrapper = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-`;
-
-export const AddTimeWrapper = styled.div``;
-
-export const AddTimeBtn = styled.button`
-  color: #2253ff;
-  font-weight: 600;
-  padding: 6px;
 `;
 
 // 행사 내용

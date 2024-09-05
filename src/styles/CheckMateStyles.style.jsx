@@ -16,6 +16,7 @@ export const checkMateStyles = css`
   body {
     height: 100%;
     -ms-overflow-style: none;
+    overflow-x: hidden;
   }
   ::-webkit-scrollbar {
     display: none;
@@ -80,21 +81,21 @@ export const checkMateStyles = css`
     --gray-300: #636363;
     --gray-400: #212121;
 
-    /* Green Color */
-    --green-100: #beffad;
-    --green-200: #3f0;
+    /* 최신 */
+    --blue-0: #2f7cef;
+    --blue-4: #accdff;
+    --blue-5: #edf5ff;
 
-    /* 추가된 색상 */
-    --yellow-100: #fff9db;
-    --yellow-200: #ffec99;
-    --yellow-300: #ffdf4d;
-    --yellow-400: #ffd700;
-    --yellow-500: #ffcc00;
+    --green-0: #5bfb67;
 
-    --red-100: #ffe6e6;
-    --red-200: #ff9999;
-    --red-300: #ff4d4d;
-    --red-400: #ff0000;
-    --red-500: #cc0000;
+    --DG-1: #6b6b6b;
+    --DG-2: #818181;
+
+    --LG-3: #f2f2f2;
+    --LG-4: #f8f8f8;
+
+    --White: #fff;
+    --Black-2: #323232;
+    --Black-0: #000;
   }
 `;

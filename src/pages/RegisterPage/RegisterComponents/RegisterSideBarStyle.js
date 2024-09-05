@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const SidebarContainer = styled.div`
-  max-width: 250px;
   min-width: 250px;
   height: 100vh;
   border-right: 1px solid #eaeaea;

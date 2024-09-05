@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as S from './AttendanceStudentIdPage.style';
-import { AttendanceHeader } from '../../components';
-import Modal from '../../components/Modal/Modal';
-import { USER_ID } from '../../constants';
-import { useSessionStorages } from '../../hooks';
-import { axiosInstance } from '../../axios';
+import { AttendanceHeader, Modal } from '@/components';
+import { USER_ID } from '@/constants';
+import { useSessionStorages } from '@/hooks';
+import { axiosInstance } from '@/axios';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { eventIDState } from '../../recoil/atoms/state';
+import { eventIDState } from '@/recoil/atoms/state';
 import { format } from 'date-fns';
 
 const AttendanceStudentIdPage = () => {
@@ -146,48 +145,53 @@ const AttendanceStudentIdPage = () => {
   }, [EVENT_ID, USER_ID]);
 
   return (
-    <S.Container>
+    <S.AttendanceStudentIdPage>
       <AttendanceHeader eventTitle={eventTitle} />
-      <S.Title>
-        {eventTarget === 'INTERNAL'
-          ? '학번을 입력해주세요.'
-          : '휴대폰 번호 뒷자리 4자리를 입력해주세요.'}
-      </S.Title>
-      <S.StudentIdContainer>
-        {(eventTarget === 'INTERNAL' ? studentId : phoneId).map((index) => (
-          <S.StudentId key={index}>{enteredDials[index - 1] || ''}</S.StudentId>
-        ))}
-      </S.StudentIdContainer>
-      <S.DialList>
-        {dialList.map((dial, index) => (
-          <S.Dial key={index} onClick={() => handleDialClick(dial)}>
-            {dial}
-          </S.Dial>
-        ))}
 
-        <S.Dial key="backspace" onClick={() => handleDialClick('<')}>
-          {'←'}
-        </S.Dial>
-        <S.Dial key="zero" onClick={() => handleDialClick('0')}>
-          {'0'}
-        </S.Dial>
-        <S.GoToSignBtn
-          key="confirm"
-          onClick={() => handleDialClick('서명하러 가기')}
-          isSevenDigits={isSevenDigits}
-          disabled={!isConfirmEnabled}
-        >
-          {'서명하러 가기'}
-        </S.GoToSignBtn>
-      </S.DialList>
-      {isModalOpen && (
-        <Modal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          attendees={attendees}
-        />
-      )}
-    </S.Container>
+      <S.ContentContainer>
+        <S.Title>
+          {eventTarget === 'INTERNAL'
+            ? '학번을 입력해 주세요.'
+            : '휴대폰 번호 뒷자리 4자리를 입력해 주세요.'}
+        </S.Title>
+        <S.StudentIdContainer>
+          {(eventTarget === 'INTERNAL' ? studentId : phoneId).map((index) => (
+            <S.StudentId key={index}>
+              {enteredDials[index - 1] || ''}
+            </S.StudentId>
+          ))}
+        </S.StudentIdContainer>
+        <S.DialList>
+          {dialList.map((dial, index) => (
+            <S.Dial key={index} onClick={() => handleDialClick(dial)}>
+              {dial}
+            </S.Dial>
+          ))}
+
+          <S.Dial key="backspace" onClick={() => handleDialClick('<')}>
+            {'←'}
+          </S.Dial>
+          <S.Dial key="zero" onClick={() => handleDialClick('0')}>
+            {'0'}
+          </S.Dial>
+          <S.GoToSignBtn
+            key="confirm"
+            onClick={() => handleDialClick('서명하러 가기')}
+            isSevenDigits={isSevenDigits}
+            disabled={!isConfirmEnabled}
+          >
+            {'서명하러 가기'}
+          </S.GoToSignBtn>
+        </S.DialList>
+        {isModalOpen && (
+          <Modal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            attendees={attendees}
+          />
+        )}
+      </S.ContentContainer>
+    </S.AttendanceStudentIdPage>
   );
 };
 

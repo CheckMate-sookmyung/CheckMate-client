@@ -1,14 +1,15 @@
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
-import { GrayButton90 } from '../../components';
 import { BREAKPOINTS } from '../../styles';
 import { FaEnvelope, FaPhone, FaUser } from 'react-icons/fa6';
 
 export const DashboardPage = styled.div`
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
-  background: #f2f3f5;
   border-left: 1px solid #ebedf0;
   padding: 50px;
+  gap: 12px;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     padding: 20px;
@@ -19,68 +20,9 @@ export const DashboardPage = styled.div`
 export const TopContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 30px;
-
-  @media (max-width: ${BREAKPOINTS[1]}px) {
-    flex-direction: column;
-    gap: 10px;
-  }
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
-    margin-bottom: 10px;
-  }
-`;
-
-export const ButtonContainer = styled.div`
-  display: flex;
-  gap: 10px;
-`;
-
-export const DeleteEventButton = styled(GrayButton90)`
-  display: inline-block;
-  position: relative;
-  box-sizing: border-box;
-  transition:
-    background-color 0.3s ease-in-out,
-    color 0.3s ease-in-out,
-    box-shadow 0.3s ease-in-out;
-
-  &:hover::after {
-    content: '삭제된 행사는 복구할 수 없습니다.';
-    position: absolute;
-    top: 100%;
-    right: 0;
-    margin-top: 10px;
-    padding: 5px;
-    background-color: #333;
-    color: #fff;
-    border-radius: 4px;
-    white-space: nowrap;
-    font-size: 12px;
-    z-index: 1;
-    opacity: 1;
-    visibility: visible;
-    transition:
-      opacity 0.2s ease-in-out,
-      visibility 0.2s ease-in-out;
-  }
-
-  &:hover::before {
-    content: '';
-    position: absolute;
-    top: 100%;
-    right: 50%;
-    transform: translateX(50%);
-    margin-bottom: 5px;
-    border-width: 6px;
-    border-style: solid;
-    border-color: transparent transparent #333 transparent;
-    z-index: 1;
-    opacity: 1;
-    visibility: visible;
-    transition:
-      opacity 0.2s ease-in-out,
-      visibility 0.2s ease-in-out;
+    flex-direction: column;
   }
 `;
 
@@ -93,6 +35,7 @@ export const EventTitleWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-bottom: 10px;
 `;
 
 export const EventTitle = styled.h1`
@@ -109,7 +52,6 @@ export const Badge = styled.span`
   align-items: center;
   border-radius: 12px;
   padding: 4px 10px;
-  width: 58px;
   font-size: 12px;
   font-weight: 600;
   color: #ffffff;
@@ -131,7 +73,7 @@ export const Badge = styled.span`
 // 행사 정보
 export const ContentContainer = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 12px;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
     flex-direction: column;
@@ -141,7 +83,7 @@ export const ContentContainer = styled.div`
 export const OverviewContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   width: 100%;
 `;
 
@@ -149,7 +91,7 @@ export const ContentBox = styled.div`
   display: flex;
   flex-direction: column;
   padding: 22px;
-  background: #ffffff;
+  background: var(--LG-4, #f8f8f8);
   width: 100%;
   border-radius: 10px;
 `;
@@ -162,11 +104,22 @@ export const ContentTitleWrapper = styled.div`
   border-bottom: 1px solid var(--gray-200, #d9d9d9);
 `;
 
+export const ContactTextWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
 export const ContentTitle = styled.h3`
   line-height: 19px;
   color: var(--gray-400, #212121);
   font-weight: bold;
   font-size: 16px;
+`;
+
+export const ContactDescription = styled.p`
+  color: var(--DG-2, #818181);
+  font-size: 14px;
 `;
 
 export const AddContactButton = styled.button`
@@ -300,16 +253,17 @@ export const ImageWrapper = styled.div`
   align-items: center;
   padding: 20px 0;
   width: 100%;
-  height: 100%;
+  max-height: 300px;
 
   img {
     display: block;
     width: 70%;
     object-fit: contain;
+    height: 100%;
   }
 `;
 
-// 진행 현황
+// 행사 커버 이미지
 export const PosterImageContainer = styled.div`
   display: flex;
   gap: 10px;
@@ -320,53 +274,52 @@ export const PosterImageContainer = styled.div`
   }
 `;
 
+// 평균 참석 인원, 행사 진행 회차
+export const ProgressContainer = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
 export const ProgressBox = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 26px 23px;
-  background: #ffffff;
-  width: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 22px;
   border-radius: 10px;
+  width: 100%;
+  background: var(--LG-4, #f8f8f8);
+`;
+
+export const ProgressText = styled.div`
+  display: flex;
+  flex-direction: column;
   gap: 8px;
 `;
 
-export const IconWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  background: var(--blue-400, #0075ff);
-  align-items: center;
-  border-radius: 6px;
-  padding: 10px;
-  width: 40px;
-  height: 40px;
-  color: var(--gray-100, #f0f0f0);
-  font-size: 32px;
+export const ProgressTitle = styled.h2`
+  color: var(--gray-400, #212121);
 `;
 
-export const ProgressContentWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 2px;
+export const ProgressDescription = styled.p`
+  font-size: 14px;
+  color: var(--DG-2, #818181);
 `;
 
-export const ProgressTitle = styled.h3`
-  margin-bottom: 2px;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 100%;
-  color: var(--blue-400, #0075ff);
-`;
-
-export const ProgressText = styled.p`
+export const ProgressNumber = styled.span`
   display: flex;
-  justify-content: center;
-  width: 100px;
-  font-weight: bold;
+  justify-content: flex-end;
+  align-items: end;
+  color: var(--DG-2, #818181);
   font-size: 20px;
-  color: var(--gray-300, #636363);
+  gap: 6px;
+
+  & > em {
+    font-size: 40px;
+    font-style: normal;
+    position: relative;
+    transform: translateY(8px);
+    font-weight: 600;
+  }
 `;
 
 // 담당자 tooptip
@@ -408,4 +361,12 @@ export const TooltipText = styled.div`
     border-style: solid;
     border-color: transparent transparent #333 transparent;
   }
+`;
+
+// 버튼 스타일
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 0;
+  gap: 10px;
 `;

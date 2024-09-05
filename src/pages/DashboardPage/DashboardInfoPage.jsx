@@ -1,14 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import * as S from './DashboardInfoPage.style';
-import { FaAngleRight, FaRegTrashCan, FaCircleInfo } from 'react-icons/fa6';
-import { Sidebar } from '../../components/Navigator';
-import { BlueButton90 } from '../../components/Button';
-import { USER_ID } from '../../constants';
-import { axiosInstance } from '../../axios';
+import {
+  Sidebar,
+  Button,
+  EventTargetOption,
+  Input,
+  Textarea,
+  EventScheduleItem,
+  TopNavigation,
+} from '@/components';
+import { USER_ID } from '@/constants';
 import { useRecoilValue } from 'recoil';
-import { eventIDState } from '../../recoil/atoms/state';
-import PageLayout from '../../Layout/PageLayout';
-import UploadBox from '../../pages/RegisterPage/RegisterComponents/UploadBox';
+import { eventIDState } from '@/recoil/atoms/state';
+import { PageLayout } from '@/Layout';
+import UploadBox from '../RegisterPage/RegisterComponents/UploadBox/UploadBox';
+import { getEventDetail, updateEventDetail } from '@/apis';
 
 export default function DashboardInfoPage() {
   const [eventType, setEventType] = useState('OFFLINE');
@@ -24,7 +31,7 @@ export default function DashboardInfoPage() {
     },
   ]);
   const [isChanged, setIsChanged] = useState(false);
-  const EVENT_ID = useRecoilValue(eventIDState);
+  const eventId = useRecoilValue(eventIDState);
 
   const initialState = useRef({
     eventType,
@@ -35,54 +42,72 @@ export default function DashboardInfoPage() {
     eventSchedules,
   });
 
+  const {
+    data: eventDetail,
+    isPending,
+    isError,
+  } = useQuery({
+    queryKey: ['getEventDetail', eventId],
+    queryFn: () => getEventDetail(USER_ID, eventId),
+  });
+
+  const {
+    mutate: updateEventDetailMutate,
+    isPending: isUpdateEventDetailPending,
+  } = useMutation({
+    mutationKey: ['updateEventDetail', eventId],
+    mutationFn: (body) => updateEventDetail(USER_ID, eventId, body),
+    onSuccess: () => {
+      alert('행사 정보가 성공적으로 저장되었습니다.');
+      setIsChanged(false);
+    },
+    onError: () => {
+      alert('행사 정보를 저장하는 데 실패했습니다. 다시 시도해 주세요.');
+    },
+  });
+
   useEffect(() => {
-    const fetchEventData = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `/api/v1/events/${USER_ID}/${EVENT_ID}`,
-        );
-        const eventData = response.data;
+    if (eventDetail === undefined) {
+      return;
+    }
 
-        setEventType(eventData.eventType);
-        setEventTarget(eventData.eventTarget);
-        setEventTitle(eventData.eventTitle);
-        setEventDescription(eventData.eventDetail);
-        setEventImage(eventData.eventImage || '');
-        setEventSchedules(
-          eventData.eventSchedules.map((schedule) => ({
-            eventDate: new Date(schedule.eventDate),
-            eventStartTime: new Date(
-              `${schedule.eventDate}T${schedule.eventStartTime}`,
-            ),
-            eventEndTime: new Date(
-              `${schedule.eventDate}T${schedule.eventEndTime}`,
-            ),
-          })),
-        );
+    const {
+      eventType,
+      eventTarget,
+      eventTitle,
+      eventDetail: eventDescription,
+      eventImage,
+      eventSchedules,
+    } = eventDetail;
 
-        initialState.current = {
-          eventType: eventData.eventType,
-          eventTarget: eventData.eventTarget,
-          eventTitle: eventData.eventTitle,
-          eventDescription: eventData.eventDetail,
-          eventImage: eventData.eventImage || '',
-          eventSchedules: eventData.eventSchedules.map((schedule) => ({
-            eventDate: new Date(schedule.eventDate),
-            eventStartTime: new Date(
-              `${schedule.eventDate}T${schedule.eventStartTime}`,
-            ),
-            eventEndTime: new Date(
-              `${schedule.eventDate}T${schedule.eventEndTime}`,
-            ),
-          })),
-        };
-      } catch (error) {
-        console.error('이벤트 정보 불러오는 중 에러:', error);
-      }
+    setEventType(eventType);
+    setEventTarget(eventTarget);
+    setEventTitle(eventTitle);
+    setEventDescription(eventDescription);
+    setEventImage(eventImage || '');
+    setEventSchedules(
+      eventSchedules.map(({ eventDate, eventStartTime, eventEndTime }) => ({
+        eventDate: new Date(eventDate),
+        eventStartTime: new Date(`${eventDate}T${eventStartTime}`),
+        eventEndTime: new Date(`${eventDate}T${eventEndTime}`),
+      })),
+    );
+
+    initialState.current = {
+      eventType,
+      eventTarget,
+      eventTitle,
+      eventDescription,
+      eventImage: eventImage || '',
+      eventSchedules: eventSchedules.map(
+        ({ eventDate, eventStartTime, eventEndTime }) => ({
+          eventDate: new Date(eventDate),
+          eventStartTime: new Date(`${eventDate}T${eventStartTime}`),
+          eventEndTime: new Date(`${eventDate}T${eventEndTime}`),
+        }),
+      ),
     };
-
-    fetchEventData();
-  }, [EVENT_ID, USER_ID]);
+  }, [eventDetail]);
 
   useEffect(() => {
     const hasChanged =
@@ -116,9 +141,31 @@ export default function DashboardInfoPage() {
 
   const handleScheduleChange = (index, key, value) => {
     const newSchedules = [...eventSchedules];
+
     newSchedules[index][key] = value;
     setEventSchedules(newSchedules);
     setIsChanged(true);
+  };
+
+  const handleDateChange = (index, date) => {
+    handleScheduleChange(index, 'eventDate', date);
+  };
+
+  const handleStartTimeChange = (index, date) => {
+    handleScheduleChange(index, 'eventStartTime', date);
+  };
+
+  const handleEndTimeChange = (index, date) => {
+    handleScheduleChange(index, 'eventEndTime', date);
+  };
+
+  const handleDeleteSchedule = (index) => {
+    if (eventSchedules.length > 1) {
+      const newSchedules = eventSchedules.filter((_, i) => i !== index);
+
+      setEventSchedules(newSchedules);
+      setIsChanged(true);
+    }
   };
 
   // 행사 기간 추가하기 버튼
@@ -129,23 +176,15 @@ export default function DashboardInfoPage() {
       eventStartTime: new Date(lastSchedule.eventStartTime),
       eventEndTime: new Date(lastSchedule.eventEndTime),
     };
+
     setEventSchedules([...eventSchedules, newSchedule]);
     setIsChanged(true);
   };
 
-  // 행사 기간 삭제하기 버튼
-  const handleDeleteSchedule = (index) => {
-    if (eventSchedules.length > 1) {
-      const newSchedules = eventSchedules.filter((_, i) => i !== index);
-      setEventSchedules(newSchedules);
-      setIsChanged(true);
-    }
-  };
-
   // 저장하기 버튼
-  const handleSave = async () => {
-    const eventData = {
-      eventId: EVENT_ID,
+  const handleSaveButtonClick = () => {
+    updateEventDetailMutate({
+      eventId,
       eventTitle,
       eventDetail: eventDescription,
       eventImage,
@@ -157,19 +196,7 @@ export default function DashboardInfoPage() {
         eventEndTime: schedule.eventEndTime.toISOString().split('T')[1],
         attendanceListResponseDtos: [],
       })),
-    };
-
-    try {
-      await axiosInstance.put(
-        `/api/v1/events/${USER_ID}/${EVENT_ID}`,
-        eventData,
-      );
-      alert('행사 정보가 성공적으로 저장되었습니다.');
-      setIsChanged(false);
-    } catch (error) {
-      alert('행사 정보를 저장하는 데 실패했습니다. 다시 시도해 주세요.');
-      console.error('행사 정보 저장 실패: ', error);
-    }
+    });
   };
 
   const handleImageUpload = (event) => {
@@ -181,15 +208,28 @@ export default function DashboardInfoPage() {
     }
   };
 
+  if (isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return null;
+  }
+
   return (
-    <PageLayout sideBar={<Sidebar />}>
+    <PageLayout
+      topNavigation={<TopNavigation eventTitle={eventTitle} />}
+      sideBar={<Sidebar />}
+    >
       <S.DashboardInfo>
         <S.TopContainer>
           <S.Title>행사 기본 정보</S.Title>
           <S.ButtonContainer>
-            <BlueButton90 disabled={!isChanged} onClick={handleSave}>
-              저장하기
-            </BlueButton90>
+            <Button
+              label="저장하기"
+              disabled={!isChanged || isUpdateEventDetailPending}
+              onClick={handleSaveButtonClick}
+            />
           </S.ButtonContainer>
         </S.TopContainer>
 
@@ -197,8 +237,8 @@ export default function DashboardInfoPage() {
         <S.ContentContainer>
           <S.Content>
             <S.ContentTitle>행사 제목</S.ContentTitle>
-            <S.ContentInput
-              type="text"
+            <Input
+              placeholder="행사 제목을 입력해주세요"
               value={eventTitle}
               onChange={(e) => setEventTitle(e.target.value)}
             />
@@ -207,63 +247,19 @@ export default function DashboardInfoPage() {
           <S.Content>
             <S.ContentTitle>행사 기간</S.ContentTitle>
             {eventSchedules.map((schedule, index) => (
-              <S.DateTimeContainer key={index}>
-                <S.DateTimeWrapper>
-                  <S.DateTimeInput
-                    selected={schedule.eventDate}
-                    onChange={(date) =>
-                      handleScheduleChange(index, 'eventDate', date)
-                    }
-                    dateFormat="MM월 dd일"
-                    showYearDropdown={false}
-                    showMonthDropdown={true}
-                    dropdownMode="select"
-                  />
-                  <S.DateTimeInput
-                    selected={schedule.eventStartTime}
-                    onChange={(date) =>
-                      handleScheduleChange(index, 'eventStartTime', date)
-                    }
-                    showTimeSelect
-                    showTimeSelectOnly
-                    timeIntervals={30}
-                    timeCaption="Time"
-                    dateFormat="h:mm aa"
-                  />
-                  <FaAngleRight />
-
-                  <S.DateTimeInput
-                    selected={schedule.eventEndTime}
-                    onChange={(date) =>
-                      handleScheduleChange(index, 'eventEndTime', date)
-                    }
-                    showTimeSelect
-                    showTimeSelectOnly
-                    timeIntervals={30}
-                    timeCaption="Time"
-                    dateFormat="h:mm aa"
-                  />
-                </S.DateTimeWrapper>
-                <S.InfoDeleteIconWrapper>
-                  {index === 0 ? (
-                    <S.InfoIconWrapper>
-                      <FaCircleInfo />
-                    </S.InfoIconWrapper>
-                  ) : (
-                    <S.DeleteIconWrapper
-                      onClick={() => handleDeleteSchedule(index)}
-                    >
-                      <FaRegTrashCan />
-                    </S.DeleteIconWrapper>
-                  )}
-                </S.InfoDeleteIconWrapper>
-              </S.DateTimeContainer>
+              <EventScheduleItem
+                key={index}
+                index={index}
+                schedule={schedule}
+                onDateChange={handleDateChange}
+                onStartTimeChange={handleStartTimeChange}
+                onEndTimeChange={handleEndTimeChange}
+                onDelete={handleDeleteSchedule}
+                onAddSchedule={handleAddSchedule} // 일정 추가 함수 전달
+                isDeletable={index !== 0}
+                isLastItem={index === eventSchedules.length - 1} // 마지막 항목인지 확인
+              />
             ))}
-            <S.AddTimeWrapper>
-              <S.AddTimeBtn onClick={handleAddSchedule}>
-                행사 일정 추가하기
-              </S.AddTimeBtn>
-            </S.AddTimeWrapper>
           </S.Content>
 
           <S.Content>
@@ -287,42 +283,23 @@ export default function DashboardInfoPage() {
           <S.Content>
             <S.ContentTitle>행사 진행 대상</S.ContentTitle>
             <S.EventTargetContainer>
-              <S.EventTarget onClick={() => setEventTarget('INTERNAL')}>
-                <S.EventTargetRadioButton
-                  type="radio"
-                  name="eventTarget"
-                  value="INTERNAL"
-                  checked={eventTarget === 'INTERNAL'}
-                  readOnly
-                />
-                <S.EventTargetWrapper>
-                  <S.EventTargetTitle>숙명여자대학교 학생</S.EventTargetTitle>
-                  <S.EventTargetDescription>
-                    출석체크시, 학번을 입력받습니다.
-                  </S.EventTargetDescription>
-                </S.EventTargetWrapper>
-              </S.EventTarget>
-              <S.EventTarget onClick={() => setEventTarget('EXTERNAL')}>
-                <S.EventTargetRadioButton
-                  type="radio"
-                  name="eventTarget"
-                  value="EXTERNAL"
-                  checked={eventTarget === 'EXTERNAL'}
-                  readOnly
-                />
-                <S.EventTargetWrapper>
-                  <S.EventTargetTitle>외부인</S.EventTargetTitle>
-                  <S.EventTargetDescription>
-                    출석체크시, 휴대폰 번호를 입력받습니다.
-                  </S.EventTargetDescription>
-                </S.EventTargetWrapper>
-              </S.EventTarget>
+              <EventTargetOption
+                value="INTERNAL"
+                selectedValue={eventTarget}
+                onSelect={setEventTarget}
+              />
+              <EventTargetOption
+                value="EXTERNAL"
+                selectedValue={eventTarget}
+                onSelect={setEventTarget}
+              />
             </S.EventTargetContainer>
           </S.Content>
 
           <S.Content>
             <S.ContentTitle>행사 설명</S.ContentTitle>
-            <S.Textarea
+            <Textarea
+              placeholder="행사에 대해 상세히 설명해주세요"
               value={eventDescription}
               onChange={(e) => setEventDescription(e.target.value)}
             />

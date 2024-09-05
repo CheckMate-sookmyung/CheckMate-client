@@ -1,14 +1,13 @@
 import * as S from './DashboardPage.style';
-import React, { useState, useEffect } from 'react';
-import PageLayout from '../../Layout/PageLayout';
-import { FaRotate, FaUsers } from 'react-icons/fa6';
-import { Sidebar } from '../../components/Navigator';
-import { GrayButton90 } from '../../components/Button';
-import { USER_ID } from '../../constants';
-import { eventIDState } from '../../recoil/atoms/state';
+import { useState, useEffect } from 'react';
+import { PageLayout } from '@/Layout';
+import { Button, Sidebar, TopNavigation } from '@/components';
+import { USER_ID } from '@/constants';
+import { eventIDState } from '@/recoil/atoms/state';
 import { useRecoilValue } from 'recoil';
-import { axiosInstance } from '../../axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { deleteEvent, getEventDetail, postEventManager } from '@/apis';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export default function DashboardPage() {
   const [parsedEvents, setParsedEvents] = useState(null);
@@ -21,133 +20,54 @@ export default function DashboardPage() {
   const [phoneError, setPhoneError] = useState(false);
   const [emailError, setEmailError] = useState(false);
 
-  const EVENT_ID = useRecoilValue(eventIDState);
+  const eventId = useRecoilValue(eventIDState);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    console.log('USER_ID:', USER_ID);
-    console.log('EVENT_ID:', EVENT_ID);
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `/api/v1/events/${USER_ID}/${EVENT_ID}`,
-        );
-        const eventData = response.data;
-        if (eventData) {
-          const now = new Date();
-          let completedSessionsCount = 0;
+  // 행사 정보 불러오기
+  const {
+    data: eventDetail,
+    isPending,
+    isError,
+  } = useQuery({
+    queryKey: ['getEventDetail', eventId],
+    queryFn: () => getEventDetail(USER_ID, eventId),
+  });
 
-          const schedules = eventData.eventSchedules.map((schedule) => {
-            const scheduleEndDateTime = new Date(
-              `${schedule.eventDate}T${schedule.eventEndTime}`,
-            );
-            if (scheduleEndDateTime < now) {
-              completedSessionsCount += 1;
-            }
-            return {
-              date: schedule.eventDate,
-              startTime: schedule.eventStartTime,
-              endTime: schedule.eventEndTime,
-              attendanceList: schedule.attendanceListResponseDtos,
-            };
-          });
-
-          const totalAttendance = schedules.reduce((acc, schedule) => {
-            const attendedCount = schedule.attendanceList.filter(
-              (attendee) => attendee.attendance,
-            ).length;
-            return acc + attendedCount;
-          }, 0);
-
-          const totalParticipants = schedules[0].attendanceList.length;
-          const averageAttendance = totalParticipants
-            ? (totalAttendance / schedules.length).toFixed(1)
-            : 0;
-
-          const parsedEvent = {
-            title: eventData.eventTitle,
-            detail: eventData.eventDetail,
-            image: eventData.eventImage,
-            schedules,
-            totalSessions: eventData.eventSchedules.length,
-            totalParticipants,
-            eventType: eventData.eventType,
-            eventTarget: eventData.eventTarget,
-          };
-
-          setParsedEvents(parsedEvent);
-          setAverageAttendance(averageAttendance);
-          setCompletedSessions(completedSessionsCount);
-
-          // 행사 일정 상태
-          const firstSchedule = schedules[0];
-          const lastSchedule = schedules[schedules.length - 1];
-
-          const firstScheduleStartDate = new Date(
-            `${firstSchedule.date}T00:00:00`,
-          );
-          const lastScheduleEndDateTime = new Date(
-            `${lastSchedule.date}T${lastSchedule.endTime}`,
-          );
-
-          if (now > lastScheduleEndDateTime) {
-            setEventStatus('종료');
-            // await sendAttendanceList();
-          } else if (now < firstScheduleStartDate) {
-            setEventStatus('예정');
-          } else {
-            setEventStatus('진행중');
-          }
-
-          // 담당자 정보 설정
-          setContacts({
-            name: eventData.managerName || '',
-            phone: eventData.managerPhoneNumber || '',
-            email: eventData.managerEmail || '',
-          });
-        }
-      } catch (error) {
-        console.error('이벤트 데이터를 가져오는 중 오류:', error);
-      }
-    };
-
-    fetchData();
-  }, [EVENT_ID]);
-
-  // 출석명단 자동 전송
-  // const sendAttendanceList = async () => {
-  //   try {
-  //     const response = await axiosInstance.get(
-  //       `/api/v1/attendance/list/sending/${USER_ID}/${EVENT_ID}`,
-  //     );
-  //     if (response.data.isSuccess) {
-  //       console.log('출석 명단이 성공적으로 전송되었습니다.');
-  //     } else {
-  //       console.error('출석 명단 전송 실패:', response.data.message);
-  //     }
-  //   } catch (error) {
-  //     console.error('출석 명단 전송 중 오류:', error);
-  //   }
-  // };
-
-  // 행사 삭제
-  const DeleteEvent = async () => {
-    const isConfirmed = window.confirm('행사를 완전히 삭제하시겠습니까?');
-    if (!isConfirmed) {
-      return;
-    }
-    try {
-      const response = await axiosInstance.delete(
-        `api/v1/events/${USER_ID}/${EVENT_ID}`,
-      );
-      if (response.status === 200) {
+  const { mutate: deleteEventMutate, isPending: isDeleteEventPending } =
+    useMutation({
+      mutationKey: ['deleteEvent', eventId],
+      mutationFn: () => deleteEvent(USER_ID, eventId),
+      onSuccess: () => {
         alert('행사가 삭제되었습니다. 목록 페이지로 이동합니다.');
         navigate('/event');
-        console.log(response);
-      }
-    } catch (error) {
-      alert('행사 삭제에 실패했습니다. 다시 시도해 주세요.');
-      console.log(error);
+      },
+      onError: () => {
+        alert('행사 삭제에 실패했습니다. 다시 시도해 주세요.');
+      },
+    });
+
+  const {
+    mutate: postEventManagerMutate,
+    isPending: isPostEventManagerPending,
+  } = useMutation({
+    mutationKey: ['postEventManager', eventId],
+    mutationFn: (body) => postEventManager(USER_ID, eventId, body),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['getEventDetail']);
+      setIsEditing(false);
+      alert('연락처가 성공적으로 등록되었습니다.');
+    },
+    onError: () => {
+      alert('연락처 등록에 실패했습니다. 다시 시도해 주세요.');
+    },
+  });
+
+  const handleEventDeleteButtonClick = () => {
+    const isConfirmed = window.confirm('행사를 완전히 삭제하시겠습니까?');
+
+    if (isConfirmed) {
+      deleteEventMutate();
     }
   };
 
@@ -163,7 +83,7 @@ export default function DashboardPage() {
         : target;
 
   // 담당자 연락처 추가 및 입력 필드 생성
-  const handleAddContact = async () => {
+  const handleAddContactButtonClick = () => {
     const isNameValid = contacts.name.trim() !== '';
     const isPhoneValid = validatePhoneNumber(contacts.phone);
     const isEmailValid = validateEmail(contacts.email);
@@ -173,26 +93,13 @@ export default function DashboardPage() {
     setEmailError(!isEmailValid);
 
     if (isEditing && isNameValid && isPhoneValid && isEmailValid) {
-      try {
-        const response = await axiosInstance.post(
-          `/api/v1/events/manager/${USER_ID}/${EVENT_ID}`,
-          {
-            manager: {
-              managerName: contacts.name,
-              managerPhoneNumber: contacts.phone,
-              managerEmail: contacts.email,
-            },
-          },
-        );
-
-        if (response.status === 200) {
-          setIsEditing(false);
-          alert('연락처가 성공적으로 등록되었습니다.');
-        }
-      } catch (error) {
-        console.log('연락처 등록 실패: ', error);
-        alert('연락처 등록에 실패했습니다. 다시 시도해 주세요.');
-      }
+      postEventManagerMutate({
+        manager: {
+          managerName: contacts.name,
+          managerPhoneNumber: contacts.phone,
+          managerEmail: contacts.email,
+        },
+      });
     } else {
       setIsEditing(true);
     }
@@ -224,8 +131,96 @@ export default function DashboardPage() {
     return emailRegex.test(email);
   };
 
+  useEffect(() => {
+    if (eventDetail === undefined) {
+      return;
+    }
+
+    const now = new Date();
+    let completedSessionsCount = 0;
+
+    const schedules = eventDetail.eventSchedules.map((schedule) => {
+      const scheduleEndDateTime = new Date(
+        `${schedule.eventDate}T${schedule.eventEndTime}`,
+      );
+      if (scheduleEndDateTime < now) {
+        completedSessionsCount += 1;
+      }
+      return {
+        date: schedule.eventDate,
+        startTime: schedule.eventStartTime,
+        endTime: schedule.eventEndTime,
+        attendanceList: schedule.attendanceListResponseDtos,
+      };
+    });
+
+    const totalAttendance = schedules.reduce((acc, schedule) => {
+      const attendedCount = schedule.attendanceList.filter(
+        (attendee) => attendee.attendance,
+      ).length;
+      return acc + attendedCount;
+    }, 0);
+
+    const totalParticipants = schedules[0].attendanceList.length;
+    const averageAttendance = totalParticipants
+      ? (totalAttendance / schedules.length).toFixed(1)
+      : 0;
+
+    const parsedEvent = {
+      title: eventDetail.eventTitle,
+      detail: eventDetail.eventDetail,
+      image: eventDetail.eventImage,
+      schedules,
+      totalSessions: eventDetail.eventSchedules.length,
+      totalParticipants,
+      eventType: eventDetail.eventType,
+      eventTarget: eventDetail.eventTarget,
+    };
+
+    setParsedEvents(parsedEvent);
+    setAverageAttendance(averageAttendance);
+    setCompletedSessions(completedSessionsCount);
+
+    // 행사 일정 상태
+    const firstSchedule = schedules[0];
+    const lastSchedule = schedules[schedules.length - 1];
+
+    const firstScheduleStartDateTime = new Date(
+      `${firstSchedule.date}T${firstSchedule.startTime}`,
+    );
+    const lastScheduleEndDateTime = new Date(
+      `${lastSchedule.date}T${lastSchedule.endTime}`,
+    );
+
+    if (now > lastScheduleEndDateTime) {
+      setEventStatus('종료');
+    } else if (now < firstScheduleStartDateTime) {
+      setEventStatus('예정');
+    } else {
+      setEventStatus('진행중');
+    }
+
+    // 담당자 정보 설정
+    setContacts({
+      name: eventDetail.managerName || '',
+      phone: eventDetail.managerPhoneNumber || '',
+      email: eventDetail.managerEmail || '',
+    });
+  }, [eventDetail]);
+
+  if (isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return null;
+  }
+
   return (
-    <PageLayout sideBar={<Sidebar />}>
+    <PageLayout
+      topNavigation={<TopNavigation eventTitle={eventDetail.eventTitle} />}
+      sideBar={<Sidebar />}
+    >
       {parsedEvents && (
         <S.DashboardPage>
           <S.TopContainer>
@@ -234,12 +229,16 @@ export default function DashboardPage() {
               <S.Badge status={eventStatus}>{eventStatus}</S.Badge>
             </S.EventTitleWrapper>
             <S.ButtonContainer>
-              <S.StyledLink to="/event/dashboard/info">
-                <GrayButton90>행사 수정</GrayButton90>
-              </S.StyledLink>
-              <S.DeleteEventButton onClick={DeleteEvent}>
-                행사 삭제
-              </S.DeleteEventButton>
+              <Link to="/event/dashboard/info">
+                <Button label={'행사 수정'} />
+              </Link>
+              <Button
+                label="행사 삭제"
+                backgroundColor="#F2F2F2"
+                textColor="#F92828"
+                disabled={isDeleteEventPending}
+                onClick={handleEventDeleteButtonClick}
+              />
             </S.ButtonContainer>
           </S.TopContainer>
 
@@ -271,13 +270,17 @@ export default function DashboardPage() {
 
               <S.ContentBox>
                 <S.ContentTitleWrapper>
-                  <S.Tooltip>
+                  <S.ContactTextWrapper>
                     <S.ContentTitle>담당자</S.ContentTitle>
-                    <S.TooltipText className="tooltiptext">
-                      해당 연락처로 참석자 명단이 발송됩니다.
-                    </S.TooltipText>
-                  </S.Tooltip>
-                  <S.AddContactButton onClick={handleAddContact}>
+                    <S.ContactDescription>
+                      해당 연락처로 참석자 명단이 발송돼요
+                    </S.ContactDescription>
+                  </S.ContactTextWrapper>
+                  <S.AddContactButton
+                    type="button"
+                    disabled={isPostEventManagerPending}
+                    onClick={handleAddContactButtonClick}
+                  >
                     {isEditing
                       ? '저장'
                       : contacts.name || contacts.phone || contacts.email
@@ -374,33 +377,9 @@ export default function DashboardPage() {
                   )}
                 </S.ContentInfoWrapper>
               </S.ContentBox>
-
-              <S.ProgressBox>
-                <S.IconWrapper>
-                  <FaUsers />
-                </S.IconWrapper>
-                <S.ProgressContentWrapper>
-                  <S.ProgressTitle>평균 참석 인원</S.ProgressTitle>
-                  <S.ProgressText>
-                    {averageAttendance} / {parsedEvents.totalParticipants}
-                  </S.ProgressText>
-                </S.ProgressContentWrapper>
-              </S.ProgressBox>
-
-              <S.ProgressBox>
-                <S.IconWrapper>
-                  <FaRotate />
-                </S.IconWrapper>
-                <S.ProgressContentWrapper>
-                  <S.ProgressTitle>진행 회차</S.ProgressTitle>
-                  <S.ProgressText>
-                    {completedSessions} / {parsedEvents.totalSessions}
-                  </S.ProgressText>
-                </S.ProgressContentWrapper>
-              </S.ProgressBox>
             </S.OverviewContainer>
 
-            {/* 진행 현황 */}
+            {/* 행사 커버 이미지 */}
             <S.PosterImageContainer>
               <S.ContentBox>
                 <S.ContentTitleWrapper>
@@ -412,6 +391,30 @@ export default function DashboardPage() {
               </S.ContentBox>
             </S.PosterImageContainer>
           </S.ContentContainer>
+
+          {/* 평균 참석 인원, 행사 진행 회차 */}
+          <S.ProgressContainer>
+            <S.ProgressBox>
+              <S.ProgressText>
+                <S.ProgressTitle>평균 참석 인원</S.ProgressTitle>
+                <S.ProgressDescription>
+                  {parsedEvents.totalSessions}회 진행 후 집계된 인원이에요
+                </S.ProgressDescription>
+              </S.ProgressText>
+              <S.ProgressNumber>
+                <em>{averageAttendance}</em> / {parsedEvents.totalParticipants}
+              </S.ProgressNumber>
+            </S.ProgressBox>
+
+            <S.ProgressBox>
+              <S.ProgressText>
+                <S.ProgressTitle>행사 진행 회차</S.ProgressTitle>
+              </S.ProgressText>
+              <S.ProgressNumber>
+                <em>{completedSessions}</em> / {parsedEvents.totalSessions}
+              </S.ProgressNumber>
+            </S.ProgressBox>
+          </S.ProgressContainer>
         </S.DashboardPage>
       )}
     </PageLayout>

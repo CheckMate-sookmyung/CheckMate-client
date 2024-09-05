@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 import { format } from 'date-fns';
-import * as S from '../RegisterStyle';
-import BackButton from '../RegisterComponents/BackButton';
-import UploadBox from '../RegisterComponents/UploadBox';
+import * as S from './RegisterSecond.style';
+import UploadBox from '../RegisterComponents/UploadBox/UploadBox';
 import { axiosInstance } from '../../../axios/axiosInstance';
 import { USER_ID } from '../../../constants/tempData';
 import useResetAllStates from '../../../recoil/atoms/useResetAllState';
@@ -20,11 +18,19 @@ import {
   minCompletionTimes,
   RegisterStep,
 } from '../../../recoil/atoms/state';
-import EventScheduleList from '../RegisterComponents/Scheduler';
+import { Input, Textarea } from '@/components';
+import BlueButton from '../RegisterComponents/Button/BlueButton';
+import FileButton from '../RegisterComponents/Button/FileButton';
+import EventScheduleList from '@/components/Scheduler/Scheduler';
 
 const RegisterSecond = () => {
-  // Recoil state hooks
   const Step = useSetRecoilState(RegisterStep);
+
+  const stepDown = () => {
+    Step((prevStep) => prevStep - 1);
+  };
+
+  // Recoil state hooks
   const eventType = useRecoilValue(eventTypeState);
   const eventTarget = useRecoilValue(eventTargetState);
   const eventTitleValue = useRecoilValue(eventTitle);
@@ -40,18 +46,12 @@ const RegisterSecond = () => {
   const [eventDate, setEventDate] = useState(null);
   const [eventStartTime, setEventStartTime] = useState('');
   const [eventEndTime, setEventEndTime] = useState('');
-  const [eventSchedules, setEventSchedules] = useState([
-    {
-      eventDate: new Date(),
-      eventStartTime: new Date(),
-      eventEndTime: new Date(),
-    },
-  ]);
+  const [isminCompletionTimesValue, setMinCompletionTimesValue] = useState();
+  const [eventSchedules, setEventSchedules] = useRecoilState(eventScheduleList);
 
   const navigate = useNavigate();
   const resetAllStates = useResetAllStates();
 
-  // File upload handlers
   const handleImageChange = (file) => {
     setPoster(file);
   };
@@ -60,12 +60,11 @@ const RegisterSecond = () => {
     setFile(file);
   };
 
-  // Template download based on event type
   const handleDownload = async (e) => {
     e.preventDefault();
     try {
       const response = await fetch(
-        eventType === 'INTERNAL'
+        eventTarget === 'INTERNAL'
           ? 'https://checkmate-service-bucket.s3.ap-northeast-2.amazonaws.com/template+(student).xlsx'
           : 'https://checkmate-service-bucket.s3.ap-northeast-2.amazonaws.com/template+(%EC%99%B8%EB%B6%80%EC%9A%A9)+.xlsx',
         { method: 'GET' },
@@ -89,10 +88,10 @@ const RegisterSecond = () => {
     }
   };
 
-  // Schedule handling
   const handleScheduleChange = (index, key, value) => {
-    const newSchedules = [...eventSchedules];
-    newSchedules[index][key] = value;
+    const newSchedules = eventSchedules.map((schedule, i) =>
+      i === index ? { ...schedule, [key]: value } : schedule,
+    );
     setEventSchedules(newSchedules);
   };
 
@@ -135,7 +134,6 @@ const RegisterSecond = () => {
     }));
   };
 
-  // Register event
   const handleRegister = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -157,10 +155,10 @@ const RegisterSecond = () => {
       await axiosInstance.post(`/api/v1/events/${USER_ID}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      alert('행사가 등록됐습니다.');
-      navigate('/event');
+      navigate('/register/completed');
     } catch (error) {
       alert('행사가 제대로 등록되지 않았습니다.');
+      navigate('/register');
       console.error(error);
     } finally {
       Step(1);
@@ -170,49 +168,81 @@ const RegisterSecond = () => {
 
   return (
     <>
-      <S.Container>
-        <S.ButtonWrapper>
-          <BackButton />
-        </S.ButtonWrapper>
+      <S.Container className="container">
         <S.SubContainer>
-          <S.ContentBox style={{ alignItems: 'left' }}>
-            <div style={{ width: '70%' }}>
-              <CategoryFont>행사 제목</CategoryFont>
-              <S.PrimaryInput
-                placeholder="행사 제목"
+          <S.ContentBox>
+            <S.FlexWrapper>
+              <BlueButton contents={'이벤트 개요'} />
+            </S.FlexWrapper>
+            <S.ContentBox>
+              <S.CategoryFont>행사 제목</S.CategoryFont>
+              <Input
+                placeholder="행사 제목을 입력해주세요"
                 value={iseventTitle}
                 onChange={(e) => setEventTitle(e.target.value)}
-              ></S.PrimaryInput>
-              <CategoryFont>행사 설명</CategoryFont>
-              <S.ContentInput
-                placeholder="행사 상세 설명"
+              ></Input>
+            </S.ContentBox>
+            <S.ContentBox>
+              <S.CategoryFont>행사 설명</S.CategoryFont>
+              <Textarea
+                placeholder="행사에 대해 상세히 설명해주세요"
                 value={iseventDetail}
                 onChange={(e) => setEventDetail(e.target.value)}
-              ></S.ContentInput>
-              <CategoryFont>행사 포스터</CategoryFont>
+              />
+            </S.ContentBox>
+            <S.ContentBox>
+              <S.CategoryFont>행사 포스터</S.CategoryFont>
               <UploadBox
                 onFileUpload={handleImageChange}
                 accept=".png, .jpeg, .pdf"
               />
-              <S.FlexWrapper style={{ justifyContent: 'left' }}>
-                <CategoryFont>행사 출석 파일</CategoryFont>
-                <S.TemplateButton onClick={handleDownload}>
-                  출석 파일 템플릿 다운
-                </S.TemplateButton>
-              </S.FlexWrapper>
+            </S.ContentBox>
+            <S.ContentBox>
+              <S.CategoryFont>행사 출석 파일</S.CategoryFont>
               <UploadBox
                 onFileUpload={handleExcelChange}
                 accept=".xlsx, .xls"
               />
-              <CategoryFont>행사 기간</CategoryFont>
+              <S.FlexWrapper
+                style={{
+                  justifyContent: 'end',
+                }}
+              >
+                <FileButton
+                  onClick={handleDownload}
+                  content={'출석 파일 템플릿 다운'}
+                  type={'blue'}
+                />
+              </S.FlexWrapper>
+            </S.ContentBox>
+            <S.ContentBox>
+              <S.CategoryFont>행사 기간</S.CategoryFont>
               <EventScheduleList
                 eventSchedules={eventSchedules}
                 handleScheduleChange={handleScheduleChange}
                 handleAddSchedule={handleAddSchedule}
                 handleDeleteSchedule={handleDeleteSchedule}
               />
-            </div>
-            <S.MainButton onClick={handleRegister}>행사 생성</S.MainButton>
+            </S.ContentBox>
+            <S.ContentBox>
+              <S.CategoryFont>행사 이수 기준</S.CategoryFont>
+              <Input
+                type="number"
+                placeholder="행사 이수 기준을 입력해주세요"
+                value={isminCompletionTimesValue}
+                onChange={(e) => setMinCompletionTimesValue(e.target.value)}
+              />
+            </S.ContentBox>
+            <S.FlexWrapper
+              style={{
+                justifyContent: 'end',
+              }}
+            >
+              <S.BackButton onClick={stepDown}>이전</S.BackButton>
+              <S.MainButton onClick={handleRegister}>
+                행사 등록 완료하기
+              </S.MainButton>
+            </S.FlexWrapper>
           </S.ContentBox>
         </S.SubContainer>
       </S.Container>
@@ -221,9 +251,3 @@ const RegisterSecond = () => {
 };
 
 export default RegisterSecond;
-
-const CategoryFont = styled.p`
-  font-size: 24px;
-  font-weight: 700;
-  margin: 30px 0;
-`;

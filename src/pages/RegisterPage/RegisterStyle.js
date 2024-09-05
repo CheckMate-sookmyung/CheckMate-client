@@ -7,6 +7,7 @@ export const Container = styled.div`
   align-items: center;
   height: fit-content;
   width: 100vw;
+  border: 2px solid red;
 `;
 
 export const SubContainer = styled.div`
@@ -14,6 +15,9 @@ export const SubContainer = styled.div`
   flex-direction: column;
   width: 70%;
   height: 100%;
+  border: 3px solid black;
+  align-items: start;
+
   @media (max-width: ${BREAKPOINTS[1]}px) {
     width: 100%;
     padding: 20px;
@@ -23,26 +27,41 @@ export const SubContainer = styled.div`
 export const ContentBox = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
   width: 100%;
   height: fit-content;
   padding: 10px 0;
+  border: 2px solid blue;
 `;
 
 export const MainFont = styled.p`
-  font-size: 30px;
-  font-weight: 700;
-  margin: 10px 0;
+  width: 233px;
+  position: relative;
+  font-size: 28px;
+  line-height: 38px;
+  font-weight: 600;
+  font-family: Pretendard;
+  color: #0d0d0d;
+  text-align: left;
+  display: inline-block;
+
   @media (max-width: ${BREAKPOINTS[1]}px) {
     font-size: 22px;
   }
 `;
 
 export const SubFont = styled.p`
+  position: relative;
   font-size: 20px;
   font-weight: 500;
-  color: #636363;
-  margin: 10px 0;
+  font-family: Pretendard;
+  color: #323232;
+  text-align: left;
+  display: inline-block;
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    font-size: 16px;
+  }
 `;
 
 export const MainButton = styled.button`
@@ -70,17 +89,18 @@ export const CategoryFont = styled.p`
 
 //RegisterFirst
 export const Choicebox = styled.div`
+  width: 478px;
+  position: relative;
+  border-radius: 20px;
+  background-color: ${({ isSelected }) => (isSelected ? '#2F7CEF' : '#F2F2F2')};
+  height: 298px;
   display: flex;
   flex-direction: column;
-  width: 250px;
-  height: 250px;
   margin: 20px;
   justify-content: center;
   align-items: center;
   filter: ${({ isSelected }) =>
     isSelected ? 'grayscale(0%)' : 'grayscale(100%)'};
-  border: ${({ isSelected }) =>
-    isSelected ? '2px solid black' : '2px solid #d9d9d9'};
   border-radius: 16px;
   transition: all 0.5s;
   cursor: pointer;
@@ -88,11 +108,10 @@ export const Choicebox = styled.div`
 
 export const FlexWrapper = styled.div`
   display: flex;
-  flex-wrap: wrap;
   margin: 20px 0;
   gap: 15px;
-  justify-content: center;
   align-items: center;
+  border: 1px solid green;
 `;
 
 export const EventRadio = styled.input.attrs({ type: 'radio' })`
@@ -102,7 +121,10 @@ export const EventRadio = styled.input.attrs({ type: 'radio' })`
 `;
 
 export const CustomImage = styled.img`
-  width: 100%;
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
+  height: 168px;
 `;
 
 //RegisterSecond

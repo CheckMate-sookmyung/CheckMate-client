@@ -1,1 +1,1 @@
-export { default } from './AttendanceHeader';
+export { default as AttendanceHeader } from './AttendanceHeader';
