@@ -64,7 +64,7 @@ const RegisterSecond = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        eventType === 'INTERNAL'
+        eventTarget === 'INTERNAL'
           ? 'https://checkmate-service-bucket.s3.ap-northeast-2.amazonaws.com/template+(student).xlsx'
           : 'https://checkmate-service-bucket.s3.ap-northeast-2.amazonaws.com/template+(%EC%99%B8%EB%B6%80%EC%9A%A9)+.xlsx',
         { method: 'GET' },
