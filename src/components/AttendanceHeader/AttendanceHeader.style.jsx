@@ -7,7 +7,7 @@ export const Container = styled.div`
   justify-content: center;
   width: 100%;
   height: 100px;
-  padding: 20px;
+  padding: 45px 0 40px;
   font-size: 32px;
   font-weight: 700;
   color: var(--Black-0, #000);
@@ -31,7 +31,7 @@ export const ContentContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  /* gap: 20px; */
 `;
 
 export const Title = styled.h1`
@@ -39,6 +39,7 @@ export const Title = styled.h1`
   position: relative;
   align-items: center;
   gap: 10px;
+  font-size: 48px;
   font-weight: 600;
   z-index: 10;
 
@@ -55,9 +56,9 @@ export const Title = styled.h1`
 
   & > span {
     color: var(--blue-0, #2f7cef);
+    background-color: #fff;
     position: relative;
     z-index: 1;
-    background-color: #fff;
     padding: 0 2px;
   }
 `;

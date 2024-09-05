@@ -42,7 +42,7 @@ export const Title = styled.h1`
   display: flex;
   justify-content: center;
   color: var(--blue-0, #2f7cef);
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 600;
   text-align: center;
   word-break: keep-all;
@@ -68,8 +68,8 @@ export const StudentId = styled.div`
   background: var(--LG-4, #f8f8f8);
   width: 100%;
   height: 80px;
-  font-size: 28px;
-  font-weight: 500;
+  font-size: 32px;
+  font-weight: 600;
   flex-grow: 1;
   max-width: 110px;
   margin: 0 10px;
@@ -141,7 +141,6 @@ export const GoToSignBtn = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-
   border-radius: 10px;
   color: #fff;
   font-size: 30px;
