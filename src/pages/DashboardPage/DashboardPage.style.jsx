@@ -21,7 +21,7 @@ export const TopContainer = styled.div`
   display: flex;
   justify-content: space-between;
 
-  @media (max-width: ${BREAKPOINTS[0]}px) {
+  @media (max-width: ${BREAKPOINTS[1]}px) {
     flex-direction: column;
   }
 `;
