@@ -107,29 +107,12 @@ export const InfoIconWrapper = styled.div`
 
 export const DeleteIconWrapper = styled.button`
   display: flex;
-  /* justify-content: center;
-  align-items: center; */
-  /* position: relative; */
   width: 14px;
 `;
 
 export const AddTimeWrapper = styled.div`
   display: flex;
-`;
-
-export const AddTimeBtn = styled.button`
-  color: #2253ff;
-  font-weight: 600;
-  background: none;
-  border: none;
-  padding: 10px 6px;
-  cursor: pointer;
-
-  @media (max-width: ${BREAKPOINTS[1]}px) {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-  }
+  justify-content: flex-end;
 `;
 
 export const HideSection = styled.div`

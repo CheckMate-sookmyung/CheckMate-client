@@ -1,6 +1,7 @@
 import * as S from './Scheduler.style';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { PiTildeBold } from 'react-icons/pi';
+import { SlimButton } from '../Button';
 
 const EventScheduleList = ({
   eventSchedules,
@@ -77,9 +78,7 @@ const EventScheduleList = ({
         ))}
 
         <S.AddTimeWrapper>
-          <S.AddTimeBtn onClick={handleAddSchedule}>
-            행사 일정 추가하기
-          </S.AddTimeBtn>
+          <SlimButton onClick={handleAddSchedule} label="행사 일정 추가하기" />
         </S.AddTimeWrapper>
       </S.Content>
     </>

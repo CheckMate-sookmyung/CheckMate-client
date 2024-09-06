@@ -18,7 +18,7 @@ import {
   minCompletionTimes,
   RegisterStep,
 } from '@/recoil/atoms/state';
-import { Button, Input, Textarea } from '@/components';
+import { Button, Input, SlimButton, Textarea } from '@/components';
 import BlueButton from '../RegisterComponents/Button/BlueButton';
 import EventScheduleList from '@/components/Scheduler/Scheduler';
 import { FaPaperclip } from 'react-icons/fa6';
@@ -204,9 +204,14 @@ const RegisterSecond = () => {
             <S.TitleDownButtonWrapper>
               <S.MainTitle>행사 출석 파일</S.MainTitle>
               <S.ButtonWrapper>
-                <S.DownButton onClick={handleDownload}>
-                  <FaPaperclip /> 출석 파일 템플릿 다운
-                </S.DownButton>
+                <SlimButton
+                  onClick={handleDownload}
+                  label={
+                    <>
+                      <FaPaperclip /> 출석 파일 템플릿 다운
+                    </>
+                  }
+                />
               </S.ButtonWrapper>
             </S.TitleDownButtonWrapper>
             <UploadBox onFileUpload={handleExcelChange} accept=".xlsx, .xls" />
