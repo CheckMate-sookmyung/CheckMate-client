@@ -178,7 +178,7 @@ const RegisterSecond = () => {
             <S.ContentWrapper>
               <S.MainTitle>행사 제목</S.MainTitle>
               <Input
-                placeholder="행사 제목을 입력해주세요"
+                placeholder="행사 제목을 입력해 주세요"
                 value={iseventTitle}
                 onChange={(e) => setEventTitle(e.target.value)}
               />
@@ -187,7 +187,7 @@ const RegisterSecond = () => {
             <S.ContentWrapper>
               <S.MainTitle>행사 설명</S.MainTitle>
               <Textarea
-                placeholder="행사에 대해 상세히 설명해주세요"
+                placeholder="행사에 대해 상세히 설명해 주세요"
                 value={iseventDetail}
                 onChange={(e) => setEventDetail(e.target.value)}
               />
@@ -235,7 +235,7 @@ const RegisterSecond = () => {
               <S.MainTitle>행사 이수 기준</S.MainTitle>
               <Input
                 type="number"
-                placeholder="행사 이수 기준을 입력해주세요"
+                placeholder="행사 이수 기준을 입력해 주세요"
                 value={isminCompletionTimesValue}
                 onChange={(e) => setMinCompletionTimesValue(e.target.value)}
                 className="custom-input"

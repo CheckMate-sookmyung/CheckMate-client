@@ -13,7 +13,7 @@ const EventScheduleList = ({
     <>
       <S.Content>
         {eventSchedules.map((schedule, index) => (
-          <S.DateTimeContainer key={index}>
+          <S.DateTimeListContainer key={index}>
             <S.DateTimeWrapper>
               <S.DateTimeInput
                 selected={schedule.eventDate}
@@ -58,7 +58,6 @@ const EventScheduleList = ({
                 <S.DeleteIconWrapper>
                   <FaRegTrashAlt
                     style={{
-                      fontSize: '22px',
                       visibility: 'hidden',
                       cursor: 'default',
                     }}
@@ -68,13 +67,11 @@ const EventScheduleList = ({
                 <S.DeleteIconWrapper
                   onClick={() => handleDeleteSchedule(index)}
                 >
-                  <FaRegTrashAlt
-                    style={{ fontSize: '22px', color: '#5495F6' }}
-                  />
+                  <FaRegTrashAlt style={{ color: '#5495F6' }} />
                 </S.DeleteIconWrapper>
               )}
             </S.InfoDeleteIconWrapper>
-          </S.DateTimeContainer>
+          </S.DateTimeListContainer>
         ))}
 
         <S.AddTimeWrapper>
