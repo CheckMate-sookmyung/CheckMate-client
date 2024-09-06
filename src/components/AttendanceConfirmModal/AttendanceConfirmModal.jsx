@@ -1,6 +1,6 @@
 import * as S from './AttendanceConfirmModal.style';
 import PropTypes from 'prop-types';
-import { AttendanceConfirmIcon } from '../../icons';
+import { AttendanceConfirmIcon } from '@/icons';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
@@ -18,7 +18,9 @@ const AttendanceConfirmModal = ({ name, onClose }) => {
 
   return (
     <S.ModalLayout>
-      <AttendanceConfirmIcon />
+      <S.Character>
+        <img src="/img/character-green-check.svg" alt="캐릭터" />
+      </S.Character>
       <S.Content>
         <strong>{name}</strong>님 출석 완료!
       </S.Content>
