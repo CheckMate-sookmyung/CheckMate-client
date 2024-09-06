@@ -1,4 +1,3 @@
-import React from 'react';
 import * as S from './Scheduler.style';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { PiTildeBold } from 'react-icons/pi';
@@ -38,7 +37,7 @@ const EventScheduleList = ({
                 dateFormat="h:mm aa"
               />
               <S.HideSection>
-                <PiTildeBold style={{ fontSize: '22px', color: '#5495F6' }} />
+                <PiTildeBold style={{ fontSize: '20px', color: '#5495F6' }} />
               </S.HideSection>
               <S.DateTimeInput
                 selected={schedule.eventEndTime}
@@ -52,6 +51,7 @@ const EventScheduleList = ({
                 dateFormat="h:mm aa"
               />
             </S.DateTimeWrapper>
+
             <S.InfoDeleteIconWrapper>
               {index === 0 ? (
                 <S.DeleteIconWrapper>
@@ -75,12 +75,11 @@ const EventScheduleList = ({
             </S.InfoDeleteIconWrapper>
           </S.DateTimeContainer>
         ))}
+
         <S.AddTimeWrapper>
-          <S.FlexWrapper>
-            <S.AddTimeBtn onClick={handleAddSchedule}>
-              행사 일정 추가하기
-            </S.AddTimeBtn>
-          </S.FlexWrapper>
+          <S.AddTimeBtn onClick={handleAddSchedule}>
+            행사 일정 추가하기
+          </S.AddTimeBtn>
         </S.AddTimeWrapper>
       </S.Content>
     </>
