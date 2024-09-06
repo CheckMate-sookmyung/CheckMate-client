@@ -19,13 +19,13 @@ const EventTargetOption = ({ value, selectedValue, onSelect }) => {
         <S.EventTargetDescription>
           {isInternal ? (
             <>
-              숙명여대 학생들만이 참가하는 행사로,{' '}
+              <S.Highlight>숙명여대 학생</S.Highlight>들이 참가하는 행사로,
               <S.Highlight>학번</S.Highlight>을 통해 출석을 확인해요.
             </>
           ) : (
             <>
-              외부인들이 참가하는 행사로, <S.Highlight>전화번호</S.Highlight>를
-              통해 출석을 확인해요.
+              <S.Highlight>외부인</S.Highlight>들이 참가하는 행사로,{' '}
+              <S.Highlight>전화번호</S.Highlight>를 통해 출석을 확인해요.
             </>
           )}
         </S.EventTargetDescription>

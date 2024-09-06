@@ -1,12 +1,14 @@
 import styled from 'styled-components';
 
 export const EventTarget = styled.div`
-  display: flex;
+  display: inline-flex;
   align-items: center;
   padding: 7px;
-  gap: 10px;
   border-radius: 8px;
+  width: 450px;
+  gap: 10px;
   transition: background-color 0.3s ease;
+  cursor: pointer;
 
   &:hover {
     background-color: #f0f0f0;
@@ -49,6 +51,7 @@ export const EventTargetTitle = styled.p`
 `;
 
 export const EventTargetDescription = styled.span`
+  width: auto;
   font-size: 14px;
   color: #76787a;
 `;
