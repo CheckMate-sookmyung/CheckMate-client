@@ -51,13 +51,13 @@ const RegisterSidebar = () => {
 
   const menuItems = [
     {
-      title: '선택된 이벤트유형',
-      subtitles: [`${status}`, `${type}`],
-      contents: [],
+      title: '선택된 행사 유형',
+      subtitles: ['진행 방식', '행사 유형'],
+      contents: [`${status}`, `${type}`],
     },
     {
-      title: '선택된 이벤트개요',
-      subtitles: ['제목', '날짜'],
+      title: '선택된 행사 개요',
+      subtitles: ['제목', '기간'],
       contents: [
         `${title}`,
         schedules.map((event, index) => (
@@ -74,12 +74,12 @@ const RegisterSidebar = () => {
         {/* <S.Divider /> */}
         <S.ContentWrapper>
           {subtitles.map((subtitle, index) => (
-            <div key={index}>
+            <S.Content key={index}>
               <S.Subtitle>{subtitle}</S.Subtitle>
               {contents && contents[index] && (
-                <S.Content>{contents[index]}</S.Content>
+                <S.SubtitleContent>{contents[index]}</S.SubtitleContent>
               )}
-            </div>
+            </S.Content>
           ))}
         </S.ContentWrapper>
       </S.MenuItemContainer>
