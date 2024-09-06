@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 import * as S from './EventCardListPage.style';
 import { USER_ID } from '@/constants';
 import { axiosInstance } from '@/axios';
-import { EventCard, Dropdown, TopNavigation } from '@/components';
+import { EventCard, Dropdown, TopNavigation, Search } from '@/components';
 import { PageLayout } from '@/Layout';
 
 const EventCardListPage = () => {
   const [events, setEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState('전체');
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,27 +52,38 @@ const EventCardListPage = () => {
   }, []);
 
   useEffect(() => {
-    if (selectedFilter === '전체') {
-      setFilteredEvents(events);
-    } else {
-      setFilteredEvents(
-        events.filter((event) => event.status === selectedFilter),
-      );
-    }
-  }, [selectedFilter, events]);
+    const filtered = events.filter((event) => {
+      const statusMatch =
+        selectedFilter === '전체' || event.status === selectedFilter;
+      const searchMatch = event.title
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      return statusMatch && searchMatch;
+    });
+
+    setFilteredEvents(filtered);
+  }, [selectedFilter, events, searchTerm]);
 
   const handleFilterChange = (filter) => {
     setSelectedFilter(filter);
   };
 
+  const handleSearch = (searchTerm) => {
+    setSearchTerm(searchTerm);
+  };
+
   return (
     <PageLayout topNavigation={<TopNavigation />}>
       <S.EventCardListPage>
-        <Dropdown
-          items={['전체', '진행중', '마감']}
-          defaultItem="전체"
-          onSelect={handleFilterChange}
-        />
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Dropdown
+            items={['전체', '진행중', '마감']}
+            defaultItem="전체"
+            onSelect={handleFilterChange}
+          />
+          <Search onSearch={handleSearch} />
+        </div>
+
         <S.EventCardList>
           {filteredEvents.map((event) => (
             <EventCard

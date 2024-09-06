@@ -17,3 +17,4 @@ export * from './TabMenu';
 export * from './Footer';
 export * from './DaterangePicker';
 export * from './GraphBox';
+export * from './Search';
