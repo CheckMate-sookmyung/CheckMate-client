@@ -11,17 +11,7 @@ export const SlimButton = styled.button`
   font-weight: 600;
   font-size: 14px;
   height: 30px;
-  color: #4e75ff;
+  color: #2f7cef;
   cursor: pointer;
   gap: 6px;
-  transition:
-    background 0.5s ease-in-out,
-    box-shadow 0.6s ease-in-out,
-    transform 0.4s ease-in-out,
-    color 0.4s ease-in-out;
-
-  &:hover {
-    background: #4e75ff;
-    color: #fff;
-  }
 `;

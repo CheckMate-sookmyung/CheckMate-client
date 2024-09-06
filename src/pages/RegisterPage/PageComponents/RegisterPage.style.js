@@ -4,13 +4,24 @@ import { BREAKPOINTS } from '@/styles';
 export const RegisterPage = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 50px;
   padding: 50px;
   width: 100%;
   border-left: 1px solid #ebedf0;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     padding: 20px;
+  }
+`;
+
+export const CenteredRegisterPage = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  margin: 0 auto;
+  max-width: 660px;
+  width: 100%;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
   }
 `;
 

@@ -1,4 +1,3 @@
-import { BREAKPOINTS } from '@/styles';
 import { BiSolidDownArrowSquare } from 'react-icons/bi';
 import styled from 'styled-components';
 
@@ -8,7 +7,7 @@ export const StyledLabel = styled.label`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 600px;
+  width: 100%;
   height: 240px;
   border-radius: 10px;
   background-color: #fff;
@@ -23,13 +22,6 @@ export const StyledLabel = styled.label`
   }
   &:hover {
     border-color: #2f7cef;
-  }
-
-  @media (max-width: ${BREAKPOINTS[1]}px) {
-    width: 446px;
-  }
-  @media (max-width: ${BREAKPOINTS[0]}px) {
-    width: 100%;
   }
 `;
 

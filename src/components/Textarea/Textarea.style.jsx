@@ -1,4 +1,3 @@
-import { BREAKPOINTS } from '@/styles';
 import styled from 'styled-components';
 
 export const Textarea = styled.textarea`
@@ -6,7 +5,7 @@ export const Textarea = styled.textarea`
   border-radius: 8px;
   background-color: #f8f8f8;
   padding: 14px 18px;
-  width: 600px;
+  width: 100%;
   height: 100px;
   font-size: 14px;
   color: #000;
@@ -16,12 +15,5 @@ export const Textarea = styled.textarea`
 
   &::placeholder {
     color: #aaa;
-  }
-
-  @media (max-width: ${BREAKPOINTS[1]}px) {
-    width: 440px;
-  }
-  @media (max-width: ${BREAKPOINTS[0]}px) {
-    width: 100%;
   }
 `;

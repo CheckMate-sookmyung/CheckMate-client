@@ -7,14 +7,12 @@ export const Content = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  max-width: 500px;
 `;
 
 // 행사 일정 선택
 export const DateTimeContainer = styled.div`
   display: flex;
   align-items: center;
-  /* justify-content: space-between; */
   width: 100%;
   padding-bottom: 6px;
   gap: 10px;
@@ -28,7 +26,6 @@ export const DateTimeWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* width: 100%; */
   gap: 10px;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
@@ -44,7 +41,6 @@ export const DateTimeInput = styled(DatePicker)`
   border-radius: 10px;
   background-color: #f8f8f8;
   padding: 10px;
-  /* width: 90px; */
   height: 20px;
   text-align: center;
   font-size: 14px;
@@ -72,7 +68,6 @@ export const InfoIconWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  /* position: relative; */
   padding: 10px;
 
   &:hover::after {
@@ -119,6 +114,5 @@ export const HideSection = styled.div`
   display: block;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
-    /* display: none; */
   }
 `;
