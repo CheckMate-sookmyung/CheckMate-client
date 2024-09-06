@@ -14,20 +14,18 @@ const FileInfo = ({ uploadedInfo }) => {
   };
 
   return (
-    <>
-      <S.PreviewWrapper>
-        <S.PreviewBox
-          style={{
-            backgroundImage: `url(${uploadedInfo.previewURL})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        >
-          <S.PreviewLabel onClick={handlePreviewClick}>미리보기</S.PreviewLabel>
-        </S.PreviewBox>
-        <FileButton content={uploadedInfo.name} type={'white'} />
-      </S.PreviewWrapper>
-    </>
+    <S.PreviewWrapper>
+      <S.PreviewBox
+        style={{
+          backgroundImage: `url(${uploadedInfo.previewURL})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <S.PreviewLabel onClick={handlePreviewClick}>미리보기</S.PreviewLabel>
+      </S.PreviewBox>
+      <FileButton content={uploadedInfo.name} type={'white'} />
+    </S.PreviewWrapper>
   );
 };
 
