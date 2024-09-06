@@ -16,7 +16,7 @@ export const MenuItemContainer = styled.div`
 export const Title = styled.h1`
   padding: 12px 20px;
   color: ${({ isActive }) => (isActive ? '#0075ff' : 'black')};
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
 `;
 
@@ -42,7 +42,8 @@ export const Subtitle = styled.span`
 export const SubtitleContent = styled.span`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
   font-size: 13px;
   color: #818181;
+  line-height: 1.2;
 `;
