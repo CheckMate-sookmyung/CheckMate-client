@@ -4,12 +4,24 @@ import { BREAKPOINTS } from '@/styles';
 export const RegisterPage = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 50px;
   padding: 50px;
   width: 100%;
+  border-left: 1px solid #ebedf0;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     padding: 20px;
+  }
+`;
+
+export const CenteredRegisterPage = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  margin: 0 auto;
+  max-width: 660px;
+  width: 100%;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
   }
 `;
 
@@ -42,7 +54,7 @@ export const MainTitle = styled.h1`
   position: relative;
   color: #0d0d0d;
   text-align: left;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
 
   & > span {

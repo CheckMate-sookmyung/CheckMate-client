@@ -6,7 +6,13 @@ import { axiosInstance } from '@/axios';
 import { USER_ID } from '@/constants';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '@/recoil/atoms/state';
-import { Sidebar, AttendeeTable, TopNavigation, TabMenu } from '@/components';
+import {
+  Sidebar,
+  AttendeeTable,
+  TopNavigation,
+  TabMenu,
+  SlimButton,
+} from '@/components';
 import {
   getAttendanceList,
   getEventDetail,
@@ -222,13 +228,22 @@ export default function DashboardAttendeePage() {
         <S.TopContainer>
           <S.Title>참석자 관리</S.Title>
           <S.ButtonContainer>
-            <S.DownBtn onClick={handleSendEmail}>
-              <FaRegEnvelope /> 출석 명단 메일로 전송
-            </S.DownBtn>
-            <S.DownBtn onClick={handleDownload}>
-              <FaPaperclip />
-              출석 명단 다운로드
-            </S.DownBtn>
+            <SlimButton
+              onClick={handleSendEmail}
+              label={
+                <>
+                  <FaRegEnvelope /> 출석 명단 메일로 전송
+                </>
+              }
+            />
+            <SlimButton
+              onClick={handleDownload}
+              label={
+                <>
+                  <FaPaperclip /> 출석 명단 다운로드
+                </>
+              }
+            />
           </S.ButtonContainer>
         </S.TopContainer>
 

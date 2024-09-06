@@ -6,31 +6,27 @@ import { BREAKPOINTS } from '@/styles';
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  max-width: 500px;
+  /* justify-content: space-between; */
+  width: 100%;
 `;
 
 // 행사 일정 선택
-export const DateTimeContainer = styled.div`
+export const DateTimeListContainer = styled.div`
   display: flex;
   align-items: center;
-  /* justify-content: space-between; */
   width: 100%;
-  padding-bottom: 6px;
-  gap: 10px;
-
-  @media (max-width: ${BREAKPOINTS[0]}px) {
-    gap: 8px;
-  }
+  padding-bottom: 10px;
 `;
 
 export const DateTimeWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* width: 100%; */
-  gap: 10px;
+  gap: 20px;
 
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    gap: 14px;
+  }
   @media (max-width: ${BREAKPOINTS[0]}px) {
     gap: 8px;
   }
@@ -44,7 +40,7 @@ export const DateTimeInput = styled(DatePicker)`
   border-radius: 10px;
   background-color: #f8f8f8;
   padding: 10px;
-  /* width: 90px; */
+  width: 120px;
   height: 20px;
   text-align: center;
   font-size: 14px;
@@ -53,89 +49,35 @@ export const DateTimeInput = styled(DatePicker)`
     outline: none;
   }
 
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    width: 90px;
+  }
   @media (max-width: ${BREAKPOINTS[0]}px) {
     width: 70px;
-    font-size: 14px;
   }
 `;
 
 export const InfoDeleteIconWrapper = styled.div`
   display: flex;
   justify-content: center;
-  transition:
-    background-color 0.3s ease-in-out,
-    color 0.3s ease-in-out,
-    box-shadow 0.3s ease-in-out;
-`;
-
-export const InfoIconWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* position: relative; */
-  padding: 10px;
-
-  &:hover::after {
-    content: '최소 1개 이상의 일정을 등록해주세요.';
-    position: absolute;
-    top: 80%;
-    right: 0;
-    margin-top: 5px;
-    padding: 5px;
-    background-color: #333;
-    color: #fff;
-    border-radius: 4px;
-    white-space: nowrap;
-    font-size: 12px;
-    z-index: 1;
-    transition: opacity 0.2s ease-in-out;
-  }
-
-  &:hover::before {
-    content: '';
-    position: absolute;
-    top: 66%;
-    right: 50%;
-    transform: translateX(50%);
-    border-width: 6px;
-    border-style: solid;
-    border-color: transparent transparent #333 transparent;
-    z-index: 1;
-    transition: opacity 0.2s ease-in-out;
-  }
+  padding-left: 10px;
+  transition:;
 `;
 
 export const DeleteIconWrapper = styled.button`
   display: flex;
-  /* justify-content: center;
-  align-items: center; */
-  /* position: relative; */
-  width: 14px;
+  width: 20px;
 `;
 
 export const AddTimeWrapper = styled.div`
   display: flex;
-`;
-
-export const AddTimeBtn = styled.button`
-  color: #2253ff;
-  font-weight: 600;
-  background: none;
-  border: none;
-  padding: 10px 6px;
-  cursor: pointer;
-
-  @media (max-width: ${BREAKPOINTS[1]}px) {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-  }
+  justify-content: flex-end;
+  padding-top: 10px;
 `;
 
 export const HideSection = styled.div`
   display: block;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
-    /* display: none; */
   }
 `;

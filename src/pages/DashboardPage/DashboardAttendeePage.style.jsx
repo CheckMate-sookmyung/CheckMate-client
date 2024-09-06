@@ -49,9 +49,10 @@ export const DownBtn = styled.div`
   cursor: pointer;
   gap: 6px;
   transition:
-    background 0.3s ease,
-    box-shadow 0.3s ease,
-    transform 0.3s ease;
+    background 0.5s ease-in-out,
+    box-shadow 0.6s ease-in-out,
+    transform 0.4s ease-in-out,
+    color 0.4s ease-in-out;
 
   &:hover {
     background: #4e75ff;
