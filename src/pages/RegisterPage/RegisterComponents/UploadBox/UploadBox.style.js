@@ -8,7 +8,7 @@ export const StyledLabel = styled.label`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 500px;
+  width: 600px;
   height: 240px;
   border-radius: 10px;
   background-color: #fff;
@@ -26,7 +26,7 @@ export const StyledLabel = styled.label`
   }
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
-    width: 440px;
+    width: 446px;
   }
   @media (max-width: ${BREAKPOINTS[0]}px) {
     width: 100%;

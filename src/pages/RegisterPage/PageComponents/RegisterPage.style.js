@@ -7,6 +7,7 @@ export const RegisterPage = styled.div`
   gap: 50px;
   padding: 50px;
   width: 100%;
+  border-left: 1px solid #ebedf0;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     padding: 20px;
