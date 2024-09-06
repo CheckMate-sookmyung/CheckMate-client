@@ -138,6 +138,7 @@ const AttendanceSignPage = () => {
             입력 완료
           </S.CompletedButton>
         </S.ButtonContainer>
+
         {/* 출석 완료 모달 */}
         {isOpen && (
           <>
