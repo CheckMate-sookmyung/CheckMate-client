@@ -1,27 +1,12 @@
 import styled from 'styled-components';
 import { BREAKPOINTS } from '../../../styles';
 
-export const Container = styled.div`
+export const RegisterFirstPage = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  height: fit-content;
+  gap: 50px;
+  padding: 50px;
   width: 100%;
-  padding: 10px;
-`;
-
-export const SubContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 70%;
-  height: 100%;
-  align-items: start;
-  padding: 28px 0;
-
-  @media (max-width: ${BREAKPOINTS[1]}px) {
-    width: 100%;
-    padding: 20px;
-  }
 `;
 
 export const ContentBox = styled.div`
@@ -29,56 +14,65 @@ export const ContentBox = styled.div`
   flex-direction: column;
   align-items: left;
   width: 100%;
-  height: fit-content;
-  padding: 10px 0;
+  gap: 20px;
 `;
 
-export const MainFont = styled.p`
+export const TitleWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+export const MainTitle = styled.h1`
+  display: inline-block;
   position: relative;
-  font-size: 28px;
-  line-height: 38px;
-  font-weight: 600;
-  font-family: Pretendard;
   color: #0d0d0d;
   text-align: left;
-  display: inline-block;
-
-  @media (max-width: ${BREAKPOINTS[1]}px) {
-    font-size: 22px;
-  }
-`;
-
-export const Category = styled.p`
-  position: relative;
-  display: inline-block;
-  font-size: 28px;
-  font-weight: 600;
-  text-align: left;
-`;
-
-export const CategoryMini = styled.p`
-  position: relative;
-  font-size: 14px;
-  text-align: left;
-  display: inline-block;
-`;
-
-export const SubFont = styled.p`
-  position: relative;
   font-size: 20px;
-  font-weight: 500;
-  /* color: #323232; */
-  text-align: left;
-  display: inline-block;
+  font-weight: bold;
+
+  & > span {
+    color: #2f7cef;
+  }
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
     font-size: 16px;
   }
 `;
 
+export const SubTitle = styled.h2`
+  position: relative;
+  font-size: 14px;
+  font-weight: normal;
+  color: #818181;
+  text-align: left;
+  display: inline-block;
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    font-size: 12px;
+  }
+`;
+
+export const Category = styled.p`
+  display: inline-block;
+  position: relative;
+  text-align: left;
+  font-size: 28px;
+  font-weight: 600;
+`;
+
+export const FlexWrapper = styled.div`
+  display: flex;
+  gap: 15px;
+`;
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
 export const MainButton = styled.button`
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
   width: auto;
@@ -96,11 +90,4 @@ export const MainButton = styled.button`
     background-color: #2f7cef;
     color: #f2f2f2;
   }
-`;
-
-export const FlexWrapper = styled.div`
-  display: flex;
-  margin: 20px 0;
-  gap: 15px;
-  align-items: center;
 `;

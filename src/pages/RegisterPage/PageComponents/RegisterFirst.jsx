@@ -6,7 +6,7 @@ import {
 } from '@/recoil/atoms/state';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import BlueButton from '../RegisterComponents/Button/BlueButton';
-import { EventTypeCard, EventTargetOption } from '@/components';
+import { EventTypeCard, EventTargetOption, Button } from '@/components';
 
 const RegisterFirst = () => {
   const Step = useSetRecoilState(RegisterStep);
@@ -22,61 +22,46 @@ const RegisterFirst = () => {
   };
 
   return (
-    <>
-      <S.Container>
-        <S.SubContainer>
-          <S.ContentBox>
-            <S.FlexWrapper>
-              <BlueButton contents={'진행 방식'} />
-            </S.FlexWrapper>
-            <S.MainFont>
-              행사는 온라인인가요,
-              <br /> 오프라인인가요?
-            </S.MainFont>
-            <br />
-            <S.SubFont>
-              다른 라이브 스트리밍 플랫폼을 활용하여 행사를 진행합니다.
-            </S.SubFont>
-            <EventTypeCard handleEventType={handleEventType} />
-            <S.ContentBox style={{ textAlign: 'left' }}>
-              <S.FlexWrapper>
-                <BlueButton contents={'행사 유형'} />
-              </S.FlexWrapper>
-              <S.MainFont>
-                행사는 교내 행사인가요,
-                <br /> 교외 행사인가요?
-              </S.MainFont>
-              <br />
-              <S.SubFont>
-                숙명여대 대상의 교내행사인지, 외부인 대상의 외부행사인지
-                선택해주세요.
-              </S.SubFont>
-              <S.FlexWrapper style={{ justifyContent: 'start' }}>
-                <EventTargetOption
-                  value="INTERNAL"
-                  selectedValue={eventTarget}
-                  onSelect={setEventTarget}
-                />
-              </S.FlexWrapper>
-              <S.FlexWrapper style={{ justifyContent: 'start' }}>
-                <EventTargetOption
-                  value="EXTERNAL"
-                  selectedValue={eventTarget}
-                  onSelect={setEventTarget}
-                />
-              </S.FlexWrapper>
-            </S.ContentBox>
-            <S.FlexWrapper
-              style={{
-                justifyContent: 'end',
-              }}
-            >
-              <S.MainButton onClick={stepUp}>다음으로 넘어가기</S.MainButton>
-            </S.FlexWrapper>{' '}
-          </S.ContentBox>
-        </S.SubContainer>
-      </S.Container>
-    </>
+    <S.RegisterFirstPage>
+      <S.ContentBox>
+        <S.FlexWrapper>
+          <BlueButton contents={'진행 방식'} />
+        </S.FlexWrapper>
+        <S.TitleWrapper>
+          <S.MainTitle>
+            행사가 <span>온라인</span>인가요, <span>오프라인</span>인가요?
+          </S.MainTitle>
+          <S.SubTitle>
+            다른 라이브 스트리밍 플랫폼을 활용하여 행사를 진행합니다.
+          </S.SubTitle>
+        </S.TitleWrapper>
+        <EventTypeCard handleEventType={handleEventType} />
+      </S.ContentBox>
+
+      <S.ContentBox>
+        <S.FlexWrapper>
+          <BlueButton contents={'행사 유형'} />
+        </S.FlexWrapper>
+        <S.FlexWrapper>
+          <EventTargetOption
+            value="INTERNAL"
+            selectedValue={eventTarget}
+            onSelect={setEventTarget}
+          />
+        </S.FlexWrapper>
+        <S.FlexWrapper>
+          <EventTargetOption
+            value="EXTERNAL"
+            selectedValue={eventTarget}
+            onSelect={setEventTarget}
+          />
+        </S.FlexWrapper>
+
+        <S.ButtonWrapper>
+          <Button label="다음으로 넘어가기" onClick={stepUp} type="button" />
+        </S.ButtonWrapper>
+      </S.ContentBox>
+    </S.RegisterFirstPage>
   );
 };
 
