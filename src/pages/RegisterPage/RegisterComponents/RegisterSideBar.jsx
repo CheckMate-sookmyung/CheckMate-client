@@ -71,15 +71,17 @@ const RegisterSidebar = () => {
     return (
       <S.MenuItemContainer>
         <S.Title isActive={isActive}>{title}</S.Title>
-        <S.Divider />
-        {subtitles.map((subtitle, index) => (
-          <div key={index}>
-            <S.Subtitle>{subtitle}</S.Subtitle>
-            {contents && contents[index] && (
-              <S.Content>{contents[index]}</S.Content>
-            )}
-          </div>
-        ))}
+        {/* <S.Divider /> */}
+        <S.ContentWrapper>
+          {subtitles.map((subtitle, index) => (
+            <div key={index}>
+              <S.Subtitle>{subtitle}</S.Subtitle>
+              {contents && contents[index] && (
+                <S.Content>{contents[index]}</S.Content>
+              )}
+            </div>
+          ))}
+        </S.ContentWrapper>
       </S.MenuItemContainer>
     );
   };
