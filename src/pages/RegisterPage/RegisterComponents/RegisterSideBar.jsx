@@ -1,4 +1,3 @@
-import React from 'react';
 import * as S from './RegisterSideBarStyle';
 import { useRecoilValue } from 'recoil';
 import {
@@ -71,7 +70,6 @@ const RegisterSidebar = () => {
     return (
       <S.MenuItemContainer>
         <S.Title isActive={isActive}>{title}</S.Title>
-        {/* <S.Divider /> */}
         <S.ContentWrapper>
           {subtitles.map((subtitle, index) => (
             <S.Content key={index}>

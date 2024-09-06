@@ -14,10 +14,10 @@ export const MenuItemContainer = styled.div`
 `;
 
 export const Title = styled.h1`
+  padding: 12px 20px;
+  color: ${({ isActive }) => (isActive ? '#0075ff' : 'black')};
   font-size: 14px;
   font-weight: bold;
-  color: ${({ isActive }) => (isActive ? '#0075ff' : 'black')};
-  padding: 12px 20px;
 `;
 
 export const ContentWrapper = styled.div`
@@ -37,10 +37,6 @@ export const Content = styled.div`
 export const Subtitle = styled.span`
   font-size: 14px;
   font-weight: 500;
-  /* margin-top: 5px; */
-  /* font-weight: bold; */
-
-  /* padding: 20px 0 0 30px; */
 `;
 
 export const SubtitleContent = styled.span`
@@ -49,11 +45,4 @@ export const SubtitleContent = styled.span`
   gap: 10px;
   font-size: 13px;
   color: #818181;
-  /* padding: 20px 0 0 30px; */
 `;
-
-// export const Divider = styled.hr`
-//   border: none;
-//   width: 80%;
-//   /* margin: 10px 0; */
-// `;
