@@ -18,7 +18,6 @@ export const DashboardAttendee = styled.div`
 export const TopContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
   margin-bottom: 20px;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {

@@ -1,14 +1,12 @@
-import React from 'react';
 import * as S from './RegisterFirst.style';
 import {
   eventTargetState,
   eventTypeState,
   RegisterStep,
-} from '../../../recoil/atoms/state';
+} from '@/recoil/atoms/state';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import BlueButton from '../RegisterComponents/Button/BlueButton';
-import EventTypeCard from '../../../components/EventTypeCard/EventTypeCard';
-import { EventTargetOption } from '@/components';
+import { EventTypeCard, EventTargetOption } from '@/components';
 
 const RegisterFirst = () => {
   const Step = useSetRecoilState(RegisterStep);

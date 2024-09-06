@@ -18,7 +18,6 @@ export const DashboardMessagePage = styled.div`
 export const TopContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
   margin-bottom: 20px;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
@@ -35,7 +34,6 @@ export const Title = styled.h1`
 export const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
-  padding: 10px 0;
   gap: 10px;
 `;
 

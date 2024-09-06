@@ -8,6 +8,7 @@ export * from './Dropdown';
 export * from './EventCard';
 export * from './EventScheduleItem';
 export * from './EventTargetOption';
+export * from './EventTypeCard';
 export * from './Input';
 export * from './Textarea';
 export * from './TopNavigation';
