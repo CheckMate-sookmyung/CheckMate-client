@@ -6,59 +6,48 @@ import { BREAKPOINTS } from '@/styles';
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 16px;
+  justify-content: space-between;
+  max-width: 500px;
 `;
 
 // 행사 일정 선택
 export const DateTimeContainer = styled.div`
   display: flex;
   align-items: center;
+  /* justify-content: space-between; */
+  width: 100%;
   padding-bottom: 6px;
-  justify-content: space-between;
+  gap: 10px;
 
-  @media (max-width: ${BREAKPOINTS[1]}px) {
-    flex-direction: column;
-    align-items: flex-start;
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    gap: 8px;
   }
 `;
 
 export const DateTimeWrapper = styled.div`
   display: flex;
   align-items: center;
-  gap: 15px;
-  flex-grow: 1;
+  justify-content: space-between;
+  /* width: 100%; */
+  gap: 10px;
 
-  @media (max-width: ${BREAKPOINTS[1]}px) {
-    width: 100%;
-    /* flex-wrap: wrap; */
-    gap: 10px;
-  }
-`;
-
-export const Category = styled.p`
-  font-size: 20px;
-  font-weight: 500;
-  color: #323232;
-  text-align: left;
-  width: 200px;
-  flex-shrink: 0;
-
-  @media (max-width: ${BREAKPOINTS[1]}px) {
-    font-size: 16px;
-    width: 100%;
-    margin-bottom: 8px;
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    gap: 8px;
   }
 `;
 
 export const DateTimeInput = styled(DatePicker)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: none;
-  background-color: #f8f8f8;
-  padding: 10px 0 10px 20px;
-  width: 80%;
-  height: 24px;
-  font-size: 18px;
-  position: relative;
   border-radius: 10px;
+  background-color: #f8f8f8;
+  padding: 10px;
+  /* width: 90px; */
+  height: 20px;
+  text-align: center;
+  font-size: 14px;
 
   &:focus {
     outline: none;
@@ -72,9 +61,7 @@ export const DateTimeInput = styled(DatePicker)`
 
 export const InfoDeleteIconWrapper = styled.div`
   display: flex;
-  position: relative;
   justify-content: center;
-  align-items: center;
   transition:
     background-color 0.3s ease-in-out,
     color 0.3s ease-in-out,
@@ -85,7 +72,7 @@ export const InfoIconWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
+  /* position: relative; */
   padding: 10px;
 
   &:hover::after {
@@ -120,38 +107,23 @@ export const InfoIconWrapper = styled.div`
 
 export const DeleteIconWrapper = styled.button`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
+  /* justify-content: center;
+  align-items: center; */
+  /* position: relative; */
+  width: 14px;
 `;
 
 export const AddTimeWrapper = styled.div`
   display: flex;
-  justify-content: end;
 `;
 
 export const AddTimeBtn = styled.button`
-  border-radius: 8px;
-  background-color: #2f7cef;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 24px;
-  box-sizing: border-box;
-  text-align: left;
-  font-size: 16px;
-  color: #fff;
-`;
-
-export const FlexWrapper = styled.div`
-  display: flex;
-  margin: 20px 0;
-  gap: 15px;
-  align-items: center;
+  color: #2253ff;
+  font-weight: 600;
+  background: none;
+  border: none;
+  padding: 10px 6px;
+  cursor: pointer;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
     flex-direction: column;
@@ -164,6 +136,6 @@ export const HideSection = styled.div`
   display: block;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
-    display: none;
+    /* display: none; */
   }
 `;

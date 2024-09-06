@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
-import * as S from './RegisterSecond.style';
+import * as S from './RegisterPage.style';
 import UploadBox from '../RegisterComponents/UploadBox/UploadBox';
-import { axiosInstance } from '../../../axios/axiosInstance';
-import { USER_ID } from '../../../constants/tempData';
-import useResetAllStates from '../../../recoil/atoms/useResetAllState';
+import { axiosInstance } from '@/axios/axiosInstance';
+import { USER_ID } from '@/constants';
+import useResetAllStates from '@/recoil/atoms/useResetAllState';
 import {
   attendanceListFile,
   eventDetail,
@@ -17,11 +17,11 @@ import {
   eventTypeState,
   minCompletionTimes,
   RegisterStep,
-} from '../../../recoil/atoms/state';
-import { Input, Textarea } from '@/components';
+} from '@/recoil/atoms/state';
+import { Button, Input, Textarea } from '@/components';
 import BlueButton from '../RegisterComponents/Button/BlueButton';
-import FileButton from '../RegisterComponents/Button/FileButton';
 import EventScheduleList from '@/components/Scheduler/Scheduler';
+import { FaPaperclip } from 'react-icons/fa6';
 
 const RegisterSecond = () => {
   const Step = useSetRecoilState(RegisterStep);
@@ -167,86 +167,85 @@ const RegisterSecond = () => {
   };
 
   return (
-    <>
-      <S.Container className="container">
-        <S.SubContainer>
-          <S.ContentBox>
-            <S.FlexWrapper>
-              <BlueButton contents={'이벤트 개요'} />
-            </S.FlexWrapper>
-            <S.ContentBox>
-              <S.CategoryFont>행사 제목</S.CategoryFont>
-              <Input
-                placeholder="행사 제목을 입력해주세요"
-                value={iseventTitle}
-                onChange={(e) => setEventTitle(e.target.value)}
-              ></Input>
-            </S.ContentBox>
-            <S.ContentBox>
-              <S.CategoryFont>행사 설명</S.CategoryFont>
-              <Textarea
-                placeholder="행사에 대해 상세히 설명해주세요"
-                value={iseventDetail}
-                onChange={(e) => setEventDetail(e.target.value)}
-              />
-            </S.ContentBox>
-            <S.ContentBox>
-              <S.CategoryFont>행사 포스터</S.CategoryFont>
-              <UploadBox
-                onFileUpload={handleImageChange}
-                accept=".png, .jpeg, .pdf"
-              />
-            </S.ContentBox>
-            <S.ContentBox>
-              <S.CategoryFont>행사 출석 파일</S.CategoryFont>
-              <UploadBox
-                onFileUpload={handleExcelChange}
-                accept=".xlsx, .xls"
-              />
-              <S.FlexWrapper
-                style={{
-                  justifyContent: 'end',
-                }}
-              >
-                <FileButton
-                  onClick={handleDownload}
-                  content={'출석 파일 템플릿 다운'}
-                  type={'blue'}
-                />
-              </S.FlexWrapper>
-            </S.ContentBox>
-            <S.ContentBox>
-              <S.CategoryFont>행사 기간</S.CategoryFont>
-              <EventScheduleList
-                eventSchedules={eventSchedules}
-                handleScheduleChange={handleScheduleChange}
-                handleAddSchedule={handleAddSchedule}
-                handleDeleteSchedule={handleDeleteSchedule}
-              />
-            </S.ContentBox>
-            <S.ContentBox>
-              <S.CategoryFont>행사 이수 기준</S.CategoryFont>
-              <Input
-                type="number"
-                placeholder="행사 이수 기준을 입력해주세요"
-                value={isminCompletionTimesValue}
-                onChange={(e) => setMinCompletionTimesValue(e.target.value)}
-              />
-            </S.ContentBox>
-            <S.FlexWrapper
-              style={{
-                justifyContent: 'end',
-              }}
-            >
-              <S.BackButton onClick={stepDown}>이전</S.BackButton>
-              <S.MainButton onClick={handleRegister}>
-                행사 등록 완료하기
-              </S.MainButton>
-            </S.FlexWrapper>
-          </S.ContentBox>
-        </S.SubContainer>
-      </S.Container>
-    </>
+    <S.RegisterPage>
+      <S.RegisterCategory>
+        <S.BlueButtonWrapper>
+          <BlueButton contents={'이벤트 개요'} />
+        </S.BlueButtonWrapper>
+
+        <S.ContentBox>
+          <S.ContentWrapper>
+            <S.MainTitle>행사 제목</S.MainTitle>
+            <Input
+              placeholder="행사 제목을 입력해주세요"
+              value={iseventTitle}
+              onChange={(e) => setEventTitle(e.target.value)}
+            />
+          </S.ContentWrapper>
+
+          <S.ContentWrapper>
+            <S.MainTitle>행사 설명</S.MainTitle>
+            <Textarea
+              placeholder="행사에 대해 상세히 설명해주세요"
+              value={iseventDetail}
+              onChange={(e) => setEventDetail(e.target.value)}
+            />
+          </S.ContentWrapper>
+
+          <S.ContentWrapper>
+            <S.MainTitle>행사 포스터</S.MainTitle>
+            <UploadBox
+              onFileUpload={handleImageChange}
+              accept=".png, .jpeg, .pdf"
+            />
+          </S.ContentWrapper>
+
+          <S.ContentWrapper>
+            <S.TitleDownButtonWrapper>
+              <S.MainTitle>행사 출석 파일</S.MainTitle>
+              <S.ButtonWrapper>
+                <S.DownButton onClick={handleDownload}>
+                  <FaPaperclip /> 출석 파일 템플릿 다운
+                </S.DownButton>
+              </S.ButtonWrapper>
+            </S.TitleDownButtonWrapper>
+            <UploadBox onFileUpload={handleExcelChange} accept=".xlsx, .xls" />
+          </S.ContentWrapper>
+
+          <S.ContentWrapper>
+            <S.MainTitle>행사 기간</S.MainTitle>
+            <EventScheduleList
+              eventSchedules={eventSchedules}
+              handleScheduleChange={handleScheduleChange}
+              handleAddSchedule={handleAddSchedule}
+              handleDeleteSchedule={handleDeleteSchedule}
+            />
+          </S.ContentWrapper>
+
+          <S.ContentWrapper>
+            <S.MainTitle>행사 이수 기준</S.MainTitle>
+            <Input
+              type="number"
+              placeholder="행사 이수 기준을 입력해주세요"
+              value={isminCompletionTimesValue}
+              onChange={(e) => setMinCompletionTimesValue(e.target.value)}
+              className="custom-input"
+            />
+          </S.ContentWrapper>
+
+          <S.ButtonWrapper>
+            <Button
+              label="이전"
+              onClick={stepDown}
+              type="button"
+              backgroundColor="#F2F2F2"
+              textColor="#323232"
+            />
+            <Button label="행사 등록 완료하기" onClick={handleRegister} />
+          </S.ButtonWrapper>
+        </S.ContentBox>
+      </S.RegisterCategory>
+    </S.RegisterPage>
   );
 };
 

@@ -1,4 +1,4 @@
-import * as S from './RegisterFirst.style';
+import * as S from './RegisterPage.style';
 import {
   eventTargetState,
   eventTypeState,
@@ -22,46 +22,52 @@ const RegisterFirst = () => {
   };
 
   return (
-    <S.RegisterFirstPage>
-      <S.ContentBox>
-        <S.FlexWrapper>
+    <S.RegisterPage>
+      <S.RegisterCategory>
+        <S.BlueButtonWrapper>
           <BlueButton contents={'진행 방식'} />
-        </S.FlexWrapper>
-        <S.TitleWrapper>
-          <S.MainTitle>
-            행사가 <span>온라인</span>인가요, <span>오프라인</span>인가요?
-          </S.MainTitle>
-          <S.SubTitle>
-            다른 라이브 스트리밍 플랫폼을 활용하여 행사를 진행합니다.
-          </S.SubTitle>
-        </S.TitleWrapper>
-        <EventTypeCard handleEventType={handleEventType} />
-      </S.ContentBox>
+        </S.BlueButtonWrapper>
+        <S.ContentBox>
+          <S.ContentWrapper>
+            <S.TitleWrapper>
+              <S.MainTitle>
+                행사가 <span>온라인</span>인가요, <span>오프라인</span>인가요?
+              </S.MainTitle>
+              <S.SubTitle>
+                다른 라이브 스트리밍 플랫폼을 활용하여 행사를 진행합니다.
+              </S.SubTitle>
+            </S.TitleWrapper>
+            <EventTypeCard handleEventType={handleEventType} />
+          </S.ContentWrapper>
+        </S.ContentBox>
+      </S.RegisterCategory>
 
-      <S.ContentBox>
-        <S.FlexWrapper>
+      <S.RegisterCategory>
+        <S.BlueButtonWrapper>
           <BlueButton contents={'행사 유형'} />
-        </S.FlexWrapper>
-        <S.FlexWrapper>
-          <EventTargetOption
-            value="INTERNAL"
-            selectedValue={eventTarget}
-            onSelect={setEventTarget}
-          />
-        </S.FlexWrapper>
-        <S.FlexWrapper>
-          <EventTargetOption
-            value="EXTERNAL"
-            selectedValue={eventTarget}
-            onSelect={setEventTarget}
-          />
-        </S.FlexWrapper>
+        </S.BlueButtonWrapper>
+        <S.ContentBox>
+          <S.ContentWrapper>
+            <S.ContentWrapper>
+              <EventTargetOption
+                value="INTERNAL"
+                selectedValue={eventTarget}
+                onSelect={setEventTarget}
+              />
+              <EventTargetOption
+                value="EXTERNAL"
+                selectedValue={eventTarget}
+                onSelect={setEventTarget}
+              />
+            </S.ContentWrapper>
+          </S.ContentWrapper>
+        </S.ContentBox>
+      </S.RegisterCategory>
 
-        <S.ButtonWrapper>
-          <Button label="다음으로 넘어가기" onClick={stepUp} type="button" />
-        </S.ButtonWrapper>
-      </S.ContentBox>
-    </S.RegisterFirstPage>
+      <S.ButtonWrapper>
+        <Button label="다음으로 넘어가기" onClick={stepUp} type="button" />
+      </S.ButtonWrapper>
+    </S.RegisterPage>
   );
 };
 
