@@ -31,7 +31,8 @@ const RegisterFirst = () => {
           <S.ContentWrapper>
             <S.TitleWrapper>
               <S.MainTitle>
-                행사가 <span>온라인</span>인가요, <span>오프라인</span>인가요?
+                행사가&nbsp; <span>온라인</span>&nbsp;인가요, &nbsp;
+                <span>오프라인</span>&nbsp; 인가요?
               </S.MainTitle>
               <S.SubTitle>
                 다른 라이브 스트리밍 플랫폼을 활용하여 행사를 진행합니다.

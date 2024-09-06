@@ -43,7 +43,7 @@ export const MainTitle = styled.h1`
   position: relative;
   color: #0d0d0d;
   text-align: left;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
 
   & > span {
