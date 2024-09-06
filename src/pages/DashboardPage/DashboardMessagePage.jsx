@@ -136,7 +136,7 @@ export default function DashboardMessagePage() {
     >
       <S.DashboardMessagePage>
         <S.TopContainer>
-          <S.Title>카카오톡 예약 발송</S.Title>
+          <S.Title>이메일 예약 발송</S.Title>
           <S.ButtonContainer>
             <Button label={'저장하기'} />
           </S.ButtonContainer>
@@ -162,9 +162,9 @@ export default function DashboardMessagePage() {
         <S.ContentContainer>
           <S.ToggleWrapper>
             <S.Content>
-              <S.ContentTitle>1시간 전 카카오톡 발송 여부</S.ContentTitle>
+              <S.ContentTitle>1시간 전 이메일 발송 여부</S.ContentTitle>
               <S.ContentDesc>
-                이벤트 시작 1시간 전에 카카오톡 메세지를 발송합니다.
+                이벤트 시작 1시간 전에 이메일을 발송합니다.
               </S.ContentDesc>
             </S.Content>
             <Switch
