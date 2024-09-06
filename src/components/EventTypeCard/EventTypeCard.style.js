@@ -3,26 +3,23 @@ import { BREAKPOINTS } from '@/styles';
 
 export const FlexWrapper = styled.div`
   display: flex;
-  margin: 20px 0;
-  gap: 15px;
   align-items: center;
+  gap: 20px;
 `;
 
-export const Choicebox = styled.div`
-  width: 380px;
-  height: 298px;
-  margin: 20px;
-  padding: 0 10px;
-  position: relative;
+export const ChoiceBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
+  width: 320px;
+  height: 220px;
+  border-radius: 16px;
   background-color: ${({ isSelected }) => (isSelected ? '#2F7CEF' : '#F2F2F2')};
   color: ${({ isSelected }) => (isSelected ? '#FFFFFF' : '#323232')};
   filter: ${({ isSelected }) =>
     isSelected ? 'grayscale(0%)' : 'grayscale(100%)'};
-  border-radius: 16px;
   transition: all 0.5s;
   cursor: pointer;
 
@@ -31,24 +28,31 @@ export const Choicebox = styled.div`
   }
 `;
 
+export const TitleWrapper = styled.div`
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+`;
+
 export const CustomImage = styled.img`
   position: relative;
   max-width: 70%;
   overflow: hidden;
   height: 168px;
+  margin-bottom: -30px;
 `;
 
-export const Category = styled.p`
+export const Category = styled.span`
   position: relative;
   display: inline-block;
-  font-size: 28px;
+  text-align: left;
+  font-size: 20px;
   font-weight: 600;
-  text-align: left;
 `;
 
-export const CategoryMini = styled.p`
-  position: relative;
-  font-size: 14px;
-  text-align: left;
+export const CategoryMini = styled.span`
   display: inline-block;
+  position: relative;
+  text-align: left;
+  font-size: 14px;
 `;

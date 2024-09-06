@@ -28,7 +28,7 @@ export const MainTitle = styled.h1`
   position: relative;
   color: #0d0d0d;
   text-align: left;
-  font-size: 20px;
+  font-size: 24px;
   font-weight: bold;
 
   & > span {
@@ -51,14 +51,6 @@ export const SubTitle = styled.h2`
   @media (max-width: ${BREAKPOINTS[1]}px) {
     font-size: 12px;
   }
-`;
-
-export const Category = styled.p`
-  display: inline-block;
-  position: relative;
-  text-align: left;
-  font-size: 28px;
-  font-weight: 600;
 `;
 
 export const FlexWrapper = styled.div`
