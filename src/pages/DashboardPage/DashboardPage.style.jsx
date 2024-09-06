@@ -367,6 +367,6 @@ export const TooltipText = styled.div`
 export const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
-  padding: 10px 0;
+  /* padding: 10px 0; */
   gap: 10px;
 `;
