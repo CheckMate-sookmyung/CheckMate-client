@@ -9,6 +9,7 @@ import {
   Textarea,
   EventScheduleItem,
   TopNavigation,
+  EventTypeCard,
 } from '@/components';
 import { USER_ID } from '@/constants';
 import { useRecoilValue } from 'recoil';
@@ -278,6 +279,9 @@ export default function DashboardInfoPage() {
                 오프라인
               </S.ToggleButton>
             </S.ToggleContainer>
+            <S.EventTypeCardWrapper>
+              <EventTypeCard handleEventType={setEventType} />
+            </S.EventTypeCardWrapper>
           </S.Content>
 
           <S.Content>
