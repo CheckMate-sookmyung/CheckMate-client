@@ -1,7 +1,7 @@
 import * as S from './DashboardAttendeePage.style';
 import { PageLayout } from '@/Layout';
 import { useState, useEffect } from 'react';
-import { FaMagnifyingGlass, FaPaperclip, FaRegEnvelope } from 'react-icons/fa6';
+import { FaPaperclip, FaRegEnvelope } from 'react-icons/fa6';
 import { axiosInstance } from '@/axios';
 import { USER_ID } from '@/constants';
 import { useRecoilValue } from 'recoil';
@@ -12,6 +12,7 @@ import {
   TopNavigation,
   TabMenu,
   SlimButton,
+  Search,
 } from '@/components';
 import {
   getAttendanceList,
@@ -275,7 +276,7 @@ export default function DashboardAttendeePage() {
           </S.EditMode>
         </S.TabEditWrapper>
 
-        <S.SearchRageContainer>
+        <S.SearchRateContainer>
           <S.RateWrapper>
             <S.RateTitle>참석률</S.RateTitle>
             <S.Attendee>
@@ -283,15 +284,11 @@ export default function DashboardAttendeePage() {
               {attendees.length}
             </S.Attendee>
           </S.RateWrapper>
-          <S.SearchBoxWrapper>
-            <FaMagnifyingGlass />
-            <S.SearchBox
-              placeholder="이름, 학번, 이메일, 전화번호로 검색"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)} // 검색어 업데이트
-            />
-          </S.SearchBoxWrapper>
-        </S.SearchRageContainer>
+          <Search
+            onSearch={setSearchQuery}
+            placeholder="이름, 학번, 이메일, 전화번호로 검색"
+          />
+        </S.SearchRateContainer>
 
         <AttendeeTable
           attendees={filteredAttendees} // 필터된 참석자 리스트를 전달
