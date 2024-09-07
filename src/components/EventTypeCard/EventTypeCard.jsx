@@ -15,7 +15,7 @@ const EventTypeCard = ({ handleEventType }) => {
           <S.Category>온라인 행사</S.Category>
           <S.CategoryMini>On-line Event</S.CategoryMini>
         </S.TitleWrapper>
-        <S.CustomImage src="img/ONLINE.svg" alt="온라인 이미지" />
+        <S.CustomImage src="/img/ONLINE.svg" alt="온라인 이미지" />
       </S.ChoiceBox>
 
       <S.ChoiceBox
@@ -26,7 +26,7 @@ const EventTypeCard = ({ handleEventType }) => {
           <S.Category>오프라인 행사</S.Category>
           <S.CategoryMini>Off-line Event</S.CategoryMini>
         </S.TitleWrapper>
-        <S.CustomImage src="img/OFFLINE.svg" alt="오프라인 이미지" />
+        <S.CustomImage src="/img/OFFLINE.svg" alt="오프라인 이미지" />
       </S.ChoiceBox>
     </S.FlexWrapper>
   );
