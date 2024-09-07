@@ -61,7 +61,7 @@ export const DownBtn = styled.div`
 `;
 
 // 검색창
-export const SearchRageContainer = styled.div`
+export const SearchRateContainer = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 10px;
@@ -91,30 +91,6 @@ export const Attendee = styled.p`
   font-size: 14px;
   font-weight: 600;
   color: #000000;
-`;
-
-export const SearchBoxWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border-radius: 8px;
-  background-color: #f2f3f5;
-  padding: 0 14px;
-  width: 420px;
-  height: 40px;
-`;
-
-export const SearchBox = styled.input`
-  flex: 1;
-  border: none;
-  outline: none;
-  font-size: 14px;
-  color: #000;
-  background-color: transparent;
-
-  &::placeholder {
-    color: #aaaeb3;
-  }
 `;
 
 // 탭정보 및 출석 수정 모드
