@@ -41,11 +41,15 @@ export const OutputContainer = styled.div`
 export const Title = styled.h1`
   display: flex;
   justify-content: center;
-  color: var(--blue-0, #2f7cef);
+  color: #494949;
   font-size: 32px;
   font-weight: 600;
   text-align: center;
   word-break: keep-all;
+
+  & > span {
+    color: #2f7cef;
+  }
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
     font-size: 26px;

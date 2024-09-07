@@ -150,10 +150,17 @@ const AttendanceStudentIdPage = () => {
 
       <S.ContentContainer>
         <S.Title>
-          {eventTarget === 'INTERNAL'
-            ? '학번을 입력해 주세요.'
-            : '휴대폰 번호 뒷자리 4자리를 입력해 주세요.'}
+          {eventTarget === 'INTERNAL' ? (
+            <>
+              <span>학번 7자리</span>를 입력해 주세요.
+            </>
+          ) : (
+            <>
+              <span>휴대폰 번호 뒤 4자리</span>를 입력해 주세요.
+            </>
+          )}
         </S.Title>
+
         <S.StudentIdContainer>
           {(eventTarget === 'INTERNAL' ? studentId : phoneId).map((index) => (
             <S.StudentId key={index}>
