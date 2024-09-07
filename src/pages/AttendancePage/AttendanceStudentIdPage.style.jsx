@@ -47,6 +47,9 @@ export const Title = styled.h1`
   text-align: center;
   word-break: keep-all;
 
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    font-size: 26px;
+  }
   @media (max-width: ${BREAKPOINTS[0]}px) {
     font-size: 20px;
     margin-top: 10px;
