@@ -10,7 +10,7 @@ const AttendanceHeader = ({ eventTitle }) => {
       </S.CloseIconAnchor>
       <S.ContentContainer>
         <S.Title>
-          {eventTitle}
+          <em>{eventTitle}</em>
           <span>출석체크</span>
         </S.Title>
       </S.ContentContainer>

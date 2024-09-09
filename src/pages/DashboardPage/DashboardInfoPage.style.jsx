@@ -39,7 +39,7 @@ export const ButtonContainer = styled.div`
 export const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 500px;
+  max-width: 660px;
   gap: 32px;
 `;
 
@@ -58,6 +58,10 @@ export const ContentTitle = styled.div`
 `;
 
 // 토글
+export const EventTypeCardWrapper = styled.div`
+  display: flex;
+`;
+
 export const ToggleContainer = styled.div`
   display: flex;
   justify-content: space-between;

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BREAKPOINTS } from '../../styles';
+import { BREAKPOINTS } from '@/styles';
 
 export const Container = styled.div`
   display: flex;
@@ -31,7 +31,6 @@ export const ContentContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* gap: 20px; */
 `;
 
 export const Title = styled.h1`
@@ -43,22 +42,27 @@ export const Title = styled.h1`
   font-weight: 600;
   z-index: 10;
 
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 14px;
-    background-color: #7cff69;
-    z-index: -1;
+  & > em {
+    position: relative;
+    padding: 0 8px;
+    font-style: normal;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 14px;
+      background-color: #7cff69;
+      z-index: -1;
+    }
   }
 
-  & > span {
-    color: var(--blue-0, #2f7cef);
-    background-color: #fff;
-    position: relative;
-    z-index: 1;
-    padding: 0 2px;
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    font-size: 40px;
+  }
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    font-size: 32px;
   }
 `;
