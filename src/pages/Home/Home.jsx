@@ -2,8 +2,25 @@ import * as S from './Home.Style';
 import { Button, TopNavigation, Footer } from '@/components';
 import { Link } from 'react-router-dom';
 import { PageLayout } from '@/Layout';
+import { useEffect, useState } from 'react';
 
 const HomePage = () => {
+  const [eventCount, setEventCount] = useState(0);
+
+  useEffect(() => {
+    const fetchEventData = async () => {
+      try {
+        const response = await fetch('/event');
+        const data = await response.json();
+        setEventCount(data.eventCount);
+      } catch (error) {
+        console.log('데이터를 불러오는 중 오류: ', error);
+      }
+    };
+
+    fetchEventData();
+  }, []);
+
   return (
     <PageLayout topNavigation={<TopNavigation />}>
       <S.Container>
@@ -32,7 +49,7 @@ const HomePage = () => {
                     label="행사 보러가기"
                     backgroundColor="#FFF"
                     textColor="#323232"
-                  />{' '}
+                  />
                 </Link>
               </S.ButtonWrapper>
             </S.ComponentsWrapper>
@@ -54,7 +71,8 @@ const HomePage = () => {
                   <br /> 열린 행사 수
                 </S.CardContent>
                 <S.BoldNum>
-                  514<span>개</span>
+                  {eventCount}
+                  <span>개</span>
                 </S.BoldNum>
                 <S.Character
                   src="/img/character-black-check.svg"
