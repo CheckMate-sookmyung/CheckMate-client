@@ -3,22 +3,23 @@ import { Button, TopNavigation, Footer } from '@/components';
 import { Link } from 'react-router-dom';
 import { PageLayout } from '@/Layout';
 import { useEffect, useState } from 'react';
+import { axiosInstance } from '@/axios';
 
 const HomePage = () => {
   const [eventCount, setEventCount] = useState(0);
+  // const [attendanceCount, setAttendanceCount] = useState(0);
 
   useEffect(() => {
-    const fetchEventData = async () => {
+    const getEventData = async () => {
       try {
-        const response = await fetch('/event');
-        const data = await response.json();
-        setEventCount(data.eventCount);
-      } catch (error) {
-        console.log('데이터를 불러오는 중 오류: ', error);
+        const { data } = await axiosInstance.get(`/api/v1/home/event`);
+        setEventCount(data);
+      } catch ({ status }) {
+        return;
       }
     };
 
-    fetchEventData();
+    getEventData();
   }, []);
 
   return (
@@ -85,7 +86,8 @@ const HomePage = () => {
                   <br /> 출석을 완료한 이용자
                 </S.CardContent>
                 <S.BoldNum style={{ color: 'black' }}>
-                  1028<span>명</span>
+                  {/* {attendanceCount} */}
+                  <span>명</span>
                 </S.BoldNum>
               </S.WhiteCard>
             </S.CardWrapper>
