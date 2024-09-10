@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { PageLayout } from '@/Layout';
 import { useEffect, useState } from 'react';
 import { axiosInstance } from '@/axios';
+import AnimatedNumbers from 'react-animated-numbers';
 
 const HomePage = () => {
   const [eventCount, setEventCount] = useState(0);
@@ -82,7 +83,14 @@ const HomePage = () => {
                   <br /> 열린 행사 수
                 </S.CardContent>
                 <S.BoldNum>
-                  {eventCount}
+                  <AnimatedNumbers
+                    includeComma
+                    transitions={(index) => ({
+                      type: 'spring',
+                      duration: index + 0.2,
+                    })}
+                    animateToNumber={eventCount}
+                  />
                   <span>개</span>
                 </S.BoldNum>
                 <S.Character
@@ -96,7 +104,14 @@ const HomePage = () => {
                   <br /> 출석을 완료한 이용자
                 </S.CardContent>
                 <S.BoldNum style={{ color: 'black' }}>
-                  {attendanceCount}
+                  <AnimatedNumbers
+                    includeComma
+                    transitions={(index) => ({
+                      type: 'spring',
+                      duration: index + 0.3,
+                    })}
+                    animateToNumber={attendanceCount}
+                  />
                   <span>명</span>
                 </S.BoldNum>
               </S.WhiteCard>
