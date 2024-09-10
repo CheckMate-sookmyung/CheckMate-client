@@ -7,7 +7,7 @@ import { axiosInstance } from '@/axios';
 
 const HomePage = () => {
   const [eventCount, setEventCount] = useState(0);
-  // const [attendanceCount, setAttendanceCount] = useState(0);
+  const [attendanceCount, setAttendanceCount] = useState(0);
 
   useEffect(() => {
     const getEventData = async () => {
@@ -19,7 +19,17 @@ const HomePage = () => {
       }
     };
 
+    const getAttendanceCountData = async () => {
+      try {
+        const { data } = await axiosInstance.get(`/api/v1/home/attendance`);
+        setAttendanceCount(data);
+      } catch ({ status }) {
+        return;
+      }
+    };
+
     getEventData();
+    getAttendanceCountData();
   }, []);
 
   return (
@@ -86,7 +96,7 @@ const HomePage = () => {
                   <br /> 출석을 완료한 이용자
                 </S.CardContent>
                 <S.BoldNum style={{ color: 'black' }}>
-                  {/* {attendanceCount} */}
+                  {attendanceCount}
                   <span>명</span>
                 </S.BoldNum>
               </S.WhiteCard>
