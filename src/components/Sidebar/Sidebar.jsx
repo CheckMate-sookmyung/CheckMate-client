@@ -4,6 +4,7 @@ import {
   FaCircleInfo,
   FaUsers,
   FaChartPie,
+  FaEnvelopeCircleCheck,
 } from 'react-icons/fa6';
 import { useLocation } from 'react-router-dom';
 import { BiSolidMessageRounded } from 'react-icons/bi';
@@ -22,8 +23,8 @@ const menuItems = [
   },
   {
     to: '/event/dashboard/message',
-    icon: <BiSolidMessageRounded />,
-    text: '카카오톡 예약 발송',
+    icon: <FaEnvelopeCircleCheck />,
+    text: '이메일 예약 발송',
   },
   {
     to: '/event/dashboard/attendee',

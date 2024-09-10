@@ -18,7 +18,6 @@ export const DashboardAttendee = styled.div`
 export const TopContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
   margin-bottom: 20px;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
@@ -50,9 +49,10 @@ export const DownBtn = styled.div`
   cursor: pointer;
   gap: 6px;
   transition:
-    background 0.3s ease,
-    box-shadow 0.3s ease,
-    transform 0.3s ease;
+    background 0.5s ease-in-out,
+    box-shadow 0.6s ease-in-out,
+    transform 0.4s ease-in-out,
+    color 0.4s ease-in-out;
 
   &:hover {
     background: #4e75ff;
@@ -61,7 +61,7 @@ export const DownBtn = styled.div`
 `;
 
 // 검색창
-export const SearchRageContainer = styled.div`
+export const SearchRateContainer = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 10px;
@@ -91,30 +91,6 @@ export const Attendee = styled.p`
   font-size: 14px;
   font-weight: 600;
   color: #000000;
-`;
-
-export const SearchBoxWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border-radius: 8px;
-  background-color: #f2f3f5;
-  padding: 0 14px;
-  width: 420px;
-  height: 40px;
-`;
-
-export const SearchBox = styled.input`
-  flex: 1;
-  border: none;
-  outline: none;
-  font-size: 14px;
-  color: #000;
-  background-color: transparent;
-
-  &::placeholder {
-    color: #aaaeb3;
-  }
 `;
 
 // 탭정보 및 출석 수정 모드

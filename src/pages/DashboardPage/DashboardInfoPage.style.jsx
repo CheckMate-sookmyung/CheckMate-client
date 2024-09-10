@@ -16,7 +16,6 @@ export const DashboardInfo = styled.div`
 export const TopContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
   margin-bottom: 20px;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
@@ -33,7 +32,6 @@ export const Title = styled.h1`
 export const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
-  padding: 10px 0;
   gap: 10px;
 `;
 
@@ -41,7 +39,7 @@ export const ButtonContainer = styled.div`
 export const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 500px;
+  max-width: 660px;
   gap: 32px;
 `;
 
@@ -60,6 +58,10 @@ export const ContentTitle = styled.div`
 `;
 
 // 토글
+export const EventTypeCardWrapper = styled.div`
+  display: flex;
+`;
+
 export const ToggleContainer = styled.div`
   display: flex;
   justify-content: space-between;

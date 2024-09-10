@@ -339,7 +339,7 @@ export const BoldNum = styled.p`
   text-align: left;
   bottom: 42px;
 
-  & > span {
+  & > span:last-child {
     display: flex;
     align-items: end;
     padding: 0 0 10px 10px;
@@ -349,10 +349,18 @@ export const BoldNum = styled.p`
   @media (max-width: ${BREAKPOINTS[1]}px) {
     font-size: 38px;
     bottom: 30px;
+
+    & > span {
+      padding: 0 0 6px 6px;
+    }
   }
   @media (max-width: ${BREAKPOINTS[0]}px) {
     font-size: 30px;
     bottom: 22px;
+
+    & > span {
+      padding: 0 0 2px 2px;
+    }
   }
 `;
 

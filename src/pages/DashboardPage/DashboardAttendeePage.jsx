@@ -1,12 +1,19 @@
 import * as S from './DashboardAttendeePage.style';
 import { PageLayout } from '@/Layout';
 import { useState, useEffect } from 'react';
-import { FaMagnifyingGlass, FaPaperclip, FaRegEnvelope } from 'react-icons/fa6';
+import { FaPaperclip, FaRegEnvelope } from 'react-icons/fa6';
 import { axiosInstance } from '@/axios';
 import { USER_ID } from '@/constants';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '@/recoil/atoms/state';
-import { Sidebar, AttendeeTable, TopNavigation, TabMenu } from '@/components';
+import {
+  Sidebar,
+  AttendeeTable,
+  TopNavigation,
+  TabMenu,
+  SlimButton,
+  Search,
+} from '@/components';
 import {
   getAttendanceList,
   getEventDetail,
@@ -222,13 +229,22 @@ export default function DashboardAttendeePage() {
         <S.TopContainer>
           <S.Title>참석자 관리</S.Title>
           <S.ButtonContainer>
-            <S.DownBtn onClick={handleSendEmail}>
-              <FaRegEnvelope /> 출석 명단 메일로 전송
-            </S.DownBtn>
-            <S.DownBtn onClick={handleDownload}>
-              <FaPaperclip />
-              출석 명단 다운로드
-            </S.DownBtn>
+            <SlimButton
+              onClick={handleSendEmail}
+              label={
+                <>
+                  <FaRegEnvelope /> 출석 명단 메일로 전송
+                </>
+              }
+            />
+            <SlimButton
+              onClick={handleDownload}
+              label={
+                <>
+                  <FaPaperclip /> 출석 명단 다운로드
+                </>
+              }
+            />
           </S.ButtonContainer>
         </S.TopContainer>
 
@@ -260,7 +276,7 @@ export default function DashboardAttendeePage() {
           </S.EditMode>
         </S.TabEditWrapper>
 
-        <S.SearchRageContainer>
+        <S.SearchRateContainer>
           <S.RateWrapper>
             <S.RateTitle>참석률</S.RateTitle>
             <S.Attendee>
@@ -268,15 +284,11 @@ export default function DashboardAttendeePage() {
               {attendees.length}
             </S.Attendee>
           </S.RateWrapper>
-          <S.SearchBoxWrapper>
-            <FaMagnifyingGlass />
-            <S.SearchBox
-              placeholder="이름, 학번, 이메일, 전화번호로 검색"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)} // 검색어 업데이트
-            />
-          </S.SearchBoxWrapper>
-        </S.SearchRageContainer>
+          <Search
+            onSearch={setSearchQuery}
+            placeholder="이름, 학번, 이메일, 전화번호로 검색"
+          />
+        </S.SearchRateContainer>
 
         <AttendeeTable
           attendees={filteredAttendees} // 필터된 참석자 리스트를 전달

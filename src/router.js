@@ -11,9 +11,10 @@ import {
   DashboardMessagePage,
   TotalStatisticsPage,
   DashboardStatisticPage,
+  LoadingPage,
+  RegisterCompleted,
 } from './pages';
 import Layout from './Layout/Layout';
-import RegisterCompleted from './pages/RegisterPage/PageComponents/RegisterCompleted';
 
 const router = createBrowserRouter([
   {
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
       {
         path: '/stats',
         element: <TotalStatisticsPage />,
+      },
+      {
+        path: '/loading',
+        element: <LoadingPage />,
       },
     ],
   },

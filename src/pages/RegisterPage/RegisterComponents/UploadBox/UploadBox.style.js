@@ -3,17 +3,16 @@ import styled from 'styled-components';
 
 //업로드 박스 + 아이콘
 export const StyledLabel = styled.label`
-  width: 100%;
-  height: 240px;
-  margin: auto;
-  background-color: #fff;
-  border-radius: 10px;
-  background-color: #f8f8f8;
-  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  height: 240px;
+  border-radius: 10px;
+  background-color: #fff;
+  background-color: #f8f8f8;
+  padding: 20px;
   cursor: pointer;
   color: #2f7cef;
 

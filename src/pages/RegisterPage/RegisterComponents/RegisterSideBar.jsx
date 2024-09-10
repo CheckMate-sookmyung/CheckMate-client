@@ -1,4 +1,3 @@
-import React from 'react';
 import * as S from './RegisterSideBarStyle';
 import { useRecoilValue } from 'recoil';
 import {
@@ -51,13 +50,13 @@ const RegisterSidebar = () => {
 
   const menuItems = [
     {
-      title: '선택된 이벤트유형',
-      subtitles: [`${status}`, `${type}`],
-      contents: [],
+      title: '선택된 행사 유형',
+      subtitles: ['진행 방식', '행사 유형'],
+      contents: [`${status}`, `${type}`],
     },
     {
-      title: '선택된 이벤트개요',
-      subtitles: ['제목', '날짜'],
+      title: '선택된 행사 개요',
+      subtitles: ['제목', '기간'],
       contents: [
         `${title}`,
         schedules.map((event, index) => (
@@ -71,15 +70,16 @@ const RegisterSidebar = () => {
     return (
       <S.MenuItemContainer>
         <S.Title isActive={isActive}>{title}</S.Title>
-        <S.Divider />
-        {subtitles.map((subtitle, index) => (
-          <div key={index}>
-            <S.Subtitle>{subtitle}</S.Subtitle>
-            {contents && contents[index] && (
-              <S.Content>{contents[index]}</S.Content>
-            )}
-          </div>
-        ))}
+        <S.ContentWrapper>
+          {subtitles.map((subtitle, index) => (
+            <S.Content key={index}>
+              <S.Subtitle>{subtitle}</S.Subtitle>
+              {contents && contents[index] && (
+                <S.SubtitleContent>{contents[index]}</S.SubtitleContent>
+              )}
+            </S.Content>
+          ))}
+        </S.ContentWrapper>
       </S.MenuItemContainer>
     );
   };

@@ -7,27 +7,27 @@ const EventTypeCard = ({ handleEventType }) => {
 
   return (
     <S.FlexWrapper style={{ flexWrap: 'wrap' }}>
-      <S.Choicebox
+      <S.ChoiceBox
         onClick={() => handleEventType('ONLINE')}
         isSelected={eventType === 'ONLINE'}
       >
-        <S.FlexWrapper>
+        <S.TitleWrapper>
           <S.Category>온라인 행사</S.Category>
           <S.CategoryMini>On-line Event</S.CategoryMini>
-        </S.FlexWrapper>
-        <S.CustomImage src="img/ONLINE.svg" alt="" />
-      </S.Choicebox>
-      <S.Choicebox
+        </S.TitleWrapper>
+        <S.CustomImage src="/img/ONLINE.svg" alt="온라인 이미지" />
+      </S.ChoiceBox>
+
+      <S.ChoiceBox
         onClick={() => handleEventType('OFFLINE')}
         isSelected={eventType === 'OFFLINE'}
       >
-        <S.FlexWrapper>
+        <S.TitleWrapper>
           <S.Category>오프라인 행사</S.Category>
           <S.CategoryMini>Off-line Event</S.CategoryMini>
-        </S.FlexWrapper>
-
-        <S.CustomImage src="img/OFFLINE.svg" alt="" />
-      </S.Choicebox>
+        </S.TitleWrapper>
+        <S.CustomImage src="/img/OFFLINE.svg" alt="오프라인 이미지" />
+      </S.ChoiceBox>
     </S.FlexWrapper>
   );
 };

@@ -2,8 +2,37 @@ import * as S from './Home.Style';
 import { Button, TopNavigation, Footer } from '@/components';
 import { Link } from 'react-router-dom';
 import { PageLayout } from '@/Layout';
+import { useEffect, useState } from 'react';
+import { axiosInstance } from '@/axios';
+import AnimatedNumbers from 'react-animated-numbers';
 
 const HomePage = () => {
+  const [eventCount, setEventCount] = useState(0);
+  const [attendanceCount, setAttendanceCount] = useState(0);
+
+  useEffect(() => {
+    const getEventData = async () => {
+      try {
+        const { data } = await axiosInstance.get(`/api/v1/home/event`);
+        setEventCount(data);
+      } catch ({ status }) {
+        return;
+      }
+    };
+
+    const getAttendanceCountData = async () => {
+      try {
+        const { data } = await axiosInstance.get(`/api/v1/home/attendance`);
+        setAttendanceCount(data);
+      } catch ({ status }) {
+        return;
+      }
+    };
+
+    getEventData();
+    getAttendanceCountData();
+  }, []);
+
   return (
     <PageLayout topNavigation={<TopNavigation />}>
       <S.Container>
@@ -32,7 +61,7 @@ const HomePage = () => {
                     label="행사 보러가기"
                     backgroundColor="#FFF"
                     textColor="#323232"
-                  />{' '}
+                  />
                 </Link>
               </S.ButtonWrapper>
             </S.ComponentsWrapper>
@@ -54,9 +83,20 @@ const HomePage = () => {
                   <br /> 열린 행사 수
                 </S.CardContent>
                 <S.BoldNum>
-                  514<span>개</span>
+                  <AnimatedNumbers
+                    includeComma
+                    transitions={(index) => ({
+                      type: 'spring',
+                      duration: index + 0.2,
+                    })}
+                    animateToNumber={eventCount}
+                  />
+                  <span>개</span>
                 </S.BoldNum>
-                <S.Character src="/img/character-check.svg" alt="캐릭터" />
+                <S.Character
+                  src="/img/character-black-check.svg"
+                  alt="캐릭터"
+                />
               </S.BlueCard>
               <S.WhiteCard>
                 <S.CardContent>
@@ -64,7 +104,15 @@ const HomePage = () => {
                   <br /> 출석을 완료한 이용자
                 </S.CardContent>
                 <S.BoldNum style={{ color: 'black' }}>
-                  1028<span>명</span>
+                  <AnimatedNumbers
+                    includeComma
+                    transitions={(index) => ({
+                      type: 'spring',
+                      duration: index + 0.3,
+                    })}
+                    animateToNumber={attendanceCount}
+                  />
+                  <span>명</span>
                 </S.BoldNum>
               </S.WhiteCard>
             </S.CardWrapper>
