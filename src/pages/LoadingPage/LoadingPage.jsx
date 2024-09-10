@@ -7,7 +7,7 @@ const LoadingPage = () => {
 
   // 이미 가입한 유저일 시 : 메인 페이지로 이동
   const handleHome = () => {
-    navigate('/home');
+    navigate('/');
     window.location.reload();
   };
 
