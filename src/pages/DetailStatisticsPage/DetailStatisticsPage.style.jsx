@@ -14,7 +14,6 @@ export const DetailStatisticsPage = styled.div`
   max-width: 1100px;
   margin: 0 auto;
   padding: 50px 20px;
-  gap: 30px;
 
   border: 1px solid red; /* 임시 코드 */
 `;
@@ -46,16 +45,26 @@ export const EventDate = styled.p`
 // 통계
 export const ContentContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  width: 500px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
   gap: 32px;
   padding-top: 20px;
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    flex-direction: column;
+  }
 `;
 
 export const ChartWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: calc(50% - 16px);
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    width: 100%;
+  }
 `;
 
 export const ChartTitle = styled.h2`
