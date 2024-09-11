@@ -60,6 +60,10 @@ export default function TopNavigation({ eventTitle } = {}) {
           <S.Menu to="/stats" activeClassName="active">
             통계
           </S.Menu>
+          {/* 세부 통계 페이지는 추후 통째로 삭제 */}
+          <S.Menu to="/stats/detail" activeClassName="active">
+            세부 통계(임시)
+          </S.Menu>
           {location.pathname.startsWith('/event/dashboard') && (
             <S.PageNameWrapper>
               {eventTitle !== undefined && (
