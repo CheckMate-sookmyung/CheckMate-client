@@ -70,7 +70,7 @@ export const Chart = styled.div`
   border-radius: 20px;
   border: 1px solid #aecfff;
   background: #fff;
-  padding: 20px 30px;
+  padding: 0 30px;
   width: 100%;
   height: 100%;
   max-height: 300px;

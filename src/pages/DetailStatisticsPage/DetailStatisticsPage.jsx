@@ -14,7 +14,7 @@ const DetailStatisticsPage = () => {
       ATTENDEE_LIST[0].eventSchedules.length - 1
     ].date.split('T')[0];
 
-  // 학과 비율
+  // 학과별 참석 비율을 계산하는 로직
   const departmentAttendance = {};
   ATTENDEE_LIST[0].eventSchedules.forEach((schedule) => {
     schedule.students.forEach((student) => {
@@ -28,7 +28,30 @@ const DetailStatisticsPage = () => {
     });
   });
 
-  // 학번별 참석률
+  // 학과별 참석 비율 정렬
+  const sortedDepartmentAttendance = Object.entries(departmentAttendance).sort(
+    (a, b) => b[1] - a[1],
+  );
+  const departmentLabels = sortedDepartmentAttendance.map((item) => item[0]);
+  const departmentValues = sortedDepartmentAttendance.map((item) => item[1]);
+
+  const departmentData = {
+    labels: departmentLabels,
+    datasets: [
+      {
+        data: departmentValues,
+        backgroundColor: [
+          '#2F7CEF',
+          '#ACCDFF',
+          '#2f7cef33',
+          '#EDF5FF',
+          '#E4E4E4',
+        ],
+      },
+    ],
+  };
+
+  // 학번별 참석 비율을 계산하는 로직
   const yearAttendance = {};
   ATTENDEE_LIST[0].eventSchedules.forEach((schedule) => {
     schedule.students.forEach((student) => {
@@ -42,29 +65,25 @@ const DetailStatisticsPage = () => {
     });
   });
 
-  // 학과별 참석률
-  const departmentData = {
-    labels: Object.keys(departmentAttendance),
+  // 학번별 참석 비율 정렬
+  const sortedYearAttendance = Object.entries(yearAttendance).sort(
+    (a, b) => b[1] - a[1],
+  );
+  const yearLabels = sortedYearAttendance.map((item) => `${item[0]}학번`);
+  const yearValues = sortedYearAttendance.map((item) => item[1]);
+
+  const yearData = {
+    labels: yearLabels,
     datasets: [
       {
-        data: Object.values(departmentAttendance),
+        data: yearValues,
         backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
+          '#2F7CEF',
+          '#ACCDFF',
+          '#2f7cef33',
+          '#EDF5FF',
+          '#E4E4E4',
         ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
-        ],
-        borderWidth: 1,
       },
     ],
   };
@@ -75,33 +94,6 @@ const DetailStatisticsPage = () => {
         position: 'right',
       },
     },
-  };
-
-  // 학번별 참석률
-  const yearData = {
-    labels: Object.keys(yearAttendance).map((year) => `${year}학번`),
-    datasets: [
-      {
-        data: Object.values(yearAttendance),
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
-        ],
-        borderWidth: 1,
-      },
-    ],
   };
 
   return (
