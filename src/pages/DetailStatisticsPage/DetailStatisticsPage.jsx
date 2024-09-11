@@ -122,16 +122,25 @@ const DetailStatisticsPage = () => {
     ],
   };
 
+  // 이수율 계산 로직
   const totalStudents = ATTENDEE_LIST[0].students.length;
-
-  const attendingStudents = ATTENDEE_LIST[0].students.filter(
+  const completedStudents = ATTENDEE_LIST[0].students.filter(
     (student) => student.isCompleted,
   ).length;
 
-  const completionRate = ((attendingStudents / totalStudents) * 100).toFixed(0);
-  const nonCompletionRate = (100 - completionRate).toFixed(0);
+  console.log('Total Students:', totalStudents);
+  console.log('Completed Students:', completedStudents);
 
-  // 이수율 차트 데이터
+  let completionRate = 0;
+  let nonCompletionRate = 0;
+
+  if (totalStudents > 0) {
+    completionRate = parseFloat(
+      ((completedStudents / totalStudents) * 100).toFixed(2),
+    );
+    nonCompletionRate = parseFloat((100 - completionRate).toFixed(2));
+  }
+
   const completionData = {
     labels: ['이수', '미이수'],
     datasets: [
@@ -152,14 +161,36 @@ const DetailStatisticsPage = () => {
           boxWidth: 10,
         },
       },
+      tooltip: {
+        callbacks: {
+          label: function (tooltipItem) {
+            const dataset = tooltipItem.dataset;
+            const currentValue = dataset.data[tooltipItem.dataIndex];
+            const totalStudents = ATTENDEE_LIST[0].students.length;
+            const label = tooltipItem.label || '';
+
+            if (label === '이수') {
+              return `${completedStudents}명`;
+            } else if (label === '미이수') {
+              const nonCompleted = totalStudents - completedStudents;
+              return `${nonCompleted}명`;
+            } else if (departmentAttendance[label]) {
+              return `${departmentAttendance[label]}명`;
+            } else if (yearAttendance[label.replace('학번', '')]) {
+              const year = label.replace('학번', '');
+              return `${yearAttendance[year]}명`;
+            }
+            return `${currentValue}명`;
+          },
+        },
+      },
       datalabels: {
         color: '#000',
         anchor: 'center',
         align: 'center',
         textAlign: 'center',
         formatter: (value, context) => {
-          const total = context.dataset.data.reduce((acc, val) => acc + val, 0);
-          const percentage = ((value / total) * 100).toFixed(0);
+          const percentage = value.toFixed(0);
           const label = context.chart.data.labels[context.dataIndex];
           return `${label} \n ${percentage}%`;
         },
