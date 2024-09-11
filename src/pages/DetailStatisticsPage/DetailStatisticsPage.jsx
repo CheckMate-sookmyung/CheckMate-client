@@ -32,21 +32,42 @@ const DetailStatisticsPage = () => {
   const sortedDepartmentAttendance = Object.entries(departmentAttendance).sort(
     (a, b) => b[1] - a[1],
   );
-  const departmentLabels = sortedDepartmentAttendance.map((item) => item[0]);
-  const departmentValues = sortedDepartmentAttendance.map((item) => item[1]);
+
+  const majorAttendanceLimit = 4;
+  const departmentLabels = sortedDepartmentAttendance
+    .slice(0, majorAttendanceLimit)
+    .map((item) => item[0]);
+
+  const etcValue = sortedDepartmentAttendance
+    .slice(majorAttendanceLimit)
+    .reduce((sum, item) => sum + item[1], 0);
+
+  if (etcValue > 0) {
+    departmentLabels.push('기타');
+  }
+
+  const departmentValues = sortedDepartmentAttendance
+    .slice(0, majorAttendanceLimit)
+    .map((item) => item[1]);
+
+  if (etcValue > 0) {
+    departmentValues.push(etcValue);
+  }
+
+  const departmentColors = departmentValues.map((_, index) => {
+    if (index < 4) {
+      return ['#2F7CEF', '#ACCDFF', '#2f7cef33', '#EDF5FF'][index];
+    } else {
+      return '#E4E4E4';
+    }
+  });
 
   const departmentData = {
     labels: departmentLabels,
     datasets: [
       {
         data: departmentValues,
-        backgroundColor: [
-          '#2F7CEF',
-          '#ACCDFF',
-          '#2f7cef33',
-          '#EDF5FF',
-          '#E4E4E4',
-        ],
+        backgroundColor: departmentColors,
       },
     ],
   };
@@ -69,21 +90,42 @@ const DetailStatisticsPage = () => {
   const sortedYearAttendance = Object.entries(yearAttendance).sort(
     (a, b) => b[1] - a[1],
   );
-  const yearLabels = sortedYearAttendance.map((item) => `${item[0]}학번`);
-  const yearValues = sortedYearAttendance.map((item) => item[1]);
+
+  const yearAttendanceLimit = 4;
+  const yearLabels = sortedYearAttendance
+    .slice(0, yearAttendanceLimit)
+    .map((item) => `${item[0]}학번`);
+
+  const etcYearValue = sortedYearAttendance
+    .slice(yearAttendanceLimit)
+    .reduce((sum, item) => sum + item[1], 0);
+
+  if (etcYearValue > 0) {
+    yearLabels.push('기타');
+  }
+
+  const yearValues = sortedYearAttendance
+    .slice(0, yearAttendanceLimit)
+    .map((item) => item[1]);
+
+  if (etcYearValue > 0) {
+    yearValues.push(etcYearValue);
+  }
+
+  const yearColors = yearValues.map((_, index) => {
+    if (index < 4) {
+      return ['#2F7CEF', '#ACCDFF', '#2f7cef33', '#EDF5FF'][index];
+    } else {
+      return '#E4E4E4';
+    }
+  });
 
   const yearData = {
     labels: yearLabels,
     datasets: [
       {
         data: yearValues,
-        backgroundColor: [
-          '#2F7CEF',
-          '#ACCDFF',
-          '#2f7cef33',
-          '#EDF5FF',
-          '#E4E4E4',
-        ],
+        backgroundColor: yearColors,
       },
     ],
   };

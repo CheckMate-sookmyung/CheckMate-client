@@ -51,6 +51,11 @@ export const ATTENDEE_LIST = [
             studentYear: 24,
             isAttending: true,
           },
+          {
+            major: '의상학과',
+            studentYear: 20,
+            isAttending: true,
+          },
         ],
       },
       {
@@ -101,6 +106,11 @@ export const ATTENDEE_LIST = [
             studentYear: 24,
             isAttending: false,
           },
+          {
+            major: '의상학과',
+            studentYear: 20,
+            isAttending: true,
+          },
         ],
       },
       {
@@ -150,6 +160,11 @@ export const ATTENDEE_LIST = [
             major: '수학과',
             studentYear: 24,
             isAttending: false,
+          },
+          {
+            major: '의상학과',
+            studentYear: 20,
+            isAttending: true,
           },
         ],
       },
