@@ -87,7 +87,7 @@ const DetailStatisticsPage = () => {
   });
 
   const sortedYearAttendance = Object.entries(yearAttendance).sort(
-    (a, b) => b[1] - a[1],
+    (a, b) => b[0] - a[0],
   );
 
   const yearAttendanceLimit = 4;
