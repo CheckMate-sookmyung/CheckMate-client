@@ -23,21 +23,21 @@ const DetailStatisticsPage = () => {
 
           <S.ContentContainer>
             <S.ChartWrapper>
-              <S.ChartTitle>행사에 참석한 학과 비율</S.ChartTitle>
+              <S.ChartTitle>전공별 참석 비율</S.ChartTitle>
               <S.Chart>
                 <DepartmentChart />
               </S.Chart>
             </S.ChartWrapper>
 
             <S.ChartWrapper>
-              <S.ChartTitle>각 학번별 참석률</S.ChartTitle>
+              <S.ChartTitle>학번별 참석 비율</S.ChartTitle>
               <S.Chart>
                 <YearChart />
               </S.Chart>
             </S.ChartWrapper>
 
             <S.ChartWrapper>
-              <S.ChartTitle>전체 학생 중 이수율</S.ChartTitle>
+              <S.ChartTitle>전체 학생 중 이수 비율</S.ChartTitle>
               <S.Chart>
                 <CompletionChart />
               </S.Chart>

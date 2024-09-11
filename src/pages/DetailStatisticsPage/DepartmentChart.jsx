@@ -45,6 +45,10 @@ const DepartmentChart = () => {
     departmentValues.push(etcValue);
   }
 
+  const departmentPercentages = departmentValues.map((value) =>
+    Math.round((value / totalCompletedStudentsByMajor) * 100),
+  );
+
   const departmentColors = departmentValues.map((_, index) => {
     if (index < 4) {
       return ['#2F7CEF', '#ACCDFF', '#2f7cef33', '#EDF5FF'][index];
@@ -57,7 +61,7 @@ const DepartmentChart = () => {
     labels: departmentLabels,
     datasets: [
       {
-        data: departmentValues,
+        data: departmentPercentages,
         backgroundColor: departmentColors,
       },
     ],
@@ -73,18 +77,36 @@ const DepartmentChart = () => {
           boxWidth: 10,
         },
       },
+      tooltip: {
+        callbacks: {
+          label: function (tooltipItem) {
+            const dataset = tooltipItem.dataset;
+            const currentValue = dataset.data[tooltipItem.dataIndex];
+            const totalStudents = ATTENDEE_LIST[0].students.length;
+            const label = tooltipItem.label || '';
+
+            if (label === '기타') {
+              const etcStudents =
+                ATTENDEE_LIST[0].students.length -
+                totalCompletedStudentsByMajor;
+              return `${etcStudents}명`;
+            } else if (departmentAttendance[label]) {
+              return `${departmentAttendance[label]}명`;
+            } else {
+              return `${currentValue}명`;
+            }
+          },
+        },
+      },
+
       datalabels: {
         color: '#000',
         anchor: 'center',
         align: 'center',
         textAlign: 'center',
         formatter: (value, context) => {
-          if (typeof value === 'number') {
-            const percentage = value.toFixed(0);
-            const label = context.chart.data.labels[context.dataIndex];
-            return `${label} \n ${percentage}%`;
-          }
-          return '';
+          const label = context.chart.data.labels[context.dataIndex];
+          return `${label} \n ${value}%`;
         },
       },
     },
