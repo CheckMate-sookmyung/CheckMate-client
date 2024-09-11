@@ -116,10 +116,6 @@ export const Dial = styled.div`
   cursor: pointer;
   flex-grow: 1;
 
-  &:hover {
-    background-color: #e0f0ff;
-  }
-
   &:nth-child(10) {
     grid-column: span 1;
     background-color: #fff;
@@ -154,11 +150,6 @@ export const GoToSignBtn = styled.div`
   font-weight: 600;
   word-break: keep-all;
   cursor: ${({ isSevenDigits }) => (isSevenDigits ? 'pointer' : 'default')};
-
-  &:hover {
-    background-color: ${({ isSevenDigits }) =>
-      isSevenDigits ? '#1e5bbf' : '#BDDBFF'};
-  }
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     font-size: 20px;
