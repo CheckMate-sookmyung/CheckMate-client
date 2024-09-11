@@ -201,6 +201,7 @@ const DetailStatisticsPage = () => {
         right: 10,
       },
     },
+    cutout: '30%',
   };
 
   return (
