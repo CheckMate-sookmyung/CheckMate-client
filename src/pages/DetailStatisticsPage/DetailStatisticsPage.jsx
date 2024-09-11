@@ -29,7 +29,6 @@ const DetailStatisticsPage = () => {
     });
   });
 
-  // 학과별 참석 비율 정렬
   const sortedDepartmentAttendance = Object.entries(departmentAttendance).sort(
     (a, b) => b[1] - a[1],
   );
@@ -87,7 +86,6 @@ const DetailStatisticsPage = () => {
     });
   });
 
-  // 학번별 참석 비율 정렬
   const sortedYearAttendance = Object.entries(yearAttendance).sort(
     (a, b) => b[1] - a[1],
   );
@@ -127,6 +125,32 @@ const DetailStatisticsPage = () => {
       {
         data: yearValues,
         backgroundColor: yearColors,
+      },
+    ],
+  };
+
+  // 이수율 계산 로직
+  const totalStudents = ATTENDEE_LIST[0].eventSchedules.reduce(
+    (total, schedule) => total + schedule.students.length,
+    0,
+  );
+
+  const attendingStudents = ATTENDEE_LIST[0].eventSchedules.reduce(
+    (total, schedule) =>
+      total + schedule.students.filter((student) => student.isAttending).length,
+    0,
+  );
+
+  const completionRate = ((attendingStudents / totalStudents) * 100).toFixed(0);
+  const nonCompletionRate = (100 - completionRate).toFixed(0);
+
+  // 이수율 차트 데이터
+  const completionData = {
+    labels: ['이수', '미이수'],
+    datasets: [
+      {
+        data: [completionRate, nonCompletionRate],
+        backgroundColor: ['#2F7CEF', '#ACCDFF'],
       },
     ],
   };
@@ -175,6 +199,13 @@ const DetailStatisticsPage = () => {
               <S.ChartTitle>각 학번별 참석률</S.ChartTitle>
               <S.Chart>
                 <Doughnut data={yearData} options={options} />
+              </S.Chart>
+            </S.ChartWrapper>
+
+            <S.ChartWrapper>
+              <S.ChartTitle>전체 학생 중 이수율</S.ChartTitle>
+              <S.Chart>
+                <Doughnut data={completionData} options={options} />
               </S.Chart>
             </S.ChartWrapper>
           </S.ContentContainer>
