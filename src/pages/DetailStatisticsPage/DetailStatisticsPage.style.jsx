@@ -66,9 +66,14 @@ export const ChartTitle = styled.h2`
 `;
 
 export const Chart = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 20px;
   border: 1px solid #aecfff;
   background: #fff;
-  padding: 55px 48px;
-  height: 300px;
+  padding: 20px 30px;
+  width: 100%;
+  height: 100%;
+  max-height: 300px;
 `;

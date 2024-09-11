@@ -63,6 +63,14 @@ const DetailStatisticsPage = () => {
     ],
   };
 
+  const options = {
+    plugins: {
+      legend: {
+        position: 'right',
+      },
+    },
+  };
+
   // 학번별 참석률
   const yearData = {
     labels: Object.keys(yearAttendance).map((year) => `${year}학번`),
@@ -105,14 +113,14 @@ const DetailStatisticsPage = () => {
             <S.ChartWrapper>
               <S.ChartTitle>행사에 참석한 학과 비율</S.ChartTitle>
               <S.Chart>
-                <Doughnut data={departmentData} />
+                <Doughnut data={departmentData} options={options} />
               </S.Chart>
             </S.ChartWrapper>
 
             <S.ChartWrapper>
               <S.ChartTitle>각 학번별 참석률</S.ChartTitle>
               <S.Chart>
-                <Doughnut data={yearData} />
+                <Doughnut data={yearData} options={options} />
               </S.Chart>
             </S.ChartWrapper>
           </S.ContentContainer>
