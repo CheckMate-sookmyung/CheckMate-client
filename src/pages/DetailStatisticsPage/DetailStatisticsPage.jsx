@@ -9,24 +9,19 @@ import { ATTENDEE_LIST } from './attendee';
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 const DetailStatisticsPage = () => {
-  const startDate = ATTENDEE_LIST[0].eventSchedules[0].date.split('T')[0];
-  const endDate =
-    ATTENDEE_LIST[0].eventSchedules[
-      ATTENDEE_LIST[0].eventSchedules.length - 1
-    ].date.split('T')[0];
+  const startDate = ATTENDEE_LIST[0].eventSchedules[0].startDate.split('T')[0];
+  const endDate = ATTENDEE_LIST[0].eventSchedules[0].endDate.split('T')[0];
 
   // 학과별 참석 비율을 계산하는 로직
   const departmentAttendance = {};
-  ATTENDEE_LIST[0].eventSchedules.forEach((schedule) => {
-    schedule.students.forEach((student) => {
-      if (student.isAttending) {
-        if (departmentAttendance[student.major]) {
-          departmentAttendance[student.major]++;
-        } else {
-          departmentAttendance[student.major] = 1;
-        }
+  ATTENDEE_LIST[0].students.forEach((student) => {
+    if (student.isCompleted) {
+      if (departmentAttendance[student.major]) {
+        departmentAttendance[student.major]++;
+      } else {
+        departmentAttendance[student.major] = 1;
       }
-    });
+    }
   });
 
   const sortedDepartmentAttendance = Object.entries(departmentAttendance).sort(
@@ -74,16 +69,14 @@ const DetailStatisticsPage = () => {
 
   // 학번별 참석 비율을 계산하는 로직
   const yearAttendance = {};
-  ATTENDEE_LIST[0].eventSchedules.forEach((schedule) => {
-    schedule.students.forEach((student) => {
-      if (student.isAttending) {
-        if (yearAttendance[student.studentYear]) {
-          yearAttendance[student.studentYear]++;
-        } else {
-          yearAttendance[student.studentYear] = 1;
-        }
+  ATTENDEE_LIST[0].students.forEach((student) => {
+    if (student.isCompleted) {
+      if (yearAttendance[student.studentYear]) {
+        yearAttendance[student.studentYear]++;
+      } else {
+        yearAttendance[student.studentYear] = 1;
       }
-    });
+    }
   });
 
   const sortedYearAttendance = Object.entries(yearAttendance).sort(
@@ -129,17 +122,11 @@ const DetailStatisticsPage = () => {
     ],
   };
 
-  // 이수율 계산 로직
-  const totalStudents = ATTENDEE_LIST[0].eventSchedules.reduce(
-    (total, schedule) => total + schedule.students.length,
-    0,
-  );
+  const totalStudents = ATTENDEE_LIST[0].students.length;
 
-  const attendingStudents = ATTENDEE_LIST[0].eventSchedules.reduce(
-    (total, schedule) =>
-      total + schedule.students.filter((student) => student.isAttending).length,
-    0,
-  );
+  const attendingStudents = ATTENDEE_LIST[0].students.filter(
+    (student) => student.isCompleted,
+  ).length;
 
   const completionRate = ((attendingStudents / totalStudents) * 100).toFixed(0);
   const nonCompletionRate = (100 - completionRate).toFixed(0);
@@ -170,7 +157,6 @@ const DetailStatisticsPage = () => {
         anchor: 'center',
         align: 'center',
         textAlign: 'center',
-
         formatter: (value, context) => {
           const total = context.dataset.data.reduce((acc, val) => acc + val, 0);
           const percentage = ((value / total) * 100).toFixed(0);
@@ -191,7 +177,7 @@ const DetailStatisticsPage = () => {
       <S.Container>
         <S.DetailStatisticsPage>
           <S.TopContainer>
-            <S.Title>행사별 통계</S.Title>
+            <S.Title>세부 통계</S.Title>
             <S.EventDate>
               {startDate} ~ {endDate}
             </S.EventDate>
