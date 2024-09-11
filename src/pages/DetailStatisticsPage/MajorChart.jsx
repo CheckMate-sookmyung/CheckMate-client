@@ -5,64 +5,69 @@ import { ATTENDEE_LIST } from './attendee';
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
-const DepartmentChart = () => {
-  const departmentAttendance = {};
+const MajorChart = () => {
+  const majorAttendance = {};
   let totalCompletedStudentsByMajor = 0;
 
   ATTENDEE_LIST[0].students.forEach((student) => {
     if (student.isCompleted) {
       totalCompletedStudentsByMajor++;
-      if (departmentAttendance[student.major]) {
-        departmentAttendance[student.major]++;
+      if (majorAttendance[student.major]) {
+        majorAttendance[student.major]++;
       } else {
-        departmentAttendance[student.major] = 1;
+        majorAttendance[student.major] = 1;
       }
     }
   });
 
-  const sortedDepartmentAttendance = Object.entries(departmentAttendance).sort(
+  const sortedMajorAttendance = Object.entries(majorAttendance).sort(
     (a, b) => b[1] - a[1],
   );
 
-  const majorAttendanceLimit = 4;
-  const departmentLabels = sortedDepartmentAttendance
+  const majorAttendanceLimit = 6;
+  const majorLabels = sortedMajorAttendance
     .slice(0, majorAttendanceLimit)
     .map((item) => item[0]);
 
-  const etcValue = sortedDepartmentAttendance
+  const etcValue = sortedMajorAttendance
     .slice(majorAttendanceLimit)
     .reduce((sum, item) => sum + item[1], 0);
 
   if (etcValue > 0) {
-    departmentLabels.push('기타');
+    majorLabels.push('기타');
   }
 
-  const departmentValues = sortedDepartmentAttendance
+  const majorValues = sortedMajorAttendance
     .slice(0, majorAttendanceLimit)
     .map((item) => item[1]);
 
   if (etcValue > 0) {
-    departmentValues.push(etcValue);
+    majorValues.push(etcValue);
   }
 
-  const departmentPercentages = departmentValues.map((value) =>
+  const majorPercentages = majorValues.map((value) =>
     Math.round((value / totalCompletedStudentsByMajor) * 100),
   );
 
-  const departmentColors = departmentValues.map((_, index) => {
-    if (index < 4) {
-      return ['#2F7CEF', '#ACCDFF', '#2f7cef33', '#EDF5FF'][index];
-    } else {
-      return '#E4E4E4';
-    }
+  const majorColors = majorValues.map((_, index) => {
+    const colors = [
+      '#2F7CEF',
+      '#79B8FA',
+      '#ACCDFF',
+      '#2f7cef33',
+      '#EDF5FF',
+      '#E4E4E4',
+      '#999',
+    ];
+    return colors[index % colors.length];
   });
 
-  const departmentData = {
-    labels: departmentLabels,
+  const majorData = {
+    labels: majorLabels,
     datasets: [
       {
-        data: departmentPercentages,
-        backgroundColor: departmentColors,
+        data: majorPercentages,
+        backgroundColor: majorColors,
       },
     ],
   };
@@ -82,7 +87,6 @@ const DepartmentChart = () => {
           label: function (tooltipItem) {
             const dataset = tooltipItem.dataset;
             const currentValue = dataset.data[tooltipItem.dataIndex];
-            const totalStudents = ATTENDEE_LIST[0].students.length;
             const label = tooltipItem.label || '';
 
             if (label === '기타') {
@@ -90,8 +94,8 @@ const DepartmentChart = () => {
                 ATTENDEE_LIST[0].students.length -
                 totalCompletedStudentsByMajor;
               return `${etcStudents}명`;
-            } else if (departmentAttendance[label]) {
-              return `${departmentAttendance[label]}명`;
+            } else if (majorAttendance[label]) {
+              return `${majorAttendance[label]}명`;
             } else {
               return `${currentValue}명`;
             }
@@ -118,7 +122,7 @@ const DepartmentChart = () => {
     cutout: '30%',
   };
 
-  return <Doughnut data={departmentData} options={options} />;
+  return <Doughnut data={majorData} options={options} />;
 };
 
-export default DepartmentChart;
+export default MajorChart;

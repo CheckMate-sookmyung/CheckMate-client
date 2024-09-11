@@ -34,7 +34,14 @@ const YearChart = () => {
   );
 
   const yearColors = yearValues.map((_, index) => {
-    const colors = ['#2F7CEF', '#79B8FA', '#ACCDFF', '#2f7cef33', '#EDF5FF'];
+    const colors = [
+      '#2F7CEF',
+      '#79B8FA',
+      '#ACCDFF',
+      '#2f7cef33',
+      '#EDF5FF',
+      '#E4E4E4',
+    ];
     return colors[index % colors.length];
   });
 

@@ -1,7 +1,7 @@
 import * as S from './DetailStatisticsPage.style';
 import { PageLayout } from '@/Layout';
 import { TopNavigation } from '@/components';
-import DepartmentChart from './DepartmentChart';
+import MajorChart from './MajorChart';
 import YearChart from './YearChart';
 import CompletionChart from './CompletionChart';
 import { ATTENDEE_LIST } from './attendee';
@@ -25,7 +25,7 @@ const DetailStatisticsPage = () => {
             <S.ChartWrapper>
               <S.ChartTitle>전공별 참석 비율</S.ChartTitle>
               <S.Chart>
-                <DepartmentChart />
+                <MajorChart />
               </S.Chart>
             </S.ChartWrapper>
 
