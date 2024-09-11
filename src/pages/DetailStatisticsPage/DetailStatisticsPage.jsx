@@ -12,10 +12,16 @@ const DetailStatisticsPage = () => {
   const startDate = ATTENDEE_LIST[0].eventSchedules[0].startDate.split('T')[0];
   const endDate = ATTENDEE_LIST[0].eventSchedules[0].endDate.split('T')[0];
 
+  // 전체 학생 수
+  const totalStudents = ATTENDEE_LIST[0].students.length;
+
   // 학과별 참석 비율을 계산하는 로직
   const departmentAttendance = {};
+  let totalCompletedStudentsByMajor = 0;
+
   ATTENDEE_LIST[0].students.forEach((student) => {
     if (student.isCompleted) {
+      totalCompletedStudentsByMajor++;
       if (departmentAttendance[student.major]) {
         departmentAttendance[student.major]++;
       } else {
@@ -69,8 +75,11 @@ const DetailStatisticsPage = () => {
 
   // 학번별 참석 비율을 계산하는 로직
   const yearAttendance = {};
+  let totalCompletedStudentsByYear = 0;
+
   ATTENDEE_LIST[0].students.forEach((student) => {
     if (student.isCompleted) {
+      totalCompletedStudentsByYear++;
       if (yearAttendance[student.studentYear]) {
         yearAttendance[student.studentYear]++;
       } else {
@@ -79,37 +88,24 @@ const DetailStatisticsPage = () => {
     }
   });
 
+  // 학번별 데이터 전체를 보여줌, 기타 항목 제거
   const sortedYearAttendance = Object.entries(yearAttendance).sort(
     (a, b) => b[0] - a[0],
   );
 
-  const yearAttendanceLimit = 4;
-  const yearLabels = sortedYearAttendance
-    .slice(0, yearAttendanceLimit)
-    .map((item) => `${item[0]}학번`);
-
-  const etcYearValue = sortedYearAttendance
-    .slice(yearAttendanceLimit)
-    .reduce((sum, item) => sum + item[1], 0);
-
-  if (etcYearValue > 0) {
-    yearLabels.push('기타');
-  }
-
-  const yearValues = sortedYearAttendance
-    .slice(0, yearAttendanceLimit)
-    .map((item) => item[1]);
-
-  if (etcYearValue > 0) {
-    yearValues.push(etcYearValue);
-  }
+  const yearLabels = sortedYearAttendance.map((item) => `${item[0]}학번`);
+  const yearValues = sortedYearAttendance.map((item) => item[1]);
 
   const yearColors = yearValues.map((_, index) => {
-    if (index < 4) {
-      return ['#2F7CEF', '#ACCDFF', '#2f7cef33', '#EDF5FF'][index];
-    } else {
-      return '#E4E4E4';
-    }
+    const colors = [
+      '#2F7CEF',
+      '#79B8FA',
+      '#ACCDFF',
+      '#2f7cef33',
+      '#EDF5FF',
+      '#E4E4E4',
+    ];
+    return colors[index % colors.length];
   });
 
   const yearData = {
@@ -123,14 +119,7 @@ const DetailStatisticsPage = () => {
   };
 
   // 이수율 계산 로직
-  const totalStudents = ATTENDEE_LIST[0].students.length;
-  const completedStudents = ATTENDEE_LIST[0].students.filter(
-    (student) => student.isCompleted,
-  ).length;
-
-  console.log('Total Students:', totalStudents);
-  console.log('Completed Students:', completedStudents);
-
+  const completedStudents = totalCompletedStudentsByMajor;
   let completionRate = 0;
   let nonCompletionRate = 0;
 
@@ -190,9 +179,12 @@ const DetailStatisticsPage = () => {
         align: 'center',
         textAlign: 'center',
         formatter: (value, context) => {
-          const percentage = value.toFixed(0);
-          const label = context.chart.data.labels[context.dataIndex];
-          return `${label} \n ${percentage}%`;
+          if (typeof value === 'number') {
+            const percentage = value.toFixed(0);
+            const label = context.chart.data.labels[context.dataIndex];
+            return `${label} \n ${percentage}%`;
+          }
+          return '';
         },
       },
     },
