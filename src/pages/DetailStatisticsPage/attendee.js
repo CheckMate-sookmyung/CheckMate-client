@@ -88,6 +88,26 @@ export const ATTENDEE_LIST = [
         studentYear: 20,
         isCompleted: true,
       },
+      {
+        major: '의상학과',
+        studentYear: 20,
+        isCompleted: true,
+      },
+      {
+        major: 'IT공학과',
+        studentYear: 20,
+        isCompleted: true,
+      },
+      {
+        major: 'IT공학과',
+        studentYear: 20,
+        isCompleted: true,
+      },
+      {
+        major: '인공지능학과',
+        studentYear: 20,
+        isCompleted: true,
+      },
     ],
   },
 ];
