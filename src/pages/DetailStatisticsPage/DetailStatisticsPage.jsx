@@ -3,9 +3,10 @@ import { PageLayout } from '@/Layout';
 import { TopNavigation } from '@/components';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { ATTENDEE_LIST } from './attendee';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 const DetailStatisticsPage = () => {
   const startDate = ATTENDEE_LIST[0].eventSchedules[0].date.split('T')[0];
@@ -134,6 +135,19 @@ const DetailStatisticsPage = () => {
     plugins: {
       legend: {
         position: 'right',
+      },
+      datalabels: {
+        color: '#000',
+        anchor: 'center',
+        align: 'center',
+        textAlign: 'center',
+
+        formatter: (value, context) => {
+          const total = context.dataset.data.reduce((acc, val) => acc + val, 0);
+          const percentage = ((value / total) * 100).toFixed(0);
+          const label = context.chart.data.labels[context.dataIndex];
+          return `${label} \n ${percentage}%`;
+        },
       },
     },
   };
