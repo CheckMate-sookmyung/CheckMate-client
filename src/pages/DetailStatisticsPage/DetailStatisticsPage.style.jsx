@@ -39,10 +39,8 @@ export const Title = styled.h1`
 export const EventDate = styled.p`
   font-size: 14px;
   margin-bottom: 2px;
-
-  & > span {
-    font-weight: 600;
-  }
+  color: #6b6b6b;
+  font-weight: 500;
 `;
 
 // 통계

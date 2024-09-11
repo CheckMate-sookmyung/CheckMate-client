@@ -8,6 +8,12 @@ import { ATTENDEE_LIST } from './attendee';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const DetailStatisticsPage = () => {
+  const startDate = ATTENDEE_LIST[0].eventSchedules[0].date.split('T')[0];
+  const endDate =
+    ATTENDEE_LIST[0].eventSchedules[
+      ATTENDEE_LIST[0].eventSchedules.length - 1
+    ].date.split('T')[0];
+
   // 학과 비율
   const departmentAttendance = {};
   ATTENDEE_LIST[0].eventSchedules.forEach((schedule) => {
@@ -105,7 +111,7 @@ const DetailStatisticsPage = () => {
           <S.TopContainer>
             <S.Title>행사별 통계</S.Title>
             <S.EventDate>
-              <span>통계 조사 기간</span>
+              {startDate} ~ {endDate}
             </S.EventDate>
           </S.TopContainer>
 
