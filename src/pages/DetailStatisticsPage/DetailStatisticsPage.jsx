@@ -159,6 +159,11 @@ const DetailStatisticsPage = () => {
     plugins: {
       legend: {
         position: 'right',
+        labels: {
+          usePointStyle: true,
+          padding: 20,
+          boxWidth: 10,
+        },
       },
       datalabels: {
         color: '#000',
@@ -172,6 +177,11 @@ const DetailStatisticsPage = () => {
           const label = context.chart.data.labels[context.dataIndex];
           return `${label} \n ${percentage}%`;
         },
+      },
+    },
+    layout: {
+      padding: {
+        right: 10,
       },
     },
   };
