@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 import * as S from './RegisterPage.style';
 import UploadBox from '../RegisterComponents/UploadBox/UploadBox';
 import { axiosInstance } from '@/axios/axiosInstance';
-import { USER_ID } from '@/constants';
+// import { USER_ID } from '@/constants';
 import useResetAllStates from '@/recoil/atoms/useResetAllState';
 import {
   attendanceListFile,
@@ -22,8 +22,12 @@ import { Button, Input, SlimButton, Textarea } from '@/components';
 import BlueButton from '../RegisterComponents/Button/BlueButton';
 import EventScheduleList from '@/components/Scheduler/Scheduler';
 import { FaPaperclip } from 'react-icons/fa6';
+import RegisterCompletedModal from './RegisterCompleted';
 
 const RegisterSecond = () => {
+  const USER_ID = sessionStorage.getItem('id');
+  const accessToken = sessionStorage.getItem('accessToken');
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const Step = useSetRecoilState(RegisterStep);
 
   const stepDown = () => {
@@ -138,24 +142,28 @@ const RegisterSecond = () => {
     e.preventDefault();
     const formData = new FormData();
 
-    const event = {
+    const eventDetail = {
       eventType,
       eventTarget,
       eventTitle: eventTitleValue,
       eventDetail: eventDetailValue,
-      minCompletionTimes: minCompletionTimesValue,
+      completionTimes: minCompletionTimesValue,
       eventSchedules: formatSchedules(eventSchedules),
     };
 
-    formData.append('event', JSON.stringify(event));
+    formData.append('eventDetail', JSON.stringify(eventDetail));
     formData.append('eventImage', eventImageValue);
     formData.append('attendanceListFile', attendanceListFileValue);
 
     try {
-      await axiosInstance.post(`/api/v1/events/${USER_ID}`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+      await axiosInstance.post(`/api/v1/events`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Value': `Bearer ${accessToken}`,
+        },
       });
-      navigate('/register/completed');
+      alert('행사가 등록됐습니다!');
+      navigate('/event');
     } catch (error) {
       alert('행사가 제대로 등록되지 않았습니다.');
       navigate('/register');
@@ -251,6 +259,7 @@ const RegisterSecond = () => {
                 textColor="#323232"
               />
               <Button label="행사 등록 완료하기" onClick={handleRegister} />
+              {/* {isModalOpen && <RegisterCompletedModal />} */}
             </S.ButtonWrapper>
           </S.ContentBox>
         </S.RegisterCategory>
