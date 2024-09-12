@@ -9,13 +9,13 @@ const MajorChart = () => {
   const majorAttendance = {};
   let totalCompletedStudentsByMajor = 0;
 
-  ATTENDEE_LIST[0].students.forEach((student) => {
-    if (student.isCompleted) {
+  ATTENDEE_LIST[0].eventRatioDetailResponseDtos.forEach((student) => {
+    if (student.completion) {
       totalCompletedStudentsByMajor++;
-      if (majorAttendance[student.major]) {
-        majorAttendance[student.major]++;
+      if (majorAttendance[student.studentMajor]) {
+        majorAttendance[student.studentMajor]++;
       } else {
-        majorAttendance[student.major] = 1;
+        majorAttendance[student.studentMajor] = 1;
       }
     }
   });
@@ -91,7 +91,7 @@ const MajorChart = () => {
 
             if (label === '기타') {
               const etcStudents =
-                ATTENDEE_LIST[0].students.length -
+                ATTENDEE_LIST[0].eventRatioDetailResponseDtos.length -
                 totalCompletedStudentsByMajor;
               return `${etcStudents}명`;
             } else if (majorAttendance[label]) {
