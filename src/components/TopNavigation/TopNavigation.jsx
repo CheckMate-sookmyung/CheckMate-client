@@ -1,19 +1,22 @@
 import { useEffect, useState } from 'react';
 import * as S from './TopNavigation.style';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { FaBars, FaCircleUser } from 'react-icons/fa6';
 import { Sidebar, SlimButton } from '@/components';
 import { BREAKPOINTS } from '@/styles';
+import { axiosInstance } from '@/axios';
 
 export default function TopNavigation({ eventTitle } = {}) {
-  const name = localStorage.getItem('name');
+  const name = sessionStorage.getItem('name');
+  const USER_ID = sessionStorage.getItem('id');
+  const nav = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const location = useLocation();
 
   useEffect(() => {
-    const token = localStorage.getItem('accessToken');
+    const token = sessionStorage.getItem('accessToken');
 
     if (token) {
       setIsLoggedIn(true);
@@ -51,6 +54,19 @@ export default function TopNavigation({ eventTitle } = {}) {
     window.location.href = `https://accounts.google.com/o/oauth2/auth?client_id=967351541140-dha99rue5c6dtu5kgugegrp31jj89tcg.apps.googleusercontent.com&redirect_uri=http://localhost:3000/loading&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`;
   };
 
+  const handleLogout = async () => {
+    try {
+      await axiosInstance.get(
+        `/api/v1/logout?memberId=${USER_ID}&authority=MEMBER&member=true`,
+      );
+      alert('로그아웃이 완료되었습니다.');
+    } catch (error) {
+      console.log(error);
+    } finally {
+      nav('/');
+    }
+  };
+
   return (
     <S.TopNavigation>
       <S.LogoMenuWrapper>
@@ -80,9 +96,9 @@ export default function TopNavigation({ eventTitle } = {}) {
       </S.LogoMenuWrapper>
       <S.ProfileMenuWrapper>
         {isLoggedIn ? (
-          <b>{name}</b>
+          <b onClick={() => handleLogout()}>{name}</b>
         ) : (
-          <SlimButton label={'로그인 / 회원가입'} onClick={handleLoginClick} />
+          <SlimButton label={'로그인'} onClick={handleLoginClick} />
         )}
         <S.MenuIconWrapper>
           <FaBars onClick={toggleSidebar} />
