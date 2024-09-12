@@ -6,9 +6,19 @@ import { Sidebar, SlimButton } from '@/components';
 import { BREAKPOINTS } from '@/styles';
 
 export default function TopNavigation({ eventTitle } = {}) {
+  const name = localStorage.getItem('name');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const location = useLocation();
+
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   const handleDimClick = () => {
     setIsSidebarOpen(false);
@@ -38,8 +48,7 @@ export default function TopNavigation({ eventTitle } = {}) {
   }, []);
 
   const handleLoginClick = () => {
-    // window.location.href = `https://accounts.google.com/o/oauth2/auth?client_id=967351541140-dha99rue5c6dtu5kgugegrp31jj89tcg.apps.googleusercontent.com&redirect_uri=https://checkmate24h.com/google/login&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`;
-    window.location.href = `https://accounts.google.com/o/oauth2/auth?client_id=967351541140-dha99rue5c6dtu5kgugegrp31jj89tcg.apps.googleusercontent.com&redirect_uri=https://checkmate.pe.kr/loading&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`;
+    window.location.href = `https://accounts.google.com/o/oauth2/auth?client_id=967351541140-dha99rue5c6dtu5kgugegrp31jj89tcg.apps.googleusercontent.com&redirect_uri=http://localhost:3000/loading&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`;
   };
 
   return (
@@ -70,7 +79,11 @@ export default function TopNavigation({ eventTitle } = {}) {
         </S.MenuContainer>
       </S.LogoMenuWrapper>
       <S.ProfileMenuWrapper>
-        <SlimButton label={'로그인 / 회원가입'} onClick={handleLoginClick} />
+        {isLoggedIn ? (
+          <b>{name}</b>
+        ) : (
+          <SlimButton label={'로그인 / 회원가입'} onClick={handleLoginClick} />
+        )}
         <S.MenuIconWrapper>
           <FaBars onClick={toggleSidebar} />
         </S.MenuIconWrapper>
