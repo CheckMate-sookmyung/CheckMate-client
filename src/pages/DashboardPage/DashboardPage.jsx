@@ -2,7 +2,6 @@ import * as S from './DashboardPage.style';
 import { useState, useEffect } from 'react';
 import { PageLayout } from '@/Layout';
 import { Button, Sidebar, TopNavigation } from '@/components';
-import { USER_ID } from '@/constants';
 import { eventIDState } from '@/recoil/atoms/state';
 import { useRecoilValue } from 'recoil';
 import { Link, useNavigate } from 'react-router-dom';
@@ -31,13 +30,13 @@ export default function DashboardPage() {
     isError,
   } = useQuery({
     queryKey: ['getEventDetail', eventId],
-    queryFn: () => getEventDetail(USER_ID, eventId),
+    queryFn: () => getEventDetail(eventId),
   });
 
   const { mutate: deleteEventMutate, isPending: isDeleteEventPending } =
     useMutation({
       mutationKey: ['deleteEvent', eventId],
-      mutationFn: () => deleteEvent(USER_ID, eventId),
+      mutationFn: () => deleteEvent(eventId),
       onSuccess: () => {
         alert('행사가 삭제되었습니다. 목록 페이지로 이동합니다.');
         navigate('/event');
@@ -52,7 +51,7 @@ export default function DashboardPage() {
     isPending: isPostEventManagerPending,
   } = useMutation({
     mutationKey: ['postEventManager', eventId],
-    mutationFn: (body) => postEventManager(USER_ID, eventId, body),
+    mutationFn: (body) => postEventManager(eventId, body),
     onSuccess: () => {
       queryClient.invalidateQueries(['getEventDetail']);
       setIsEditing(false);
@@ -154,17 +153,17 @@ export default function DashboardPage() {
       };
     });
 
-    const totalAttendance = schedules.reduce((acc, schedule) => {
-      const attendedCount = schedule.attendanceList.filter(
-        (attendee) => attendee.attendance,
-      ).length;
-      return acc + attendedCount;
-    }, 0);
+    // const totalAttendance = schedules.reduce((acc, schedule) => {
+    //   const attendedCount = schedule.attendanceList.filter(
+    //     (attendee) => attendee.attendance,
+    //   ).length;
+    //   return acc + attendedCount;
+    // }, 0);
 
-    const totalParticipants = schedules[0].attendanceList.length;
-    const averageAttendance = totalParticipants
-      ? (totalAttendance / schedules.length).toFixed(1)
-      : 0;
+    // const totalParticipants = schedules[0].attendanceList.length;
+    // const averageAttendance = totalParticipants
+    //   ? (totalAttendance / schedules.length).toFixed(1)
+    //   : 0;
 
     const parsedEvent = {
       title: eventDetail.eventTitle,
@@ -172,7 +171,7 @@ export default function DashboardPage() {
       image: eventDetail.eventImage,
       schedules,
       totalSessions: eventDetail.eventSchedules.length,
-      totalParticipants,
+      // totalParticipants,
       eventType: eventDetail.eventType,
       eventTarget: eventDetail.eventTarget,
     };
