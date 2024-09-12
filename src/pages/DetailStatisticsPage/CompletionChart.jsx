@@ -6,10 +6,11 @@ import { ATTENDEE_LIST } from './attendee';
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 const CompletionChart = () => {
-  const totalStudents = ATTENDEE_LIST[0].students.length;
-  const completedStudents = ATTENDEE_LIST[0].students.filter(
-    (student) => student.isCompleted,
-  ).length;
+  const totalStudents = ATTENDEE_LIST[0].eventRatioDetailResponseDtos.length;
+  const completedStudents =
+    ATTENDEE_LIST[0].eventRatioDetailResponseDtos.filter(
+      (student) => student.completion,
+    ).length;
 
   let completionRate = 0;
   let nonCompletionRate = 0;
@@ -48,14 +49,13 @@ const CompletionChart = () => {
             const currentValue = dataset.data[tooltipItem.dataIndex];
             const label = tooltipItem.label || '';
 
-            // 이수와 미이수에 대한 툴팁 처리
             if (label === '이수') {
               return `${completedStudents}명`;
             } else if (label === '미이수') {
               const nonCompleted = totalStudents - completedStudents;
               return `${nonCompleted}명`;
             }
-            return `${currentValue}명`;
+            return `${currentValue}%`;
           },
         },
       },

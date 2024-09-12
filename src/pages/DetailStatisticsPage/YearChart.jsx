@@ -9,14 +9,14 @@ const YearChart = () => {
   const yearAttendance = {};
   let totalCompletedStudentsByYear = 0;
 
-  // 각 학번별 참석자 수 계산
-  ATTENDEE_LIST[0].students.forEach((student) => {
-    if (student.isCompleted) {
+  ATTENDEE_LIST[0].eventRatioDetailResponseDtos.forEach((student) => {
+    if (student.completion) {
       totalCompletedStudentsByYear++;
-      if (yearAttendance[student.studentYear]) {
-        yearAttendance[student.studentYear]++;
+      const year = String(student.studentNumber).substring(0, 2);
+      if (yearAttendance[year]) {
+        yearAttendance[year]++;
       } else {
-        yearAttendance[student.studentYear] = 1;
+        yearAttendance[year] = 1;
       }
     }
   });
@@ -28,7 +28,6 @@ const YearChart = () => {
   const yearLabels = sortedYearAttendance.map((item) => `${item[0]}학번`);
   const yearValues = sortedYearAttendance.map((item) => item[1]);
 
-  // 각 학번의 참석 비율을 계산
   const yearPercentages = yearValues.map((value) =>
     Math.round((value / totalCompletedStudentsByYear) * 100),
   );
@@ -49,7 +48,7 @@ const YearChart = () => {
     labels: yearLabels,
     datasets: [
       {
-        data: yearValues,
+        data: yearPercentages,
         backgroundColor: yearColors,
       },
     ],
@@ -69,9 +68,9 @@ const YearChart = () => {
         callbacks: {
           label: function (tooltipItem) {
             const dataset = tooltipItem.dataset;
-            const currentValue = dataset.data[tooltipItem.dataIndex];
+            const currentValue = yearValues[tooltipItem.dataIndex];
             const label = tooltipItem.label || '';
-            return `${currentValue}명`;
+            return `${currentValue}명 참석`;
           },
         },
       },

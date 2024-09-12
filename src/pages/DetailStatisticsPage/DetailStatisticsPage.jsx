@@ -7,8 +7,9 @@ import CompletionChart from './CompletionChart';
 import { ATTENDEE_LIST } from './attendee';
 
 const DetailStatisticsPage = () => {
-  const startDate = ATTENDEE_LIST[0].eventSchedules[0].startDate.split('T')[0];
-  const endDate = ATTENDEE_LIST[0].eventSchedules[0].endDate.split('T')[0];
+  const startDate = ATTENDEE_LIST[0].eventDates[0];
+  const endDate =
+    ATTENDEE_LIST[0].eventDates[ATTENDEE_LIST[0].eventDates.length - 1];
 
   return (
     <PageLayout topNavigation={<TopNavigation />}>
