@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import * as S from './EventCardListPage.style';
-import { USER_ID } from '@/constants';
+// import { USER_ID } from '@/constants';
 import { axiosInstance } from '@/axios';
 import { EventCard, Dropdown, TopNavigation, Search } from '@/components';
 import { PageLayout } from '@/Layout';
 
 const EventCardListPage = () => {
+  const USER_ID = sessionStorage.getItem('id');
   const [events, setEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState('전체');
@@ -14,7 +15,9 @@ const EventCardListPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get(`/api/v1/events/${USER_ID}`);
+        const response = await axiosInstance.get(
+          `/api/v1/events?memberId=${USER_ID}&authority=MEMBER&member=true`,
+        );
         const parsedEvents = response.data.map((event) => {
           const startDate = event.eventSchedules[0];
           const endDate =
