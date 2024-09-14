@@ -61,7 +61,6 @@ export const InfoDeleteIconWrapper = styled.div`
   display: flex;
   justify-content: center;
   padding-left: 10px;
-  transition:;
 `;
 
 export const DeleteIconWrapper = styled.button`

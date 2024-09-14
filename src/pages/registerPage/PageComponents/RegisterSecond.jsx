@@ -1,12 +1,18 @@
-import { useEffect, useState } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
-import * as S from './RegisterPage.style';
-import UploadBox from '../RegisterComponents/UploadBox/UploadBox';
+import { FaPaperclip } from 'react-icons/fa6';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+
 import { axiosInstance } from '@/axios/axiosInstance';
-// import { USER_ID } from '@/constants';
-import useResetAllStates from '@/recoil/atoms/useResetAllState';
+import {
+  Button,
+  EventScheduleList,
+  Input,
+  SlimButton,
+  Textarea,
+  UploadBox,
+} from '@/components';
 import {
   attendanceListFile,
   eventDetail,
@@ -18,77 +24,74 @@ import {
   minCompletionTimes,
   RegisterStep,
 } from '@/recoil/atoms/state';
-import { Button, Input, SlimButton, Textarea } from '@/components';
+import useResetAllStates from '@/recoil/atoms/useResetAllState';
+
 import BlueButton from '../RegisterComponents/Button/BlueButton';
-import EventScheduleList from '@/components/Scheduler/Scheduler';
-import { FaPaperclip } from 'react-icons/fa6';
+import CompletionDropdown from '../RegisterComponents/Dropdown/CompletionDropdown';
 import RegisterCompletedModal from './RegisterCompleted';
+import * as S from './RegisterPage.style';
 
 const RegisterSecond = () => {
-  const USER_ID = sessionStorage.getItem('id');
-  const accessToken = sessionStorage.getItem('accessToken');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const Step = useSetRecoilState(RegisterStep);
+  const setStep = useSetRecoilState(RegisterStep);
+  const [showModal, setShowModal] = useState(false);
 
-  const stepDown = () => {
-    Step((prevStep) => prevStep - 1);
-  };
-
-  // Recoil state hooks
-  const eventType = useRecoilValue(eventTypeState);
-  const eventTarget = useRecoilValue(eventTargetState);
-  const eventTitleValue = useRecoilValue(eventTitle);
-  const eventDetailValue = useRecoilValue(eventDetail);
-  const eventImageValue = useRecoilValue(eventImage);
-  const attendanceListFileValue = useRecoilValue(attendanceListFile);
-  const minCompletionTimesValue = useRecoilValue(minCompletionTimes);
-
-  const [iseventTitle, setEventTitle] = useRecoilState(eventTitle);
-  const [iseventDetail, setEventDetail] = useRecoilState(eventDetail);
-  const [poster, setPoster] = useRecoilState(eventImage);
-  const [file, setFile] = useRecoilState(attendanceListFile);
-  const [eventDate, setEventDate] = useState(null);
-  const [eventStartTime, setEventStartTime] = useState('');
-  const [eventEndTime, setEventEndTime] = useState('');
-  const [isminCompletionTimesValue, setMinCompletionTimesValue] = useState();
+  // Recoil 상태
+  const [eventType] = useRecoilState(eventTypeState);
+  const [eventTarget] = useRecoilState(eventTargetState);
+  const [eventTitleValue, setEventTitle] = useRecoilState(eventTitle);
+  const [eventDetailValue, setEventDetail] = useRecoilState(eventDetail);
+  const [eventImageValue, setEventImage] = useRecoilState(eventImage);
+  const [attendanceListFileValue, setAttendanceListFile] =
+    useRecoilState(attendanceListFile);
+  const [minCompletionTimesValue, setMinCompletionTimesValue] =
+    useRecoilState(minCompletionTimes);
   const [eventSchedules, setEventSchedules] = useRecoilState(eventScheduleList);
 
   const navigate = useNavigate();
   const resetAllStates = useResetAllStates();
 
+  const dropdownItems = eventSchedules.map((_, index) => ({
+    label: `${index + 1}회`,
+    value: index + 1,
+  }));
+
   const handleImageChange = (file) => {
-    setPoster(file);
+    setEventImage(file);
   };
 
   const handleExcelChange = (file) => {
-    setFile(file);
+    setAttendanceListFile(file);
+  };
+
+  const handleSelect = (value) => {
+    setMinCompletionTimesValue(value);
   };
 
   const handleDownload = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(
+      const url =
         eventTarget === 'INTERNAL'
           ? 'https://checkmate-service-bucket.s3.ap-northeast-2.amazonaws.com/template+(student).xlsx'
-          : 'https://checkmate-service-bucket.s3.ap-northeast-2.amazonaws.com/template+(%EC%99%B8%EB%B6%80%EC%9A%A9)+.xlsx',
-        { method: 'GET' },
-      );
+          : 'https://checkmate-service-bucket.s3.ap-northeast-2.amazonaws.com/template+(%EC%99%B8%EB%B6%80%EC%9A%A9)+.xlsx';
 
-      if (!response.ok) throw new Error('Network response was not ok');
+      const response = await fetch(url);
+
+      if (!response.ok) throw new Error('네트워크 응답에 문제가 있습니다.');
 
       const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
+      const downloadUrl = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
-      link.href = url;
+      link.href = downloadUrl;
       link.download = 'template.xlsx';
 
       document.body.appendChild(link);
       link.click();
 
-      link.parentNode.removeChild(link);
-      window.URL.revokeObjectURL(url);
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(downloadUrl);
     } catch (error) {
-      console.error('Fetch operation error:', error);
+      console.error('파일 다운로드 에러:', error);
     }
   };
 
@@ -116,25 +119,11 @@ const RegisterSecond = () => {
     }
   };
 
-  useEffect(() => {
-    if (eventDate && eventStartTime && eventEndTime) {
-      const newEvent = {
-        eventDate,
-        eventStartTime,
-        eventEndTime,
-      };
-      setEventSchedules((prevEvents) => [...prevEvents, newEvent]);
-      setEventDate('');
-      setEventStartTime('');
-      setEventEndTime('');
-    }
-  }, [eventDate, eventStartTime, eventEndTime]);
-
   const formatSchedules = (schedules) => {
     return schedules.map((schedule) => ({
-      eventDate: format(schedule.eventDate, 'yyyy-MM-dd'),
-      eventStartTime: format(schedule.eventStartTime, 'HH:mm'),
-      eventEndTime: format(schedule.eventEndTime, 'HH:mm'),
+      eventDate: format(new Date(schedule.eventDate), 'yyyy-MM-dd'),
+      eventStartTime: format(new Date(schedule.eventStartTime), 'HH:mm'),
+      eventEndTime: format(new Date(schedule.eventEndTime), 'HH:mm'),
     }));
   };
 
@@ -142,7 +131,7 @@ const RegisterSecond = () => {
     e.preventDefault();
     const formData = new FormData();
 
-    const eventDetail = {
+    const event = {
       eventType,
       eventTarget,
       eventTitle: eventTitleValue,
@@ -151,7 +140,7 @@ const RegisterSecond = () => {
       eventSchedules: formatSchedules(eventSchedules),
     };
 
-    formData.append('eventDetail', JSON.stringify(eventDetail));
+    formData.append('eventDetail', JSON.stringify(event));
     formData.append('eventImage', eventImageValue);
     formData.append('attendanceListFile', attendanceListFileValue);
 
@@ -159,17 +148,14 @@ const RegisterSecond = () => {
       await axiosInstance.post(`/api/v1/events`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          'Value': `Bearer ${accessToken}`,
         },
       });
-      alert('행사가 등록됐습니다!');
-      navigate('/event');
+      setShowModal(true);
     } catch (error) {
       alert('행사가 제대로 등록되지 않았습니다.');
       navigate('/register');
-      console.error(error);
     } finally {
-      Step(1);
+      setStep(1);
       resetAllStates();
     }
   };
@@ -179,7 +165,7 @@ const RegisterSecond = () => {
       <S.CenteredRegisterPage>
         <S.RegisterCategory>
           <S.BlueButtonWrapper>
-            <BlueButton contents={'이벤트 개요'} />
+            <BlueButton contents="이벤트 개요" />
           </S.BlueButtonWrapper>
 
           <S.ContentBox>
@@ -187,7 +173,7 @@ const RegisterSecond = () => {
               <S.MainTitle>행사 제목</S.MainTitle>
               <Input
                 placeholder="행사 제목을 입력해 주세요"
-                value={iseventTitle}
+                value={eventTitleValue}
                 onChange={(e) => setEventTitle(e.target.value)}
               />
             </S.ContentWrapper>
@@ -196,7 +182,7 @@ const RegisterSecond = () => {
               <S.MainTitle>행사 설명</S.MainTitle>
               <Textarea
                 placeholder="행사에 대해 상세히 설명해 주세요"
-                value={iseventDetail}
+                value={eventDetailValue}
                 onChange={(e) => setEventDetail(e.target.value)}
               />
             </S.ContentWrapper>
@@ -217,7 +203,7 @@ const RegisterSecond = () => {
                     onClick={handleDownload}
                     label={
                       <>
-                        <FaPaperclip /> 출석 파일 템플릿 다운
+                        <FaPaperclip /> 출석 파일 템플릿 다운로드
                       </>
                     }
                   />
@@ -241,29 +227,31 @@ const RegisterSecond = () => {
 
             <S.ContentWrapper>
               <S.MainTitle>행사 이수 기준</S.MainTitle>
-              <Input
-                type="number"
-                placeholder="행사 이수 기준을 입력해 주세요"
-                value={isminCompletionTimesValue}
-                onChange={(e) => setMinCompletionTimesValue(e.target.value)}
-                className="custom-input"
+              <CompletionDropdown
+                items={dropdownItems}
+                onSelect={handleSelect}
               />
             </S.ContentWrapper>
 
             <S.ButtonWrapper>
               <Button
                 label="이전"
-                onClick={stepDown}
+                onClick={() => setStep((prevStep) => prevStep - 1)}
                 type="button"
                 backgroundColor="#F2F2F2"
                 textColor="#323232"
               />
               <Button label="행사 등록 완료하기" onClick={handleRegister} />
-              {/* {isModalOpen && <RegisterCompletedModal />} */}
             </S.ButtonWrapper>
           </S.ContentBox>
         </S.RegisterCategory>
       </S.CenteredRegisterPage>
+      {showModal && (
+        <RegisterCompletedModal
+          eventTitle={eventTitleValue}
+          eventScheduleList={eventSchedules}
+        />
+      )}
     </S.RegisterPage>
   );
 };
