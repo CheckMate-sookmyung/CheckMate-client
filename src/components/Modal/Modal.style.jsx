@@ -8,7 +8,6 @@ export const Backdrop = styled.div`
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 99;
 `;
 
 export const ModalLayout = styled.div`
@@ -17,7 +16,6 @@ export const ModalLayout = styled.div`
   left: 50%;
   justify-content: space-between;
   transform: translate(-50%, -50%);
-  z-index: 100;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -120,26 +118,5 @@ export const ContentDescription = styled.div`
   @media (max-width: ${BREAKPOINTS[0]}px) {
     padding: 8px 16px;
     font-size: 20px;
-  }
-`;
-
-export const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-`;
-
-export const CancelButton = styled.button`
-  margin-top: 36px;
-  border-radius: 10px;
-  padding: 20px 28px;
-  background: var(--LG-3, #f2f2f2);
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--DG-2, #818181);
-
-  @media (max-width: ${BREAKPOINTS[0]}px) {
-    padding: 12px 20px;
-    font-size: 16px;
   }
 `;
