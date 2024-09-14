@@ -10,12 +10,12 @@ import {
   EventScheduleItem,
   TopNavigation,
   EventTypeCard,
+  UploadBox,
 } from '@/components';
 import { USER_ID } from '@/constants';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '@/recoil/atoms/state';
 import { PageLayout } from '@/Layout';
-import UploadBox from '../RegisterPage/RegisterComponents/UploadBox/UploadBox';
 import { getEventDetail, updateEventDetail } from '@/apis';
 
 export default function DashboardInfoPage() {
