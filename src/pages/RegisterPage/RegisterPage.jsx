@@ -1,11 +1,11 @@
 import { useRecoilValue } from 'recoil';
-import { RegisterStep } from '../../recoil/atoms/state';
-import RegisterFirst from './PageComponents/RegisterFirst';
-import RegisterSecond from './PageComponents/RegisterSecond';
-import RegisterSidebar from './RegisterComponents/RegisterSideBar';
+import { RegisterStep } from '@/recoil/atoms/state';
 import { PageLayout } from '@/Layout';
 import { TopNavigation } from '@/components';
 import styled from 'styled-components';
+import RegisterFirst from './PageComponents/RegisterFirst';
+import RegisterSecond from './PageComponents/RegisterSecond';
+import RegisterSidebar from './RegisterComponents/RegisterSideBar/RegisterSideBar';
 
 const Sidebar = styled.div`
   display: block;
