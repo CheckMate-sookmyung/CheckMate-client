@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import * as S from './UploadBox.style';
-import FileButton from '../Button/FileButton';
+import FileButton from '../../pages/RegisterPage/RegisterComponents/Button/FileButton';
 
 //미리보기 선택 시 전체 프리뷰 기능 미구현
 
@@ -41,10 +41,9 @@ const UploadBox = ({ accept, onFileUpload }) => {
   };
 
   const setFileInfo = (file) => {
-    const { name, size: byteSize } = file;
-    const size = (byteSize / (1024 * 1024)).toFixed(2) + 'mb';
+    const name = file.name;
     const previewURL = URL.createObjectURL(file);
-    setUploadedInfo({ name, size, previewURL });
+    setUploadedInfo({ name, previewURL });
     if (onFileUpload) {
       onFileUpload(file);
     }
@@ -55,11 +54,13 @@ const UploadBox = ({ accept, onFileUpload }) => {
     setActive(false);
 
     const file = event.dataTransfer.files[0];
+    if (!file) return;
     setFileInfo(file);
   };
 
   const handleUpload = ({ target }) => {
     const file = target.files[0];
+    if (!file) return;
     setFileInfo(file);
   };
 
