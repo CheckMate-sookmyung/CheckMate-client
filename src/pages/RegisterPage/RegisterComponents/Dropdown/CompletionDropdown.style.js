@@ -69,6 +69,4 @@ export const DropdownItemContainer = styled.li`
   }
 `;
 
-export const ItemName = styled.p`
-  margin: 0;
-`;
+export const ItemName = styled.p``;

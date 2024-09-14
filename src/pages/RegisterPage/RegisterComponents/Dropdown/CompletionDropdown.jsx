@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
 import * as S from './CompletionDropdown.style';
+import React, { useCallback, useEffect, useState } from 'react';
 import { BiChevronDown } from 'react-icons/bi';
 
 const CompletionDropdown = ({ items, onSelect }) => {
