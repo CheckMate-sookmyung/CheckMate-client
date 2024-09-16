@@ -79,10 +79,10 @@ export default function TopNavigation({ eventTitle } = {}) {
           <S.Menu to="/register" activeClassName="active">
             행사 등록
           </S.Menu>
-          <S.Menu to="/event" activeClassName="active">
+          <S.Menu to="/events" activeClassName="active">
             행사 목록
           </S.Menu>
-          <S.Menu to="/stats" activeClassName="active">
+          <S.Menu to="/statistic" activeClassName="active">
             통계
           </S.Menu>
 

@@ -33,7 +33,7 @@ const router = createBrowserRouter([
         element: <RegisterCompleted />,
       },
       {
-        path: '/event',
+        path: '/events',
         element: <EventCardListPage />,
       },
       {
@@ -53,11 +53,11 @@ const router = createBrowserRouter([
         element: <DashboardAttendeePage />,
       },
       {
-        path: '/event/dashboard/stats',
+        path: '/event/dashboard/statistic',
         element: <DashboardStatisticPage />,
       },
       {
-        path: '/stats',
+        path: '/statistic',
         element: <TotalStatisticsPage />,
       },
       {

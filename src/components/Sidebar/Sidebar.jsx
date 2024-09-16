@@ -32,7 +32,7 @@ const menuItems = [
     text: '참석자 관리',
   },
   {
-    to: '/event/dashboard/stats',
+    to: '/event/dashboard/statistic',
     icon: <FaChartPie />,
     text: '통계',
   },
