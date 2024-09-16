@@ -34,7 +34,7 @@ const menuItems = [
   {
     to: '/event/dashboard/stats',
     icon: <FaChartPie />,
-    text: '통계 (오픈예정)',
+    text: '통계',
   },
 ];
 

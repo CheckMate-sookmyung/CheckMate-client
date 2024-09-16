@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BREAKPOINTS } from '../../styles';
+import { BREAKPOINTS } from '@/styles';
 
 export const DashboardMessagePage = styled.div`
   display: flex;
