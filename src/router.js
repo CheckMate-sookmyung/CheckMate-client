@@ -15,6 +15,7 @@ import {
 } from './pages';
 import Layout from './Layout/Layout';
 import { DashboardEmailPage } from './pages/DashboardPage';
+import DashboardSurveyPage from './pages/DashboardPage/DashboardSurveyPage/DashboardSurveyPage';
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
       {
         path: '/event/dashboard/email',
         element: <DashboardEmailPage />,
+      },
+      {
+        path: '/event/dashboard/survey',
+        element: <DashboardSurveyPage />,
       },
       {
         path: '/event/dashboard/attendee',
