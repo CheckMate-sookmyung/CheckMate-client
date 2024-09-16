@@ -31,7 +31,6 @@ export const DropdownButton = styled.button`
 export const DropdownContent = styled.ul`
   display: flex;
   flex-direction: column;
-
   position: absolute;
   z-index: 1000;
   top: 100%;
@@ -41,7 +40,7 @@ export const DropdownContent = styled.ul`
   border-radius: 7px;
   background: #f4f8ff;
   padding: 4px;
-  width: 100;
+  min-width: max-content;
   box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.1);
   list-style: none;
 `;
