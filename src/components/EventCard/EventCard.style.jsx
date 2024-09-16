@@ -77,15 +77,9 @@ export const Button = styled.button`
   cursor: pointer;
   font-size: 16px;
 
-  &:not(:disabled) {
-    &:hover {
-      background: #324fb9;
-    }
-  }
-
   &:disabled {
-    background: var(--LG-3, #f2f2f2);
-    color: var(--DG-2, #818181);
+    background: #f2f2f2;
+    color: ${({ isEnded }) => (isEnded ? 'var(--DG-2, #818181)' : '#F92828')};
     cursor: not-allowed;
   }
 `;
