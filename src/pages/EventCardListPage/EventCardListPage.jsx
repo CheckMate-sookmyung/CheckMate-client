@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import * as S from './EventCardListPage.style';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { axiosInstance } from '@/axios';
 import { EventCard, Dropdown, TopNavigation, Search } from '@/components';
 import { PageLayout } from '@/Layout';
