@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import * as S from './EventCardListPage.style';
-// import { USER_ID } from '@/constants';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { axiosInstance } from '@/axios';
 import { EventCard, Dropdown, TopNavigation, Search } from '@/components';
 import { PageLayout } from '@/Layout';
@@ -9,8 +9,10 @@ const EventCardListPage = () => {
   const USER_ID = sessionStorage.getItem('id');
   const [events, setEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
-  const [selectedFilter, setSelectedFilter] = useState('전체');
   const [searchTerm, setSearchTerm] = useState('');
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const selectedFilter = searchParams.get('status') || '전체'; // 기본값이 전체
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,7 +36,7 @@ const EventCardListPage = () => {
               ? new Date() > new Date(endDate)
                 ? '마감'
                 : '진행중'
-              : '진행중', // 현재 날짜와 비교해 상태 결정
+              : '진행중',
           };
         });
 
@@ -52,7 +54,7 @@ const EventCardListPage = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [USER_ID]);
 
   useEffect(() => {
     const filtered = events.filter((event) => {
@@ -68,7 +70,7 @@ const EventCardListPage = () => {
   }, [selectedFilter, events, searchTerm]);
 
   const handleFilterChange = (filter) => {
-    setSelectedFilter(filter);
+    setSearchParams({ status: filter });
   };
 
   const handleSearch = (searchTerm) => {
@@ -81,7 +83,7 @@ const EventCardListPage = () => {
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Dropdown
             items={['전체', '진행중', '마감']}
-            defaultItem="전체"
+            defaultItem={selectedFilter}
             onSelect={handleFilterChange}
           />
           <Search onSearch={handleSearch} />
