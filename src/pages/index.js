@@ -2,7 +2,7 @@ export { AttendanceStudentIdPage, AttendanceSignPage } from './AttendancePage';
 export {
   DashboardPage,
   DashboardInfoPage,
-  DashboardMessagePage,
+  DashboardEmailPage,
   DashboardAttendeePage,
   DashboardStatisticPage,
 } from './DashboardPage';
@@ -12,5 +12,3 @@ export { EventCardListPage } from './EventCardListPage';
 export { TotalStatisticsPage } from './TotalStatisticsPage';
 export { LoadingPage } from './LoadingPage';
 export { RegisterCompleted } from './RegisterPage';
-// 추후 삭제
-export { DetailStatisticsPage } from './DetailStatisticsPage';

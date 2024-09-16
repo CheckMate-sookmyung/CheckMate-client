@@ -1,21 +1,17 @@
 import { BREAKPOINTS } from '@/styles';
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`;
-
 export const DetailStatisticsPage = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 50px 20px;
+  flex-grow: 1;
+  border-left: 1px solid #ebedf0;
+  padding: 50px;
+  gap: 12px;
 
-  border: 1px solid red; /* 임시 코드 */
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    padding: 20px;
+  }
 `;
 
 // 행사 타이틀 + 버튼
