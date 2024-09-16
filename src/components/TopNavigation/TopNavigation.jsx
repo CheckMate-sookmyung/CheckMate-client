@@ -71,7 +71,7 @@ export default function TopNavigation({ eventTitle } = {}) {
     <S.TopNavigation>
       <S.LogoMenuWrapper>
         <S.Logo to="/">
-          <img src="/img/CheckMateBlue.svg" alt="CheckMate Logo" />
+          <img src="/img/logo-blue.svg" alt="CheckMate Logo" />
         </S.Logo>
 
         {/* 메뉴 */}

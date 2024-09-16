@@ -20,7 +20,7 @@ const Footer = () => {
     <S.Container>
       <S.Footer>
         <S.Logo>
-          <img src="img/CheckMateBlue.svg" alt="Logo" />
+          <img src="img/logo-blue.svg" alt="Logo" />
         </S.Logo>
 
         <S.InfoWrapper>

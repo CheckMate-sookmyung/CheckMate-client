@@ -42,7 +42,7 @@ const HomePage = () => {
             <img src="/img/onboarding-diagram1.svg" />
             <S.ComponentsWrapper>
               <S.Logo>
-                <img src="/img/CheckMateWhite.svg" alt="" />
+                <img src="/img/logo-white.svg" alt="" />
               </S.Logo>
               <S.Description>
                 행사 관리 시스템을 더 쉽고 간편하게,
