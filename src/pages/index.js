@@ -2,7 +2,7 @@ export { AttendanceStudentIdPage, AttendanceSignPage } from './AttendancePage';
 export {
   DashboardPage,
   DashboardInfoPage,
-  DashboardMessagePage,
+  DashboardEmailPage,
   DashboardAttendeePage,
   DashboardStatisticPage,
 } from './DashboardPage';

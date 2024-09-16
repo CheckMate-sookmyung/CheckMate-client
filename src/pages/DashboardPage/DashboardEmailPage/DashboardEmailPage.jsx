@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { PageLayout } from '@/Layout';
-import * as S from './DashboardMessagePage.style';
+import * as S from './DashboardEmailPage.style';
 import { Sidebar, Button, TopNavigation, TabMenu } from '@/components';
 import { USER_ID } from '@/constants';
 import { useRecoilValue } from 'recoil';
@@ -61,7 +61,7 @@ const SessionDateTab = ({
   );
 };
 
-export default function DashboardMessagePage() {
+export default function DashboardEmailPage() {
   const [activeTab, setActiveTab] = useState(1);
   const [attendees, setAttendees] = useState([]);
   const [sessions, setSessions] = useState([]);

@@ -8,13 +8,13 @@ import {
   Home,
   RegisterPage,
   EventCardListPage,
-  DashboardMessagePage,
   TotalStatisticsPage,
   DashboardStatisticPage,
   LoadingPage,
   RegisterCompleted,
 } from './pages';
 import Layout from './Layout/Layout';
+import { DashboardEmailPage } from './pages/DashboardPage';
 
 const router = createBrowserRouter([
   {
@@ -45,8 +45,8 @@ const router = createBrowserRouter([
         element: <DashboardInfoPage />,
       },
       {
-        path: '/event/dashboard/message',
-        element: <DashboardMessagePage />,
+        path: '/event/dashboard/email',
+        element: <DashboardEmailPage />,
       },
       {
         path: '/event/dashboard/attendee',
