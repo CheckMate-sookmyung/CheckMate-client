@@ -1,194 +1,115 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PageLayout } from '@/Layout';
 import * as S from './DashboardEmailPage.style';
-import { Sidebar, Button, TopNavigation, TabMenu } from '@/components';
-import { USER_ID } from '@/constants';
+import { Sidebar, Button, TopNavigation, Textarea } from '@/components';
 import { useRecoilValue } from 'recoil';
-import { eventIDState } from '@/recoil/atoms/state';
-import Switch from 'react-switch';
-import { useQuery } from '@tanstack/react-query';
-import { getEventDetail } from '@/apis';
-
-const DEFAULT_MESSAGE_CONTENT = (
-  title,
-  date,
-  time,
-  detail,
-  imageUrl,
-) => `안녕하세요, [기관명]입니다.
-
-${title}을 진행합니다.
-
-- 일시: ${date} ${time}
-- 내용: ${detail}
-
-${imageUrl ? `<img src="${imageUrl}" alt="Event Image" />` : ''}
-
-기타 궁금한 사항이 있으시면 언제든지 문의해주시기 바랍니다.
-
-감사합니다.`;
-
-const SessionDateTab = ({
-  tab,
-  activeTab,
-  setActiveTab,
-  date,
-  sessions,
-  eventDetail,
-  updateMessageContent,
-  sessionAttendees,
-  setAttendees,
-}) => {
-  return (
-    <TabMenu
-      key={tab}
-      label={`${tab}회 (${date})`}
-      active={activeTab === tab}
-      onClick={() => {
-        setActiveTab(tab);
-        setAttendees(sessionAttendees[tab] || []);
-
-        const selectedSession = sessions.find((session) => session.tab === tab);
-
-        updateMessageContent(
-          selectedSession,
-          eventDetail.eventTitle,
-          eventDetail.eventDetail,
-          eventDetail.eventImage,
-        );
-      }}
-    />
-  );
-};
+import { eventDetail, eventIDState } from '@/recoil/atoms/state';
+import { axiosInstance } from '@/axios';
 
 export default function DashboardEmailPage() {
-  const [activeTab, setActiveTab] = useState(1);
-  const [attendees, setAttendees] = useState([]);
-  const [sessions, setSessions] = useState([]);
-  const [sessionAttendees, setSessionAttendees] = useState({});
-  const [messageContent, setMessageContent] = useState('');
-  const eventId = useRecoilValue(eventIDState);
-  const [messageReminder, setMessageReminder] = useState(true);
-
-  const {
-    data: eventDetail,
-    isPending,
-    isError,
-  } = useQuery({
-    queryKey: ['getEventDetail', eventId],
-    queryFn: () => getEventDetail(USER_ID, eventId),
-  });
+  const eventId = useRecoilValue(eventIDState) || eventDetail.id;
+  const [surveyUrl, setSurveyUrl] = useState('');
+  const [isModified, setIsModified] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [emailContent, setEmailContent] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (eventDetail === undefined) {
-      return;
+    const fetchEmailContent = async () => {
+      try {
+        const response = await axiosInstance.get(
+          `/api/v1/events/mail/content/${eventId}`,
+        );
+        if (response.status === 200) {
+          setEmailContent(response.data.content);
+        }
+      } catch (error) {
+        console.error('이메일 내용 불러오기 실패:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchEmailContent();
+  }, [eventId]);
+
+  const handleInputChange = (e) => {
+    const newValue = e.target.value;
+    setSurveyUrl(newValue);
+    if (newValue !== '') {
+      setIsModified(true);
+    } else {
+      setIsModified(false);
     }
+  };
 
-    const parsedSessions = eventDetail.eventSchedules.map(
-      (schedule, index) => ({
-        tab: index + 1,
-        date: `${schedule.eventDate.substring(5, 7)}/${schedule.eventDate.substring(8, 10)}`,
-        time: schedule.eventStartTime,
-        attendanceList: schedule.attendanceListResponseDtos || [],
-      }),
-    );
+  // 저장하기 버튼
+  const handleSaveButtonClick = async () => {
+    if (!isModified) return;
 
-    setSessions(parsedSessions);
+    setIsSaving(true);
 
-    if (parsedSessions.length > 0) {
-      updateMessageContent(
-        parsedSessions[0],
-        eventDetail.eventTitle,
-        eventDetail.eventDetail,
-        eventDetail.eventImage,
+    try {
+      const response = await axiosInstance.put(
+        `/api/v1/events/mail/content/{mailId}`,
       );
-      setAttendees(parsedSessions[0].attendanceList);
+
+      if (response.status === 200) {
+        alert('이메일 내용이 성공적으로 저장되었습니다!');
+        setIsModified(false);
+      } else {
+        alert('이메일 내용 저장에 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('이메일 내용 저장 중 오류 발생:', error);
+      alert('이메일 내용 저장 중 오류가 발생했습니다.');
+    } finally {
+      setIsSaving(false);
     }
-  }, [eventDetail]);
-
-  const handleToggleChange = (checked) => {
-    setMessageReminder(checked);
   };
-
-  const updateMessageContent = (session, title, detail, imageUrl) => {
-    const updatedContent = DEFAULT_MESSAGE_CONTENT(
-      title,
-      session.date,
-      session.time,
-      detail,
-      imageUrl,
-    );
-    setMessageContent(updatedContent);
-  };
-
-  if (isPending) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return null;
-  }
 
   return (
     <PageLayout
       topNavigation={<TopNavigation eventTitle={eventDetail.eventTitle} />}
       sideBar={<Sidebar />}
     >
-      <S.DashboardMessagePage>
+      <S.DashboardEmailPage>
         <S.TopContainer>
-          <S.Title>이메일 예약 발송</S.Title>
+          <S.Title>리마인드 메일 발송</S.Title>
           <S.ButtonContainer>
-            <Button label={'저장하기'} />
+            <Button
+              label={isSaving ? '저장 중...' : '저장하기'}
+              onClick={handleSaveButtonClick}
+              disabled={!isModified || isSaving}
+              style={{
+                backgroundColor: isModified ? '#007bff' : '#ccc',
+                cursor: isModified ? 'pointer' : 'not-allowed',
+              }}
+            />
           </S.ButtonContainer>
         </S.TopContainer>
 
-        <S.TabContainer>
-          {sessions.map((session) => (
-            <SessionDateTab
-              key={session.tab}
-              tab={session.tab}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-              date={session.date}
-              sessions={sessions}
-              eventDetail={eventDetail}
-              updateMessageContent={updateMessageContent}
-              sessionAttendees={sessionAttendees}
-              setAttendees={setAttendees}
-            />
-          ))}
-        </S.TabContainer>
-
         <S.ContentContainer>
-          <S.ToggleWrapper>
-            <S.Content>
-              <S.ContentTitle>1시간 전 이메일 발송 여부</S.ContentTitle>
-              <S.ContentDesc>
-                이벤트 시작 1시간 전에 이메일을 발송합니다.
-              </S.ContentDesc>
-            </S.Content>
-            <Switch
-              onChange={handleToggleChange}
-              checked={messageReminder}
-              offColor="#888"
-              onColor="#0075FF"
-              checkedIcon={false}
-              uncheckedIcon={false}
-            />
-          </S.ToggleWrapper>
+          <S.Content>
+            <S.ContentTitle>리마인드 메일 내용 수정</S.ContentTitle>
+            <S.ContentDesc>
+              <em>행사 시작 24시간 전</em>에 참석자들에게 발송 될&nbsp;
+              <em>행사 안내 메일 내용</em>을 수정해 주세요.
+            </S.ContentDesc>
+          </S.Content>
 
-          {messageReminder && (
-            <S.Content>
-              <S.ContentTitle>내용</S.ContentTitle>
-              <S.ContentDesc>발송될 이메일 본문 내용입니다.</S.ContentDesc>
-              <S.ContentInput
-                value={messageContent}
-                onChange={(e) => setMessageContent(e.target.value)}
-              />
-            </S.Content>
+          {isLoading ? (
+            <p>로딩 중...</p>
+          ) : (
+            <Textarea
+              placeholder="행사 안내 메일 내용을 작성해 주세요."
+              value={emailContent}
+              onChange={(e) => setEmailContent(e.target.value)}
+              height="300px"
+            />
           )}
         </S.ContentContainer>
-      </S.DashboardMessagePage>
+      </S.DashboardEmailPage>
     </PageLayout>
   );
 }
