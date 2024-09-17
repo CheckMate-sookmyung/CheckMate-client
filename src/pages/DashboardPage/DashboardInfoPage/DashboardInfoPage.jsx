@@ -49,7 +49,7 @@ export default function DashboardInfoPage() {
     isError,
   } = useQuery({
     queryKey: ['getEventDetail', eventId],
-    queryFn: () => getEventDetail(USER_ID, eventId),
+    queryFn: () => getEventDetail(eventId),
   });
 
   const {
@@ -81,16 +81,25 @@ export default function DashboardInfoPage() {
       eventSchedules,
     } = eventDetail;
 
+    const parseDateTime = (date, time) => {
+      const parsedTime = Date.parse(`${date}T${time}`);
+      if (isNaN(parsedTime)) {
+        console.error(`Invalid time value: ${date}T${time}`);
+        return new Date();
+      }
+      return new Date(`${date}T${time}`);
+    };
+
     setEventType(eventType);
     setEventTarget(eventTarget);
     setEventTitle(eventTitle);
     setEventDescription(eventDescription);
     setEventImage(eventImage || '');
     setEventSchedules(
-      eventSchedules.map(({ eventDate, eventStartTime, eventEndTime }) => ({
+      eventSchedules.map(({ eventDate, startTime, endTime }) => ({
         eventDate: new Date(eventDate),
-        eventStartTime: new Date(`${eventDate}T${eventStartTime}`),
-        eventEndTime: new Date(`${eventDate}T${eventEndTime}`),
+        eventStartTime: parseDateTime(eventDate, startTime),
+        eventEndTime: parseDateTime(eventDate, endTime),
       })),
     );
 
@@ -101,10 +110,10 @@ export default function DashboardInfoPage() {
       eventDescription,
       eventImage: eventImage || '',
       eventSchedules: eventSchedules.map(
-        ({ eventDate, eventStartTime, eventEndTime }) => ({
+        ({ eventDate, startTime, endTime }) => ({
           eventDate: new Date(eventDate),
-          eventStartTime: new Date(`${eventDate}T${eventStartTime}`),
-          eventEndTime: new Date(`${eventDate}T${eventEndTime}`),
+          eventStartTime: parseDateTime(eventDate, startTime),
+          eventEndTime: parseDateTime(eventDate, endTime),
         }),
       ),
     };
@@ -256,9 +265,9 @@ export default function DashboardInfoPage() {
                 onStartTimeChange={handleStartTimeChange}
                 onEndTimeChange={handleEndTimeChange}
                 onDelete={handleDeleteSchedule}
-                onAddSchedule={handleAddSchedule} // 일정 추가 함수 전달
+                onAddSchedule={handleAddSchedule}
                 isDeletable={index !== 0}
-                isLastItem={index === eventSchedules.length - 1} // 마지막 항목인지 확인
+                isLastItem={index === eventSchedules.length - 1}
               />
             ))}
           </S.Content>
