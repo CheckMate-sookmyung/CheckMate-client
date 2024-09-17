@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PageLayout } from '@/Layout';
 import * as S from './DashboardEmailPage.style';
 import { Sidebar, Button, TopNavigation, Textarea } from '@/components';
@@ -11,11 +11,31 @@ export default function DashboardEmailPage() {
   const [surveyUrl, setSurveyUrl] = useState('');
   const [isModified, setIsModified] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [emailContent, setEmailContent] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchEmailContent = async () => {
+      try {
+        const response = await axiosInstance.get(
+          `/api/v1/events/mail/content/${eventId}`,
+        );
+        if (response.status === 200) {
+          setEmailContent(response.data.content);
+        }
+      } catch (error) {
+        console.error('이메일 내용 불러오기 실패:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchEmailContent();
+  }, [eventId]);
 
   const handleInputChange = (e) => {
     const newValue = e.target.value;
     setSurveyUrl(newValue);
-
     if (newValue !== '') {
       setIsModified(true);
     } else {
@@ -23,6 +43,7 @@ export default function DashboardEmailPage() {
     }
   };
 
+  // 저장하기 버튼
   const handleSaveButtonClick = async () => {
     if (!isModified) return;
 
@@ -30,21 +51,18 @@ export default function DashboardEmailPage() {
 
     try {
       const response = await axiosInstance.put(
-        `/api/v1/events/survey/${eventId}`,
-        {
-          surveyUrl: surveyUrl,
-        },
+        `/api/v1/events/mail/content/{mailId}`,
       );
 
       if (response.status === 200) {
-        alert('설문 조사 링크가 성공적으로 저장되었습니다!');
+        alert('이메일 내용이 성공적으로 저장되었습니다!');
         setIsModified(false);
       } else {
-        alert('설문 조사 링크 저장에 실패했습니다.');
+        alert('이메일 내용 저장에 실패했습니다.');
       }
     } catch (error) {
-      console.error('설문 조사 링크 저장 중 오류 발생:', error);
-      alert('설문 조사 링크 저장 중 오류가 발생했습니다.');
+      console.error('이메일 내용 저장 중 오류 발생:', error);
+      alert('이메일 내용 저장 중 오류가 발생했습니다.');
     } finally {
       setIsSaving(false);
     }
@@ -80,11 +98,16 @@ export default function DashboardEmailPage() {
             </S.ContentDesc>
           </S.Content>
 
-          <Textarea
-            placeholder="행사 안내 메일 내용을 작성해 주세요."
-            // value={eventDescription}
-            // onChange={(e) => setEventDescription(e.target.value)}
-          />
+          {isLoading ? (
+            <p>로딩 중...</p>
+          ) : (
+            <Textarea
+              placeholder="행사 안내 메일 내용을 작성해 주세요."
+              value={emailContent}
+              onChange={(e) => setEmailContent(e.target.value)}
+              height="300px"
+            />
+          )}
         </S.ContentContainer>
       </S.DashboardEmailPage>
     </PageLayout>
