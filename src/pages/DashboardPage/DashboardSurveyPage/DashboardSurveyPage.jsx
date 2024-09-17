@@ -1,26 +1,52 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { PageLayout } from '@/Layout';
 import * as S from './DashboardSurveyPage.style';
 import { Sidebar, Button, TopNavigation, Input } from '@/components';
-import { USER_ID } from '@/constants';
 import { useRecoilValue } from 'recoil';
 import { eventDetail, eventIDState } from '@/recoil/atoms/state';
-import Switch from 'react-switch';
-import { useQuery } from '@tanstack/react-query';
-import { getEventDetail } from '@/apis';
+import { axiosInstance } from '@/axios';
 
 export default function DashboardSurveyPage() {
-  const [surveyLink, setSurveyLink] = useState('');
+  const eventId = useRecoilValue(eventIDState) || eventDetail.id;
+  const [surveyUrl, setSurveyUrl] = useState('');
   const [isModified, setIsModified] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   const handleInputChange = (e) => {
     const newValue = e.target.value;
-    setSurveyLink(newValue);
+    setSurveyUrl(newValue);
 
     if (newValue !== '') {
       setIsModified(true);
     } else {
       setIsModified(false);
+    }
+  };
+
+  const handleSaveButtonClick = async () => {
+    if (!isModified) return;
+
+    setIsSaving(true);
+
+    try {
+      const response = await axiosInstance.put(
+        `/api/v1/events/survey/${eventId}`,
+        {
+          surveyUrl: surveyUrl,
+        },
+      );
+
+      if (response.status === 200) {
+        alert('설문 조사 링크가 성공적으로 저장되었습니다!');
+        setIsModified(false);
+      } else {
+        alert('설문 조사 링크 저장에 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('설문 조사 링크 저장 중 오류 발생:', error);
+      alert('설문 조사 링크 저장 중 오류가 발생했습니다.');
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -34,8 +60,9 @@ export default function DashboardSurveyPage() {
           <S.Title>설문 조사 링크 발송</S.Title>
           <S.ButtonContainer>
             <Button
-              label={'저장하기'}
-              disabled={!isModified}
+              label={isSaving ? '저장 중...' : '저장하기'}
+              onClick={handleSaveButtonClick}
+              disabled={!isModified || isSaving}
               style={{
                 backgroundColor: isModified ? '#007bff' : '#ccc',
                 cursor: isModified ? 'pointer' : 'not-allowed',
@@ -55,7 +82,7 @@ export default function DashboardSurveyPage() {
           </S.Content>
           <Input
             placeholder="https://wise.sookmyung.ac.kr/ko/module/eco/@poll/write/4625/0"
-            value={surveyLink}
+            value={surveyUrl}
             onChange={handleInputChange}
           />
         </S.ContentContainer>
