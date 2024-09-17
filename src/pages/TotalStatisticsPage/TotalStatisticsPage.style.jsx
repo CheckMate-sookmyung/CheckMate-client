@@ -14,7 +14,6 @@ export const TotalStatisticsPage = styled.div`
   margin: 0 auto;
   padding: 50px 20px;
   gap: 30px;
-  border: 1px solid red;
 `;
 
 export const FlexBox = styled.div`
