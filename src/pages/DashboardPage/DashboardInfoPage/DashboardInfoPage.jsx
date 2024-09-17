@@ -60,7 +60,7 @@ export default function DashboardInfoPage() {
     mutationFn: (body) => updateEventDetail(USER_ID, eventId, body),
     onSuccess: () => {
       alert('행사 정보가 성공적으로 저장되었습니다.');
-      setIsChanged(false);
+      setIsChanged(false); // 저장 후 변경 사항을 초기화
     },
     onError: () => {
       alert('행사 정보를 저장하는 데 실패했습니다. 다시 시도해 주세요.');
@@ -238,6 +238,10 @@ export default function DashboardInfoPage() {
             <Button
               label="저장하기"
               disabled={!isChanged || isUpdateEventDetailPending}
+              backgroundColor={!isChanged ? '#ccc' : '#007BFF'}
+              style={{
+                cursor: !isChanged ? 'not-allowed' : 'pointer',
+              }}
               onClick={handleSaveButtonClick}
             />
           </S.ButtonContainer>
