@@ -77,7 +77,7 @@ export default function DashboardSurveyPage() {
             <S.ContentDesc>
               <em>행사 종료 1시간 후</em> 참석자들에게 발송 될&nbsp;
               <em>설문조사 링크</em>를 등록해 주세요. <br /> 링크가 등록되지
-              않으면, 행사 등록 시 입력한 WISE 링크가 대신 발송됩니다.
+              않으면, 행사 등록 시 입력한 WISE 링크로 대신 발송됩니다.
             </S.ContentDesc>
           </S.Content>
           <Input

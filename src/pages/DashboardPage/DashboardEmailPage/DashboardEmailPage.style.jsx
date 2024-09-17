@@ -18,7 +18,6 @@ export const DashboardEmailPage = styled.div`
 export const TopContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  /* margin-bottom: 20px; */
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     margin-bottom: 10px;
@@ -41,7 +40,7 @@ export const ButtonContainer = styled.div`
 export const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 500px;
+  max-width: 660px;
   gap: 32px;
   padding-top: 20px;
 `;
