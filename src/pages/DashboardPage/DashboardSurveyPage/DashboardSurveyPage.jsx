@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { PageLayout } from '@/Layout';
 import * as S from './DashboardSurveyPage.style';
-import { Sidebar, Button, TopNavigation, TabMenu, Input } from '@/components';
+import { Sidebar, Button, TopNavigation, Input } from '@/components';
 import { USER_ID } from '@/constants';
 import { useRecoilValue } from 'recoil';
 import { eventDetail, eventIDState } from '@/recoil/atoms/state';
@@ -10,6 +10,20 @@ import { useQuery } from '@tanstack/react-query';
 import { getEventDetail } from '@/apis';
 
 export default function DashboardSurveyPage() {
+  const [surveyLink, setSurveyLink] = useState('');
+  const [isModified, setIsModified] = useState(false);
+
+  const handleInputChange = (e) => {
+    const newValue = e.target.value;
+    setSurveyLink(newValue);
+
+    if (newValue !== '') {
+      setIsModified(true);
+    } else {
+      setIsModified(false);
+    }
+  };
+
   return (
     <PageLayout
       topNavigation={<TopNavigation eventTitle={eventDetail.eventTitle} />}
@@ -19,7 +33,14 @@ export default function DashboardSurveyPage() {
         <S.TopContainer>
           <S.Title>설문 조사 링크 발송</S.Title>
           <S.ButtonContainer>
-            <Button label={'저장하기'} />
+            <Button
+              label={'저장하기'}
+              disabled={!isModified}
+              style={{
+                backgroundColor: isModified ? '#007bff' : '#ccc',
+                cursor: isModified ? 'pointer' : 'not-allowed',
+              }}
+            />
           </S.ButtonContainer>
         </S.TopContainer>
 
@@ -32,7 +53,11 @@ export default function DashboardSurveyPage() {
               않으면, 행사 등록 시 입력한 WISE 링크가 대신 발송됩니다.
             </S.ContentDesc>
           </S.Content>
-          <Input placeholder="https://wise.sookmyung.ac.kr/ko/module/eco/@poll/write/4625/0" />
+          <Input
+            placeholder="https://wise.sookmyung.ac.kr/ko/module/eco/@poll/write/4625/0"
+            value={surveyLink}
+            onChange={handleInputChange}
+          />
         </S.ContentContainer>
       </S.DashboardSurveyPage>
     </PageLayout>
