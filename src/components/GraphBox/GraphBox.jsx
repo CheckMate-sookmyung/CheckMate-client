@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import * as S from './GraphBox.style';
 
-const GraphBox = ({ category, children }) => {
+const GraphBox = ({ title, children }) => {
   return (
-    <>
-      <S.Wrapper>
-        <S.Label>{category}</S.Label>
-        <S.Box>{children}</S.Box>
-      </S.Wrapper>
-    </>
+    <S.ChartWrapper>
+      <S.ChartTitle>{title}</S.ChartTitle>
+      <S.Chart>{children}</S.Chart>
+    </S.ChartWrapper>
   );
 };
 
