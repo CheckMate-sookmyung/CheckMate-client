@@ -4,13 +4,13 @@ import * as S from './DashboardInfoPage.style';
 import {
   Sidebar,
   Button,
-  EventTargetOption,
   Input,
   Textarea,
-  EventScheduleItem,
   TopNavigation,
   EventTypeCard,
   UploadBox,
+  EventScheduleList,
+  EventTargetOption,
 } from '@/components';
 import { USER_ID } from '@/constants';
 import { useRecoilValue } from 'recoil';
@@ -157,18 +157,6 @@ export default function DashboardInfoPage() {
     setIsChanged(true);
   };
 
-  const handleDateChange = (index, date) => {
-    handleScheduleChange(index, 'eventDate', date);
-  };
-
-  const handleStartTimeChange = (index, date) => {
-    handleScheduleChange(index, 'eventStartTime', date);
-  };
-
-  const handleEndTimeChange = (index, date) => {
-    handleScheduleChange(index, 'eventEndTime', date);
-  };
-
   const handleDeleteSchedule = (index) => {
     if (eventSchedules.length > 1) {
       const newSchedules = eventSchedules.filter((_, i) => i !== index);
@@ -260,20 +248,13 @@ export default function DashboardInfoPage() {
 
           <S.Content>
             <S.ContentTitle>행사 기간</S.ContentTitle>
-            {eventSchedules.map((schedule, index) => (
-              <EventScheduleItem
-                key={index}
-                index={index}
-                schedule={schedule}
-                onDateChange={handleDateChange}
-                onStartTimeChange={handleStartTimeChange}
-                onEndTimeChange={handleEndTimeChange}
-                onDelete={handleDeleteSchedule}
-                onAddSchedule={handleAddSchedule}
-                isDeletable={index !== 0}
-                isLastItem={index === eventSchedules.length - 1}
-              />
-            ))}
+            {/* 행사 일정 컴포넌트 적용 */}
+            <EventScheduleList
+              eventSchedules={eventSchedules}
+              handleScheduleChange={handleScheduleChange}
+              handleAddSchedule={handleAddSchedule}
+              handleDeleteSchedule={handleDeleteSchedule}
+            />
           </S.Content>
 
           <S.Content>
