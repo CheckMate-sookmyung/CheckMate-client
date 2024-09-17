@@ -46,6 +46,7 @@ const RegisterSecond = () => {
   const [minCompletionTimesValue, setMinCompletionTimesValue] =
     useRecoilState(minCompletionTimes);
   const [eventSchedules, setEventSchedules] = useRecoilState(eventScheduleList);
+  const [eventAddress, setEventAddress] = useState('');
 
   const navigate = useNavigate();
   const resetAllStates = useResetAllStates();
@@ -138,6 +139,7 @@ const RegisterSecond = () => {
       eventDetail: eventDetailValue,
       completionTimes: minCompletionTimesValue,
       eventSchedules: formatSchedules(eventSchedules),
+      eventUrl: eventAddress,
     };
 
     formData.append('eventDetail', JSON.stringify(event));
@@ -230,6 +232,15 @@ const RegisterSecond = () => {
               <CompletionDropdown
                 items={dropdownItems}
                 onSelect={handleSelect}
+              />
+            </S.ContentWrapper>
+
+            <S.ContentWrapper>
+              <S.MainTitle>WISE 주소</S.MainTitle>
+              <Input
+                placeholder="등록하실 행사의 WISE 주소를 입력해주세요."
+                value={eventAddress}
+                onChange={(e) => setEventAddress(e.target.value)}
               />
             </S.ContentWrapper>
 
