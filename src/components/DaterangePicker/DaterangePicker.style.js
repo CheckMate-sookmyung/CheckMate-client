@@ -19,7 +19,8 @@ export const Container = styled.div`
 export const Label = styled.div`
   display: flex;
   color: #6b6b6b;
-  font-size: 20px;
+  font-size: 18px;
+  font-weight: 600;
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
     display: none;
