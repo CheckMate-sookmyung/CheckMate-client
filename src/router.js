@@ -16,6 +16,7 @@ import {
 import Layout from './Layout/Layout';
 import { DashboardEmailPage } from './pages/DashboardPage';
 import DashboardSurveyPage from './pages/DashboardPage/DashboardSurveyPage/DashboardSurveyPage';
+import PrivateRoute from './services/privateRoute/PrivateRoute';
 
 const router = createBrowserRouter([
   {
@@ -27,7 +28,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/register',
-        element: <RegisterPage />,
+        element: <PrivateRoute component={RegisterPage} />,
       },
       {
         path: '/register/completed',
@@ -35,7 +36,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/events',
-        element: <EventCardListPage />,
+        element: <PrivateRoute component={EventCardListPage} />,
       },
       {
         path: '/event/dashboard',
@@ -63,7 +64,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/statistic',
-        element: <TotalStatisticsPage />,
+        element: <PrivateRoute component={TotalStatisticsPage} />,
       },
       {
         path: '/loading',

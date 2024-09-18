@@ -80,6 +80,7 @@ const LoadingPage = () => {
         sessionStorage.setItem('accessToken', accessToken);
 
         navigate('/');
+        window.location.reload();
       } catch (error) {
         console.error('로그인 중 에러 발생:', error);
 
