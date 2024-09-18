@@ -19,6 +19,11 @@ export default function DashboardEmailPage() {
       try {
         const response = await axiosInstance.get(
           `/api/v1/events/mail/content/${eventId}`,
+          {
+            params: {
+              mailType: 'REMIND',
+            },
+          },
         );
         if (response.status === 200) {
           setEmailContent(response.data.content);
