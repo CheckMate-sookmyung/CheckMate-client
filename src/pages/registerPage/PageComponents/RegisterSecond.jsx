@@ -47,6 +47,7 @@ const RegisterSecond = () => {
     useRecoilState(minCompletionTimes);
   const [eventSchedules, setEventSchedules] = useRecoilState(eventScheduleList);
   const [eventAddress, setEventAddress] = useState('');
+  const [isChecked, setIsChecked] = useState(false);
 
   const navigate = useNavigate();
   const resetAllStates = useResetAllStates();
@@ -66,6 +67,10 @@ const RegisterSecond = () => {
 
   const handleSelect = (value) => {
     setMinCompletionTimesValue(value);
+  };
+
+  const handleCheckboxChange = (event) => {
+    setIsChecked(event.target.checked);
   };
 
   const handleDownload = async (e) => {
@@ -140,6 +145,8 @@ const RegisterSecond = () => {
       completionTimes: minCompletionTimesValue,
       eventSchedules: formatSchedules(eventSchedules),
       eventUrl: eventAddress,
+      alarmRequest: isChecked,
+      alarmResponse: isChecked,
     };
 
     formData.append('eventDetail', JSON.stringify(event));
@@ -152,11 +159,12 @@ const RegisterSecond = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      setShowModal(true);
+      alert('행사가 등록되었습니다!');
     } catch (error) {
       alert('행사가 제대로 등록되지 않았습니다.');
       navigate('/register');
     } finally {
+      setShowModal(true);
       setStep(1);
       resetAllStates();
     }
@@ -242,6 +250,18 @@ const RegisterSecond = () => {
                 value={eventAddress}
                 onChange={(e) => setEventAddress(e.target.value)}
               />
+            </S.ContentWrapper>
+
+            <S.ContentWrapper>
+              <S.MainTitle>안내 메일 발송 여부</S.MainTitle>
+              <S.Callout>
+                <S.CheckBox
+                  type="checkbox"
+                  checked={isChecked}
+                  onChange={handleCheckboxChange}
+                />
+                <S.SubTitle>안내 메일 발송에 동의합니다.</S.SubTitle>
+              </S.Callout>
             </S.ContentWrapper>
 
             <S.ButtonWrapper>
