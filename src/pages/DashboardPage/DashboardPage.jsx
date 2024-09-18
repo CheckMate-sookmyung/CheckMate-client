@@ -5,7 +5,7 @@ import { Button, Sidebar, TopNavigation } from '@/components';
 import { eventIDState } from '@/recoil/atoms/state';
 import { useRecoilValue } from 'recoil';
 import { Link, useNavigate } from 'react-router-dom';
-import { deleteEvent, getEventDetail, postEventManager } from '@/apis';
+import { deleteEvent, getEventDetail, putEventManager } from '@/apis';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export default function DashboardPage() {
@@ -46,21 +46,19 @@ export default function DashboardPage() {
       },
     });
 
-  const {
-    mutate: postEventManagerMutate,
-    isPending: isPostEventManagerPending,
-  } = useMutation({
-    mutationKey: ['postEventManager', eventId],
-    mutationFn: (body) => postEventManager(eventId, body),
-    onSuccess: () => {
-      queryClient.invalidateQueries(['getEventDetail']);
-      setIsEditing(false);
-      alert('연락처가 성공적으로 등록되었습니다.');
-    },
-    onError: () => {
-      alert('연락처 등록에 실패했습니다. 다시 시도해 주세요.');
-    },
-  });
+  const { mutate: putEventManagerMutate, isPending: isPutEventManagerPending } =
+    useMutation({
+      mutationKey: ['putEventManager', eventId],
+      mutationFn: (body) => putEventManager(eventId, body),
+      onSuccess: () => {
+        queryClient.invalidateQueries(['getEventDetail']);
+        setIsEditing(false);
+        alert('연락처가 성공적으로 등록되었습니다.');
+      },
+      onError: () => {
+        alert('연락처 등록에 실패했습니다. 다시 시도해 주세요.');
+      },
+    });
 
   const handleEventDeleteButtonClick = () => {
     const isConfirmed = window.confirm('행사를 완전히 삭제하시겠습니까?');
@@ -92,7 +90,7 @@ export default function DashboardPage() {
     setEmailError(!isEmailValid);
 
     if (isEditing && isNameValid && isPhoneValid && isEmailValid) {
-      postEventManagerMutate({
+      putEventManagerMutate({
         manager: {
           managerName: contacts.name,
           managerPhoneNumber: contacts.phone,
@@ -145,6 +143,7 @@ export default function DashboardPage() {
       if (scheduleEndDateTime < now) {
         completedSessionsCount += 1;
       }
+
       return {
         date: schedule.eventDate,
         startTime: schedule.eventStartTime,
@@ -258,11 +257,13 @@ export default function DashboardPage() {
                     </S.EventTarget>
                   </S.EventTypeWrapper>
                   <S.EventDateWrapper>
-                    {parsedEvents.schedules.map((schedule, index) => (
-                      <S.EventDate key={index}>
-                        {`• ${schedule.date} (${schedule.startTime} - ${schedule.endTime})`}
-                      </S.EventDate>
-                    ))}
+                    {eventDetail.eventSchedules.map(
+                      ({ eventScheduleId, eventDate, startTime, endTime }) => (
+                        <S.EventDate key={eventScheduleId}>
+                          {`• ${eventDate} (${startTime} - ${endTime})`}
+                        </S.EventDate>
+                      ),
+                    )}
                   </S.EventDateWrapper>
                 </S.ContentInfoWrapper>
               </S.ContentBox>
@@ -277,7 +278,7 @@ export default function DashboardPage() {
                   </S.ContactTextWrapper>
                   <S.AddContactButton
                     type="button"
-                    disabled={isPostEventManagerPending}
+                    disabled={isPutEventManagerPending}
                     onClick={handleAddContactButtonClick}
                   >
                     {isEditing
@@ -401,7 +402,8 @@ export default function DashboardPage() {
                 </S.ProgressDescription>
               </S.ProgressText>
               <S.ProgressNumber>
-                <em>{averageAttendance}</em> / {parsedEvents.totalParticipants}
+                <em>{eventDetail.averageAttendees}</em>
+                {` / ${eventDetail.totalAttendees}`}
               </S.ProgressNumber>
             </S.ProgressBox>
 

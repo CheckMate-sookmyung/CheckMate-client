@@ -19,6 +19,11 @@ export default function DashboardEmailPage() {
       try {
         const response = await axiosInstance.get(
           `/api/v1/events/mail/content/${eventId}`,
+          {
+            params: {
+              mailType: 'REMIND',
+            },
+          },
         );
         if (response.status === 200) {
           setEmailContent(response.data.content);
@@ -33,14 +38,11 @@ export default function DashboardEmailPage() {
     fetchEmailContent();
   }, [eventId]);
 
-  const handleInputChange = (e) => {
-    const newValue = e.target.value;
-    setSurveyUrl(newValue);
-    if (newValue !== '') {
-      setIsModified(true);
-    } else {
-      setIsModified(false);
-    }
+  const handleTextareaChange = (e) => {
+    const newEmailContent = e.target.value;
+
+    setEmailContent(newEmailContent);
+    setIsModified(newEmailContent !== '');
   };
 
   // 저장하기 버튼
@@ -51,7 +53,7 @@ export default function DashboardEmailPage() {
 
     try {
       const response = await axiosInstance.put(
-        `/api/v1/events/mail/content/{mailId}`,
+        `/api/v1/events/mail/content/${eventId}`,
       );
 
       if (response.status === 200) {
@@ -80,11 +82,6 @@ export default function DashboardEmailPage() {
             <Button
               label={isSaving ? '저장 중...' : '저장하기'}
               onClick={handleSaveButtonClick}
-              disabled={!isModified || isSaving}
-              style={{
-                backgroundColor: isModified ? '#007bff' : '#ccc',
-                cursor: isModified ? 'pointer' : 'not-allowed',
-              }}
             />
           </S.ButtonContainer>
         </S.TopContainer>
@@ -104,7 +101,7 @@ export default function DashboardEmailPage() {
             <Textarea
               placeholder="행사 안내 메일 내용을 작성해 주세요."
               value={emailContent}
-              onChange={(e) => setEmailContent(e.target.value)}
+              onChange={handleTextareaChange}
               height="300px"
             />
           )}

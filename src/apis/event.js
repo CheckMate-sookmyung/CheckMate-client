@@ -12,8 +12,8 @@ export const deleteEvent = async (eventId) => {
   return data;
 };
 
-export const postEventManager = async (eventId, body) => {
-  const { data } = await axiosInstance.post(
+export const putEventManager = async (eventId, body) => {
+  const { data } = await axiosInstance.put(
     `/api/v1/events/manger/${eventId}`,
     body,
   );

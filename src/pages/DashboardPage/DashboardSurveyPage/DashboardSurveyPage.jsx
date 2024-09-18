@@ -30,10 +30,7 @@ export default function DashboardSurveyPage() {
 
     try {
       const response = await axiosInstance.put(
-        `/api/v1/events/survey/${eventId}`,
-        {
-          surveyUrl: surveyUrl,
-        },
+        `/api/v1/events/survey/${eventId}?surveyUrl=${surveyUrl}`,
       );
 
       if (response.status === 200) {
