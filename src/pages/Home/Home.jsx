@@ -56,7 +56,7 @@ const HomePage = () => {
                     textColor="#323232"
                   />
                 </Link>
-                <Link to="event">
+                <Link to="events">
                   <Button
                     label="행사 보러가기"
                     backgroundColor="#FFF"
@@ -146,7 +146,7 @@ const HomePage = () => {
                   </S.OnboardContent>
                 </S.FlexBox>
               </S.ThirdLayerDecs>
-              <Link to="event">
+              <Link to="events">
                 <Button label="무료로 시작하기" />
               </Link>
             </S.ThirdLayerContent>
