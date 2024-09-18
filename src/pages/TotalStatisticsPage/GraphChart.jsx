@@ -108,7 +108,6 @@ const GraphChart = () => {
     return <div>Loading...</div>;
   }
 
-  // 데이터를 직접 계산
   const sortedStudents = [...studentData].sort(
     (a, b) => b.attendanceRate - a.attendanceRate,
   );
