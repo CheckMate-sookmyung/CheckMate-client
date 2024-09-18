@@ -56,14 +56,14 @@ export default function TopNavigation({ eventTitle } = {}) {
 
   const handleLogout = async () => {
     try {
-      await axiosInstance.get(
-        `/api/v1/logout?memberId=${USER_ID}&authority=MEMBER&member=true`,
-      );
+      await axiosInstance.get(`/api/v1/logout`);
+      sessionStorage.clear();
       alert('로그아웃이 완료되었습니다.');
     } catch (error) {
       console.log(error);
     } finally {
       nav('/');
+      window.location.reload();
     }
   };
 
