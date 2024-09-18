@@ -112,13 +112,9 @@ const AttendanceStudentIdPage = () => {
   };
 
   useEffect(() => {
-    console.log('USER_ID:', USER_ID);
-    console.log('EVENT_ID:', EVENT_ID);
     const fetchEventDetails = async () => {
       try {
-        const response = await axiosInstance.get(
-          `/api/v1/events/${USER_ID}/${EVENT_ID}`,
-        );
+        const response = await axiosInstance.get(`/api/v1/events/${EVENT_ID}`);
         const eventData = response.data;
         setEventTitle(eventData.eventTitle);
         setEventTarget(eventData.eventTarget);
