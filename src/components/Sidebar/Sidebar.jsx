@@ -12,32 +12,32 @@ import { useLocation } from 'react-router-dom';
 // 개별 메뉴
 const menuItems = [
   {
-    to: '/event/dashboard',
+    to: '/events/dashboard',
     icon: <FaTableList />,
     text: '대시보드',
   },
   {
-    to: '/event/dashboard/info',
+    to: '/events/dashboard/info',
     icon: <FaCircleInfo />,
     text: '행사 기본 정보',
   },
   {
-    to: '/event/dashboard/email',
+    to: '/events/dashboard/email',
     icon: <FaEnvelopeCircleCheck />,
     text: '이메일 예약 발송',
   },
   {
-    to: '/event/dashboard/survey',
+    to: '/events/dashboard/survey',
     icon: <FaClipboardList />,
     text: '설문 조사 링크 발송',
   },
   {
-    to: '/event/dashboard/attendee',
+    to: '/events/dashboard/attendee',
     icon: <FaUsers />,
     text: '참석자 관리',
   },
   {
-    to: '/event/dashboard/statistic',
+    to: '/events/dashboard/statistic',
     icon: <FaChartPie />,
     text: '통계',
   },
