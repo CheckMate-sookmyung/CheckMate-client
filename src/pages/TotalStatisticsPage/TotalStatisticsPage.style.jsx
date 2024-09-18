@@ -18,5 +18,17 @@ export const TotalStatisticsPage = styled.div`
 
 export const FlexBox = styled.div`
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+`;
+
+export const CategoryText = styled.p`
+  color: #6b6b6b;
+  font-size: 18px;
+  font-weight: 600;
+`;
+
+export const ChartTitle = styled.h2`
+  font-size: 18px;
+  font-weight: 600;
+  margin: 20px 0;
 `;

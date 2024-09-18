@@ -5,6 +5,8 @@ import { DaterangePicker, Dropdown, TopNavigation } from '@/components';
 import { createContext, useEffect, useState } from 'react';
 import GraphChart from './GraphChart';
 import TableChart from './TableChart';
+import BlueButton from '../RegisterPage/RegisterComponents/Button/BlueButton';
+import { BsFillFileBarGraphFill } from 'react-icons/bs';
 
 export const SortedStudent = createContext();
 
@@ -35,14 +37,18 @@ const TotalStatisticsPage = () => {
     <PageLayout topNavigation={<TopNavigation />}>
       <S.Container>
         <S.TotalStatisticsPage>
-          <S.FlexBox>
-            <Dropdown
-              items={['그래프', '표']}
-              defaultItem={'그래프'}
-              onSelect={setViewMode}
-            />
+          <S.FlexBox style={{ justifyContent: 'space-between' }}>
+            <S.FlexBox style={{ gap: '20px' }}>
+              <S.CategoryText>통계</S.CategoryText>
+              <Dropdown
+                items={['그래프', '표']}
+                defaultItem={'그래프'}
+                onSelect={setViewMode}
+              />
+            </S.FlexBox>
             <DaterangePicker />
           </S.FlexBox>
+
           <SortedStudent.Provider value={studentGraph}>
             {viewMode === '그래프' && <GraphChart />}
             {viewMode === '표' && <TableChart />}
