@@ -259,11 +259,13 @@ export default function DashboardPage() {
                     </S.EventTarget>
                   </S.EventTypeWrapper>
                   <S.EventDateWrapper>
-                    {parsedEvents.schedules.map((schedule, index) => (
-                      <S.EventDate key={index}>
-                        {`• ${schedule.date} (${schedule.startTime} - ${schedule.endTime})`}
-                      </S.EventDate>
-                    ))}
+                    {eventDetail.eventSchedules.map(
+                      ({ eventScheduleId, eventDate, startTime, endTime }) => (
+                        <S.EventDate key={eventScheduleId}>
+                          {`• ${eventDate} (${startTime} - ${endTime})`}
+                        </S.EventDate>
+                      ),
+                    )}
                   </S.EventDateWrapper>
                 </S.ContentInfoWrapper>
               </S.ContentBox>
