@@ -8,13 +8,15 @@ import {
   Home,
   RegisterPage,
   EventCardListPage,
-  DashboardMessagePage,
   TotalStatisticsPage,
   DashboardStatisticPage,
   LoadingPage,
   RegisterCompleted,
 } from './pages';
 import Layout from './Layout/Layout';
+import { DashboardEmailPage } from './pages/DashboardPage';
+import DashboardSurveyPage from './pages/DashboardPage/DashboardSurveyPage/DashboardSurveyPage';
+import PrivateRoute from './services/privateRoute/PrivateRoute';
 
 const router = createBrowserRouter([
   {
@@ -26,39 +28,43 @@ const router = createBrowserRouter([
       },
       {
         path: '/register',
-        element: <RegisterPage />,
+        element: <PrivateRoute component={RegisterPage} />,
       },
       {
         path: '/register/completed',
         element: <RegisterCompleted />,
       },
       {
-        path: '/event',
-        element: <EventCardListPage />,
+        path: '/events',
+        element: <PrivateRoute component={EventCardListPage} />,
       },
       {
-        path: '/event/dashboard',
+        path: '/events/dashboard',
         element: <DashboardPage />,
       },
       {
-        path: '/event/dashboard/info',
+        path: '/events/dashboard/info',
         element: <DashboardInfoPage />,
       },
       {
-        path: '/event/dashboard/message',
-        element: <DashboardMessagePage />,
+        path: '/events/dashboard/email',
+        element: <DashboardEmailPage />,
       },
       {
-        path: '/event/dashboard/attendee',
+        path: '/events/dashboard/survey',
+        element: <DashboardSurveyPage />,
+      },
+      {
+        path: '/events/dashboard/attendee',
         element: <DashboardAttendeePage />,
       },
       {
-        path: '/event/dashboard/stats',
+        path: '/events/dashboard/statistic',
         element: <DashboardStatisticPage />,
       },
       {
-        path: '/stats',
-        element: <TotalStatisticsPage />,
+        path: '/statistic',
+        element: <PrivateRoute component={TotalStatisticsPage} />,
       },
       {
         path: '/loading',

@@ -1,64 +1,80 @@
-import styled from 'styled-components';
-import { IoMdCheckmark } from 'react-icons/io';
+import styled, { keyframes } from 'styled-components';
+import { BREAKPOINTS } from '@/styles';
 
-export const Wrapper = styled.div`
-  background: linear-gradient(
-    180deg,
-    rgba(47, 124, 239, 0.07),
-    rgba(255, 255, 255, 0.07)
-  );
-  display: flex;
-  width: 100vw;
-  height: 100vh;
-  justify-content: center;
-  align-items: center;
+export const Title = styled.h1`
+  margin-bottom: 34px;
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--blue-0, #2f7cef);
   text-align: center;
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    font-size: 28px;
+    margin-bottom: 30px;
+  }
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    font-size: 26px;
+    margin-bottom: 26px;
+  }
 `;
 
-export const ComponentContainer = styled.div`
+export const ContentBox = styled.div`
   display: flex;
   flex-direction: column;
-  width: 40%;
-  height: 100vh;
-  align-items: center;
-  gap: 40px;
-  padding: 180px 0px;
-`;
-
-export const Check = styled(IoMdCheckmark)`
-  width: 80px;
-  height: 80px;
-  display: flex;
-  margin: 0 5px;
-  color: #5bfb67;
-`;
-
-export const CompletedNotice = styled.p`
-  font-size: 32px;
-  line-height: 45px;
-  font-weight: 600;
-  color: #2f7cef;
-  text-align: center;
-  display: inline-block;
-`;
-
-export const InfoBox = styled.div`
   width: 100%;
   height: auto;
-  position: relative;
-  border-radius: 20px;
-  background-color: #fff;
-  border: 2px solid #accdff;
-  box-sizing: border-box;
-  color: #2f7cef;
-  font-size: 22px;
-  line-height: 140%;
+  border: 1px solid #accdff;
+  border-radius: 8px;
   padding: 20px 0;
+  line-height: 130%;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 28px;
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    gap: 20px;
+  }
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    gap: 14px;
+  }
 `;
 
 export const ButtonWrapper = styled.div`
   display: flex;
-  width: 80%;
+  width: 100%;
   justify-content: center;
-  gap: 30px;
+  gap: 20px;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    gap: 10px;
+  }
+`;
+
+export const EventTitle = styled.h2`
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  text-align: center;
+`;
+
+export const EventScheduleList = styled.ul`
+  list-style: none;
+  padding: 0;
+`;
+
+export const ScheduleItem = styled.li`
+  font-size: 16px;
+  text-align: center;
+`;
+
+export const GreenCheckImg = styled.img`
+  width: 48px;
+  height: 40px;
+  margin: 20px 0;
 `;

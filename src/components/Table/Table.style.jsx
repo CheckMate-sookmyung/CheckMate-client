@@ -61,3 +61,9 @@ export const TelAnchor = styled.a`
   margin-left: auto;
   padding: 6px;
 `;
+
+export const AttendedCount = styled.p`
+  color: #2f7cef;
+  text-decoration: underline;
+  cursor: pointer;
+`;

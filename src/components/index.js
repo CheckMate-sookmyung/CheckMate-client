@@ -19,3 +19,5 @@ export * from './Footer';
 export * from './DaterangePicker';
 export * from './GraphBox';
 export * from './Search';
+export * from './Scheduler';
+export * from './UploadBox';

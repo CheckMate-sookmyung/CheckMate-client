@@ -42,7 +42,7 @@ const HomePage = () => {
             <img src="/img/onboarding-diagram1.svg" />
             <S.ComponentsWrapper>
               <S.Logo>
-                <img src="/img/CheckMateWhite.svg" alt="" />
+                <img src="/img/logo-white.svg" alt="" />
               </S.Logo>
               <S.Description>
                 행사 관리 시스템을 더 쉽고 간편하게,
@@ -56,7 +56,7 @@ const HomePage = () => {
                     textColor="#323232"
                   />
                 </Link>
-                <Link to="event">
+                <Link to="events">
                   <Button
                     label="행사 보러가기"
                     backgroundColor="#FFF"
@@ -146,7 +146,7 @@ const HomePage = () => {
                   </S.OnboardContent>
                 </S.FlexBox>
               </S.ThirdLayerDecs>
-              <Link to="event">
+              <Link to="events">
                 <Button label="무료로 시작하기" />
               </Link>
             </S.ThirdLayerContent>

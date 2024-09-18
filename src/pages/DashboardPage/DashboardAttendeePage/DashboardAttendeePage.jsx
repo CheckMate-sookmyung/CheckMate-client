@@ -3,7 +3,6 @@ import { PageLayout } from '@/Layout';
 import { useState, useEffect } from 'react';
 import { FaPaperclip, FaRegEnvelope } from 'react-icons/fa6';
 import { axiosInstance } from '@/axios';
-import { USER_ID } from '@/constants';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '@/recoil/atoms/state';
 import {
@@ -45,7 +44,7 @@ export default function DashboardAttendeePage() {
     isError,
   } = useQuery({
     queryKey: ['getEventDetail', eventId],
-    queryFn: () => getEventDetail(USER_ID, eventId),
+    queryFn: () => getEventDetail(eventId),
   });
 
   const {
@@ -54,7 +53,7 @@ export default function DashboardAttendeePage() {
     isError: isAttendanceListError,
   } = useQuery({
     queryKey: ['getAttendanceList', eventId],
-    queryFn: () => getAttendanceList(USER_ID, eventId),
+    queryFn: () => getAttendanceList(eventId),
   });
 
   const {
@@ -62,7 +61,7 @@ export default function DashboardAttendeePage() {
     isPending: isUpdateAttendanceListPending,
   } = useMutation({
     mutationKey: ['updateAttendanceList', eventId],
-    mutationFn: (body) => updateAttendanceList(USER_ID, eventId, body),
+    mutationFn: (body) => updateAttendanceList(eventId, body),
     onSuccess: () => {
       queryClient.invalidateQueries(['getEventDetail']);
       alert('출석 정보가 성공적으로 업데이트되었습니다.');
@@ -193,7 +192,7 @@ export default function DashboardAttendeePage() {
   const handleDownload = async () => {
     try {
       const response = await axiosInstance.get(
-        `/api/v1/events/attendanceList/${USER_ID}/${eventId}`,
+        `/api/v1/events/attendance/list/${eventId}`,
         { responseType: 'blob' },
       );
 
