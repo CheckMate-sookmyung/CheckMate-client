@@ -39,27 +39,27 @@ const router = createBrowserRouter([
         element: <PrivateRoute component={EventCardListPage} />,
       },
       {
-        path: '/event/dashboard',
+        path: '/events/dashboard',
         element: <DashboardPage />,
       },
       {
-        path: '/event/dashboard/info',
+        path: '/events/dashboard/info',
         element: <DashboardInfoPage />,
       },
       {
-        path: '/event/dashboard/email',
+        path: '/events/dashboard/email',
         element: <DashboardEmailPage />,
       },
       {
-        path: '/event/dashboard/survey',
+        path: '/events/dashboard/survey',
         element: <DashboardSurveyPage />,
       },
       {
-        path: '/event/dashboard/attendee',
+        path: '/events/dashboard/attendee',
         element: <DashboardAttendeePage />,
       },
       {
-        path: '/event/dashboard/statistic',
+        path: '/events/dashboard/statistic',
         element: <DashboardStatisticPage />,
       },
       {

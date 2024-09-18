@@ -228,7 +228,7 @@ export default function DashboardPage() {
               <S.Badge status={eventStatus}>{eventStatus}</S.Badge>
             </S.EventTitleWrapper>
             <S.ButtonContainer>
-              <Link to="/event/dashboard/info">
+              <Link to="/events/dashboard/info">
                 <Button label={'행사 수정'} />
               </Link>
               <Button

@@ -86,7 +86,7 @@ export default function TopNavigation({ eventTitle } = {}) {
             통계
           </S.Menu>
 
-          {location.pathname.startsWith('/event/dashboard') && (
+          {location.pathname.startsWith('/events/dashboard') && (
             <S.PageNameWrapper>
               {eventTitle !== undefined && (
                 <S.PageName>{eventTitle}</S.PageName>
