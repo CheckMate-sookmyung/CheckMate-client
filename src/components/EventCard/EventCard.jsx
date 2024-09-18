@@ -47,7 +47,11 @@ const EventCard = ({ id, title, poster, startDate, endDate }) => {
       </S.TopWrapper>
 
       <S.EventImgWrapper>
-        <S.EventImg src={poster} alt="event_poster" />
+        <S.EventImg
+          src={poster || 'img/logo-background.svg'}
+          isLogo={!poster}
+          alt="event_poster"
+        />
       </S.EventImgWrapper>
 
       <S.Button

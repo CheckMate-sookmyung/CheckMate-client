@@ -5,9 +5,9 @@ import {
   FaUsers,
   FaChartPie,
   FaEnvelopeCircleCheck,
+  FaClipboardList,
 } from 'react-icons/fa6';
 import { useLocation } from 'react-router-dom';
-import { BiSolidMessageRounded } from 'react-icons/bi';
 
 // 개별 메뉴
 const menuItems = [
@@ -22,9 +22,14 @@ const menuItems = [
     text: '행사 기본 정보',
   },
   {
-    to: '/event/dashboard/message',
+    to: '/event/dashboard/email',
     icon: <FaEnvelopeCircleCheck />,
     text: '이메일 예약 발송',
+  },
+  {
+    to: '/event/dashboard/survey',
+    icon: <FaClipboardList />,
+    text: '설문 조사 링크 발송',
   },
   {
     to: '/event/dashboard/attendee',
@@ -32,7 +37,7 @@ const menuItems = [
     text: '참석자 관리',
   },
   {
-    to: '/event/dashboard/stats',
+    to: '/event/dashboard/statistic',
     icon: <FaChartPie />,
     text: '통계',
   },

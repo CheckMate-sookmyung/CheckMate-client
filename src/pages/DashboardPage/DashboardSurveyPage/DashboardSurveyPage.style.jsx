@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { BREAKPOINTS } from '@/styles';
 
-export const DashboardEmailPage = styled.div`
+export const DashboardSurveyPage = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;

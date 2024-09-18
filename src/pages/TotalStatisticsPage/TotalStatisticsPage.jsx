@@ -1,21 +1,28 @@
 import * as S from './TotalStatisticsPage.style';
 import { PageLayout } from '@/Layout';
 import { axiosInstance } from '@/axios';
-import { Dropdown, TopNavigation } from '@/components';
-import { useEffect, useState } from 'react';
+import { DaterangePicker, Dropdown, TopNavigation } from '@/components';
+import { createContext, useEffect, useState } from 'react';
+import GraphChart from './GraphChart';
+import TableChart from './TableChart';
+
+export const SortedStudent = createContext();
 
 const TotalStatisticsPage = () => {
-  const USER_ID = sessionStorage.getItem('id');
   const [viewMode, setViewMode] = useState('그래프');
+  const [studentGraph, setStudentGraph] = useState([]);
 
   useEffect(() => {
     const fetchStatistics = async () => {
       try {
         const statisticsResponse = await axiosInstance.get(
-          `/api/v1/events/statistic/student/100?memberId=${USER_ID}&authority=MEMBER&member=true`,
+          `/api/v1/events/statistic/student`,
         );
 
-        console.log(statisticsResponse);
+        const sortedData = statisticsResponse.data.sort(
+          (a, b) => b.attendanceRate - a.attendanceRate,
+        );
+        setStudentGraph(sortedData);
       } catch (error) {
         console.error('Error fetching statistics:', error);
       }
@@ -28,11 +35,18 @@ const TotalStatisticsPage = () => {
     <PageLayout topNavigation={<TopNavigation />}>
       <S.Container>
         <S.TotalStatisticsPage>
-          <Dropdown
-            items={['그래프', '표']}
-            defaultItem={'그래프'}
-            onSelect={setViewMode}
-          />
+          <S.FlexBox>
+            <Dropdown
+              items={['그래프', '표']}
+              defaultItem={'그래프'}
+              onSelect={setViewMode}
+            />
+            <DaterangePicker />
+          </S.FlexBox>
+          <SortedStudent.Provider value={studentGraph}>
+            {viewMode === '그래프' && <GraphChart />}
+            {viewMode === '표' && <TableChart />}
+          </SortedStudent.Provider>
         </S.TotalStatisticsPage>
       </S.Container>
     </PageLayout>

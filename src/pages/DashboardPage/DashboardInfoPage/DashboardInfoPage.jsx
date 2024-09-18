@@ -4,13 +4,13 @@ import * as S from './DashboardInfoPage.style';
 import {
   Sidebar,
   Button,
-  EventTargetOption,
   Input,
   Textarea,
-  EventScheduleItem,
   TopNavigation,
   EventTypeCard,
   UploadBox,
+  EventScheduleList,
+  EventTargetOption,
 } from '@/components';
 import { USER_ID } from '@/constants';
 import { useRecoilValue } from 'recoil';
@@ -49,7 +49,7 @@ export default function DashboardInfoPage() {
     isError,
   } = useQuery({
     queryKey: ['getEventDetail', eventId],
-    queryFn: () => getEventDetail(USER_ID, eventId),
+    queryFn: () => getEventDetail(eventId),
   });
 
   const {
@@ -60,7 +60,7 @@ export default function DashboardInfoPage() {
     mutationFn: (body) => updateEventDetail(USER_ID, eventId, body),
     onSuccess: () => {
       alert('행사 정보가 성공적으로 저장되었습니다.');
-      setIsChanged(false);
+      setIsChanged(false); // 저장 후 변경 사항을 초기화
     },
     onError: () => {
       alert('행사 정보를 저장하는 데 실패했습니다. 다시 시도해 주세요.');
@@ -81,16 +81,25 @@ export default function DashboardInfoPage() {
       eventSchedules,
     } = eventDetail;
 
+    const parseDateTime = (date, time) => {
+      const parsedTime = Date.parse(`${date}T${time}`);
+      if (isNaN(parsedTime)) {
+        console.error(`Invalid time value: ${date}T${time}`);
+        return new Date();
+      }
+      return new Date(`${date}T${time}`);
+    };
+
     setEventType(eventType);
     setEventTarget(eventTarget);
     setEventTitle(eventTitle);
     setEventDescription(eventDescription);
     setEventImage(eventImage || '');
     setEventSchedules(
-      eventSchedules.map(({ eventDate, eventStartTime, eventEndTime }) => ({
+      eventSchedules.map(({ eventDate, startTime, endTime }) => ({
         eventDate: new Date(eventDate),
-        eventStartTime: new Date(`${eventDate}T${eventStartTime}`),
-        eventEndTime: new Date(`${eventDate}T${eventEndTime}`),
+        eventStartTime: parseDateTime(eventDate, startTime),
+        eventEndTime: parseDateTime(eventDate, endTime),
       })),
     );
 
@@ -101,10 +110,10 @@ export default function DashboardInfoPage() {
       eventDescription,
       eventImage: eventImage || '',
       eventSchedules: eventSchedules.map(
-        ({ eventDate, eventStartTime, eventEndTime }) => ({
+        ({ eventDate, startTime, endTime }) => ({
           eventDate: new Date(eventDate),
-          eventStartTime: new Date(`${eventDate}T${eventStartTime}`),
-          eventEndTime: new Date(`${eventDate}T${eventEndTime}`),
+          eventStartTime: parseDateTime(eventDate, startTime),
+          eventEndTime: parseDateTime(eventDate, endTime),
         }),
       ),
     };
@@ -146,18 +155,6 @@ export default function DashboardInfoPage() {
     newSchedules[index][key] = value;
     setEventSchedules(newSchedules);
     setIsChanged(true);
-  };
-
-  const handleDateChange = (index, date) => {
-    handleScheduleChange(index, 'eventDate', date);
-  };
-
-  const handleStartTimeChange = (index, date) => {
-    handleScheduleChange(index, 'eventStartTime', date);
-  };
-
-  const handleEndTimeChange = (index, date) => {
-    handleScheduleChange(index, 'eventEndTime', date);
   };
 
   const handleDeleteSchedule = (index) => {
@@ -229,6 +226,10 @@ export default function DashboardInfoPage() {
             <Button
               label="저장하기"
               disabled={!isChanged || isUpdateEventDetailPending}
+              backgroundColor={!isChanged ? '#ccc' : '#007BFF'}
+              style={{
+                cursor: !isChanged ? 'not-allowed' : 'pointer',
+              }}
               onClick={handleSaveButtonClick}
             />
           </S.ButtonContainer>
@@ -247,20 +248,13 @@ export default function DashboardInfoPage() {
 
           <S.Content>
             <S.ContentTitle>행사 기간</S.ContentTitle>
-            {eventSchedules.map((schedule, index) => (
-              <EventScheduleItem
-                key={index}
-                index={index}
-                schedule={schedule}
-                onDateChange={handleDateChange}
-                onStartTimeChange={handleStartTimeChange}
-                onEndTimeChange={handleEndTimeChange}
-                onDelete={handleDeleteSchedule}
-                onAddSchedule={handleAddSchedule} // 일정 추가 함수 전달
-                isDeletable={index !== 0}
-                isLastItem={index === eventSchedules.length - 1} // 마지막 항목인지 확인
-              />
-            ))}
+            {/* 행사 일정 컴포넌트 적용 */}
+            <EventScheduleList
+              eventSchedules={eventSchedules}
+              handleScheduleChange={handleScheduleChange}
+              handleAddSchedule={handleAddSchedule}
+              handleDeleteSchedule={handleDeleteSchedule}
+            />
           </S.Content>
 
           <S.Content>

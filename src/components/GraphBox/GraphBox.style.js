@@ -1,33 +1,31 @@
-import styled, { css } from 'styled-components';
+import { BREAKPOINTS } from '@/styles';
+import styled from 'styled-components';
 
-export const Wrapper = styled.div`
+export const ChartWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 20px 0;
+  gap: 10px;
+  width: calc(50% - 16px);
+
+  @media (max-width: ${BREAKPOINTS[1]}px) {
+    width: 100%;
+  }
 `;
 
-export const Label = styled.div`
-  position: relative;
-  font-size: 28px;
+export const ChartTitle = styled.h2`
+  font-size: 18px;
   font-weight: 600;
-  color: #0d0d0d;
-  text-align: left;
 `;
 
-export const Box = styled.div`
-  max-width: 100%;
-  position: relative;
+export const Chart = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 20px;
   border: 1px solid #aecfff;
-  box-sizing: border-box;
-  overflow: auto;
-  padding: 20px;
-  margin: 28px 0;
-  height: 332px;
-
-  * {
-    max-width: 100%;
-    height: auto;
-    display: block;
-  }
+  background: #fff;
+  padding: 0 30px;
+  width: 100%;
+  height: 100%;
+  max-height: 300px;
 `;

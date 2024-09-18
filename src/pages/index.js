@@ -3,6 +3,7 @@ export {
   DashboardPage,
   DashboardInfoPage,
   DashboardEmailPage,
+  DashboardSurveyPage,
   DashboardAttendeePage,
   DashboardStatisticPage,
 } from './DashboardPage';
