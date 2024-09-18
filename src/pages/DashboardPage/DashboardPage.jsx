@@ -145,6 +145,7 @@ export default function DashboardPage() {
       if (scheduleEndDateTime < now) {
         completedSessionsCount += 1;
       }
+
       return {
         date: schedule.eventDate,
         startTime: schedule.eventStartTime,
@@ -401,7 +402,8 @@ export default function DashboardPage() {
                 </S.ProgressDescription>
               </S.ProgressText>
               <S.ProgressNumber>
-                <em>{averageAttendance}</em> / {parsedEvents.totalParticipants}
+                <em>{eventDetail.averageAttendees}</em>
+                {` / ${eventDetail.totalAttendees}`}
               </S.ProgressNumber>
             </S.ProgressBox>
 
