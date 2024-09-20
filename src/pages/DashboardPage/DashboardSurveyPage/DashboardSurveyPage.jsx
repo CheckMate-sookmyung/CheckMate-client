@@ -54,7 +54,14 @@ export default function DashboardSurveyPage() {
     >
       <S.DashboardSurveyPage>
         <S.TopContainer>
-          <S.Title>설문 조사 링크 발송</S.Title>
+          <S.Content>
+            <S.Title>WISE 설문 조사 링크 발송</S.Title>
+            <S.ContentDesc>
+              <em>행사 종료 1시간 후</em> 참석자들에게 발송 될&nbsp;
+              <em>설문조사 링크</em>를 등록해 주세요. <br /> 링크가 등록되지
+              않으면, 행사 등록 시 입력한 WISE 링크로 대신 발송됩니다.
+            </S.ContentDesc>
+          </S.Content>
           <S.ButtonContainer>
             <Button
               label={isSaving ? '저장 중...' : '저장하기'}
@@ -69,14 +76,6 @@ export default function DashboardSurveyPage() {
         </S.TopContainer>
 
         <S.ContentContainer>
-          <S.Content>
-            <S.ContentTitle>WISE 설문 조사 링크 등록</S.ContentTitle>
-            <S.ContentDesc>
-              <em>행사 종료 1시간 후</em> 참석자들에게 발송 될&nbsp;
-              <em>설문조사 링크</em>를 등록해 주세요. <br /> 링크가 등록되지
-              않으면, 행사 등록 시 입력한 WISE 링크로 대신 발송됩니다.
-            </S.ContentDesc>
-          </S.Content>
           <Input
             placeholder="https://wise.sookmyung.ac.kr/ko/module/eco/@poll/write/4625/0"
             value={surveyUrl}

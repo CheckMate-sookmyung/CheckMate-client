@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { PageLayout } from '@/Layout';
 import * as S from './DashboardEmailPage.style';
-import { Sidebar, Button, TopNavigation, Textarea } from '@/components';
+import { Sidebar, Button, TopNavigation, Textarea, Input } from '@/components';
 import { useRecoilValue } from 'recoil';
 import { eventDetail, eventIDState } from '@/recoil/atoms/state';
 import { axiosInstance } from '@/axios';
@@ -77,34 +77,46 @@ export default function DashboardEmailPage() {
     >
       <S.DashboardEmailPage>
         <S.TopContainer>
-          <S.Title>리마인드 메일 발송</S.Title>
+          <S.Content>
+            <S.Title>리마인드 메일 발송</S.Title>
+            <S.ContentDesc>
+              <em>행사 시작 24시간 전</em>에 참석자들에게 발송 될&nbsp;
+              <em>행사 안내 메일 내용</em>을 수정해 주세요.
+            </S.ContentDesc>
+          </S.Content>
           <S.ButtonContainer>
             <Button
               label={isSaving ? '저장 중...' : '저장하기'}
               onClick={handleSaveButtonClick}
+              disabled={!isModified || isSaving}
+              style={{
+                backgroundColor: isModified ? '#007bff' : '#ccc',
+                cursor: isModified ? 'pointer' : 'not-allowed',
+              }}
             />
           </S.ButtonContainer>
         </S.TopContainer>
 
         <S.ContentContainer>
           <S.Content>
-            <S.ContentTitle>리마인드 메일 내용 수정</S.ContentTitle>
-            <S.ContentDesc>
-              <em>행사 시작 24시간 전</em>에 참석자들에게 발송 될&nbsp;
-              <em>행사 안내 메일 내용</em>을 수정해 주세요.
-            </S.ContentDesc>
+            <S.ContentTitle>메일 제목</S.ContentTitle>
+            <Input placeholder="행사 안내 메일 제목을 작성해 주세요." />
           </S.Content>
 
-          {isLoading ? (
-            <p>로딩 중...</p>
-          ) : (
-            <Textarea
-              placeholder="행사 안내 메일 내용을 작성해 주세요."
-              value={emailContent}
-              onChange={handleTextareaChange}
-              height="300px"
-            />
-          )}
+          <S.Content>
+            <S.ContentTitle>메일 내용</S.ContentTitle>
+
+            {isLoading ? (
+              <p>로딩 중...</p>
+            ) : (
+              <Textarea
+                placeholder="행사 안내 메일 내용을 작성해 주세요."
+                value={emailContent}
+                onChange={handleTextareaChange}
+                height="300px"
+              />
+            )}
+          </S.Content>
         </S.ContentContainer>
       </S.DashboardEmailPage>
     </PageLayout>
