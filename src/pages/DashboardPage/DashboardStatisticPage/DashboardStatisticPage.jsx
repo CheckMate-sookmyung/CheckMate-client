@@ -5,11 +5,41 @@ import MajorChart from './MajorChart';
 import YearChart from './YearChart';
 import CompletionChart from './CompletionChart';
 import { ATTENDEE_LIST } from './attendee';
+import { axiosInstance } from '@/axios';
+import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { eventIDState } from '@/recoil/atoms/state';
 
 const DetailStatisticsPage = () => {
-  const startDate = ATTENDEE_LIST[0].eventDates[0];
-  const endDate =
-    ATTENDEE_LIST[0].eventDates[ATTENDEE_LIST[0].eventDates.length - 1];
+  const eventId = useRecoilValue(eventIDState);
+  const [eventData, setEventData] = useState(null);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+
+  // 행사 정보 가져오기
+  useEffect(() => {
+    const getEventStatistic = async () => {
+      try {
+        const response = await axiosInstance.get(`/api/v1/events/${eventId}`);
+
+        if (response.status === 200 && response.data) {
+          console.log(response.data);
+          setEventData(response.data);
+          const { eventSchedules } = response.data;
+          if (eventSchedules && eventSchedules.length > 0) {
+            setStartDate(eventSchedules[0].eventDate);
+            setEndDate(eventSchedules[eventSchedules.length - 1].eventDate);
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    if (eventId) {
+      getEventStatistic();
+    }
+  }, [eventId]);
 
   return (
     <PageLayout topNavigation={<TopNavigation />} sideBar={<Sidebar />}>
