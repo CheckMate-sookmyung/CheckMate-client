@@ -21,6 +21,15 @@ const AttendeeTable = ({
     return <FaArrowDownShortWide />;
   };
 
+  // 시간 형식 HH:MM
+  const formatAttendTime = (time) => {
+    if (!time) return '-';
+    const date = new Date(time);
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`;
+  };
+
   return (
     <S.TableContainer>
       <S.Table>
@@ -55,9 +64,10 @@ const AttendeeTable = ({
               휴대폰 번호
               <SortIcon columnKey="phoneNumber" />
             </S.TableHeader>
-            <S.TableHeader onClick={() => sortData('email')}>
-              이메일 주소
-              <SortIcon columnKey="email" />
+            {/* 출석 시간 열 추가 */}
+            <S.TableHeader onClick={() => sortData('attendTime')}>
+              출석 시간
+              <SortIcon columnKey="attendTime" />
             </S.TableHeader>
             <S.TableHeader></S.TableHeader>
           </tr>
@@ -92,7 +102,7 @@ const AttendeeTable = ({
                 </>
               )}
               <S.TableData>{data.phoneNumber}</S.TableData>
-              <S.TableData>{data.email}</S.TableData>
+              <S.TableData>{formatAttendTime(data.attendTime)}</S.TableData>
               <S.TableData>
                 <BsEye />
               </S.TableData>
