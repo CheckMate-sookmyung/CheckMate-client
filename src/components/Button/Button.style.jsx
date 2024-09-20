@@ -13,8 +13,13 @@ export const Button = styled.button`
   font-size: 16px;
   font-weight: 600;
 
-  @media (max-width: ${BREAKPOINTS[0]}px) {
+  @media (max-width: ${BREAKPOINTS[1]}px) {
     padding: 10px 18px;
-    font-size: 14px;
+    height: 35px;
+    font-size: 12px;
+  }
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    padding: 6px 10px;
+    height: 30px;
   }
 `;

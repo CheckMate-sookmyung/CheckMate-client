@@ -79,13 +79,7 @@ export default function DashboardEmailPage() {
     >
       <S.DashboardEmailPage>
         <S.TopContainer>
-          <S.Content>
-            <S.Title>리마인드 메일 발송</S.Title>
-            <S.ContentDesc>
-              <em>행사 시작 24시간 전</em>에 참석자들에게 발송 될&nbsp;
-              <em>행사 안내 메일 내용</em>을 수정해 주세요.
-            </S.ContentDesc>
-          </S.Content>
+          <S.Title>리마인드 메일 발송</S.Title>
           <S.ButtonContainer>
             <Button
               label={isSaving ? '저장 중...' : '저장하기'}
@@ -100,6 +94,13 @@ export default function DashboardEmailPage() {
         </S.TopContainer>
 
         <S.ContentContainer>
+          <S.Content>
+            <S.ContentTitle>리마인드 메일 내용 수정</S.ContentTitle>
+            <S.ContentDesc>
+              <em>행사 시작 24시간 전</em>에 참석자들에게 발송 될&nbsp;
+              <em>행사 안내 메일 내용</em>을 수정해 주세요.
+            </S.ContentDesc>
+          </S.Content>
           <S.Content>
             <S.ContentTitle>메일 제목</S.ContentTitle>
             <Input
