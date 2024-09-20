@@ -8,9 +8,9 @@ import { axiosInstance } from '@/axios';
 
 export default function DashboardEmailPage() {
   const eventId = useRecoilValue(eventIDState) || eventDetail.id;
-  const [surveyUrl, setSurveyUrl] = useState('');
   const [isModified, setIsModified] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [emailTitle, setEmailTitle] = useState('');
   const [emailContent, setEmailContent] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
@@ -26,7 +26,9 @@ export default function DashboardEmailPage() {
           },
         );
         if (response.status === 200) {
-          setEmailContent(response.data.content);
+          setEmailContent(response.data.mailContent);
+          setEmailTitle(response.data.mailTitle);
+          console.log(response);
         }
       } catch (error) {
         console.error('이메일 내용 불러오기 실패:', error);
@@ -100,7 +102,10 @@ export default function DashboardEmailPage() {
         <S.ContentContainer>
           <S.Content>
             <S.ContentTitle>메일 제목</S.ContentTitle>
-            <Input placeholder="행사 안내 메일 제목을 작성해 주세요." />
+            <Input
+              placeholder="행사 안내 메일 제목을 작성해 주세요."
+              value={emailTitle}
+            />
           </S.Content>
 
           <S.Content>
