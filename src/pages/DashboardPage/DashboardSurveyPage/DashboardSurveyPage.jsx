@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PageLayout } from '@/Layout';
 import * as S from './DashboardSurveyPage.style';
 import { Sidebar, Button, TopNavigation, Input } from '@/components';
@@ -12,17 +12,28 @@ export default function DashboardSurveyPage() {
   const [isModified, setIsModified] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
-  const handleInputChange = (e) => {
-    const newValue = e.target.value;
-    setSurveyUrl(newValue);
+  // 설문조사 링크 가져오기
+  useEffect(() => {
+    const getSurveyUrl = async () => {
+      try {
+        const response = await axiosInstance.get(
+          `/api/v1/events/survey/${eventId}`,
+        );
 
-    if (newValue !== '') {
-      setIsModified(true);
-    } else {
-      setIsModified(false);
-    }
-  };
+        if (response.status === 200 && response.data) {
+          setSurveyUrl(response.data);
+        } else {
+          console.error(response);
+        }
+      } catch (error) {
+        console.error('설문 조사 링크를 불러오는 중 오류 발생:', error);
+      }
+    };
 
+    getSurveyUrl();
+  }, [eventId]);
+
+  // 설문조사 링크 수정
   const handleSaveButtonClick = async () => {
     if (!isModified) return;
 
@@ -44,6 +55,18 @@ export default function DashboardSurveyPage() {
       alert('설문 조사 링크 저장 중 오류가 발생했습니다.');
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  // 저장하기 버튼
+  const handleInputChange = (e) => {
+    const newValue = e.target.value;
+    setSurveyUrl(newValue);
+
+    if (newValue !== '') {
+      setIsModified(true);
+    } else {
+      setIsModified(false);
     }
   };
 
