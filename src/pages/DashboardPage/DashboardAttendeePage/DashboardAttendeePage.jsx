@@ -153,6 +153,52 @@ export default function DashboardAttendeePage() {
     }));
   };
 
+  // 참석자 정보 가져오기
+  useEffect(() => {
+    if (attendanceList) {
+      const parsedSessions = attendanceList.map((session, index) => {
+        const attendanceListResponseDtos =
+          session.attendanceListResponseDtos || [];
+        return {
+          tab: index + 1,
+          date: `${session.eventDate.substring(5, 7)}/${session.eventDate.substring(8, 10)}`,
+          attendanceList: attendanceListResponseDtos.sort((a, b) =>
+            a.attendeeName.localeCompare(b.attendeeName),
+          ),
+        };
+      });
+
+      setSessions(parsedSessions);
+
+      const attendeesData = {};
+
+      parsedSessions.forEach((session) => {
+        attendeesData[session.tab] = session.attendanceList.map((student) => ({
+          id: student.attendeeId,
+          major: student.attendeeAffiliation,
+          name: student.attendeeName,
+          number: student.studentNumber,
+          year: '-',
+          phoneNumber: student.attendeePhoneNumber || '-',
+          email: student.attendeeEmail || '-',
+          attendance: student.attendance,
+        }));
+      });
+
+      setSessionAttendees(attendeesData);
+
+      if (parsedSessions.length > 0) {
+        const initialAttendees = attendeesData[1];
+        setAttendees(initialAttendees);
+        setFilteredAttendees(initialAttendees);
+        setSessionAttendees((prev) => ({
+          ...prev,
+          [1]: initialAttendees,
+        }));
+      }
+    }
+  }, [attendanceList]);
+
   // 출석 여부 수정
   const handleEditModeToggle = async () => {
     if (editMode) {
