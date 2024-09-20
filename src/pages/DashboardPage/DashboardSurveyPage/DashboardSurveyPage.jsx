@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PageLayout } from '@/Layout';
 import * as S from './DashboardSurveyPage.style';
 import { Sidebar, Button, TopNavigation, Input } from '@/components';
@@ -12,17 +12,28 @@ export default function DashboardSurveyPage() {
   const [isModified, setIsModified] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
-  const handleInputChange = (e) => {
-    const newValue = e.target.value;
-    setSurveyUrl(newValue);
+  // 설문조사 링크 가져오기
+  useEffect(() => {
+    const getSurveyUrl = async () => {
+      try {
+        const response = await axiosInstance.get(
+          `/api/v1/events/survey/${eventId}`,
+        );
 
-    if (newValue !== '') {
-      setIsModified(true);
-    } else {
-      setIsModified(false);
-    }
-  };
+        if (response.status === 200 && response.data) {
+          setSurveyUrl(response.data);
+        } else {
+          console.error(response);
+        }
+      } catch (error) {
+        console.error('설문 조사 링크를 불러오는 중 오류 발생:', error);
+      }
+    };
 
+    getSurveyUrl();
+  }, [eventId]);
+
+  // 설문조사 링크 수정
   const handleSaveButtonClick = async () => {
     if (!isModified) return;
 
@@ -47,6 +58,18 @@ export default function DashboardSurveyPage() {
     }
   };
 
+  // 저장하기 버튼
+  const handleInputChange = (e) => {
+    const newValue = e.target.value;
+    setSurveyUrl(newValue);
+
+    if (newValue !== '') {
+      setIsModified(true);
+    } else {
+      setIsModified(false);
+    }
+  };
+
   return (
     <PageLayout
       topNavigation={<TopNavigation eventTitle={eventDetail.eventTitle} />}
@@ -54,7 +77,7 @@ export default function DashboardSurveyPage() {
     >
       <S.DashboardSurveyPage>
         <S.TopContainer>
-          <S.Title>설문 조사 링크 발송</S.Title>
+          <S.Title>WISE 설문 조사 링크 발송</S.Title>
           <S.ButtonContainer>
             <Button
               label={isSaving ? '저장 중...' : '저장하기'}
@@ -76,12 +99,12 @@ export default function DashboardSurveyPage() {
               <em>설문조사 링크</em>를 등록해 주세요. <br /> 링크가 등록되지
               않으면, 행사 등록 시 입력한 WISE 링크로 대신 발송됩니다.
             </S.ContentDesc>
+            <Input
+              placeholder="https://wise.sookmyung.ac.kr/ko/module/eco/@poll/write/4625/0"
+              value={surveyUrl}
+              onChange={handleInputChange}
+            />
           </S.Content>
-          <Input
-            placeholder="https://wise.sookmyung.ac.kr/ko/module/eco/@poll/write/4625/0"
-            value={surveyUrl}
-            onChange={handleInputChange}
-          />
         </S.ContentContainer>
       </S.DashboardSurveyPage>
     </PageLayout>
