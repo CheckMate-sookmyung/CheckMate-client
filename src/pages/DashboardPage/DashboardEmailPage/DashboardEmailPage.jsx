@@ -15,7 +15,7 @@ export default function DashboardEmailPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchEmailContent = async () => {
+    const getEmailContent = async () => {
       try {
         const response = await axiosInstance.get(
           `/api/v1/events/mail/content/${eventId}`,
@@ -37,14 +37,21 @@ export default function DashboardEmailPage() {
       }
     };
 
-    fetchEmailContent();
+    getEmailContent();
   }, [eventId]);
 
+  // 메일 제목 수정 핸들러
+  const handleTitleChange = (e) => {
+    const newEmailTitle = e.target.value;
+    setEmailTitle(newEmailTitle);
+    setIsModified(newEmailTitle !== '' || emailContent !== '');
+  };
+
+  // 메일 내용 수정 핸들러
   const handleTextareaChange = (e) => {
     const newEmailContent = e.target.value;
-
     setEmailContent(newEmailContent);
-    setIsModified(newEmailContent !== '');
+    setIsModified(newEmailContent !== '' || emailTitle !== '');
   };
 
   // 저장하기 버튼
@@ -56,6 +63,10 @@ export default function DashboardEmailPage() {
     try {
       const response = await axiosInstance.put(
         `/api/v1/events/mail/content/${eventId}`,
+        {
+          mailTitle: emailTitle,
+          mailContent: emailContent,
+        },
       );
 
       if (response.status === 200) {
@@ -106,6 +117,7 @@ export default function DashboardEmailPage() {
             <Input
               placeholder="행사 안내 메일 제목을 작성해 주세요."
               value={emailTitle}
+              onChange={handleTitleChange}
             />
           </S.Content>
 
