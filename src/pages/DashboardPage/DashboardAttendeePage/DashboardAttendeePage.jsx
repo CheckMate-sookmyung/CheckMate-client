@@ -11,7 +11,6 @@ import {
   TopNavigation,
   TabMenu,
   SlimButton,
-  Search,
 } from '@/components';
 import {
   getAttendanceList,
