@@ -19,6 +19,7 @@ import {
   updateAttendanceList,
 } from '@/apis';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import AttendeeSearch from './AttendeeSearch';
 
 export default function DashboardAttendeePage() {
   const [eventTitle, setEventTitle] = useState('');
@@ -126,33 +127,6 @@ export default function DashboardAttendeePage() {
     }
   }, [eventDetail]);
 
-  // 참석자 검색
-  useEffect(() => {
-    const filtered = attendees.filter((attendee) => {
-      const searchLower = searchQuery.toLowerCase();
-      return (
-        attendee.name.toLowerCase().includes(searchLower) ||
-        (attendee.number
-          ? String(attendee.number).toLowerCase().includes(searchLower)
-          : false) ||
-        attendee.email.toLowerCase().includes(searchLower) ||
-        attendee.phoneNumber.toLowerCase().includes(searchLower)
-      );
-    });
-    setFilteredAttendees(filtered);
-  }, [searchQuery, attendees]);
-
-  const handleAttendanceChange = (index, value) => {
-    const updatedAttendees = [...attendees];
-    updatedAttendees[index].attendance = value === '출석';
-    setAttendees(updatedAttendees);
-
-    setSessionAttendees((prev) => ({
-      ...prev,
-      [activeTab]: updatedAttendees,
-    }));
-  };
-
   // 참석자 정보 가져오기
   useEffect(() => {
     if (attendanceList) {
@@ -199,20 +173,6 @@ export default function DashboardAttendeePage() {
     }
   }, [attendanceList]);
 
-  // 출석 여부 수정
-  const handleEditModeToggle = async () => {
-    if (editMode) {
-      updateAttendanceListMutate({
-        attendanceList: attendees.map(({ id, attendance }) => ({
-          studentInfoId: id,
-          attendance: attendance,
-        })),
-      });
-    }
-
-    setEditMode((prevEditMode) => !prevEditMode);
-  };
-
   // 데이터 정렬
   const sortData = (key) => {
     let direction = 'asc';
@@ -244,6 +204,36 @@ export default function DashboardAttendeePage() {
     }
   };
 
+  // 참석 여부 수정
+  const handleAttendanceChange = (attendeeId, value) => {
+    const updatedAttendees = attendees.map((attendee) =>
+      attendee.id === attendeeId
+        ? { ...attendee, attendance: value === '출석' }
+        : attendee,
+    );
+
+    setAttendees(updatedAttendees);
+
+    setSessionAttendees((prev) => ({
+      ...prev,
+      [activeTab]: updatedAttendees,
+    }));
+  };
+
+  const handleEditModeToggle = async () => {
+    if (editMode) {
+      updateAttendanceListMutate({
+        attendanceList: attendees.map(({ id, attendance }) => ({
+          studentInfoId: id,
+          attendance: attendance,
+        })),
+      });
+    }
+
+    setEditMode((prevEditMode) => !prevEditMode);
+  };
+
+  // 다운로드
   const handleDownload = async () => {
     try {
       const response = await axiosInstance.get(
@@ -344,9 +334,12 @@ export default function DashboardAttendeePage() {
                   {attendees.length}
                 </S.Attendee>
               </S.RateWrapper>
-              <Search
-                onSearch={setSearchQuery}
-                placeholder="이름, 학번, 이메일, 전화번호로 검색"
+
+              <AttendeeSearch
+                attendees={attendees}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+                setFilteredAttendees={setFilteredAttendees}
               />
             </S.SearchRateContainer>
 
