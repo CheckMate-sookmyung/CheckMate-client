@@ -50,6 +50,9 @@ export default function DashboardInfoPage() {
   } = useQuery({
     queryKey: ['getEventDetail', eventId],
     queryFn: () => getEventDetail(eventId),
+    onSuccess: ({ eventImage }) => {
+      setEventImage(eventImage);
+    },
   });
 
   const {
@@ -303,7 +306,7 @@ export default function DashboardInfoPage() {
                 사진은 PNG, JPG, JPEG 파일만 가능 합니다.
               </S.ContentDesc>
               <UploadBox
-                imageUrl={eventImage}
+                defaultImageUrl={eventImage}
                 onImageUpload={handleImageUpload}
               />
             </S.ContentDescWrapper>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as S from './UploadBox.style';
 import FileButton from '../../pages/RegisterPage/RegisterComponents/Button/FileButton';
 
@@ -24,13 +24,15 @@ const FileInfo = ({ uploadedInfo }) => {
       >
         <S.PreviewLabel onClick={handlePreviewClick}>미리보기</S.PreviewLabel>
       </S.PreviewBox>
-      <FileButton content={uploadedInfo.name} type={'white'} />
+      {uploadedInfo.name !== null && (
+        <FileButton content={uploadedInfo.name} type={'white'} />
+      )}
     </S.PreviewWrapper>
   );
 };
 
 // UploadBox 컴포넌트
-const UploadBox = ({ accept, onFileUpload }) => {
+const UploadBox = ({ defaultImageUrl, accept, onFileUpload }) => {
   const [isActive, setActive] = useState(false);
   const [uploadedInfo, setUploadedInfo] = useState(null);
 
@@ -63,6 +65,13 @@ const UploadBox = ({ accept, onFileUpload }) => {
     if (!file) return;
     setFileInfo(file);
   };
+
+  useEffect(() => {
+    setUploadedInfo({
+      name: '',
+      previewURL: defaultImageUrl,
+    });
+  }, [defaultImageUrl]);
 
   return (
     <S.StyledLabel
