@@ -69,7 +69,7 @@ const AttendeeTable = ({
               출석 시간
               <SortIcon columnKey="attendTime" />
             </S.TableHeader>
-            <S.TableHeader></S.TableHeader>
+            {/* <S.TableHeader></S.TableHeader> */}
           </tr>
         </thead>
         <tbody>
@@ -103,9 +103,9 @@ const AttendeeTable = ({
               )}
               <S.TableData>{data.phoneNumber}</S.TableData>
               <S.TableData>{formatAttendTime(data.attendTime)}</S.TableData>
-              <S.TableData>
+              {/* <S.TableData>
                 <BsEye />
-              </S.TableData>
+              </S.TableData> */}
             </tr>
           ))}
         </tbody>
