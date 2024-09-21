@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import * as S from './AttendanceStudentIdPage.style';
 import { AttendanceHeader, Modal } from '@/components';
-import { USER_ID } from '@/constants';
 import { useSessionStorages } from '@/hooks';
 import { axiosInstance } from '@/axios';
 import { useNavigate } from 'react-router-dom';
@@ -37,8 +36,8 @@ const AttendanceStudentIdPage = () => {
   const getAttendanceCheck = async (params) => {
     const url =
       eventTarget === 'INTERNAL'
-        ? `/api/v1/attendance/check/studentNumber/${USER_ID}/${EVENT_ID}`
-        : `/api/v1/attendance/check/phoneNumber/${USER_ID}/${EVENT_ID}`;
+        ? `/api/v1/attendance/check/studentNumber/${EVENT_ID}`
+        : `/api/v1/attendance/check/phoneNumber/${EVENT_ID}`;
 
     console.log('API 호출 URL:', url);
     console.log('API 호출 파라미터:', {
@@ -138,7 +137,7 @@ const AttendanceStudentIdPage = () => {
     };
 
     fetchEventDetails();
-  }, [EVENT_ID, USER_ID]);
+  }, [EVENT_ID]);
 
   return (
     <S.AttendanceStudentIdPage>
