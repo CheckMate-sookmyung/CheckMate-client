@@ -3,8 +3,10 @@ import { PageLayout } from '@/Layout';
 import * as S from './DashboardEmailPage.style';
 import { Sidebar, Button, TopNavigation, Textarea, Input } from '@/components';
 import { useRecoilValue } from 'recoil';
-import { eventDetail, eventIDState } from '@/recoil/atoms/state';
+import { eventIDState } from '@/recoil/atoms/state';
 import { axiosInstance } from '@/axios';
+import { getEventDetail } from '@/apis';
+import { useQuery } from '@tanstack/react-query';
 
 export default function DashboardEmailPage() {
   const eventId = useRecoilValue(eventIDState) || eventDetail.id;
@@ -13,6 +15,15 @@ export default function DashboardEmailPage() {
   const [emailTitle, setEmailTitle] = useState('');
   const [emailContent, setEmailContent] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+
+  const {
+    data: eventDetail,
+    isPending,
+    isError,
+  } = useQuery({
+    queryKey: ['getEventDetail', eventId],
+    queryFn: () => getEventDetail(eventId),
+  });
 
   useEffect(() => {
     const getEmailContent = async () => {
@@ -82,6 +93,14 @@ export default function DashboardEmailPage() {
       setIsSaving(false);
     }
   };
+
+  if (isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return null;
+  }
 
   return (
     <PageLayout
