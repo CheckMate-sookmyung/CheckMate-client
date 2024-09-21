@@ -7,7 +7,7 @@ import {
   Input,
   Textarea,
   TopNavigation,
-  EventTypeCard,
+  EventTypeRadioGroup,
   UploadBox,
   EventScheduleList,
   EventTargetOption,
@@ -197,6 +197,10 @@ export default function DashboardInfoPage() {
     });
   };
 
+  const handleEventTypeRadioGroupChange = (eventType) => {
+    setEventType(eventType);
+  };
+
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -259,22 +263,11 @@ export default function DashboardInfoPage() {
 
           <S.Content>
             <S.ContentTitle>온라인/오프라인 여부</S.ContentTitle>
-            <S.ToggleContainer>
-              <S.ToggleButton
-                active={eventType === 'ONLINE'}
-                onClick={() => setEventType('ONLINE')}
-              >
-                온라인
-              </S.ToggleButton>
-              <S.ToggleButton
-                active={eventType === 'OFFLINE'}
-                onClick={() => setEventType('OFFLINE')}
-              >
-                오프라인
-              </S.ToggleButton>
-            </S.ToggleContainer>
             <S.EventTypeCardWrapper>
-              <EventTypeCard handleEventType={setEventType} />
+              <EventTypeRadioGroup
+                value={eventType}
+                onChange={handleEventTypeRadioGroupChange}
+              />
             </S.EventTypeCardWrapper>
           </S.Content>
 
