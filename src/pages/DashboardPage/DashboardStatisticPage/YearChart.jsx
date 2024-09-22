@@ -5,20 +5,20 @@ import { ATTENDEE_LIST } from './attendee';
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
-const YearChart = () => {
+const YearChart = ({ attendeeList }) => {
   const yearAttendance = {};
   let totalCompletedStudentsByYear = 0;
 
-  ATTENDEE_LIST[0].eventRatioDetailResponseDtos.forEach((student) => {
-    if (student.completion) {
-      totalCompletedStudentsByYear++;
-      const year = String(student.studentNumber).substring(0, 2);
-      if (yearAttendance[year]) {
-        yearAttendance[year]++;
-      } else {
-        yearAttendance[year] = 1;
-      }
+  attendeeList.eventRatioDetailResponseDtos.forEach((student) => {
+    // if (student.completion) {
+    totalCompletedStudentsByYear++;
+    const year = String(student.studentNumber).substring(0, 2);
+    if (yearAttendance[year]) {
+      yearAttendance[year]++;
+    } else {
+      yearAttendance[year] = 1;
     }
+    // }
   });
 
   const sortedYearAttendance = Object.entries(yearAttendance).sort(

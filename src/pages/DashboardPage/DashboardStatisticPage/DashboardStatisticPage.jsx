@@ -6,7 +6,7 @@ import YearChart from './YearChart';
 import CompletionChart from './CompletionChart';
 import { ATTENDEE_LIST } from './attendee';
 import { eventIDState } from '@/recoil/atoms/state';
-import { getEventDetail } from '@/apis';
+import { getEventDetail, getEventStatistic } from '@/apis';
 import { useQuery } from '@tanstack/react-query';
 import { useRecoilValue } from 'recoil';
 
@@ -18,18 +18,27 @@ const DetailStatisticsPage = () => {
 
   const {
     data: eventDetail,
-    isPending,
-    isError,
+    isPending: isEventDetailPending,
+    isError: isEventDetailError,
   } = useQuery({
     queryKey: ['getEventDetail', eventId],
     queryFn: () => getEventDetail(eventId),
   });
 
-  if (isPending) {
+  const {
+    data: eventStatistic,
+    isPending: isEventStatisticPending,
+    isError: isEventStatisticError,
+  } = useQuery({
+    queryKey: ['getEventStatistic', eventId],
+    queryFn: () => getEventStatistic(eventId),
+  });
+
+  if (isEventDetailPending || isEventStatisticPending) {
     return <div>Loading...</div>;
   }
 
-  if (isError) {
+  if (isEventDetailError || isEventStatisticError) {
     return null;
   }
 
@@ -50,21 +59,21 @@ const DetailStatisticsPage = () => {
           <S.ChartWrapper>
             <S.ChartTitle>전공별 참석 비율</S.ChartTitle>
             <S.Chart>
-              <MajorChart />
+              <MajorChart attendeeList={eventStatistic} />
             </S.Chart>
           </S.ChartWrapper>
 
           <S.ChartWrapper>
             <S.ChartTitle>학번별 참석 비율</S.ChartTitle>
             <S.Chart>
-              <YearChart />
+              <YearChart attendeeList={eventStatistic} />
             </S.Chart>
           </S.ChartWrapper>
 
           <S.ChartWrapper>
             <S.ChartTitle>전체 학생 중 이수 비율</S.ChartTitle>
             <S.Chart>
-              <CompletionChart />
+              <CompletionChart attendeeList={eventStatistic} />
             </S.Chart>
           </S.ChartWrapper>
         </S.ContentContainer>

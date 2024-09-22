@@ -5,19 +5,19 @@ import { ATTENDEE_LIST } from './attendee';
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
-const MajorChart = () => {
+const MajorChart = ({ attendeeList }) => {
   const majorAttendance = {};
   let totalCompletedStudentsByMajor = 0;
 
-  ATTENDEE_LIST[0].eventRatioDetailResponseDtos.forEach((student) => {
-    if (student.completion) {
-      totalCompletedStudentsByMajor++;
-      if (majorAttendance[student.studentMajor]) {
-        majorAttendance[student.studentMajor]++;
-      } else {
-        majorAttendance[student.studentMajor] = 1;
-      }
+  attendeeList.eventRatioDetailResponseDtos.forEach((student) => {
+    // if (student.completion) {
+    totalCompletedStudentsByMajor++;
+    if (majorAttendance[student.studentMajor]) {
+      majorAttendance[student.studentMajor]++;
+    } else {
+      majorAttendance[student.studentMajor] = 1;
     }
+    // }
   });
 
   const sortedMajorAttendance = Object.entries(majorAttendance).sort(
