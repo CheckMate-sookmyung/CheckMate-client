@@ -167,7 +167,7 @@ export default function DashboardPage() {
     const parsedEvent = {
       title: eventDetail.eventTitle,
       detail: eventDetail.eventDetail,
-      image: eventDetail.eventImage,
+      image: eventDetail.eventImage || 'img/logo-background.svg',
       schedules,
       totalSessions: eventDetail.eventSchedules.length,
       // totalParticipants,

@@ -339,15 +339,6 @@ export default function DashboardInfoPage() {
               onSelect={handleSelect}
             />
           </S.Content>
-
-          <S.Content>
-            <S.ContentTitle>WISE 주소</S.ContentTitle>
-            <Input
-              placeholder="등록하실 행사의 WISE 주소를 입력해주세요."
-              value={eventUrlAddress}
-              onChange={(e) => setEventUrlAddress(e.target.value)}
-            />
-          </S.Content>
         </S.ContentContainer>
       </S.DashboardInfo>
     </PageLayout>
