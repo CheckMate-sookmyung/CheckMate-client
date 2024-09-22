@@ -110,6 +110,7 @@ export default function DashboardAttendeePage() {
         phoneNumber: student.attendeePhoneNumber || '-',
         email: student.attendeeEmail || '-',
         attendance: student.attendance,
+        attendTime: student.attendTime,
       }));
     });
 
@@ -155,6 +156,7 @@ export default function DashboardAttendeePage() {
           phoneNumber: student.attendeePhoneNumber || '-',
           email: student.attendeeEmail || '-',
           attendance: student.attendance,
+          attendTime: student.attendTime,
         }));
       });
 
