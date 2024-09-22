@@ -12,11 +12,13 @@ import {
   EventScheduleList,
   EventTargetOption,
 } from '@/components';
+import { minCompletionTimes } from '@/recoil/atoms/state';
 import { USER_ID } from '@/constants';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { eventIDState } from '@/recoil/atoms/state';
 import { PageLayout } from '@/Layout';
 import { getEventDetail, updateEventDetail } from '@/apis';
+import CompletionDropdown from '@/pages/RegisterPage/RegisterComponents/Dropdown/CompletionDropdown';
 
 export default function DashboardInfoPage() {
   const [eventType, setEventType] = useState('OFFLINE');
@@ -24,6 +26,9 @@ export default function DashboardInfoPage() {
   const [eventTitle, setEventTitle] = useState('');
   const [eventDescription, setEventDescription] = useState('');
   const [eventImage, setEventImage] = useState('');
+  const [eventUrlAddress, setEventUrlAddress] = useState('');
+  const [minCompletionTimesValue, setMinCompletionTimesValue] =
+    useRecoilState(minCompletionTimes);
   const [eventSchedules, setEventSchedules] = useState([
     {
       eventDate: new Date(),
@@ -34,6 +39,15 @@ export default function DashboardInfoPage() {
   const [isChanged, setIsChanged] = useState(false);
   const eventId = useRecoilValue(eventIDState);
 
+  const dropdownItems = eventSchedules.map((_, index) => ({
+    label: `${index + 1}회`,
+    value: index + 1,
+  }));
+
+  const handleSelect = (value) => {
+    setMinCompletionTimesValue(value);
+  };
+
   const initialState = useRef({
     eventType,
     eventTarget,
@@ -41,6 +55,7 @@ export default function DashboardInfoPage() {
     eventDescription,
     eventImage,
     eventSchedules,
+    completionTimes: minCompletionTimesValue,
   });
 
   const {
@@ -50,8 +65,9 @@ export default function DashboardInfoPage() {
   } = useQuery({
     queryKey: ['getEventDetail', eventId],
     queryFn: () => getEventDetail(eventId),
-    onSuccess: ({ eventImage }) => {
+    onSuccess: ({ eventImage, eventUrl }) => {
       setEventImage(eventImage);
+      setEventUrlAddress(eventUrl);
     },
   });
 
@@ -60,7 +76,7 @@ export default function DashboardInfoPage() {
     isPending: isUpdateEventDetailPending,
   } = useMutation({
     mutationKey: ['updateEventDetail', eventId],
-    mutationFn: (body) => updateEventDetail(USER_ID, eventId, body),
+    mutationFn: (body) => updateEventDetail(eventId, body),
     onSuccess: () => {
       alert('행사 정보가 성공적으로 저장되었습니다.');
       setIsChanged(false); // 저장 후 변경 사항을 초기화
@@ -188,7 +204,7 @@ export default function DashboardInfoPage() {
       eventId,
       eventTitle,
       eventDetail: eventDescription,
-      eventImage,
+      // eventImage,
       eventType: eventType ? 'OFFLINE' : 'ONLINE',
       eventTarget: eventTarget === 'EXTERNAL' ? 'EXTERNAL' : 'INTERNAL',
       eventSchedules: eventSchedules.map((schedule) => ({
@@ -206,6 +222,7 @@ export default function DashboardInfoPage() {
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
+
     if (file) {
       const filePath = URL.createObjectURL(file);
       setEventImage(filePath);
@@ -310,6 +327,26 @@ export default function DashboardInfoPage() {
                 onImageUpload={handleImageUpload}
               />
             </S.ContentDescWrapper>
+          </S.Content>
+
+          <S.Content>
+            <S.ContentTitle>행사 이수 기준</S.ContentTitle>
+            <CompletionDropdown
+              defaultItem={{
+                value: eventDetail.completionTimes,
+              }}
+              items={dropdownItems}
+              onSelect={handleSelect}
+            />
+          </S.Content>
+
+          <S.Content>
+            <S.ContentTitle>WISE 주소</S.ContentTitle>
+            <Input
+              placeholder="등록하실 행사의 WISE 주소를 입력해주세요."
+              value={eventUrlAddress}
+              onChange={(e) => setEventUrlAddress(e.target.value)}
+            />
           </S.Content>
         </S.ContentContainer>
       </S.DashboardInfo>

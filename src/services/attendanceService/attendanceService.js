@@ -1,8 +1,8 @@
 import { axiosInstance } from '../../axios';
 
-export const getAttendanceCheck = async ({ userId, eventId }, params) => {
+export const getAttendanceCheck = async ({ eventId }, params) => {
   const { data } = await axiosInstance.get(
-    `/api/v1/attendance/check/${userId}/${eventId}`,
+    `/api/v1/attendance/check/${eventId}`,
     {
       params,
     },
@@ -11,12 +11,9 @@ export const getAttendanceCheck = async ({ userId, eventId }, params) => {
   return data;
 };
 
-export const postAttendanceSign = async (
-  { userId, eventId, studentInfoId },
-  body,
-) => {
+export const postAttendanceSign = async ({ eventId, studentInfoId }, body) => {
   await axiosInstance.post(
-    `/api/v1/attendance/sign/${userId}/${eventId}/${studentInfoId}`,
+    `/api/v1/attendance/sign/${eventId}/${studentInfoId}`,
     body,
     {
       headers: {
