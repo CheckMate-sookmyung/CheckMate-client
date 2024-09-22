@@ -58,19 +58,6 @@ export default function TopNavigation({ eventTitle } = {}) {
     window.location.href = `${process.env.REACT_APP_GOOGLE_OAUTH_BASE_URL}/o/oauth2/auth?client_id=${process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_CLIENT_BASE_URL}/loading&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`;
   };
 
-  const handleLogout = async () => {
-    try {
-      await axiosInstance.get(`/api/v1/logout`);
-      sessionStorage.clear();
-      alert('로그아웃이 완료되었습니다.');
-    } catch (error) {
-      console.log(error);
-    } finally {
-      nav('/');
-      window.location.reload();
-    }
-  };
-
   return (
     <S.TopNavigation>
       <S.LogoMenuWrapper>
