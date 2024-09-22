@@ -1,9 +1,7 @@
 import { axiosInstance } from '@/axios';
 
 export const getAttendanceList = async (eventId) => {
-  const { data } = await axiosInstance.get(
-    `/api/v1/events/attendanceList/${eventId}`,
-  );
+  const { data } = await axiosInstance.get(`/api/v1/attendancelist/${eventId}`);
 
   return data;
 };

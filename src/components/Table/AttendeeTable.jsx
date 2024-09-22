@@ -6,6 +6,7 @@ import {
 } from 'react-icons/fa6';
 import { BsEye } from 'react-icons/bs';
 import { Dropdown } from '@/components';
+import { format } from 'date-fns';
 
 const AttendeeTable = ({
   attendees,
@@ -54,10 +55,10 @@ const AttendeeTable = ({
                   학번
                   <SortIcon columnKey="number" />
                 </S.TableHeader>
-                <S.TableHeader onClick={() => sortData('year')}>
+                {/* <S.TableHeader onClick={() => sortData('year')}>
                   학년
                   <SortIcon columnKey="year" />
-                </S.TableHeader>
+                </S.TableHeader> */}
               </>
             )}
             <S.TableHeader onClick={() => sortData('phoneNumber')}>
@@ -98,14 +99,15 @@ const AttendeeTable = ({
               {showStudentInfo && (
                 <>
                   <S.TableData>{data.number}</S.TableData>
-                  <S.TableData>{data.year}</S.TableData>
+                  {/* <S.TableData>{data.year}</S.TableData> */}
                 </>
               )}
               <S.TableData>{data.phoneNumber}</S.TableData>
-              <S.TableData>{formatAttendTime(data.attendTime)}</S.TableData>
-              {/* <S.TableData>
-                <BsEye />
-              </S.TableData> */}
+              <S.TableData>
+                {data.attendTime === null
+                  ? '-'
+                  : format(new Date(data.attendTime), 'HH:mm')}
+              </S.TableData>
             </tr>
           ))}
         </tbody>

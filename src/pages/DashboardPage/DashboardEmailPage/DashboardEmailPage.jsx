@@ -28,14 +28,11 @@ export default function DashboardEmailPage() {
   useEffect(() => {
     const getEmailContent = async () => {
       try {
-        const response = await axiosInstance.get(
-          `/api/v1/events/mail/content/${eventId}`,
-          {
-            params: {
-              mailType: 'REMIND',
-            },
+        const response = await axiosInstance.get(`/api/v1/mail/${eventId}`, {
+          params: {
+            mailType: 'REMIND',
           },
-        );
+        });
         if (response.status === 200) {
           setEmailContent(response.data.mailContent);
           setEmailTitle(response.data.mailTitle);
@@ -125,11 +122,22 @@ export default function DashboardEmailPage() {
 
         <S.ContentContainer>
           <S.Content>
-            <S.ContentTitle>리마인드 메일 내용 수정</S.ContentTitle>
+            <S.ContentTitle>행사 안내 메일 발송</S.ContentTitle>
             <S.ContentDesc>
               <em>행사 시작 24시간 전</em>에 참석자들에게 발송 될&nbsp;
               <em>행사 안내 메일 내용</em>을 수정해 주세요.
+              <br />
+              행사 담당자에게도 참석자들에게 발송된 메일과 <em>동일한 내용</em>
+              의 메일이 발송됩니다.
             </S.ContentDesc>
+          </S.Content>
+          <S.Content>
+            <S.ContentTitle>행사 안내 메일 링크</S.ContentTitle>
+            <Input
+              placeholder="행사 안내 링크를 입력해 주세요."
+              // value={emailTitle}
+              // onChange={handleTitleChange}
+            />
           </S.Content>
           <S.Content>
             <S.ContentTitle>메일 제목</S.ContentTitle>

@@ -5,8 +5,8 @@ import { ATTENDEE_LIST } from './attendee';
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
-const CompletionChart = () => {
-  const totalStudents = ATTENDEE_LIST[0].eventRatioDetailResponseDtos.length;
+const CompletionChart = ({ attendeeList }) => {
+  const totalStudents = attendeeList.eventRatioDetailResponseDtos.length;
   const completedStudents =
     ATTENDEE_LIST[0].eventRatioDetailResponseDtos.filter(
       (student) => student.completion,

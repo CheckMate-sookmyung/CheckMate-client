@@ -110,6 +110,7 @@ export default function DashboardAttendeePage() {
         phoneNumber: student.attendeePhoneNumber || '-',
         email: student.attendeeEmail || '-',
         attendance: student.attendance,
+        attendTime: student.attendTime,
       }));
     });
 
@@ -155,6 +156,7 @@ export default function DashboardAttendeePage() {
           phoneNumber: student.attendeePhoneNumber || '-',
           email: student.attendeeEmail || '-',
           attendance: student.attendance,
+          attendTime: student.attendTime,
         }));
       });
 
@@ -236,7 +238,7 @@ export default function DashboardAttendeePage() {
   const handleDownload = async () => {
     try {
       const response = await axiosInstance.get(
-        `/api/v1/events/attendance/list/${eventId}`,
+        `/api/v1/attendance/list/${eventId}`,
         { responseType: 'blob' },
       );
 

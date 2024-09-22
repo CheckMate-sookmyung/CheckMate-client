@@ -26,3 +26,11 @@ export const updateEventDetail = async (eventId, body) => {
 
   return data;
 };
+
+export const getEventStatistic = async (eventId) => {
+  const { data } = await axiosInstance.get(
+    `/api/v1/events/statistic/${eventId}`,
+  );
+
+  return data;
+};
