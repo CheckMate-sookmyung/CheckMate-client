@@ -5,6 +5,7 @@ export const DashboardSurveyPage = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  height: fit-content;
   padding: 50px;
   gap: 10px;
 
