@@ -79,10 +79,10 @@ const AttendanceStudentIdPage = () => {
           setIsModalOpen(true);
         } else {
           const parsedStudent = {
-            studentName: data.studentName || data[0].studentName,
-            studentNumber: data.studentNumber || data[0].studentNumber,
-            studentInfoId: data.studentInfoId || data[0].studentInfoId,
-            major: data.major || data[0].major,
+            studentName: data.attendeeName,
+            studentNumber: data.studentNumber,
+            studentInfoId: data.attendeeId,
+            major: data.attendeeAffiliation,
           };
 
           setAttendanceCheck(data);

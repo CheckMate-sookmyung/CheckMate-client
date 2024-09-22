@@ -4,7 +4,6 @@ import { Sidebar, TopNavigation } from '@/components';
 import MajorChart from './MajorChart';
 import YearChart from './YearChart';
 import CompletionChart from './CompletionChart';
-import { ATTENDEE_LIST } from './attendee';
 import { eventIDState } from '@/recoil/atoms/state';
 import { getEventDetail, getEventStatistic } from '@/apis';
 import { useQuery } from '@tanstack/react-query';
@@ -12,9 +11,6 @@ import { useRecoilValue } from 'recoil';
 
 const DetailStatisticsPage = () => {
   const eventId = useRecoilValue(eventIDState);
-  const startDate = ATTENDEE_LIST[0].eventDates[0];
-  const endDate =
-    ATTENDEE_LIST[0].eventDates[ATTENDEE_LIST[0].eventDates.length - 1];
 
   const {
     data: eventDetail,

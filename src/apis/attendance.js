@@ -8,7 +8,7 @@ export const getAttendanceList = async (eventId) => {
 
 export const updateAttendanceList = async (eventId, body) => {
   const { data } = await axiosInstance.put(
-    `/api/v1/attendance/list/${eventId}`,
+    `/api/v1/attendance/manage/${eventId}`,
     body,
   );
 

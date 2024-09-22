@@ -1,7 +1,6 @@
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { ATTENDEE_LIST } from './attendee';
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
@@ -9,15 +8,15 @@ const MajorChart = ({ attendeeList }) => {
   const majorAttendance = {};
   let totalCompletedStudentsByMajor = 0;
 
-  attendeeList.eventRatioDetailResponseDtos.forEach((student) => {
-    // if (student.completion) {
-    totalCompletedStudentsByMajor++;
-    if (majorAttendance[student.studentMajor]) {
-      majorAttendance[student.studentMajor]++;
-    } else {
-      majorAttendance[student.studentMajor] = 1;
+  attendeeList.eventStatisticDetailResponseDtos.forEach((student) => {
+    if (student.completion) {
+      totalCompletedStudentsByMajor++;
+      if (majorAttendance[student.studentMajor]) {
+        majorAttendance[student.studentMajor]++;
+      } else {
+        majorAttendance[student.studentMajor] = 1;
+      }
     }
-    // }
   });
 
   const sortedMajorAttendance = Object.entries(majorAttendance).sort(
@@ -91,7 +90,7 @@ const MajorChart = ({ attendeeList }) => {
 
             if (label === '기타') {
               const etcStudents =
-                ATTENDEE_LIST[0].eventRatioDetailResponseDtos.length -
+                attendeeList.eventRatioDetailResponseDtos.length -
                 totalCompletedStudentsByMajor;
               return `${etcStudents}명`;
             } else if (majorAttendance[label]) {

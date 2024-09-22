@@ -238,7 +238,7 @@ export default function DashboardAttendeePage() {
   const handleDownload = async () => {
     try {
       const response = await axiosInstance.get(
-        `/api/v1/attendance/list/${eventId}`,
+        `/api/v1/attendancelist/${eventId}`,
         { responseType: 'blob' },
       );
 
