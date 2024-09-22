@@ -46,7 +46,6 @@ const RegisterSecond = () => {
   const [minCompletionTimesValue, setMinCompletionTimesValue] =
     useRecoilState(minCompletionTimes);
   const [eventSchedules, setEventSchedules] = useRecoilState(eventScheduleList);
-  const [eventAddress, setEventAddress] = useState('');
 
   const navigate = useNavigate();
   const resetAllStates = useResetAllStates();
@@ -132,17 +131,16 @@ const RegisterSecond = () => {
     e.preventDefault();
     const formData = new FormData();
 
-    const event = {
+    const eventDetail = {
       eventType,
       eventTarget,
       eventTitle: eventTitleValue,
       eventDetail: eventDetailValue,
       completionTimes: minCompletionTimesValue,
       eventSchedules: formatSchedules(eventSchedules),
-      eventUrl: eventAddress,
     };
 
-    formData.append('eventDetail', JSON.stringify(event));
+    formData.append('eventDetail', JSON.stringify(eventDetail));
     formData.append('eventImage', eventImageValue);
     formData.append('attendanceListFile', attendanceListFileValue);
 
@@ -152,13 +150,14 @@ const RegisterSecond = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      setShowModal(true);
+      alert('행사가 등록되었습니다!');
     } catch (error) {
       alert('행사가 제대로 등록되지 않았습니다.');
       navigate('/register');
     } finally {
       setStep(1);
       resetAllStates();
+      navigate('/events');
     }
   };
 
@@ -229,19 +228,22 @@ const RegisterSecond = () => {
 
             <S.ContentWrapper>
               <S.MainTitle>행사 이수 기준</S.MainTitle>
-              <CompletionDropdown
-                items={dropdownItems}
-                onSelect={handleSelect}
-              />
-            </S.ContentWrapper>
-
-            <S.ContentWrapper>
-              <S.MainTitle>WISE 주소</S.MainTitle>
-              <Input
-                placeholder="등록하실 행사의 WISE 주소를 입력해주세요."
-                value={eventAddress}
-                onChange={(e) => setEventAddress(e.target.value)}
-              />
+              {eventType == 'OFFLINE' ? (
+                <CompletionDropdown
+                  items={dropdownItems}
+                  onSelect={handleSelect}
+                />
+              ) : (
+                <>
+                  <Input
+                    type="number"
+                    placeholder={
+                      '행사 이수를 위한 최소 시간을 분 단위로 입력해주세요. (ex. 30, 60 ... )'
+                    }
+                    onChange={(e) => handleSelect(e.target.value)}
+                  />
+                </>
+              )}
             </S.ContentWrapper>
 
             <S.ButtonWrapper>

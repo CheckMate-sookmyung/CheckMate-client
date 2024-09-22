@@ -3,30 +3,7 @@ import styled from 'styled-components';
 export const Dropdown = styled.div`
   position: relative;
   display: inline-block;
-  overflow: visible;
-`;
-
-export const DropdownButton = styled.button`
-  display: flex;
-  align-items: center;
-  border: 1px solid #4e75ff;
-  border-radius: 5px;
-  background-color: white;
-  padding: 8px 16px;
-  color: #4e75ff;
-  font-size: 14px;
-  cursor: pointer;
-
-  &:after {
-    content: '▼';
-    font-size: 12px;
-    margin-left: 8px;
-    color: #4e75ff;
-  }
-
-  &:hover {
-    background-color: #f5f5f5;
-  }
+  transform: translate(-75px, 10px);
 `;
 
 export const DropdownContent = styled.ul`

@@ -11,7 +11,6 @@ import {
   TopNavigation,
   TabMenu,
   SlimButton,
-  Search,
 } from '@/components';
 import {
   getAttendanceList,
@@ -19,6 +18,7 @@ import {
   updateAttendanceList,
 } from '@/apis';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import AttendeeSearch from './AttendeeSearch';
 
 export default function DashboardAttendeePage() {
   const [eventTitle, setEventTitle] = useState('');
@@ -56,6 +56,12 @@ export default function DashboardAttendeePage() {
     queryFn: () => getAttendanceList(eventId),
   });
 
+  useEffect(() => {
+    if (attendanceList) {
+      console.log('Attendance List:', attendanceList);
+    }
+  }, [attendanceList]);
+
   const {
     mutate: updateAttendanceListMutate,
     isPending: isUpdateAttendanceListPending,
@@ -72,44 +78,48 @@ export default function DashboardAttendeePage() {
   });
 
   useEffect(() => {
-    if (eventDetail === undefined) {
+    if (!eventDetail) {
       return;
     }
 
     setEventTitle(eventDetail.eventTitle);
     setEventTarget(eventDetail.eventTarget);
 
-    const parsedSessions = eventDetail.eventSchedules.map(
-      (schedule, index) => ({
+    const parsedSessions = eventDetail.eventSchedules.map((schedule, index) => {
+      const attendanceList = schedule.attendanceListResponseDtos || [];
+      return {
         tab: index + 1,
         date: `${schedule.eventDate.substring(5, 7)}/${schedule.eventDate.substring(8, 10)}`,
-        attendanceList: schedule.attendanceListResponseDtos.sort((a, b) =>
-          a.studentName.localeCompare(b.studentName),
+        attendanceList: attendanceList.sort((a, b) =>
+          a.attendeeName.localeCompare(b.attendeeName),
         ),
-      }),
-    );
+      };
+    });
+
     setSessions(parsedSessions);
 
     const attendeesData = {};
 
     parsedSessions.forEach((session) => {
       attendeesData[session.tab] = session.attendanceList.map((student) => ({
-        id: student.id,
-        major: student.major,
-        name: student.studentName,
+        id: student.attendeeId,
+        major: student.attendeeAffiliation,
+        name: student.attendeeName,
         number: student.studentNumber,
-        year: student.year || '-',
-        phoneNumber: student.phoneNumber || '-',
-        email: student.email || '-',
+        year: '-',
+        phoneNumber: student.attendeePhoneNumber || '-',
+        email: student.attendeeEmail || '-',
         attendance: student.attendance,
+        attendTime: student.attendTime,
       }));
     });
+
     setSessionAttendees(attendeesData);
 
     if (parsedSessions.length > 0) {
       const initialAttendees = attendeesData[1];
       setAttendees(initialAttendees);
-      setFilteredAttendees(initialAttendees); // 초기 필터된 참석자 리스트 설정
+      setFilteredAttendees(initialAttendees);
       setSessionAttendees((prev) => ({
         ...prev,
         [1]: initialAttendees,
@@ -117,46 +127,52 @@ export default function DashboardAttendeePage() {
     }
   }, [eventDetail]);
 
-  // 참석자 검색
+  // 참석자 정보 가져오기
   useEffect(() => {
-    const filtered = attendees.filter((attendee) => {
-      const searchLower = searchQuery.toLowerCase();
-      return (
-        attendee.name.toLowerCase().includes(searchLower) ||
-        (attendee.number
-          ? String(attendee.number).toLowerCase().includes(searchLower)
-          : false) ||
-        attendee.email.toLowerCase().includes(searchLower) ||
-        attendee.phoneNumber.toLowerCase().includes(searchLower)
-      );
-    });
-    setFilteredAttendees(filtered);
-  }, [searchQuery, attendees]);
-
-  const handleAttendanceChange = (index, value) => {
-    const updatedAttendees = [...attendees];
-    updatedAttendees[index].attendance = value === '출석';
-    setAttendees(updatedAttendees);
-
-    setSessionAttendees((prev) => ({
-      ...prev,
-      [activeTab]: updatedAttendees,
-    }));
-  };
-
-  // 출석 여부 수정
-  const handleEditModeToggle = async () => {
-    if (editMode) {
-      updateAttendanceListMutate({
-        attendanceList: attendees.map(({ id, attendance }) => ({
-          studentInfoId: id,
-          attendance: attendance,
-        })),
+    if (attendanceList) {
+      const parsedSessions = attendanceList.map((session, index) => {
+        const attendanceListResponseDtos =
+          session.attendanceListResponseDtos || [];
+        return {
+          tab: index + 1,
+          date: `${session.eventDate.substring(5, 7)}/${session.eventDate.substring(8, 10)}`,
+          attendanceList: attendanceListResponseDtos.sort((a, b) =>
+            a.attendeeName.localeCompare(b.attendeeName),
+          ),
+        };
       });
-    }
 
-    setEditMode((prevEditMode) => !prevEditMode);
-  };
+      setSessions(parsedSessions);
+
+      const attendeesData = {};
+
+      parsedSessions.forEach((session) => {
+        attendeesData[session.tab] = session.attendanceList.map((student) => ({
+          id: student.attendeeId,
+          major: student.attendeeAffiliation,
+          name: student.attendeeName,
+          number: student.studentNumber,
+          year: '-',
+          phoneNumber: student.attendeePhoneNumber || '-',
+          email: student.attendeeEmail || '-',
+          attendance: student.attendance,
+          attendTime: student.attendTime,
+        }));
+      });
+
+      setSessionAttendees(attendeesData);
+
+      if (parsedSessions.length > 0) {
+        const initialAttendees = attendeesData[1];
+        setAttendees(initialAttendees);
+        setFilteredAttendees(initialAttendees);
+        setSessionAttendees((prev) => ({
+          ...prev,
+          [1]: initialAttendees,
+        }));
+      }
+    }
+  }, [attendanceList]);
 
   // 데이터 정렬
   const sortData = (key) => {
@@ -189,10 +205,40 @@ export default function DashboardAttendeePage() {
     }
   };
 
+  // 참석 여부 수정
+  const handleAttendanceChange = (attendeeId, value) => {
+    const updatedAttendees = attendees.map((attendee) =>
+      attendee.id === attendeeId
+        ? { ...attendee, attendance: value === '출석' }
+        : attendee,
+    );
+
+    setAttendees(updatedAttendees);
+
+    setSessionAttendees((prev) => ({
+      ...prev,
+      [activeTab]: updatedAttendees,
+    }));
+  };
+
+  const handleEditModeToggle = async () => {
+    if (editMode) {
+      updateAttendanceListMutate({
+        attendanceList: attendees.map(({ id, attendance }) => ({
+          studentInfoId: id,
+          attendance: attendance,
+        })),
+      });
+    }
+
+    setEditMode((prevEditMode) => !prevEditMode);
+  };
+
+  // 다운로드
   const handleDownload = async () => {
     try {
       const response = await axiosInstance.get(
-        `/api/v1/events/attendance/list/${eventId}`,
+        `/api/v1/attendancelist/${eventId}`,
         { responseType: 'blob' },
       );
 
@@ -225,78 +271,89 @@ export default function DashboardAttendeePage() {
       sideBar={<Sidebar />}
     >
       <S.DashboardAttendee>
-        <S.TopContainer>
-          <S.Title>참석자 관리</S.Title>
-          <S.ButtonContainer>
-            <SlimButton
-              onClick={handleSendEmail}
-              label={
-                <>
-                  <FaRegEnvelope /> 출석 명단 메일로 전송
-                </>
-              }
-            />
-            <SlimButton
-              onClick={handleDownload}
-              label={
-                <>
-                  <FaPaperclip /> 출석 명단 다운로드
-                </>
-              }
-            />
-          </S.ButtonContainer>
-        </S.TopContainer>
+        {isAttendanceListPending ? (
+          <div>Loading Attendance List...</div>
+        ) : isAttendanceListError ? (
+          <div>Error loading attendance list. Please try again.</div>
+        ) : (
+          <>
+            <S.TopContainer>
+              <S.Title>참석자 관리</S.Title>
+              <S.ButtonContainer>
+                <SlimButton
+                  onClick={handleSendEmail}
+                  label={
+                    <>
+                      <FaRegEnvelope /> 출석 명단 메일로 전송
+                    </>
+                  }
+                />
+                <SlimButton
+                  onClick={handleDownload}
+                  label={
+                    <>
+                      <FaPaperclip /> 출석 명단 다운로드
+                    </>
+                  }
+                />
+              </S.ButtonContainer>
+            </S.TopContainer>
 
-        <S.TabEditWrapper>
-          <S.TabContainer>
-            {sessions.map((session) => (
-              <TabMenu
-                key={session.tab}
-                label={`${session.tab}회 (${session.date})`}
-                active={activeTab === session.tab}
-                onClick={() => {
-                  setActiveTab(session.tab);
-                  const sortedAttendees = [
-                    ...sessionAttendees[session.tab],
-                  ].sort((a, b) => a.name.localeCompare(b.name));
-                  setAttendees(sortedAttendees);
-                  setFilteredAttendees(sortedAttendees); // 필터된 리스트도 업데이트
-                }}
+            <S.TabEditWrapper>
+              <S.TabContainer>
+                {sessions.map((session) => (
+                  <TabMenu
+                    key={session.tab}
+                    label={`${session.tab}회 (${session.date})`}
+                    active={activeTab === session.tab}
+                    onClick={() => {
+                      setActiveTab(session.tab);
+                      const sortedAttendees = [
+                        ...sessionAttendees[session.tab],
+                      ].sort((a, b) => a.name.localeCompare(b.name));
+                      setAttendees(sortedAttendees);
+                      setFilteredAttendees(sortedAttendees);
+                    }}
+                  />
+                ))}
+              </S.TabContainer>
+              <S.EditMode
+                type="button"
+                disabled={isUpdateAttendanceListPending}
+                active={editMode}
+                onClick={handleEditModeToggle}
+              >
+                {editMode ? '저장하기' : '출석 여부 수정하기'}
+              </S.EditMode>
+            </S.TabEditWrapper>
+
+            <S.SearchRateContainer>
+              <S.RateWrapper>
+                <S.RateTitle>참석률</S.RateTitle>
+                <S.Attendee>
+                  {attendees.filter((attendee) => attendee.attendance).length} /{' '}
+                  {attendees.length}
+                </S.Attendee>
+              </S.RateWrapper>
+
+              <AttendeeSearch
+                attendees={attendees}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+                setFilteredAttendees={setFilteredAttendees}
               />
-            ))}
-          </S.TabContainer>
-          <S.EditMode
-            type="button"
-            disabled={isUpdateAttendanceListPending}
-            active={editMode}
-            onClick={handleEditModeToggle}
-          >
-            {editMode ? '저장하기' : '출석 여부 수정하기'}
-          </S.EditMode>
-        </S.TabEditWrapper>
+            </S.SearchRateContainer>
 
-        <S.SearchRateContainer>
-          <S.RateWrapper>
-            <S.RateTitle>참석률</S.RateTitle>
-            <S.Attendee>
-              {attendees.filter((attendee) => attendee.attendance).length} /{' '}
-              {attendees.length}
-            </S.Attendee>
-          </S.RateWrapper>
-          <Search
-            onSearch={setSearchQuery}
-            placeholder="이름, 학번, 이메일, 전화번호로 검색"
-          />
-        </S.SearchRateContainer>
-
-        <AttendeeTable
-          attendees={filteredAttendees} // 필터된 참석자 리스트를 전달
-          editMode={editMode}
-          sortData={sortData}
-          handleAttendanceChange={handleAttendanceChange}
-          sortConfig={sortConfig}
-          showStudentInfo={eventTarget === 'INTERNAL'}
-        />
+            <AttendeeTable
+              attendees={filteredAttendees}
+              editMode={editMode}
+              sortData={sortData}
+              handleAttendanceChange={handleAttendanceChange}
+              sortConfig={sortConfig}
+              showStudentInfo={eventTarget === 'INTERNAL'}
+            />
+          </>
+        )}
       </S.DashboardAttendee>
     </PageLayout>
   );

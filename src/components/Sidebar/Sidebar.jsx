@@ -24,12 +24,12 @@ const menuItems = [
   {
     to: '/events/dashboard/email',
     icon: <FaEnvelopeCircleCheck />,
-    text: '이메일 예약 발송',
+    text: '행사 안내 메일',
   },
   {
     to: '/events/dashboard/survey',
     icon: <FaClipboardList />,
-    text: '설문 조사 링크 발송',
+    text: '설문조사 안내 메일',
   },
   {
     to: '/events/dashboard/attendee',

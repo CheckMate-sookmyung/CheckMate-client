@@ -2,9 +2,9 @@ import * as S from './CompletionDropdown.style';
 import React, { useCallback, useEffect, useState } from 'react';
 import { BiChevronDown } from 'react-icons/bi';
 
-const CompletionDropdown = ({ items, onSelect }) => {
+const CompletionDropdown = ({ defaultItem, items, onSelect }) => {
   const [isActive, setIsActive] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(defaultItem || null);
 
   const onActiveToggle = useCallback(() => {
     setIsActive((prev) => !prev);

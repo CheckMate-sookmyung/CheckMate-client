@@ -1,27 +1,42 @@
 import { useState, useEffect } from 'react';
 import { PageLayout } from '@/Layout';
 import * as S from './DashboardEmailPage.style';
-import { Sidebar, Button, TopNavigation, Textarea } from '@/components';
+import { Sidebar, Button, TopNavigation, Textarea, Input } from '@/components';
 import { useRecoilValue } from 'recoil';
-import { eventDetail, eventIDState } from '@/recoil/atoms/state';
+import { eventIDState } from '@/recoil/atoms/state';
 import { axiosInstance } from '@/axios';
+import { getEventDetail } from '@/apis';
+import { useQuery } from '@tanstack/react-query';
 
 export default function DashboardEmailPage() {
   const eventId = useRecoilValue(eventIDState) || eventDetail.id;
-  const [surveyUrl, setSurveyUrl] = useState('');
   const [isModified, setIsModified] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [emailTitle, setEmailTitle] = useState('');
   const [emailContent, setEmailContent] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
+  const {
+    data: eventDetail,
+    isPending,
+    isError,
+  } = useQuery({
+    queryKey: ['getEventDetail', eventId],
+    queryFn: () => getEventDetail(eventId),
+  });
+
   useEffect(() => {
-    const fetchEmailContent = async () => {
+    const getEmailContent = async () => {
       try {
-        const response = await axiosInstance.get(
-          `/api/v1/events/mail/content/${eventId}`,
-        );
+        const response = await axiosInstance.get(`/api/v1/mail/${eventId}`, {
+          params: {
+            mailType: 'REMIND',
+          },
+        });
         if (response.status === 200) {
-          setEmailContent(response.data.content);
+          setEmailContent(response.data.mailContent);
+          setEmailTitle(response.data.mailTitle);
+          console.log(response);
         }
       } catch (error) {
         console.error('이메일 내용 불러오기 실패:', error);
@@ -30,17 +45,21 @@ export default function DashboardEmailPage() {
       }
     };
 
-    fetchEmailContent();
+    getEmailContent();
   }, [eventId]);
 
-  const handleInputChange = (e) => {
-    const newValue = e.target.value;
-    setSurveyUrl(newValue);
-    if (newValue !== '') {
-      setIsModified(true);
-    } else {
-      setIsModified(false);
-    }
+  // 메일 제목 수정 핸들러
+  const handleTitleChange = (e) => {
+    const newEmailTitle = e.target.value;
+    setEmailTitle(newEmailTitle);
+    setIsModified(newEmailTitle !== '' || emailContent !== '');
+  };
+
+  // 메일 내용 수정 핸들러
+  const handleTextareaChange = (e) => {
+    const newEmailContent = e.target.value;
+    setEmailContent(newEmailContent);
+    setIsModified(newEmailContent !== '' || emailTitle !== '');
   };
 
   // 저장하기 버튼
@@ -51,7 +70,11 @@ export default function DashboardEmailPage() {
 
     try {
       const response = await axiosInstance.put(
-        `/api/v1/events/mail/content/{mailId}`,
+        `/api/v1/events/mail/content/${eventId}`,
+        {
+          mailTitle: emailTitle,
+          mailContent: emailContent,
+        },
       );
 
       if (response.status === 200) {
@@ -67,6 +90,14 @@ export default function DashboardEmailPage() {
       setIsSaving(false);
     }
   };
+
+  if (isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return null;
+  }
 
   return (
     <PageLayout
@@ -91,23 +122,46 @@ export default function DashboardEmailPage() {
 
         <S.ContentContainer>
           <S.Content>
-            <S.ContentTitle>리마인드 메일 내용 수정</S.ContentTitle>
+            <S.ContentTitle>행사 안내 메일 발송</S.ContentTitle>
             <S.ContentDesc>
               <em>행사 시작 24시간 전</em>에 참석자들에게 발송 될&nbsp;
               <em>행사 안내 메일 내용</em>을 수정해 주세요.
+              <br />
+              행사 담당자에게도 참석자들에게 발송된 메일과 <em>동일한 내용</em>
+              의 메일이 발송됩니다.
             </S.ContentDesc>
           </S.Content>
-
-          {isLoading ? (
-            <p>로딩 중...</p>
-          ) : (
-            <Textarea
-              placeholder="행사 안내 메일 내용을 작성해 주세요."
-              value={emailContent}
-              onChange={(e) => setEmailContent(e.target.value)}
-              height="300px"
+          <S.Content>
+            <S.ContentTitle>행사 안내 메일 링크</S.ContentTitle>
+            <Input
+              placeholder="행사 안내 링크를 입력해 주세요."
+              // value={emailTitle}
+              // onChange={handleTitleChange}
             />
-          )}
+          </S.Content>
+          <S.Content>
+            <S.ContentTitle>메일 제목</S.ContentTitle>
+            <Input
+              placeholder="행사 안내 메일 제목을 작성해 주세요."
+              value={emailTitle}
+              onChange={handleTitleChange}
+            />
+          </S.Content>
+
+          <S.Content>
+            <S.ContentTitle>메일 내용</S.ContentTitle>
+
+            {isLoading ? (
+              <p>로딩 중...</p>
+            ) : (
+              <Textarea
+                placeholder="행사 안내 메일 내용을 작성해 주세요."
+                value={emailContent}
+                onChange={handleTextareaChange}
+                height="300px"
+              />
+            )}
+          </S.Content>
         </S.ContentContainer>
       </S.DashboardEmailPage>
     </PageLayout>

@@ -1,15 +1,14 @@
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { ATTENDEE_LIST } from './attendee';
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
-const YearChart = () => {
+const YearChart = ({ attendeeList }) => {
   const yearAttendance = {};
   let totalCompletedStudentsByYear = 0;
 
-  ATTENDEE_LIST[0].eventRatioDetailResponseDtos.forEach((student) => {
+  attendeeList.eventStatisticDetailResponseDtos.forEach((student) => {
     if (student.completion) {
       totalCompletedStudentsByYear++;
       const year = String(student.studentNumber).substring(0, 2);

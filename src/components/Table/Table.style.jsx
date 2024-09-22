@@ -35,7 +35,6 @@ export const TableData = styled.td`
   font-size: 14px;
   color: #555;
   white-space: nowrap;
-  overflow: hidden;
 
   &:first-child {
     text-align: left;

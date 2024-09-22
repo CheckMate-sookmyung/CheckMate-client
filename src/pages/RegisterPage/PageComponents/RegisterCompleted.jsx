@@ -42,7 +42,7 @@ const RegisterCompletedModal = ({ eventTitle, eventScheduleList }) => {
               backgroundColor="#F2F2F2"
               textColor="#323232"
               onClick={() => {
-                nav('/event', { replace: true });
+                nav('/events', { replace: true });
               }}
             />
           </S.ButtonWrapper>

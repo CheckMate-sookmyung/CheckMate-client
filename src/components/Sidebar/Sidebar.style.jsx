@@ -9,8 +9,8 @@ export const Sidebar = styled.div`
   flex-shrink: 0;
   padding-top: 35px;
   min-width: 180px;
-  height: 100vh;
-
+  border-right: 1px solid #ebedf0;
+  height: 100%;
   /* @media (max-width: ${BREAKPOINTS[0]}px) {
     display: none;
   } */

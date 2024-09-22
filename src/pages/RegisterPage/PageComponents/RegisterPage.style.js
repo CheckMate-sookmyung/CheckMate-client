@@ -6,7 +6,6 @@ export const RegisterPage = styled.div`
   flex-direction: column;
   padding: 50px;
   width: 100%;
-  border-left: 1px solid #ebedf0;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     padding: 20px;
@@ -140,4 +139,29 @@ export const MainButton = styled.button`
     background-color: #2f7cef;
     color: #f2f2f2;
   }
+`;
+
+export const Callout = styled.div`
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 8px;
+  background-color: #f8f8f8;
+  padding: 14px 18px;
+  width: 100%;
+  font-size: 14px;
+  color: #000;
+  outline: none;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+  gap: 10px;
+
+  &::placeholder {
+    color: #aaa;
+  }
+`;
+
+export const CheckBox = styled.input`
+  width: 18px;
+  height: 18px;
 `;

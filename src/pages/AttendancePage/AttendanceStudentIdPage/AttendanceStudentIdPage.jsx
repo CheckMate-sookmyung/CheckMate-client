@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import * as S from './AttendanceStudentIdPage.style';
 import { AttendanceHeader, Modal } from '@/components';
-import { USER_ID } from '@/constants';
 import { useSessionStorages } from '@/hooks';
 import { axiosInstance } from '@/axios';
 import { useNavigate } from 'react-router-dom';
@@ -37,8 +36,8 @@ const AttendanceStudentIdPage = () => {
   const getAttendanceCheck = async (params) => {
     const url =
       eventTarget === 'INTERNAL'
-        ? `/api/v1/attendance/check/studentNumber/${USER_ID}/${EVENT_ID}`
-        : `/api/v1/attendance/check/phoneNumber/${USER_ID}/${EVENT_ID}`;
+        ? `/api/v1/attendance/check/studentNumber/${EVENT_ID}`
+        : `/api/v1/attendance/check/phoneNumber/${EVENT_ID}`;
 
     console.log('API 호출 URL:', url);
     console.log('API 호출 파라미터:', {
@@ -80,10 +79,10 @@ const AttendanceStudentIdPage = () => {
           setIsModalOpen(true);
         } else {
           const parsedStudent = {
-            studentName: data.studentName || data[0].studentName,
-            studentNumber: data.studentNumber || data[0].studentNumber,
-            studentInfoId: data.studentInfoId || data[0].studentInfoId,
-            major: data.major || data[0].major,
+            studentName: data.attendeeName,
+            studentNumber: data.studentNumber,
+            studentInfoId: data.attendeeId,
+            major: data.attendeeAffiliation,
           };
 
           setAttendanceCheck(data);
@@ -112,13 +111,9 @@ const AttendanceStudentIdPage = () => {
   };
 
   useEffect(() => {
-    console.log('USER_ID:', USER_ID);
-    console.log('EVENT_ID:', EVENT_ID);
     const fetchEventDetails = async () => {
       try {
-        const response = await axiosInstance.get(
-          `/api/v1/events/${USER_ID}/${EVENT_ID}`,
-        );
+        const response = await axiosInstance.get(`/api/v1/events/${EVENT_ID}`);
         const eventData = response.data;
         setEventTitle(eventData.eventTitle);
         setEventTarget(eventData.eventTarget);
@@ -142,7 +137,7 @@ const AttendanceStudentIdPage = () => {
     };
 
     fetchEventDetails();
-  }, [EVENT_ID, USER_ID]);
+  }, [EVENT_ID]);
 
   return (
     <S.AttendanceStudentIdPage>

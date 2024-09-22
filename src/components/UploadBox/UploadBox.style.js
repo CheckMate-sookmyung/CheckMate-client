@@ -46,7 +46,8 @@ export const PreviewWrapper = styled.div`
   height: 100%;
   width: 100%;
   align-items: end;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const PreviewBox = styled.div`
@@ -56,6 +57,10 @@ export const PreviewBox = styled.div`
   border-radius: 10px;
   width: 45%;
   height: 100%;
+`;
+
+export const NoPreviewMsg = styled.div`
+  font-size: 18px;
 `;
 
 export const PreviewLabel = styled.button`
