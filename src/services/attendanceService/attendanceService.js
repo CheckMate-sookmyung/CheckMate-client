@@ -13,7 +13,7 @@ export const getAttendanceCheck = async ({ eventId }, params) => {
 
 export const postAttendanceSign = async ({ eventId, studentInfoId }, body) => {
   await axiosInstance.post(
-    `/api/v1/attendance/sign/${eventId}/${studentInfoId}`,
+    `/api/v1/attendance/check/sign/${eventId}/${studentInfoId}`,
     body,
     {
       headers: {
