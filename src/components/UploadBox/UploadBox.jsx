@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import * as S from './UploadBox.style';
-import FileButton from '../../pages/RegisterPage/RegisterComponents/Button/FileButton';
-
-//미리보기 선택 시 전체 프리뷰 기능 미구현
 
 // FileInfo 컴포넌트
 const FileInfo = ({ uploadedInfo }) => {
@@ -15,17 +12,20 @@ const FileInfo = ({ uploadedInfo }) => {
 
   return (
     <S.PreviewWrapper>
-      <S.PreviewBox
-        style={{
-          backgroundImage: `url(${uploadedInfo.previewURL})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
-        <S.PreviewLabel onClick={handlePreviewClick}>미리보기</S.PreviewLabel>
-      </S.PreviewBox>
-      {uploadedInfo.name !== null && (
-        <FileButton content={uploadedInfo.name} type={'white'} />
+      {uploadedInfo.previewURL ? (
+        <S.PreviewBox
+          style={{
+            backgroundImage: `url(${uploadedInfo.previewURL})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <S.PreviewLabel onClick={handlePreviewClick}>미리보기</S.PreviewLabel>
+        </S.PreviewBox>
+      ) : (
+        <S.NoPreviewMsg>
+          엑셀 파일은 미리보기를 제공하지 않습니다.
+        </S.NoPreviewMsg>
       )}
     </S.PreviewWrapper>
   );
@@ -43,9 +43,14 @@ const UploadBox = ({ defaultImageUrl, accept, onFileUpload }) => {
   };
 
   const setFileInfo = (file) => {
-    const name = file.name;
-    const previewURL = URL.createObjectURL(file);
-    setUploadedInfo({ name, previewURL });
+    let previewURL = null;
+
+    // 이미지 파일만 미리보기 URL 생성
+    if (file.type.startsWith('image/')) {
+      previewURL = URL.createObjectURL(file);
+    }
+
+    setUploadedInfo({ previewURL });
     if (onFileUpload) {
       onFileUpload(file);
     }
