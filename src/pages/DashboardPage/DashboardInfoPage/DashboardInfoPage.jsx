@@ -270,16 +270,16 @@ export default function DashboardInfoPage() {
             />
           </S.Content>
 
-          <S.Content>
+          {/* 행사 일정 수정이 안되는 관계로 임시 주석 처리 */}
+          {/* <S.Content>
             <S.ContentTitle>행사 기간</S.ContentTitle>
-            {/* 행사 일정 컴포넌트 적용 */}
             <EventScheduleList
               eventSchedules={eventSchedules}
               handleScheduleChange={handleScheduleChange}
               handleAddSchedule={handleAddSchedule}
               handleDeleteSchedule={handleDeleteSchedule}
             />
-          </S.Content>
+          </S.Content> */}
 
           <S.Content>
             <S.ContentTitle>온라인/오프라인 여부</S.ContentTitle>
