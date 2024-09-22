@@ -28,14 +28,11 @@ export default function DashboardEmailPage() {
   useEffect(() => {
     const getEmailContent = async () => {
       try {
-        const response = await axiosInstance.get(
-          `/api/v1/events/mail/content/${eventId}`,
-          {
-            params: {
-              mailType: 'REMIND',
-            },
+        const response = await axiosInstance.get(`/api/v1/mail/${eventId}`, {
+          params: {
+            mailType: 'REMIND',
           },
-        );
+        });
         if (response.status === 200) {
           setEmailContent(response.data.mailContent);
           setEmailTitle(response.data.mailTitle);
