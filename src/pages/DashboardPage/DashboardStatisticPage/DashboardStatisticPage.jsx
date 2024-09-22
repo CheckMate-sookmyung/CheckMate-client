@@ -51,7 +51,7 @@ const DetailStatisticsPage = () => {
         <S.TopContainer>
           <S.Title>세부 통계</S.Title>
           <S.EventDate>
-            {startDate} ~ {endDate}
+            {`${eventStatistic.eventDates[0]} ~ ${eventStatistic.eventDates[eventStatistic.eventDates.length - 1]}`}
           </S.EventDate>
         </S.TopContainer>
 
