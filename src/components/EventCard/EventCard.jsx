@@ -15,6 +15,7 @@ const EventCard = ({ id, title, poster, startDate, endDate }) => {
 
   const attendanceCheck = (event) => {
     event.stopPropagation();
+    setContent(id);
     navigate('/attendance/student-id');
   };
 
