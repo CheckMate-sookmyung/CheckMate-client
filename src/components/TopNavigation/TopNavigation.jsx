@@ -2,16 +2,16 @@ import { useEffect, useState } from 'react';
 import * as S from './TopNavigation.style';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FaBars, FaCircleUser } from 'react-icons/fa6';
-import { Sidebar, SlimButton } from '@/components';
+import { Sidebar, SlimButton, UserDropdown } from '@/components';
 import { BREAKPOINTS } from '@/styles';
 import { axiosInstance } from '@/axios';
 
 export default function TopNavigation({ eventTitle } = {}) {
   const name = sessionStorage.getItem('name');
-  const USER_ID = sessionStorage.getItem('id');
   const nav = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const location = useLocation();
 
@@ -29,6 +29,10 @@ export default function TopNavigation({ eventTitle } = {}) {
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const handleUserControl = () => {
+    setIsDropdownOpen(!isDropdownOpen);
   };
 
   useEffect(() => {
@@ -97,7 +101,12 @@ export default function TopNavigation({ eventTitle } = {}) {
       </S.LogoMenuWrapper>
       <S.ProfileMenuWrapper>
         {isLoggedIn ? (
-          <b onClick={() => handleLogout()}>{name}</b>
+          <>
+            <div onClick={handleUserControl}>
+              {name}
+              {isDropdownOpen && <UserDropdown />}
+            </div>
+          </>
         ) : (
           <SlimButton label={'로그인'} onClick={handleLoginClick} />
         )}
