@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as S from './UploadBox.style';
 
 // FileInfo 컴포넌트
@@ -32,7 +32,7 @@ const FileInfo = ({ uploadedInfo }) => {
 };
 
 // UploadBox 컴포넌트
-const UploadBox = ({ accept, onFileUpload }) => {
+const UploadBox = ({ defaultImageUrl, accept, onFileUpload }) => {
   const [isActive, setActive] = useState(false);
   const [uploadedInfo, setUploadedInfo] = useState(null);
 
@@ -70,6 +70,13 @@ const UploadBox = ({ accept, onFileUpload }) => {
     if (!file) return;
     setFileInfo(file);
   };
+
+  useEffect(() => {
+    setUploadedInfo({
+      name: '',
+      previewURL: defaultImageUrl,
+    });
+  }, [defaultImageUrl]);
 
   return (
     <S.StyledLabel

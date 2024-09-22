@@ -39,7 +39,7 @@ export default function DashboardPage() {
       mutationFn: () => deleteEvent(eventId),
       onSuccess: () => {
         alert('행사가 삭제되었습니다. 목록 페이지로 이동합니다.');
-        navigate('/event');
+        navigate('/events');
       },
       onError: () => {
         alert('행사 삭제에 실패했습니다. 다시 시도해 주세요.');

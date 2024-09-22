@@ -6,7 +6,6 @@ export const RegisterPage = styled.div`
   flex-direction: column;
   padding: 50px;
   width: 100%;
-  border-left: 1px solid #ebedf0;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {
     padding: 20px;

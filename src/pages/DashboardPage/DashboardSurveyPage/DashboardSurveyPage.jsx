@@ -3,14 +3,25 @@ import { PageLayout } from '@/Layout';
 import * as S from './DashboardSurveyPage.style';
 import { Sidebar, Button, TopNavigation, Input } from '@/components';
 import { useRecoilValue } from 'recoil';
-import { eventDetail, eventIDState } from '@/recoil/atoms/state';
+import { eventIDState } from '@/recoil/atoms/state';
 import { axiosInstance } from '@/axios';
+import { getEventDetail } from '@/apis';
+import { useQuery } from '@tanstack/react-query';
 
 export default function DashboardSurveyPage() {
-  const eventId = useRecoilValue(eventIDState) || eventDetail.id;
+  const eventId = useRecoilValue(eventIDState);
   const [surveyUrl, setSurveyUrl] = useState('');
   const [isModified, setIsModified] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+
+  const {
+    data: eventDetail,
+    isPending,
+    isError,
+  } = useQuery({
+    queryKey: ['getEventDetail', eventId],
+    queryFn: () => getEventDetail(eventId),
+  });
 
   // 설문조사 링크 가져오기
   useEffect(() => {
@@ -69,6 +80,14 @@ export default function DashboardSurveyPage() {
       setIsModified(false);
     }
   };
+
+  if (isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return null;
+  }
 
   return (
     <PageLayout

@@ -5,7 +5,6 @@ import SignatureCanvas from 'react-signature-canvas';
 import { useState, useRef, useEffect } from 'react';
 import { postAttendanceSign } from '@/services';
 import { useSessionStorages } from '@/hooks';
-import { USER_ID } from '@/constants';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { axiosInstance } from '@/axios';
 import { FiRotateCcw } from 'react-icons/fi';
@@ -36,7 +35,6 @@ const AttendanceSignPage = () => {
     console.log(studentInfo);
     await postAttendanceSign(
       {
-        userId: USER_ID,
         eventId: EVENT_ID,
         studentInfoId,
       },
@@ -71,9 +69,7 @@ const AttendanceSignPage = () => {
   useEffect(() => {
     const fetchEventDetails = async () => {
       try {
-        const response = await axiosInstance.get(
-          `/api/v1/events/${USER_ID}/${EVENT_ID}`,
-        );
+        const response = await axiosInstance.get(`/api/v1/events/${EVENT_ID}`);
         const eventData = response.data;
         setEventTitle(eventData.eventTitle);
         setEventTarget(eventData.eventTarget);
