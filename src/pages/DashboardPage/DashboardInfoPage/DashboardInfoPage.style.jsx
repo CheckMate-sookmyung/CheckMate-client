@@ -4,7 +4,6 @@ import { BREAKPOINTS } from '@/styles';
 
 export const DashboardInfo = styled.div`
   flex-grow: 1;
-  border-left: 1px solid #ebedf0;
   padding: 50px;
 
   @media (max-width: ${BREAKPOINTS[0]}px) {

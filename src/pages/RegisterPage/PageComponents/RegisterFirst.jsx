@@ -6,15 +6,15 @@ import {
 } from '@/recoil/atoms/state';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import BlueButton from '../RegisterComponents/Button/BlueButton';
-import { EventTypeCard, EventTargetOption, Button } from '@/components';
+import { EventTypeRadioGroup, EventTargetOption, Button } from '@/components';
 
 const RegisterFirst = () => {
   const Step = useSetRecoilState(RegisterStep);
   const [eventType, setEventType] = useRecoilState(eventTypeState);
   const [eventTarget, setEventTarget] = useRecoilState(eventTargetState);
 
-  const handleEventType = (status) => {
-    setEventType(status);
+  const handleEventTypeRadioGroupChange = (eventType) => {
+    setEventType(eventType);
   };
 
   const stepUp = () => {
@@ -39,7 +39,10 @@ const RegisterFirst = () => {
                   다른 라이브 스트리밍 플랫폼을 활용하여 행사를 진행합니다.
                 </S.SubTitle>
               </S.TitleWrapper>
-              <EventTypeCard handleEventType={handleEventType} />
+              <EventTypeRadioGroup
+                value={eventType}
+                onChange={handleEventTypeRadioGroupChange}
+              />
             </S.ContentWrapper>
           </S.ContentBox>
         </S.RegisterCategory>

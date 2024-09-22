@@ -1,15 +1,11 @@
-import { eventTypeState } from '@/recoil/atoms/state';
-import { useRecoilState } from 'recoil';
-import * as S from './EventTypeCard.style';
+import * as S from './EventTypeRadioGroup.style';
 
-const EventTypeCard = ({ handleEventType }) => {
-  const [eventType, setEventType] = useRecoilState(eventTypeState);
-
+const EventTypeRadioGroup = ({ value, onChange }) => {
   return (
     <S.FlexWrapper style={{ flexWrap: 'wrap' }}>
       <S.ChoiceBox
-        onClick={() => handleEventType('ONLINE')}
-        isSelected={eventType === 'ONLINE'}
+        onClick={() => onChange('ONLINE')}
+        isSelected={value === 'ONLINE'}
       >
         <S.TitleWrapper>
           <S.Category>온라인 행사</S.Category>
@@ -19,8 +15,8 @@ const EventTypeCard = ({ handleEventType }) => {
       </S.ChoiceBox>
 
       <S.ChoiceBox
-        onClick={() => handleEventType('OFFLINE')}
-        isSelected={eventType === 'OFFLINE'}
+        onClick={() => onChange('OFFLINE')}
+        isSelected={value === 'OFFLINE'}
       >
         <S.TitleWrapper>
           <S.Category>오프라인 행사</S.Category>
@@ -32,4 +28,4 @@ const EventTypeCard = ({ handleEventType }) => {
   );
 };
 
-export default EventTypeCard;
+export default EventTypeRadioGroup;
