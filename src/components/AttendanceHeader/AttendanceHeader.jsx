@@ -5,7 +5,7 @@ import { FiX } from 'react-icons/fi';
 const AttendanceHeader = ({ eventTitle }) => {
   return (
     <S.Container>
-      <S.CloseIconAnchor href="/events">
+      <S.CloseIconAnchor onClick={() => window.history.back()}>
         <FiX color="#000" />
       </S.CloseIconAnchor>
       <S.ContentContainer>
@@ -19,8 +19,7 @@ const AttendanceHeader = ({ eventTitle }) => {
 };
 
 AttendanceHeader.propTypes = {
-  event: PropTypes.string.isRequired,
-  activeStep: PropTypes.number.isRequired,
+  eventTitle: PropTypes.string.isRequired,
 };
 
 export default AttendanceHeader;
