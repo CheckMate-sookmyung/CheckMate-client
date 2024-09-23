@@ -141,38 +141,28 @@ export const AddDeleteButton = styled.button`
   }
 `;
 
-// 버튼 그룹 (참석자 추가/삭제 버튼과 출석 여부 수정하기 버튼을 감싸는 컨테이너)
+// 참석자 추가 버튼 + 출석 여부 수정하기 버튼
 export const ButtonGroup = styled.div`
   display: flex;
   gap: 10px;
 `;
 
-// 모달 타이틀
+// 모달
 export const ModalTitle = styled.h2`
   font-size: 20px;
   margin-bottom: 20px;
   text-align: center;
 `;
 
-// 버튼 래퍼 (모달 내 버튼들을 감싸는 컨테이너)
-export const ButtonWrapper = styled.div`
+export const ModalInputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+export const ModalButtonWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
-`;
-
-// 입력 필드 스타일 (모달 내 입력 필드 스타일)
-export const InputField = styled.input`
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
-  box-sizing: border-box;
-
-  &:focus {
-    outline: none;
-    border-color: #007bff;
-  }
+  gap: 10px;
 `;

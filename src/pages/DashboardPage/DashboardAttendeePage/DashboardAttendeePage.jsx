@@ -13,6 +13,7 @@ import {
   SlimButton,
   Modal,
   Input,
+  Button,
 } from '@/components';
 import {
   getAttendanceList,
@@ -428,36 +429,43 @@ export default function DashboardAttendeePage() {
       {isModalOpen && (
         <Modal onClose={handleModalToggle}>
           <S.ModalTitle>참석자 추가</S.ModalTitle>
-          <Input
-            name="name"
-            placeholder="이름"
-            value={newAttendee.name}
-            onChange={handleInputChange}
-          />
-          <Input
-            name="major"
-            placeholder="소속"
-            value={newAttendee.major}
-            onChange={handleInputChange}
-          />
-          {eventTarget === 'INTERNAL' && (
+          <S.ModalInputWrapper>
             <Input
-              name="studentNumber"
-              placeholder="학번"
-              value={newAttendee.studentNumber}
+              name="name"
+              placeholder="이름"
+              value={newAttendee.name}
               onChange={handleInputChange}
             />
-          )}
-          <Input
-            name="phoneNumber"
-            placeholder="휴대폰 번호"
-            value={newAttendee.phoneNumber}
-            onChange={handleInputChange}
-          />
-          <S.ButtonWrapper>
-            <SlimButton onClick={handleAddAttendee} label="추가하기" />
-            <SlimButton onClick={handleModalToggle} label="닫기" />
-          </S.ButtonWrapper>
+            <Input
+              name="major"
+              placeholder="소속"
+              value={newAttendee.major}
+              onChange={handleInputChange}
+            />
+            {eventTarget === 'INTERNAL' && (
+              <Input
+                name="studentNumber"
+                placeholder="학번"
+                value={newAttendee.studentNumber}
+                onChange={handleInputChange}
+              />
+            )}
+            <Input
+              name="phoneNumber"
+              placeholder="휴대폰 번호"
+              value={newAttendee.phoneNumber}
+              onChange={handleInputChange}
+            />{' '}
+          </S.ModalInputWrapper>
+          <S.ModalButtonWrapper>
+            <Button
+              onClick={handleModalToggle}
+              backgroundColor="#fff"
+              textColor="#000"
+              label="닫기"
+            />
+            <Button onClick={handleAddAttendee} label="추가 완료" />
+          </S.ModalButtonWrapper>
         </Modal>
       )}
     </PageLayout>
