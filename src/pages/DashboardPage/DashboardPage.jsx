@@ -152,22 +152,10 @@ export default function DashboardPage() {
       };
     });
 
-    // const totalAttendance = schedules.reduce((acc, schedule) => {
-    //   const attendedCount = schedule.attendanceList.filter(
-    //     (attendee) => attendee.attendance,
-    //   ).length;
-    //   return acc + attendedCount;
-    // }, 0);
-
-    // const totalParticipants = schedules[0].attendanceList.length;
-    // const averageAttendance = totalParticipants
-    //   ? (totalAttendance / schedules.length).toFixed(1)
-    //   : 0;
-
     const parsedEvent = {
       title: eventDetail.eventTitle,
       detail: eventDetail.eventDetail,
-      image: eventDetail.eventImage || 'img/logo-background.svg',
+      image: eventDetail.eventImage || '/img/logo-background.svg',
       schedules,
       totalSessions: eventDetail.eventSchedules.length,
       // totalParticipants,
