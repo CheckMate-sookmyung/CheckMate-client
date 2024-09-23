@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { Bar } from 'react-chartjs-2';
+import React, { useContext, useEffect, useState } from 'react';
+import { Bar, Pie } from 'react-chartjs-2';
 import { SortedStudent } from './TotalStatisticsPage';
 import {
   Chart as ChartJS,
@@ -9,10 +9,11 @@ import {
   Legend as ChartLegend,
   CategoryScale,
   LinearScale,
+  ArcElement,
 } from 'chart.js';
 import { GraphBox } from '@/components';
-import styled from 'styled-components';
-import { BsThreeDots } from 'react-icons/bs';
+import * as S from './GraphChart.style';
+import EventsGraphChart from './EventsGraphChart';
 
 ChartJS.register(
   BarElement,
@@ -21,84 +22,20 @@ ChartJS.register(
   ChartLegend,
   CategoryScale,
   LinearScale,
+  ArcElement,
 );
 
-const ChartContent = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 30px 0;
-`;
-
-const ChartArea = styled.div`
-  display: flex;
-  flex: 1;
-  min-width: 300px;
-  max-width: 600px;
-  padding-right: 40px;
-`;
-
-const LegendContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  gap: 10px;
-`;
-
-const LegendItem = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 16px;
-  color: #323232;
-  gap: 10px;
-`;
-
-const LegendCircle = styled.div`
-  width: 16px;
-  height: 16px;
-  background-color: ${(props) => props.color};
-  border-radius: 50%;
-  margin-right: 10px;
-`;
-
-const LegendText = styled.span`
-  color: #323232;
-  flex-grow: 1;
-`;
-
-const LegendDots = styled(BsThreeDots)`
-  font-size: 16px;
-  color: #5495f6;
-  display: flex;
-  align-items: center;
-`;
-
-const LegendPercentage = styled.span`
-  font-size: 16px;
-  color: #2f7cef;
-  display: flex;
-  align-items: center;
-`;
-
-const HiddenLegend = styled.div`
-  display: block;
-
-  @media (max-width: 1024px) {
-    display: none;
-  }
-`;
-
 const Legend = ({ topStudents, ratedColors }) => (
-  <LegendContainer>
+  <S.LegendContainer>
     {topStudents.map((student, index) => (
-      <LegendItem key={student.studentName}>
-        <LegendCircle color={ratedColors[index]} />
-        <LegendText>{student.studentName}</LegendText>
-        <LegendDots />
-        <LegendPercentage>{`(${student.attendanceRate}%)`}</LegendPercentage>
-      </LegendItem>
+      <S.LegendItem key={student.studentName}>
+        <S.LegendCircle color={ratedColors[index]} />
+        <S.LegendText>{student.studentName}</S.LegendText>
+        <S.LegendDots />
+        <S.LegendPercentage>{`(${Math.floor(student.attendanceRate)}%)`}</S.LegendPercentage>
+      </S.LegendItem>
     ))}
-  </LegendContainer>
+  </S.LegendContainer>
 );
 
 const GraphChart = () => {
@@ -126,6 +63,7 @@ const GraphChart = () => {
         data: attendanceRates,
         backgroundColor: ratedColors,
         borderWidth: 1,
+        borderRadius: 10,
         datalabels: {
           color: '#fff',
           align: 'end',
@@ -193,16 +131,22 @@ const GraphChart = () => {
   };
 
   return (
-    <GraphBox title="출석률 좋은 학생 TOP 5">
-      <ChartContent>
-        <ChartArea>
-          <Bar data={graphData} options={options} />
-        </ChartArea>
-        <HiddenLegend>
-          <Legend topStudents={topStudents} ratedColors={ratedColors} />
-        </HiddenLegend>
-      </ChartContent>
-    </GraphBox>
+    <div>
+      <GraphBox title="출석률 좋은 학생 TOP 5">
+        <S.ChartContent>
+          <S.ChartArea>
+            <Bar data={graphData} options={options} />
+          </S.ChartArea>
+          <S.HiddenLegend>
+            <Legend topStudents={topStudents} ratedColors={ratedColors} />
+          </S.HiddenLegend>
+        </S.ChartContent>
+      </GraphBox>
+      <S.MarginBox>
+        <S.ChartTitle>출석률 높은 행사 TOP 3</S.ChartTitle>
+        <EventsGraphChart />
+      </S.MarginBox>
+    </div>
   );
 };
 
