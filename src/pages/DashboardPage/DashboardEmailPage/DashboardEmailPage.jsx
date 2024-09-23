@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { PageLayout } from '@/Layout';
 import * as S from './DashboardEmailPage.style';
 import { Sidebar, Button, TopNavigation, Textarea, Input } from '@/components';
@@ -9,12 +9,13 @@ import { getEventDetail } from '@/apis';
 import { useQuery } from '@tanstack/react-query';
 
 export default function DashboardEmailPage() {
-  const eventId = useRecoilValue(eventIDState) || eventDetail.id;
+  const eventId = useRecoilValue(eventIDState);
   const [isModified, setIsModified] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [emailTitle, setEmailTitle] = useState('');
   const [emailContent, setEmailContent] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [isSendEnabled, setIsSendEnabled] = useState(true);
 
   const {
     data: eventDetail,
@@ -48,21 +49,18 @@ export default function DashboardEmailPage() {
     getEmailContent();
   }, [eventId]);
 
-  // 메일 제목 수정 핸들러
   const handleTitleChange = (e) => {
     const newEmailTitle = e.target.value;
     setEmailTitle(newEmailTitle);
     setIsModified(newEmailTitle !== '' || emailContent !== '');
   };
 
-  // 메일 내용 수정 핸들러
   const handleTextareaChange = (e) => {
     const newEmailContent = e.target.value;
     setEmailContent(newEmailContent);
     setIsModified(newEmailContent !== '' || emailTitle !== '');
   };
 
-  // 저장하기 버튼
   const handleSaveButtonClick = async () => {
     if (!isModified) return;
 
@@ -74,6 +72,7 @@ export default function DashboardEmailPage() {
         {
           mailTitle: emailTitle,
           mailContent: emailContent,
+          isSendEnabled, // 발송 여부 전달
         },
       );
 
@@ -122,7 +121,16 @@ export default function DashboardEmailPage() {
 
         <S.ContentContainer>
           <S.Content>
-            <S.ContentTitle>행사 안내 메일 발송</S.ContentTitle>
+            <S.ContentTitleCheckBoxWrapper>
+              <S.ContentTitle>발송 여부</S.ContentTitle>
+              <label className="toggle-switch">
+                <input
+                  type="checkbox"
+                  checked={isSendEnabled}
+                  onChange={(e) => setIsSendEnabled(e.target.checked)}
+                />
+              </label>
+            </S.ContentTitleCheckBoxWrapper>
             <S.ContentDesc>
               <em>행사 시작 24시간 전</em>에 참석자들에게 발송 될&nbsp;
               <em>행사 안내 메일 내용</em>을 수정해 주세요.
@@ -131,6 +139,7 @@ export default function DashboardEmailPage() {
               의 메일이 발송됩니다.
             </S.ContentDesc>
           </S.Content>
+
           <S.Content>
             <S.ContentTitle>행사 안내 메일 링크</S.ContentTitle>
             <Input

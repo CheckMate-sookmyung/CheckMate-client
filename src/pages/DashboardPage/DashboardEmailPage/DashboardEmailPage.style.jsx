@@ -51,6 +51,11 @@ export const Content = styled.div`
   gap: 10px;
 `;
 
+export const ContentTitleCheckBoxWrapper = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
 export const ContentTitle = styled.h2`
   font-size: 18px;
   font-weight: bold;
