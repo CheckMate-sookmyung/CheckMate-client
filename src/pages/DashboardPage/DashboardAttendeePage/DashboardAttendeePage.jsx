@@ -11,6 +11,8 @@ import {
   TopNavigation,
   TabMenu,
   SlimButton,
+  Modal,
+  Input,
 } from '@/components';
 import {
   getAttendanceList,
@@ -34,6 +36,13 @@ export default function DashboardAttendeePage() {
     direction: 'asc',
   });
   const [sessionAttendees, setSessionAttendees] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newAttendee, setNewAttendee] = useState({
+    name: '',
+    major: '',
+    studentNumber: '',
+    phoneNumber: '',
+  });
   const eventId = useRecoilValue(eventIDState);
 
   const queryClient = useQueryClient();
@@ -56,12 +65,6 @@ export default function DashboardAttendeePage() {
     queryFn: () => getAttendanceList(eventId),
   });
 
-  useEffect(() => {
-    if (attendanceList) {
-      console.log('Attendance List:', attendanceList);
-    }
-  }, [attendanceList]);
-
   const {
     mutate: updateAttendanceListMutate,
     isPending: isUpdateAttendanceListPending,
@@ -76,6 +79,57 @@ export default function DashboardAttendeePage() {
       alert('출석 정보 업데이트에 실패했습니다.');
     },
   });
+
+  // 모달창 열기/닫기 핸들러
+  const handleModalToggle = () => {
+    setIsModalOpen((prev) => !prev);
+  };
+
+  // 모달창에서 입력 필드 변경 핸들러
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewAttendee((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  // 참석자 추가 확인 버튼 핸들러
+  const handleAddAttendee = async () => {
+    try {
+      const response = await axiosInstance.put(
+        `/api/v1/events/attendee/${eventId}`,
+        {
+          attendees: [
+            {
+              name: newAttendee.name,
+              major: newAttendee.major,
+              studentNumber:
+                eventTarget === 'INTERNAL' ? newAttendee.studentNumber : '',
+              phoneNumber: newAttendee.phoneNumber,
+            },
+          ],
+        },
+      );
+
+      if (response.status === 200) {
+        alert('참석자가 성공적으로 추가되었습니다.');
+        setIsModalOpen(false);
+        setNewAttendee({
+          name: '',
+          major: '',
+          studentNumber: '',
+          phoneNumber: '',
+        });
+        queryClient.invalidateQueries(['getAttendanceList', eventId]); // 참석자 목록 새로고침
+      } else {
+        alert('참석자 추가에 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('참석자 추가 중 오류 발생:', error);
+      alert('참석자 추가 중 오류가 발생했습니다. 다시 시도해 주세요.');
+    }
+  };
 
   useEffect(() => {
     if (!eventDetail) {
@@ -127,7 +181,6 @@ export default function DashboardAttendeePage() {
     }
   }, [eventDetail]);
 
-  // 참석자 정보 가져오기
   useEffect(() => {
     if (attendanceList) {
       const parsedSessions = attendanceList.map((session, index) => {
@@ -329,14 +382,17 @@ export default function DashboardAttendeePage() {
                   />
                 ))}
               </S.TabContainer>
-              <S.EditMode
-                type="button"
-                disabled={isUpdateAttendanceListPending}
-                active={editMode}
-                onClick={handleEditModeToggle}
-              >
-                {editMode ? '저장하기' : '출석 여부 수정하기'}
-              </S.EditMode>
+              <S.ButtonGroup>
+                <S.EditMode onClick={handleModalToggle}>참석자 추가</S.EditMode>
+                <S.EditMode
+                  type="button"
+                  disabled={isUpdateAttendanceListPending}
+                  active={editMode}
+                  onClick={handleEditModeToggle}
+                >
+                  {editMode ? '저장하기' : '출석 여부 수정하기'}
+                </S.EditMode>
+              </S.ButtonGroup>
             </S.TabEditWrapper>
 
             <S.SearchRateContainer>
@@ -367,6 +423,43 @@ export default function DashboardAttendeePage() {
           </>
         )}
       </S.DashboardAttendee>
+
+      {/* 참석자 추가/삭제 모달 */}
+      {isModalOpen && (
+        <Modal onClose={handleModalToggle}>
+          <S.ModalTitle>참석자 추가</S.ModalTitle>
+          <Input
+            name="name"
+            placeholder="이름"
+            value={newAttendee.name}
+            onChange={handleInputChange}
+          />
+          <Input
+            name="major"
+            placeholder="소속"
+            value={newAttendee.major}
+            onChange={handleInputChange}
+          />
+          {eventTarget === 'INTERNAL' && (
+            <Input
+              name="studentNumber"
+              placeholder="학번"
+              value={newAttendee.studentNumber}
+              onChange={handleInputChange}
+            />
+          )}
+          <Input
+            name="phoneNumber"
+            placeholder="휴대폰 번호"
+            value={newAttendee.phoneNumber}
+            onChange={handleInputChange}
+          />
+          <S.ButtonWrapper>
+            <SlimButton onClick={handleAddAttendee} label="추가하기" />
+            <SlimButton onClick={handleModalToggle} label="닫기" />
+          </S.ButtonWrapper>
+        </Modal>
+      )}
     </PageLayout>
   );
 }
