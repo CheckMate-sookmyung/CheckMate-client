@@ -5,7 +5,7 @@ export const ChartWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: calc(50% - 16px);
+  width: calc(60% - 16px);
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
     width: 100%;
