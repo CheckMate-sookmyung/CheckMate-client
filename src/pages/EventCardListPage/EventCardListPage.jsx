@@ -17,9 +17,7 @@ const EventCardListPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get(
-          `/api/v1/events?memberId=${USER_ID}&authority=MEMBER&member=true`,
-        );
+        const response = await axiosInstance.get(`/api/v1/events`);
         const parsedEvents = response.data.map((event) => {
           const startDate = event.eventSchedules[0];
           const endDate =
