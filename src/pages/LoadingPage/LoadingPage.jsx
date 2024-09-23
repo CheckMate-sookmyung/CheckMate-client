@@ -50,12 +50,7 @@ const LoadingPage = () => {
 
         if (isNewMember) {
           const signupResponse = await axios.post(
-            `${REACT_APP_SERVER_URL}/api/v1/signup`,
-            {
-              name,
-              email,
-              socialId,
-            },
+            `${REACT_APP_SERVER_URL}/api/v1/signup?name=${name}&email=${email}&socialId=${socialId}`,
           );
 
           if (signupResponse.status !== 200) {
