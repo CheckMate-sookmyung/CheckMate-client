@@ -316,7 +316,7 @@ export default function DashboardInfoPage() {
             />
           </S.Content>
 
-          <S.Content>
+          {/* <S.Content>
             <S.ContentTitle>행사 커버 이미지</S.ContentTitle>
             <S.ContentDescWrapper>
               <S.ContentDesc>
@@ -327,7 +327,7 @@ export default function DashboardInfoPage() {
                 onImageUpload={handleImageUpload}
               />
             </S.ContentDescWrapper>
-          </S.Content>
+          </S.Content> */}
 
           <S.Content>
             <S.ContentTitle>행사 이수 기준</S.ContentTitle>
