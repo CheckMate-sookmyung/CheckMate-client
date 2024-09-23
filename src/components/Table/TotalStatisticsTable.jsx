@@ -10,7 +10,7 @@ const TotalStatisticTable = ({ studentData }) => {
             <S.TableHeader>이름</S.TableHeader>
             <S.TableHeader>학과</S.TableHeader>
             <S.TableHeader>학번</S.TableHeader>
-            <S.TableHeader>학년</S.TableHeader>
+            {/* <S.TableHeader>학년</S.TableHeader> */}
             <S.TableHeader>휴대폰번호</S.TableHeader>
             <S.TableHeader>이메일 주소</S.TableHeader>
             <S.TableHeader>참석행사</S.TableHeader>
@@ -24,7 +24,7 @@ const TotalStatisticTable = ({ studentData }) => {
               <S.TableData>{student.studentName}</S.TableData>
               <S.TableData>{student.studentMajor}</S.TableData>
               <S.TableData>{student.studentNumber}</S.TableData>
-              <S.TableData>{student.grade || '-'}</S.TableData>
+              {/* <S.TableData>{student.grade || '-'}</S.TableData> */}
               <S.TableData>{student.phoneNumber || '-'}</S.TableData>
               <S.TableData>{student.studentEmail}</S.TableData>
               <S.TableData>

@@ -10,7 +10,9 @@ import { useQuery } from '@tanstack/react-query';
 
 export default function DashboardSurveyPage() {
   const eventId = useRecoilValue(eventIDState);
+  const [mailId, setMailId] = useState(null);
   const [surveyUrl, setSurveyUrl] = useState('');
+  const [isSendSurvey, setIsSendSurvey] = useState(true);
   const [isModified, setIsModified] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -23,16 +25,23 @@ export default function DashboardSurveyPage() {
     queryFn: () => getEventDetail(eventId),
   });
 
-  // 설문조사 링크 가져오기
+  // 설문조사 링크와 mailId 조회
   useEffect(() => {
-    const getSurveyUrl = async () => {
+    const getSurveyUrlAndMailId = async () => {
       try {
         const response = await axiosInstance.get(
-          `/api/v1/events/survey/${eventId}`,
+          `/api/v1/mail/send/${eventId}`,
+          {
+            params: {
+              mailType: 'SURVEY',
+            },
+          },
         );
 
         if (response.status === 200 && response.data) {
-          setSurveyUrl(response.data);
+          setSurveyUrl(response.data.surveyUrl);
+          setIsSendSurvey(response.data.isSendSurvey);
+          setMailId(response.data.mailId);
         } else {
           console.error(response);
         }
@@ -41,19 +50,49 @@ export default function DashboardSurveyPage() {
       }
     };
 
-    getSurveyUrl();
+    getSurveyUrlAndMailId();
   }, [eventId]);
+
+  // 저장하기 버튼
+  const handleInputChange = (e) => {
+    const newValue = e.target.value;
+    setSurveyUrl(newValue);
+
+    if (newValue !== '' || isSendSurvey !== eventDetail.isSendSurvey) {
+      setIsModified(true);
+    } else {
+      setIsModified(false);
+    }
+  };
+
+  // 체크박스 변경 시 상태 업데이트
+  const handleCheckboxChange = (e) => {
+    setIsSendSurvey(e.target.checked);
+
+    if (surveyUrl !== '' || e.target.checked !== eventDetail.isSendSurvey) {
+      setIsModified(true);
+    } else {
+      setIsModified(false);
+    }
+  };
 
   // 설문조사 링크 수정
   const handleSaveButtonClick = async () => {
     if (!isModified) return;
 
+    if (!mailId) {
+      alert('메일 ID를 불러오지 못했습니다.');
+      return;
+    }
+
     setIsSaving(true);
 
     try {
-      const response = await axiosInstance.put(
-        `/api/v1/events/survey/${eventId}?surveyUrl=${surveyUrl}`,
-      );
+      const response = await axiosInstance.put(`/api/v1/mail/${mailId}`, {
+        mailType: 'SURVEY',
+        surveyUrl,
+        isSendSurvey,
+      });
 
       if (response.status === 200) {
         alert('설문 조사 링크가 성공적으로 저장되었습니다!');
@@ -66,18 +105,6 @@ export default function DashboardSurveyPage() {
       alert('설문 조사 링크 저장 중 오류가 발생했습니다.');
     } finally {
       setIsSaving(false);
-    }
-  };
-
-  // 저장하기 버튼
-  const handleInputChange = (e) => {
-    const newValue = e.target.value;
-    setSurveyUrl(newValue);
-
-    if (newValue !== '') {
-      setIsModified(true);
-    } else {
-      setIsModified(false);
     }
   };
 
@@ -112,17 +139,35 @@ export default function DashboardSurveyPage() {
 
         <S.ContentContainer>
           <S.Content>
-            <S.ContentTitle>WISE 설문 조사 링크 등록</S.ContentTitle>
+            <S.ContentTitleCheckBoxWrapper>
+              <S.ContentTitle>설문조사 발송 여부</S.ContentTitle>
+              <label className="toggle-switch">
+                <input
+                  type="checkbox"
+                  checked={isSendSurvey}
+                  onChange={handleCheckboxChange}
+                />
+              </label>
+            </S.ContentTitleCheckBoxWrapper>
             <S.ContentDesc>
               <em>행사 종료 1시간 후</em> 참석자들에게 발송 될&nbsp;
-              <em>설문조사 링크</em>를 등록해 주세요.
+              <em>설문조사 링크</em> 발송 여부를 설정하세요.
             </S.ContentDesc>
-            <Input
-              placeholder="https://wise.sookmyung.ac.kr/ko/module/eco/@poll/write/4625/0"
-              value={surveyUrl}
-              onChange={handleInputChange}
-            />
           </S.Content>
+
+          {/* 조건부 렌더링: isSendSurvey가 true인 경우에만 내용 표시 */}
+          {isSendSurvey && (
+            <>
+              <S.Content>
+                <S.ContentTitle>WISE 설문 조사 링크 등록</S.ContentTitle>
+                <Input
+                  placeholder="https://wise.sookmyung.ac.kr/ko/module/eco/@poll/write/4625/0"
+                  value={surveyUrl}
+                  onChange={handleInputChange}
+                />
+              </S.Content>
+            </>
+          )}
         </S.ContentContainer>
       </S.DashboardSurveyPage>
     </PageLayout>
