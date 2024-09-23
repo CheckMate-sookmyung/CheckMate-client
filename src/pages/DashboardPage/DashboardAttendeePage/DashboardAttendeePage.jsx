@@ -259,12 +259,7 @@ export default function DashboardAttendeePage() {
 
       const fileUrl = response.data.attendanceListFileUrl;
       if (fileUrl) {
-        const link = document.createElement('a');
-        link.href = fileUrl;
-        link.setAttribute('download', `${eventTitle}_참석자명단.pdf`);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        window.open(fileUrl, '_blank');
       } else {
         throw new Error('파일 URL이 존재하지 않습니다.');
       }
