@@ -53,6 +53,7 @@ export const Content = styled.div`
 
 export const ContentTitleCheckBoxWrapper = styled.div`
   display: flex;
+  align-items: center;
   gap: 10px;
 `;
 
