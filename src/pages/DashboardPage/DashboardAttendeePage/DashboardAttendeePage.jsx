@@ -234,23 +234,24 @@ export default function DashboardAttendeePage() {
     setEditMode((prevEditMode) => !prevEditMode);
   };
 
-  // 다운로드
+  // 참석 명단 즉시 다운로드
   const handleDownload = async () => {
     try {
       const response = await axiosInstance.get(
-        `/api/v1/attendancelist/${eventId}`,
-        { responseType: 'blob' },
+        `/api/v1/attendancelist/download/${eventId}`,
       );
 
-      const contentType = response.headers['content-type'];
-      const blob = new Blob([response.data], { type: contentType });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', `${eventTitle}_참석자명단.pdf`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      const fileUrl = response.data.attendanceListFileUrl;
+      if (fileUrl) {
+        const link = document.createElement('a');
+        link.href = fileUrl;
+        link.setAttribute('download', `${eventTitle}_참석자명단.pdf`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        throw new Error('파일 URL이 존재하지 않습니다.');
+      }
     } catch (error) {
       console.error('출석 명단 다운로드 중 오류 발생:', error);
       alert('출석 명단 다운로드에 실패했습니다. 다시 시도해 주세요.');
@@ -292,7 +293,7 @@ export default function DashboardAttendeePage() {
                   onClick={handleDownload}
                   label={
                     <>
-                      <FaPaperclip /> 출석 명단 다운로드
+                      <FaPaperclip /> 출석 명단 즉시 다운로드
                     </>
                   }
                 />
