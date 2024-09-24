@@ -195,16 +195,6 @@ export default function DashboardAttendeePage() {
     }));
   };
 
-  const handleSendEmail = async () => {
-    const isConfirmed = window.confirm(
-      '출석 명단을 이메일로 전송하시겠습니까?\n확인 버튼을 누르면 즉시 전송됩니다.',
-    );
-
-    if (isConfirmed) {
-      return;
-    }
-  };
-
   // 참석 여부 수정
   const handleAttendanceChange = (attendeeId, value) => {
     const updatedAttendees = attendees.map((attendee) =>
@@ -234,23 +224,45 @@ export default function DashboardAttendeePage() {
     setEditMode((prevEditMode) => !prevEditMode);
   };
 
-  // 다운로드
-  const handleDownload = async () => {
+  //  출석 명단 메일로 전송
+  const handleSendEmailButtonClick = async () => {
+    const isConfirmed = window.confirm(
+      '출석 명단을 이메일로 전송하시겠습니까?\n확인 버튼을 누르면 즉시 전송됩니다.',
+    );
+
+    if (!isConfirmed) {
+      return;
+    }
+
     try {
-      const response = await axiosInstance.get(
-        `/api/v1/attendancelist/${eventId}`,
-        { responseType: 'blob' },
+      const response = await axiosInstance.post(
+        `/api/v1/attendancelist/sending/${eventId}`,
       );
 
-      const contentType = response.headers['content-type'];
-      const blob = new Blob([response.data], { type: contentType });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', `${eventTitle}_참석자명단.pdf`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      if (response.status === 200) {
+        alert('출석 명단이 이메일로 성공적으로 전송되었습니다.');
+      } else {
+        throw new Error('출석 명단 전송에 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('출석 명단 전송 중 오류 발생:', error);
+      alert('출석 명단 전송에 실패했습니다. 다시 시도해 주세요.');
+    }
+  };
+
+  // 참석 명단 즉시 다운로드
+  const handleDownloadButtonClick = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `/api/v1/attendancelist/download/${eventId}`,
+      );
+
+      const fileUrl = response.data.attendanceListFileUrl;
+      if (fileUrl) {
+        window.open(fileUrl, '_blank');
+      } else {
+        throw new Error('파일 URL이 존재하지 않습니다.');
+      }
     } catch (error) {
       console.error('출석 명단 다운로드 중 오류 발생:', error);
       alert('출석 명단 다운로드에 실패했습니다. 다시 시도해 주세요.');
@@ -281,7 +293,7 @@ export default function DashboardAttendeePage() {
               <S.Title>참석자 관리</S.Title>
               <S.ButtonContainer>
                 <SlimButton
-                  onClick={handleSendEmail}
+                  onClick={handleSendEmailButtonClick}
                   label={
                     <>
                       <FaRegEnvelope /> 출석 명단 메일로 전송
@@ -289,10 +301,10 @@ export default function DashboardAttendeePage() {
                   }
                 />
                 <SlimButton
-                  onClick={handleDownload}
+                  onClick={handleDownloadButtonClick}
                   label={
                     <>
-                      <FaPaperclip /> 출석 명단 다운로드
+                      <FaPaperclip /> 출석 명단 즉시 다운로드
                     </>
                   }
                 />

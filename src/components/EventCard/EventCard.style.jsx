@@ -67,7 +67,6 @@ export const Button = styled.button`
   transition:
     background 0.3s,
     transform 0.3s;
-  margin-top: auto;
   border: none;
   border-radius: 10px;
   width: 100%;

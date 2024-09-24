@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import * as S from './UploadBox.style';
+import FileButton from '@/pages/RegisterPage/RegisterComponents/Button/FileButton';
 
-// FileInfo 컴포넌트
 const FileInfo = ({ uploadedInfo }) => {
   const [preview, setPreview] = useState(false);
 
@@ -10,9 +10,11 @@ const FileInfo = ({ uploadedInfo }) => {
     setPreview(!preview);
   };
 
+  const isImage = uploadedInfo.type.startsWith('image/');
+
   return (
     <S.PreviewWrapper>
-      {uploadedInfo.previewURL ? (
+      {isImage ? (
         <S.PreviewBox
           style={{
             backgroundImage: `url(${uploadedInfo.previewURL})`,
@@ -23,16 +25,16 @@ const FileInfo = ({ uploadedInfo }) => {
           <S.PreviewLabel onClick={handlePreviewClick}>미리보기</S.PreviewLabel>
         </S.PreviewBox>
       ) : (
-        <S.NoPreviewMsg>
-          엑셀 파일은 미리보기를 제공하지 않습니다.
-        </S.NoPreviewMsg>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <S.PreviewMsg>엑셀 파일은 미리보기가 제공되지 않습니다.</S.PreviewMsg>
+          <FileButton content={uploadedInfo.name} type={'white'} />
+        </div>
       )}
     </S.PreviewWrapper>
   );
 };
 
-// UploadBox 컴포넌트
-const UploadBox = ({ defaultImageUrl, accept, onFileUpload }) => {
+const UploadBox = ({ accept, onFileUpload }) => {
   const [isActive, setActive] = useState(false);
   const [uploadedInfo, setUploadedInfo] = useState(null);
 
@@ -43,14 +45,12 @@ const UploadBox = ({ defaultImageUrl, accept, onFileUpload }) => {
   };
 
   const setFileInfo = (file) => {
-    let previewURL = null;
+    const name = file.name;
+    const previewURL = URL.createObjectURL(file);
+    const type = file.type;
 
-    // 이미지 파일만 미리보기 URL 생성
-    if (file.type.startsWith('image/')) {
-      previewURL = URL.createObjectURL(file);
-    }
+    setUploadedInfo({ name, previewURL, type });
 
-    setUploadedInfo({ previewURL });
     if (onFileUpload) {
       onFileUpload(file);
     }
@@ -70,13 +70,6 @@ const UploadBox = ({ defaultImageUrl, accept, onFileUpload }) => {
     if (!file) return;
     setFileInfo(file);
   };
-
-  useEffect(() => {
-    setUploadedInfo({
-      name: '',
-      previewURL: defaultImageUrl,
-    });
-  }, [defaultImageUrl]);
 
   return (
     <S.StyledLabel
