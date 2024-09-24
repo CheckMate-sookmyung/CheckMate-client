@@ -3,6 +3,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { BREAKPOINTS } from '@/styles';
 
 export const DashboardInfo = styled.div`
+  width: 100%;
   height: fit-content;
   padding: 50px;
 

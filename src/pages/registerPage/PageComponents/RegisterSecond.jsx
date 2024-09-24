@@ -33,7 +33,7 @@ import * as S from './RegisterPage.style';
 
 const RegisterSecond = () => {
   const setStep = useSetRecoilState(RegisterStep);
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
 
   // Recoil 상태
   const [eventType] = useRecoilState(eventTypeState);
@@ -46,6 +46,7 @@ const RegisterSecond = () => {
   const [minCompletionTimesValue, setMinCompletionTimesValue] =
     useRecoilState(minCompletionTimes);
   const [eventSchedules, setEventSchedules] = useRecoilState(eventScheduleList);
+  const [attendanceTimeForOnline, setAttendanceTimeForOnline] = useState(0);
 
   const navigate = useNavigate();
   const resetAllStates = useResetAllStates();
@@ -65,6 +66,10 @@ const RegisterSecond = () => {
 
   const handleSelect = (value) => {
     setMinCompletionTimesValue(value);
+  };
+
+  const handleTimeSelect = (value) => {
+    setAttendanceTimeForOnline(value);
   };
 
   const handleDownload = async (e) => {
@@ -138,6 +143,7 @@ const RegisterSecond = () => {
       eventDetail: eventDetailValue,
       completionTimes: minCompletionTimesValue,
       eventSchedules: formatSchedules(eventSchedules),
+      attendanceTimeForOnline,
     };
 
     formData.append('eventDetail', JSON.stringify(eventDetail));
@@ -228,23 +234,24 @@ const RegisterSecond = () => {
 
             <S.ContentWrapper>
               <S.MainTitle>행사 이수 기준</S.MainTitle>
-              {eventType == 'OFFLINE' ? (
-                <CompletionDropdown
-                  items={dropdownItems}
-                  onSelect={handleSelect}
-                />
-              ) : (
-                <>
-                  <Input
-                    type="number"
-                    placeholder={
-                      '행사 이수를 위한 최소 시간을 분 단위로 입력해주세요. (ex. 30, 60 ... )'
-                    }
-                    onChange={(e) => handleSelect(e.target.value)}
-                  />
-                </>
-              )}
+              <CompletionDropdown
+                items={dropdownItems}
+                onSelect={handleSelect}
+              />
             </S.ContentWrapper>
+
+            {eventType == 'ONLINE' && (
+              <S.ContentWrapper>
+                <S.MainTitle>행사 이수 기준 시간</S.MainTitle>
+                <Input
+                  type="number"
+                  placeholder={
+                    '행사 이수를 위한 최소 시간을 분 단위로 입력해주세요. (ex. 30, 60 ... )'
+                  }
+                  onChange={(e) => handleTimeSelect(e.target.value)}
+                />
+              </S.ContentWrapper>
+            )}
 
             <S.ButtonWrapper>
               <Button
@@ -259,12 +266,12 @@ const RegisterSecond = () => {
           </S.ContentBox>
         </S.RegisterCategory>
       </S.CenteredRegisterPage>
-      {showModal && (
+      {/* {showModal && (
         <RegisterCompletedModal
           eventTitle={eventTitleValue}
           eventScheduleList={eventSchedules}
         />
-      )}
+      )} */}
     </S.RegisterPage>
   );
 };
