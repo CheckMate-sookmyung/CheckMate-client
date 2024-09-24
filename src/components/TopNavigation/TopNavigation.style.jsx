@@ -32,6 +32,12 @@ export const Logo = styled(NavLink)`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    img {
+      width: 50px;
+    }
+  }
 `;
 
 export const MenuContainer = styled.div`
@@ -110,6 +116,13 @@ export const ProfileMenuWrapper = styled.div`
 
   @media (max-width: ${BREAKPOINTS[1]}px) {
     --box-size: 24px;
+  }
+
+  @media (max-width: ${BREAKPOINTS[0]}px) {
+    div {
+      font-size: 12px;
+      font-weight: bold;
+    }
   }
 `;
 
