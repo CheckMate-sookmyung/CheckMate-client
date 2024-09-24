@@ -167,7 +167,7 @@ export default function DashboardEmailPage() {
           {isSendEnabled && (
             <>
               <S.Content>
-                <S.ContentTitle>행사 안내 메일 링크</S.ContentTitle>
+                <S.ContentTitle>행사 안내 링크</S.ContentTitle>
                 <Input
                   placeholder="행사 안내 링크를 입력해 주세요."
                   value={attachUrl}
