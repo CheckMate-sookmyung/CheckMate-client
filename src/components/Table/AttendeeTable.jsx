@@ -4,31 +4,53 @@ import {
   FaArrowDownShortWide,
   FaArrowUpWideShort,
 } from 'react-icons/fa6';
-import { BsEye } from 'react-icons/bs';
 import { Dropdown } from '@/components';
 import { format } from 'date-fns';
+import { useState } from 'react';
 
 const AttendeeTable = ({
   attendees,
   editMode,
+  deleteMode,
   sortData,
   handleAttendanceChange,
+  handleSelectAttendee,
   sortConfig,
   showStudentInfo,
 }) => {
+  const [selectedAttendees, setSelectedAttendees] = useState([]);
+
+  // 전체 선택/해제 핸들러
+  const handleSelectAll = (isSelected) => {
+    if (isSelected) {
+      setSelectedAttendees(attendees.map((attendee) => attendee.id));
+      handleSelectAttendee(
+        attendees.map((attendee) => attendee.id),
+        true,
+      );
+    } else {
+      setSelectedAttendees([]);
+      handleSelectAttendee([], false);
+    }
+  };
+
+  // 개별 선택 핸들러
+  const handleSelect = (id, isSelected) => {
+    if (isSelected) {
+      setSelectedAttendees((prevSelected) => [...prevSelected, id]);
+      handleSelectAttendee(id, true);
+    } else {
+      setSelectedAttendees((prevSelected) =>
+        prevSelected.filter((attendeeId) => attendeeId !== id),
+      );
+      handleSelectAttendee(id, false);
+    }
+  };
+
   const SortIcon = ({ columnKey }) => {
     if (sortConfig.key !== columnKey) return null;
     if (sortConfig.direction === 'asc') return <FaArrowUpWideShort />;
     return <FaArrowDownShortWide />;
-  };
-
-  // 시간 형식 HH:MM
-  const formatAttendTime = (time) => {
-    if (!time) return '-';
-    const date = new Date(time);
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    return `${hours}:${minutes}`;
   };
 
   return (
@@ -36,6 +58,18 @@ const AttendeeTable = ({
       <S.Table>
         <thead>
           <tr>
+            {deleteMode && (
+              <S.TableHeader>
+                <input
+                  type="checkbox"
+                  onChange={(e) => handleSelectAll(e.target.checked)}
+                  checked={
+                    selectedAttendees.length === attendees.length &&
+                    attendees.length > 0
+                  }
+                />
+              </S.TableHeader>
+            )}
             <S.TableHeader>전화</S.TableHeader>
             <S.TableHeader onClick={() => sortData('attendance')}>
               출석
@@ -55,27 +89,27 @@ const AttendeeTable = ({
                   학번
                   <SortIcon columnKey="number" />
                 </S.TableHeader>
-                {/* <S.TableHeader onClick={() => sortData('year')}>
-                  학년
-                  <SortIcon columnKey="year" />
-                </S.TableHeader> */}
               </>
             )}
-            <S.TableHeader onClick={() => sortData('phoneNumber')}>
-              휴대폰 번호
-              <SortIcon columnKey="phoneNumber" />
-            </S.TableHeader>
-            {/* 출석 시간 열 추가 */}
             <S.TableHeader onClick={() => sortData('attendTime')}>
               출석 시간
               <SortIcon columnKey="attendTime" />
             </S.TableHeader>
-            {/* <S.TableHeader></S.TableHeader> */}
           </tr>
         </thead>
+
         <tbody>
           {attendees.map((data, index) => (
-            <tr key={index}>
+            <tr key={data.id}>
+              {deleteMode && (
+                <S.TableData>
+                  <input
+                    type="checkbox"
+                    onChange={(e) => handleSelect(data.id, e.target.checked)}
+                    checked={selectedAttendees.includes(data.id)}
+                  />
+                </S.TableData>
+              )}
               <S.TableData>
                 <S.TelAnchor href={`tel:${data.phoneNumber}`}>
                   <FaPhone style={{ color: '#0075FF' }} />
@@ -96,13 +130,7 @@ const AttendeeTable = ({
               </S.TableData>
               <S.TableData>{data.name}</S.TableData>
               <S.TableData>{data.major}</S.TableData>
-              {showStudentInfo && (
-                <>
-                  <S.TableData>{data.number}</S.TableData>
-                  {/* <S.TableData>{data.year}</S.TableData> */}
-                </>
-              )}
-              <S.TableData>{data.phoneNumber}</S.TableData>
+              {showStudentInfo && <S.TableData>{data.number}</S.TableData>}
               <S.TableData>
                 {data.attendTime === null
                   ? '-'

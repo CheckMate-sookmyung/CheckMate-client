@@ -111,7 +111,6 @@ export const EditMode = styled.button`
   align-items: center;
   height: 30px;
   padding: 0 10px;
-  margin: 0 5px;
   border-radius: 7px;
   border: 1px solid #ff69b4;
   cursor: pointer;
@@ -125,4 +124,46 @@ export const EditMode = styled.button`
     background 0.3s ease,
     box-shadow 0.3s ease,
     transform 0.3s ease;
+`;
+
+export const AddDeleteButton = styled.button`
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+// 참석자 추가 버튼 + 출석 여부 수정하기 버튼
+export const ButtonGroup = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
+// 모달
+export const ModalTitle = styled.h2`
+  font-size: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+`;
+
+export const ModalInputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 240px;
+  gap: 10px;
+`;
+
+export const ModalButtonWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 10px;
 `;
