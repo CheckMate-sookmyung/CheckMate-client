@@ -157,6 +157,7 @@ export const ModalTitle = styled.h2`
 export const ModalInputWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  width: 240px;
   gap: 10px;
 `;
 

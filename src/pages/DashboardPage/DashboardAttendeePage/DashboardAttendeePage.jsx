@@ -358,7 +358,7 @@ export default function DashboardAttendeePage() {
                   onClick={handleDownloadButtonClick}
                   label={
                     <>
-                      <FaPaperclip /> 출석 명단 즉시 다운로드
+                      <FaPaperclip /> 출석 명단 즉시 다운
                     </>
                   }
                 />
@@ -391,7 +391,7 @@ export default function DashboardAttendeePage() {
                   active={editMode}
                   onClick={handleEditModeToggle}
                 >
-                  {editMode ? '저장하기' : '출석 여부 수정하기'}
+                  {editMode ? '저장하기' : '출석 여부 수정'}
                 </S.EditMode>
               </S.ButtonGroup>
             </S.TabEditWrapper>
@@ -452,7 +452,7 @@ export default function DashboardAttendeePage() {
             )}
             <Input
               name="phoneNumber"
-              placeholder="휴대폰 번호"
+              placeholder="휴대폰 번호 ex) 010-1234-5678"
               value={newAttendee.phoneNumber}
               onChange={handleInputChange}
             />{' '}
@@ -460,11 +460,11 @@ export default function DashboardAttendeePage() {
           <S.ModalButtonWrapper>
             <Button
               onClick={handleModalToggle}
-              backgroundColor="#fff"
+              backgroundColor="#F2F2F2"
               textColor="#000"
               label="닫기"
             />
-            <Button onClick={handleAddAttendee} label="추가 완료" />
+            <Button onClick={handleAddAttendee} label="추가하기" />
           </S.ModalButtonWrapper>
         </Modal>
       )}
