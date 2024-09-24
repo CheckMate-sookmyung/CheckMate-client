@@ -14,3 +14,12 @@ export const updateAttendanceList = async (eventId, body) => {
 
   return data;
 };
+
+export const postAttendance = async (eventId, eventScheduleId, body) => {
+  const { data } = await axiosInstance.put(
+    `/api/v1/attendance/manage/${eventId}/${eventScheduleId}`,
+    body,
+  );
+
+  return data;
+};

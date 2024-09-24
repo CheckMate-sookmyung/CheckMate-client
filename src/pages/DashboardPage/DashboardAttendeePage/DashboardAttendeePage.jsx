@@ -460,15 +460,14 @@ export default function DashboardAttendeePage() {
         )}
       </S.DashboardAttendee>
 
-      {/* 참석자 추가/삭제 모달 */}
+      {/* 참석자 추가 모달 */}
       {isModalOpen && (
         <UpdateAttendeeModal
           isOpen={isModalOpen}
-          onClose={handleModalToggle}
-          onAdd={handleAddAttendee}
-          newAttendee={newAttendee}
-          onInputChange={handleInputChange}
           eventTarget={eventTarget}
+          eventId={eventId}
+          // eventScheduleId={}
+          onClose={handleModalToggle}
         />
       )}
     </PageLayout>
