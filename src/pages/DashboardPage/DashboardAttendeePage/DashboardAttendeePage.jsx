@@ -293,12 +293,12 @@ export default function DashboardAttendeePage() {
 
   const handleEditModeToggle = async () => {
     if (editMode) {
-      updateAttendanceListMutate({
-        attendanceList: attendees.map(({ id, attendance }) => ({
-          studentInfoId: id,
+      updateAttendanceListMutate(
+        attendees.map(({ id, attendance }) => ({
+          attendeeId: id,
           attendance: attendance,
         })),
-      });
+      );
     }
 
     setEditMode((prevEditMode) => !prevEditMode);
@@ -415,7 +415,7 @@ export default function DashboardAttendeePage() {
                   active={deleteMode}
                   onClick={handleDeleteModeToggle}
                 >
-                  {deleteMode ? '저장하기' : '참석자 삭제'}
+                  {deleteMode ? '삭제하기' : '참석자 삭제'}
                 </S.EditMode>
                 <S.EditMode onClick={handleModalToggle}>참석자 추가</S.EditMode>
                 <S.EditMode
@@ -424,7 +424,7 @@ export default function DashboardAttendeePage() {
                   active={editMode}
                   onClick={handleEditModeToggle}
                 >
-                  {editMode ? '저장하기' : '출석 여부 수정'}
+                  {editMode ? '수정하기' : '출석 여부 수정'}
                 </S.EditMode>
               </S.ButtonGroup>
             </S.TabEditWrapper>
