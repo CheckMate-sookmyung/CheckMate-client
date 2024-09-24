@@ -11,9 +11,6 @@ import {
   TopNavigation,
   TabMenu,
   SlimButton,
-  Modal,
-  Input,
-  Button,
 } from '@/components';
 import {
   getAttendanceList,
@@ -22,6 +19,7 @@ import {
 } from '@/apis';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import AttendeeSearch from './AttendeeSearch';
+import UpdateAttendeeModal from './UpdateAttendeeModal';
 
 export default function DashboardAttendeePage() {
   const [eventTitle, setEventTitle] = useState('');
@@ -83,12 +81,10 @@ export default function DashboardAttendeePage() {
     },
   });
 
-  // 모달창 열기/닫기 핸들러
   const handleModalToggle = () => {
     setIsModalOpen((prev) => !prev);
   };
 
-  // 모달창에서 입력 필드 변경 핸들러
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewAttendee((prev) => ({
@@ -97,7 +93,6 @@ export default function DashboardAttendeePage() {
     }));
   };
 
-  // 참석자 추가 확인 버튼 핸들러
   const handleAddAttendee = async () => {
     try {
       const response = await axiosInstance.put(
@@ -467,46 +462,14 @@ export default function DashboardAttendeePage() {
 
       {/* 참석자 추가/삭제 모달 */}
       {isModalOpen && (
-        <Modal onClose={handleModalToggle}>
-          <S.ModalTitle>참석자 추가</S.ModalTitle>
-          <S.ModalInputWrapper>
-            <Input
-              name="name"
-              placeholder="이름"
-              value={newAttendee.name}
-              onChange={handleInputChange}
-            />
-            <Input
-              name="major"
-              placeholder="소속"
-              value={newAttendee.major}
-              onChange={handleInputChange}
-            />
-            {eventTarget === 'INTERNAL' && (
-              <Input
-                name="studentNumber"
-                placeholder="학번"
-                value={newAttendee.studentNumber}
-                onChange={handleInputChange}
-              />
-            )}
-            <Input
-              name="phoneNumber"
-              placeholder="휴대폰 번호 ex) 010-1234-5678"
-              value={newAttendee.phoneNumber}
-              onChange={handleInputChange}
-            />{' '}
-          </S.ModalInputWrapper>
-          <S.ModalButtonWrapper>
-            <Button
-              onClick={handleModalToggle}
-              backgroundColor="#F2F2F2"
-              textColor="#000"
-              label="닫기"
-            />
-            <Button onClick={handleAddAttendee} label="추가하기" />
-          </S.ModalButtonWrapper>
-        </Modal>
+        <UpdateAttendeeModal
+          isOpen={isModalOpen}
+          onClose={handleModalToggle}
+          onAdd={handleAddAttendee}
+          newAttendee={newAttendee}
+          onInputChange={handleInputChange}
+          eventTarget={eventTarget}
+        />
       )}
     </PageLayout>
   );
