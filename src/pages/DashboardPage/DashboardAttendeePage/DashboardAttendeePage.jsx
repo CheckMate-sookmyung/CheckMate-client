@@ -28,6 +28,7 @@ export default function DashboardAttendeePage() {
   const [eventTarget, setEventTarget] = useState('INTERNAL');
   const [activeTab, setActiveTab] = useState(1);
   const [editMode, setEditMode] = useState(false);
+  const [deleteMode, setDeleteMode] = useState(false);
   const [attendees, setAttendees] = useState([]);
   const [filteredAttendees, setFilteredAttendees] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -44,6 +45,7 @@ export default function DashboardAttendeePage() {
     studentNumber: '',
     phoneNumber: '',
   });
+  const [selectedAttendees, setSelectedAttendees] = useState([]);
   const eventId = useRecoilValue(eventIDState);
 
   const queryClient = useQueryClient();
@@ -122,13 +124,42 @@ export default function DashboardAttendeePage() {
           studentNumber: '',
           phoneNumber: '',
         });
-        queryClient.invalidateQueries(['getAttendanceList', eventId]); // 참석자 목록 새로고침
+        queryClient.invalidateQueries(['getAttendanceList', eventId]);
       } else {
         alert('참석자 추가에 실패했습니다.');
       }
     } catch (error) {
       console.error('참석자 추가 중 오류 발생:', error);
       alert('참석자 추가 중 오류가 발생했습니다. 다시 시도해 주세요.');
+    }
+  };
+
+  // 삭제 모드 토글 핸들러
+  const handleDeleteModeToggle = () => {
+    if (deleteMode) {
+      const isConfirmed = window.confirm('선택한 참석자들을 삭제하시겠습니까?');
+      if (isConfirmed) {
+        alert('선택된 참석자들이 삭제되었습니다.');
+      }
+    }
+
+    setDeleteMode((prevDeleteMode) => !prevDeleteMode);
+  };
+
+  // 선택된 참석자를 관리하기 위한 상태 업데이트 로직
+  const handleSelectAttendee = (idOrIds, isSelected) => {
+    if (Array.isArray(idOrIds)) {
+      if (isSelected) {
+        setSelectedAttendees(idOrIds);
+      } else {
+        setSelectedAttendees([]);
+      }
+    } else {
+      setSelectedAttendees((prevSelected) =>
+        isSelected
+          ? [...prevSelected, idOrIds]
+          : prevSelected.filter((attendeeId) => attendeeId !== idOrIds),
+      );
     }
   };
 
@@ -384,6 +415,13 @@ export default function DashboardAttendeePage() {
                 ))}
               </S.TabContainer>
               <S.ButtonGroup>
+                <S.EditMode
+                  type="button"
+                  active={deleteMode}
+                  onClick={handleDeleteModeToggle}
+                >
+                  {deleteMode ? '저장하기' : '참석자 삭제'}
+                </S.EditMode>
                 <S.EditMode onClick={handleModalToggle}>참석자 추가</S.EditMode>
                 <S.EditMode
                   type="button"
@@ -416,8 +454,10 @@ export default function DashboardAttendeePage() {
             <AttendeeTable
               attendees={filteredAttendees}
               editMode={editMode}
+              deleteMode={deleteMode}
               sortData={sortData}
               handleAttendanceChange={handleAttendanceChange}
+              handleSelectAttendee={handleSelectAttendee}
               sortConfig={sortConfig}
               showStudentInfo={eventTarget === 'INTERNAL'}
             />
