@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal, Input, Button } from '@/components';
 import * as S from './DashboardAttendeePage.style';
 
@@ -10,7 +10,15 @@ export default function AttendeeModal({
   onInputChange,
   eventTarget,
 }) {
+  const [selectedFile, setSelectedFile] = useState(null);
+
   if (!isOpen) return null;
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setSelectedFile(file);
+    onInputChange({ target: { name: 'attachment', value: file } });
+  };
 
   return (
     <Modal onClose={onClose}>
@@ -28,6 +36,7 @@ export default function AttendeeModal({
           value={newAttendee.major}
           onChange={onInputChange}
         />
+        {/* INTERNAL 행사인 경우에만 표시 */}
         {eventTarget === 'INTERNAL' && (
           <Input
             name="studentNumber"
@@ -41,7 +50,24 @@ export default function AttendeeModal({
           placeholder="휴대폰 번호 ex) 010-1234-5678"
           value={newAttendee.phoneNumber}
           onChange={onInputChange}
-        />{' '}
+        />
+
+        {/* ONLINE인 행사인 경우에만 표시 */}
+        {eventTarget === 'ONLINE' && (
+          <S.FileUploadWrapper>
+            <S.FileLabel htmlFor="file-upload">
+              {selectedFile ? selectedFile.name : '파일 선택'}
+            </S.FileLabel>
+            <input
+              id="file-upload"
+              type="file"
+              name="attachment"
+              accept=".pdf,.doc,.docx,.png,.jpg"
+              onChange={handleFileChange}
+              style={{ display: 'none' }}
+            />
+          </S.FileUploadWrapper>
+        )}
       </S.ModalInputWrapper>
       <S.ModalButtonWrapper>
         <Button

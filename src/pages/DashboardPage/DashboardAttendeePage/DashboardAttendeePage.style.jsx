@@ -161,9 +161,36 @@ export const ModalInputWrapper = styled.div`
   gap: 10px;
 `;
 
+export const FileUploadWrapper = styled.div`
+  margin-top: 10px;
+  width: 100%;
+`;
+
+export const FileLabel = styled.label`
+  display: inline-block;
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: ${(props) => (props.disabled ? '#e0e0e0' : '#fff')};
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+  color: ${(props) => (props.disabled ? '#a0a0a0' : '#000')};
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+
+  &:hover {
+    background-color: ${(props) => (props.disabled ? '#e0e0e0' : '#f5f5f5')};
+  }
+`;
+
 export const ModalButtonWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
+  justify-content: flex-end;
   gap: 10px;
+  margin-top: 20px;
+
+  & > button {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
 `;
