@@ -12,7 +12,6 @@ export default function DashboardSurveyPage() {
   const eventId = useRecoilValue(eventIDState);
   const [mailId, setMailId] = useState(null);
   const [surveyUrl, setSurveyUrl] = useState('');
-  const [isSendSurvey, setIsSendSurvey] = useState(true);
   const [isModified, setIsModified] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -40,7 +39,6 @@ export default function DashboardSurveyPage() {
 
         if (response.status === 200 && response.data) {
           setSurveyUrl(response.data.surveyUrl);
-          setIsSendSurvey(response.data.isSendSurvey);
           setMailId(response.data.mailId);
         } else {
           console.error(response);
@@ -58,18 +56,7 @@ export default function DashboardSurveyPage() {
     const newValue = e.target.value;
     setSurveyUrl(newValue);
 
-    if (newValue !== '' || isSendSurvey !== eventDetail.isSendSurvey) {
-      setIsModified(true);
-    } else {
-      setIsModified(false);
-    }
-  };
-
-  // 체크박스 변경 시 상태 업데이트
-  const handleCheckboxChange = (e) => {
-    setIsSendSurvey(e.target.checked);
-
-    if (surveyUrl !== '' || e.target.checked !== eventDetail.isSendSurvey) {
+    if (newValue !== '') {
       setIsModified(true);
     } else {
       setIsModified(false);
@@ -91,7 +78,6 @@ export default function DashboardSurveyPage() {
       const response = await axiosInstance.put(`/api/v1/mail/${mailId}`, {
         mailType: 'SURVEY',
         surveyUrl,
-        isSendSurvey,
       });
 
       if (response.status === 200) {
@@ -139,35 +125,20 @@ export default function DashboardSurveyPage() {
 
         <S.ContentContainer>
           <S.Content>
-            <S.ContentTitleCheckBoxWrapper>
-              <S.ContentTitle>설문조사 발송 여부</S.ContentTitle>
-              <label className="toggle-switch">
-                <input
-                  type="checkbox"
-                  checked={isSendSurvey}
-                  onChange={handleCheckboxChange}
-                />
-              </label>
-            </S.ContentTitleCheckBoxWrapper>
+            <S.ContentTitle>안내</S.ContentTitle>
             <S.ContentDesc>
               <em>행사 종료 1시간 후</em> 참석자들에게 발송 될&nbsp;
-              <em>설문조사 링크</em> 발송 여부를 설정하세요.
+              <em>설문조사 링크</em> 발송 문구를 작성해주세요.
             </S.ContentDesc>
           </S.Content>
-
-          {/* 조건부 렌더링: isSendSurvey가 true인 경우에만 내용 표시 */}
-          {isSendSurvey && (
-            <>
-              <S.Content>
-                <S.ContentTitle>WISE 설문 조사 링크 등록</S.ContentTitle>
-                <Input
-                  placeholder="https://wise.sookmyung.ac.kr/ko/module/eco/@poll/write/4625/0"
-                  value={surveyUrl}
-                  onChange={handleInputChange}
-                />
-              </S.Content>
-            </>
-          )}
+          <S.Content>
+            <S.ContentTitle>WISE 설문 조사 링크 등록</S.ContentTitle>
+            <Input
+              placeholder="https://wise.sookmyung.ac.kr/ko/module/eco/@poll/write/4625/0"
+              value={surveyUrl}
+              onChange={handleInputChange}
+            />
+          </S.Content>
         </S.ContentContainer>
       </S.DashboardSurveyPage>
     </PageLayout>
