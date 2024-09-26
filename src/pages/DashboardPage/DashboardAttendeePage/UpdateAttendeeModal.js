@@ -9,10 +9,12 @@ export default function UpdateAttendeeModal({
   eventId,
   eventScheduleId,
   eventTarget,
+  onSuccess,
+  onError,
   onClose,
 }) {
   const [attendeeName, setAttendeeName] = useState('');
-  const [attendeeStudentNumber, setAttendeeStudentNumber] = useState('');
+  const [attendeeStudentNumber, setAttendeeStudentNumber] = useState(null);
   const [attendeeAffiliation, setAttendeeAffiliation] = useState('');
   const [attendeePhoneNumber, setAttendeePhoneNumber] = useState('');
   const [attendeeEmail, setAttendeeEmail] = useState('');
@@ -23,9 +25,17 @@ export default function UpdateAttendeeModal({
       mutationFn: (body) => postAttendance(eventId, eventScheduleId, body),
       onSuccess: () => {
         alert('추가 성공');
+
+        if (onSuccess !== undefined) {
+          onSuccess();
+        }
       },
       onError: () => {
         alert('추가 실패');
+
+        if (onError !== undefined) {
+          onError();
+        }
       },
     });
 
@@ -50,17 +60,15 @@ export default function UpdateAttendeeModal({
   };
 
   const handleAddButtonClick = () => {
-    postAttendanceMutate({
-      attendeeInfo: [
-        {
-          attendeeName,
-          attendeeStudentNumber,
-          attendeeAffiliation,
-          attendeePhoneNumber,
-          attendeeEmail,
-        },
-      ],
-    });
+    postAttendanceMutate([
+      {
+        attendeeName,
+        attendeeStudentNumber,
+        attendeeAffiliation,
+        attendeePhoneNumber,
+        attendeeEmail,
+      },
+    ]);
   };
 
   if (!isOpen) {
@@ -100,7 +108,7 @@ export default function UpdateAttendeeModal({
         />
         <Input
           name="email"
-          placeholder="이메일 ex) 010-1234-5678"
+          placeholder="이메일 ex) checkmate@gmail.com"
           value={attendeeEmail}
           onChange={handleAttendeeEmailInputChange}
         />

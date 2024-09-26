@@ -33,7 +33,9 @@ export const deleteAttendance = async (
     `/api/v1/attendance/manage/${eventId}/${eventScheduleId}`,
     {
       params: {
-        attendeeIdList: attendeeIdList.join(','),
+        attendeeIds: attendeeIdList
+          .map(({ attendeeId }) => attendeeId)
+          .join(','),
       },
     },
   );

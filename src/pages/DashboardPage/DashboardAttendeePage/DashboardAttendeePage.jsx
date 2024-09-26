@@ -63,6 +63,7 @@ export default function DashboardAttendeePage() {
     data: attendanceList,
     isPending: isAttendanceListPending,
     isError: isAttendanceListError,
+    refetch: refetchAttendanceList,
   } = useQuery({
     queryKey: ['getAttendanceList', eventId],
     queryFn: () => getAttendanceList(eventId),
@@ -87,10 +88,19 @@ export default function DashboardAttendeePage() {
     mutationKey: ['deleteAttendance', eventId, activeEventScheduleId],
     mutationFn: (attendeeIdList) =>
       deleteAttendance(eventId, activeEventScheduleId, attendeeIdList),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['getAttendanceList', eventId]);
+      alert('선택된 참석자들이 삭제되었습니다.');
+    },
   });
 
   const handleModalToggle = () => {
     setIsModalOpen((prev) => !prev);
+  };
+
+  const handleUpdateAttendeeModalSuccess = () => {
+    queryClient.invalidateQueries(['getAttendanceList', eventId]);
+    setIsModalOpen(false);
   };
 
   const handleInputChange = (e) => {
@@ -146,12 +156,7 @@ export default function DashboardAttendeePage() {
           selectedAttendees.map((id) => ({
             attendeeId: id,
           })),
-        ),
-          {
-            onSuccess: () => {
-              alert('선택된 참석자들이 삭제되었습니다.');
-            },
-          };
+        );
       }
     }
 
@@ -494,7 +499,10 @@ export default function DashboardAttendeePage() {
       {isModalOpen && (
         <UpdateAttendeeModal
           isOpen={isModalOpen}
+          eventId={eventId}
+          eventScheduleId={activeEventScheduleId}
           eventTarget={eventTarget}
+          onSuccess={handleUpdateAttendeeModalSuccess}
           onClose={handleModalToggle}
         />
       )}
