@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import * as S from './AttendanceStudentIdPage.style';
-import { AttendanceHeader, Modal } from '@/components';
+import { AttendanceHeader } from '@/components';
 import { useSessionStorages } from '@/hooks';
 import { axiosInstance } from '@/axios';
 import { useNavigate } from 'react-router-dom';
@@ -110,6 +110,21 @@ const AttendanceStudentIdPage = () => {
     }
   };
 
+  // 특정 참석자를 선택했을 때 서명 페이지로 이동
+  const handleAttendeeSelect = (attendee) => {
+    const parsedStudent = {
+      studentName: attendee.attendeeName,
+      studentNumber: attendee.studentNumber,
+      studentInfoId: attendee.attendeeId,
+      major: attendee.attendeeAffiliation,
+    };
+
+    setSessionStorage('attendance', JSON.stringify(attendee));
+    navigate('/attendance/sign', {
+      state: { studentInfo: parsedStudent },
+    });
+  };
+
   useEffect(() => {
     const fetchEventDetails = async () => {
       try {
@@ -185,12 +200,32 @@ const AttendanceStudentIdPage = () => {
             {'서명하러 가기'}
           </S.GoToSignBtn>
         </S.DialList>
+
+        {/* 모달 */}
         {isModalOpen && (
-          <Modal
-            isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-            attendees={attendees}
-          />
+          <S.ModalOverlay>
+            <S.ModalContainer>
+              <S.ModalTitle>출석체크할 사람을 선택해주세요.</S.ModalTitle>
+              <S.AttendeeList>
+                {attendees.map((attendee, index) => (
+                  <S.AttendeeItem
+                    key={index}
+                    onClick={() => handleAttendeeSelect(attendee)}
+                  >
+                    <S.AttendeeName>{attendee.attendeeName}</S.AttendeeName>
+                    <S.AttendeeInfo>
+                      {attendee.attendeeAffiliation}
+                    </S.AttendeeInfo>
+                  </S.AttendeeItem>
+                ))}
+              </S.AttendeeList>
+              <S.ButtonContainer>
+                <S.CloseButton onClick={() => setIsModalOpen(false)}>
+                  이전으로
+                </S.CloseButton>
+              </S.ButtonContainer>
+            </S.ModalContainer>
+          </S.ModalOverlay>
         )}
       </S.ContentContainer>
     </S.AttendanceStudentIdPage>
