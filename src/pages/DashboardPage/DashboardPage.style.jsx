@@ -254,6 +254,7 @@ export const ImageWrapper = styled.div`
   padding: 20px 0;
   width: 100%;
   max-height: 300px;
+  height: 100%;
 
   img {
     display: block;

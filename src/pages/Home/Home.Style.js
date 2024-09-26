@@ -13,6 +13,7 @@ export const Home = styled.div`
   position: absolute;
   width: 100%;
   margin: 0 auto;
+  overflow: hidden;
 `;
 
 /* 기본 화면 */

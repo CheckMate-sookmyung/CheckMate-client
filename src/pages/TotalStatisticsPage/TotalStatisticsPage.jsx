@@ -5,8 +5,6 @@ import { DaterangePicker, Dropdown, TopNavigation } from '@/components';
 import { createContext, useEffect, useState } from 'react';
 import GraphChart from './GraphChart';
 import TableChart from './TableChart';
-import BlueButton from '../RegisterPage/RegisterComponents/Button/BlueButton';
-import { BsFillFileBarGraphFill } from 'react-icons/bs';
 
 export const SortedStudent = createContext();
 
@@ -46,7 +44,7 @@ const TotalStatisticsPage = () => {
                 onSelect={setViewMode}
               />
             </S.FlexBox>
-            <DaterangePicker />
+            {/* <DaterangePicker /> */}
           </S.FlexBox>
 
           <SortedStudent.Provider value={studentGraph}>

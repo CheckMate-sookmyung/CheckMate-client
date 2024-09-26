@@ -1,18 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { PageLayout } from '@/Layout';
 import * as S from './DashboardSurveyPage.style';
 import { Sidebar, Button, TopNavigation, Input } from '@/components';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '@/recoil/atoms/state';
 import { axiosInstance } from '@/axios';
-import { getEventDetail } from '@/apis';
-import { useQuery } from '@tanstack/react-query';
+import { getEventDetail, getMail, postMail, putMail } from '@/apis';
+import { useQuery, useMutation } from '@tanstack/react-query';
 
 export default function DashboardSurveyPage() {
   const eventId = useRecoilValue(eventIDState);
   const [surveyUrl, setSurveyUrl] = useState('');
-  const [isModified, setIsModified] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
 
   const {
     data: eventDetail,
@@ -23,62 +21,69 @@ export default function DashboardSurveyPage() {
     queryFn: () => getEventDetail(eventId),
   });
 
-  // 설문조사 링크 가져오기
-  useEffect(() => {
-    const getSurveyUrl = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `/api/v1/events/survey/${eventId}`,
-        );
+  const {
+    data: mail,
+    isPending: isMailPending,
+    isError: isMailError,
+  } = useQuery({
+    queryKey: ['getMail', eventId],
+    retry: 0,
+    queryFn: () =>
+      getMail(eventId, {
+        mailType: 'SURVEY',
+      }),
+  });
 
-        if (response.status === 200 && response.data) {
-          setSurveyUrl(response.data);
-        } else {
-          console.error(response);
-        }
-      } catch (error) {
-        console.error('설문 조사 링크를 불러오는 중 오류 발생:', error);
-      }
-    };
+  const { mutate: postMailMutate, isLoading: isPostMailLoading } = useMutation({
+    mutationKey: ['postMail', eventId],
+    mutationFn: (body) => postMail(eventId, body),
+  });
 
-    getSurveyUrl();
-  }, [eventId]);
-
-  // 설문조사 링크 수정
-  const handleSaveButtonClick = async () => {
-    if (!isModified) return;
-
-    setIsSaving(true);
-
-    try {
-      const response = await axiosInstance.put(
-        `/api/v1/events/survey/${eventId}?surveyUrl=${surveyUrl}`,
-      );
-
-      if (response.status === 200) {
-        alert('설문 조사 링크가 성공적으로 저장되었습니다!');
-        setIsModified(false);
-      } else {
-        alert('설문 조사 링크 저장에 실패했습니다.');
-      }
-    } catch (error) {
-      console.error('설문 조사 링크 저장 중 오류 발생:', error);
-      alert('설문 조사 링크 저장 중 오류가 발생했습니다.');
-    } finally {
-      setIsSaving(false);
-    }
-  };
+  const { mutate: putMailMutate, isLoading: isPutMailLoading } = useMutation({
+    mutationKey: ['putMail', mail],
+    mutationFn: (body) => putMail(mail.mailId, body),
+  });
 
   // 저장하기 버튼
   const handleInputChange = (e) => {
-    const newValue = e.target.value;
-    setSurveyUrl(newValue);
+    setSurveyUrl(e.target.value);
+  };
 
-    if (newValue !== '') {
-      setIsModified(true);
-    } else {
-      setIsModified(false);
+  // 설문조사 링크 수정
+  const handleSaveButtonClick = async () => {
+    if (isMailError) {
+      postMailMutate(
+        {
+          mailType: 'SURVEY',
+          attachUrl: surveyUrl,
+        },
+        {
+          onSuccess: () => {
+            alert('설문 조사 링크가 성공적으로 저장되었습니다!');
+          },
+          onError: () => {
+            alert('설문 조사 링크 저장 중 오류가 발생했습니다.');
+          },
+        },
+      );
+
+      return;
     }
+
+    putMailMutate(
+      {
+        mailType: 'SURVEY',
+        attachUrl: surveyUrl,
+      },
+      {
+        onSuccess: () => {
+          alert('설문 조사 링크가 성공적으로 수정되었습니다!');
+        },
+        onError: () => {
+          alert('설문 조사 링크 수정 중 오류가 발생했습니다.');
+        },
+      },
+    );
   };
 
   if (isPending) {
@@ -99,24 +104,35 @@ export default function DashboardSurveyPage() {
           <S.Title>WISE 설문 조사 링크 발송</S.Title>
           <S.ButtonContainer>
             <Button
-              label={isSaving ? '저장 중...' : '저장하기'}
-              onClick={handleSaveButtonClick}
-              disabled={!isModified || isSaving}
+              label={
+                isPostMailLoading || isPutMailLoading
+                  ? '저장 중...'
+                  : '저장하기'
+              }
+              disabled={isPostMailLoading || isPutMailLoading}
               style={{
-                backgroundColor: isModified ? '#007bff' : '#ccc',
-                cursor: isModified ? 'pointer' : 'not-allowed',
+                backgroundColor:
+                  isPostMailLoading || isPutMailLoading ? '#ccc' : '#007bff',
+                cursor:
+                  isPostMailLoading || isPutMailLoading
+                    ? 'not-allowed'
+                    : 'pointer',
               }}
+              onClick={handleSaveButtonClick}
             />
           </S.ButtonContainer>
         </S.TopContainer>
 
         <S.ContentContainer>
           <S.Content>
-            <S.ContentTitle>WISE 설문 조사 링크 등록</S.ContentTitle>
+            <S.ContentTitle>안내</S.ContentTitle>
             <S.ContentDesc>
               <em>행사 종료 1시간 후</em> 참석자들에게 발송 될&nbsp;
-              <em>설문조사 링크</em>를 등록해 주세요.
+              <em>설문조사 링크</em> 발송 문구를 작성해주세요.
             </S.ContentDesc>
+          </S.Content>
+          <S.Content>
+            <S.ContentTitle>WISE 설문 조사 링크 등록</S.ContentTitle>
             <Input
               placeholder="https://wise.sookmyung.ac.kr/ko/module/eco/@poll/write/4625/0"
               value={surveyUrl}

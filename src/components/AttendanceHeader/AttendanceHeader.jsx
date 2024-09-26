@@ -1,13 +1,16 @@
 import * as S from './AttendanceHeader.style';
 import PropTypes from 'prop-types';
 import { FiX } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 const AttendanceHeader = ({ eventTitle }) => {
   return (
     <S.Container>
-      <S.CloseIconAnchor href="/events">
-        <FiX color="#000" />
-      </S.CloseIconAnchor>
+      <Link to="/events/dashboard/attendee">
+        <S.CloseIconAnchor>
+          <FiX color="#000" />
+        </S.CloseIconAnchor>
+      </Link>
       <S.ContentContainer>
         <S.Title>
           <em>{eventTitle}</em>
@@ -19,8 +22,7 @@ const AttendanceHeader = ({ eventTitle }) => {
 };
 
 AttendanceHeader.propTypes = {
-  event: PropTypes.string.isRequired,
-  activeStep: PropTypes.number.isRequired,
+  eventTitle: PropTypes.string.isRequired,
 };
 
 export default AttendanceHeader;

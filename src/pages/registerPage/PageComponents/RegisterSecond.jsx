@@ -33,7 +33,7 @@ import * as S from './RegisterPage.style';
 
 const RegisterSecond = () => {
   const setStep = useSetRecoilState(RegisterStep);
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
 
   // Recoil 상태
   const [eventType] = useRecoilState(eventTypeState);
@@ -46,8 +46,7 @@ const RegisterSecond = () => {
   const [minCompletionTimesValue, setMinCompletionTimesValue] =
     useRecoilState(minCompletionTimes);
   const [eventSchedules, setEventSchedules] = useRecoilState(eventScheduleList);
-  const [eventAddress, setEventAddress] = useState('');
-  const [isChecked, setIsChecked] = useState(false);
+  const [attendanceTimeForOnline, setAttendanceTimeForOnline] = useState(0);
 
   const navigate = useNavigate();
   const resetAllStates = useResetAllStates();
@@ -69,8 +68,8 @@ const RegisterSecond = () => {
     setMinCompletionTimesValue(value);
   };
 
-  const handleCheckboxChange = (event) => {
-    setIsChecked(event.target.checked);
+  const handleTimeSelect = (value) => {
+    setAttendanceTimeForOnline(value);
   };
 
   const handleDownload = async (e) => {
@@ -137,19 +136,17 @@ const RegisterSecond = () => {
     e.preventDefault();
     const formData = new FormData();
 
-    const event = {
+    const eventDetail = {
       eventType,
       eventTarget,
       eventTitle: eventTitleValue,
       eventDetail: eventDetailValue,
       completionTimes: minCompletionTimesValue,
       eventSchedules: formatSchedules(eventSchedules),
-      eventUrl: eventAddress,
-      alarmRequest: isChecked,
-      alarmResponse: isChecked,
+      attendanceTimeForOnline,
     };
 
-    formData.append('eventDetail', JSON.stringify(event));
+    formData.append('eventDetail', JSON.stringify(eventDetail));
     formData.append('eventImage', eventImageValue);
     formData.append('attendanceListFile', attendanceListFileValue);
 
@@ -164,9 +161,9 @@ const RegisterSecond = () => {
       alert('행사가 제대로 등록되지 않았습니다.');
       navigate('/register');
     } finally {
-      setShowModal(true);
       setStep(1);
       resetAllStates();
+      navigate('/events');
     }
   };
 
@@ -243,26 +240,18 @@ const RegisterSecond = () => {
               />
             </S.ContentWrapper>
 
-            <S.ContentWrapper>
-              <S.MainTitle>WISE 주소</S.MainTitle>
-              <Input
-                placeholder="등록하실 행사의 WISE 주소를 입력해주세요."
-                value={eventAddress}
-                onChange={(e) => setEventAddress(e.target.value)}
-              />
-            </S.ContentWrapper>
-
-            <S.ContentWrapper>
-              <S.MainTitle>안내 메일 발송 여부</S.MainTitle>
-              <S.Callout>
-                <S.CheckBox
-                  type="checkbox"
-                  checked={isChecked}
-                  onChange={handleCheckboxChange}
+            {eventType == 'ONLINE' && (
+              <S.ContentWrapper>
+                <S.MainTitle>행사 이수 기준 시간</S.MainTitle>
+                <Input
+                  type="number"
+                  placeholder={
+                    '행사 이수를 위한 최소 시간을 분 단위로 입력해주세요. (ex. 30, 60 ... )'
+                  }
+                  onChange={(e) => handleTimeSelect(e.target.value)}
                 />
-                <S.SubTitle>안내 메일 발송에 동의합니다.</S.SubTitle>
-              </S.Callout>
-            </S.ContentWrapper>
+              </S.ContentWrapper>
+            )}
 
             <S.ButtonWrapper>
               <Button
@@ -277,12 +266,12 @@ const RegisterSecond = () => {
           </S.ContentBox>
         </S.RegisterCategory>
       </S.CenteredRegisterPage>
-      {showModal && (
+      {/* {showModal && (
         <RegisterCompletedModal
           eventTitle={eventTitleValue}
           eventScheduleList={eventSchedules}
         />
-      )}
+      )} */}
     </S.RegisterPage>
   );
 };

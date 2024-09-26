@@ -1,21 +1,24 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { PageLayout } from '@/Layout';
 import * as S from './DashboardEmailPage.style';
 import { Sidebar, Button, TopNavigation, Textarea, Input } from '@/components';
 import { useRecoilValue } from 'recoil';
 import { eventIDState } from '@/recoil/atoms/state';
 import { axiosInstance } from '@/axios';
-import { getEventDetail } from '@/apis';
-import { useQuery } from '@tanstack/react-query';
+import { getEventDetail, getMail, postMail, putMail } from '@/apis';
+import { useQuery, useMutation } from '@tanstack/react-query';
 
 export default function DashboardEmailPage() {
-  const eventId = useRecoilValue(eventIDState) || eventDetail.id;
+  const eventId = useRecoilValue(eventIDState);
   const [isModified, setIsModified] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [emailTitle, setEmailTitle] = useState('');
   const [emailContent, setEmailContent] = useState('');
+  const [attachUrl, setAttachUrl] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [isSendEnabled, setIsSendEnabled] = useState(true);
 
+  // 이벤트 상세 정보 가져오기
   const {
     data: eventDetail,
     isPending,
@@ -25,17 +28,57 @@ export default function DashboardEmailPage() {
     queryFn: () => getEventDetail(eventId),
   });
 
+  const {
+    data: mail,
+    isPending: isMailPending,
+    isError: isMailError,
+  } = useQuery({
+    queryKey: ['getMail', eventId],
+    retry: 0,
+    queryFn: () =>
+      getMail(eventId, {
+        mailType: 'REMIND',
+      }),
+  });
+
+  const { mutate: postMailMutate, isLoading: isPostMailLoading } = useMutation({
+    mutationKey: ['postMail', eventId],
+    mutationFn: (body) => postMail(eventId, body),
+  });
+
+  const { mutate: putMailMutate, isLoading: isPutMailLoading } = useMutation({
+    mutationKey: ['putMail', mail],
+    mutationFn: (body) => putMail(mail.mailId, body),
+  });
+
+  useEffect(() => {
+    if (mail === undefined) {
+      return;
+    }
+
+    const { mailTitle, mailContent, attachUrl } = mail;
+
+    setEmailContent(mailContent);
+    setEmailTitle(mailTitle);
+    setAttachUrl(attachUrl);
+  }, [mail]);
+
+  // 리마인드 메일 내용 조회
   useEffect(() => {
     const getEmailContent = async () => {
       try {
-        const response = await axiosInstance.get(`/api/v1/mail/${eventId}`, {
-          params: {
-            mailType: 'REMIND',
+        const response = await axiosInstance.get(
+          `/api/v1/mail/send/${eventId}`,
+          {
+            params: {
+              mailType: 'REMIND',
+            },
           },
-        });
+        );
         if (response.status === 200) {
           setEmailContent(response.data.mailContent);
           setEmailTitle(response.data.mailTitle);
+          setAttachUrl(response.data.attachUrl);
           console.log(response);
         }
       } catch (error) {
@@ -48,50 +91,72 @@ export default function DashboardEmailPage() {
     getEmailContent();
   }, [eventId]);
 
-  // 메일 제목 수정 핸들러
+  // 필드 변화 감지 및 isModified 상태 업데이트
+  useEffect(() => {
+    const initialEmailContent = eventDetail?.mailContent || '';
+    const initialEmailTitle = eventDetail?.mailTitle || '';
+    const initialAttachUrl = eventDetail?.attachUrl || '';
+
+    const isContentModified =
+      isSendEnabled !== eventDetail?.isSendEnabled ||
+      emailTitle !== initialEmailTitle ||
+      emailContent !== initialEmailContent ||
+      attachUrl !== initialAttachUrl;
+
+    setIsModified(isContentModified);
+  }, [isSendEnabled, emailTitle, emailContent, attachUrl, eventDetail]);
+
   const handleTitleChange = (e) => {
-    const newEmailTitle = e.target.value;
-    setEmailTitle(newEmailTitle);
-    setIsModified(newEmailTitle !== '' || emailContent !== '');
+    setEmailTitle(e.target.value);
   };
 
-  // 메일 내용 수정 핸들러
   const handleTextareaChange = (e) => {
-    const newEmailContent = e.target.value;
-    setEmailContent(newEmailContent);
-    setIsModified(newEmailContent !== '' || emailTitle !== '');
+    setEmailContent(e.target.value);
   };
 
-  // 저장하기 버튼
+  const handleAttachUrlChange = (e) => {
+    setAttachUrl(e.target.value);
+  };
+
   const handleSaveButtonClick = async () => {
-    if (!isModified) return;
-
-    setIsSaving(true);
-
-    try {
-      const response = await axiosInstance.put(
-        `/api/v1/events/mail/content/${eventId}`,
+    if (isMailError) {
+      postMailMutate(
         {
-          mailTitle: emailTitle,
-          mailContent: emailContent,
+          mailType: 'REMIND',
+          attachUrl,
+        },
+        {
+          onSuccess: () => {
+            alert('이메일 내용이 성공적으로 저장되었습니다!');
+          },
+          onError: () => {
+            alert('이메일 내용 저장 중 오류가 발생했습니다.');
+          },
         },
       );
 
-      if (response.status === 200) {
-        alert('이메일 내용이 성공적으로 저장되었습니다!');
-        setIsModified(false);
-      } else {
-        alert('이메일 내용 저장에 실패했습니다.');
-      }
-    } catch (error) {
-      console.error('이메일 내용 저장 중 오류 발생:', error);
-      alert('이메일 내용 저장 중 오류가 발생했습니다.');
-    } finally {
-      setIsSaving(false);
+      return;
     }
+
+    putMailMutate(
+      {
+        mailType: 'REMIND',
+        mailTitle: emailTitle,
+        mailContent: emailContent,
+        attachUrl,
+      },
+      {
+        onSuccess: () => {
+          alert('이메일 내용이 성공적으로 수정되었습니다!');
+        },
+        onError: () => {
+          alert('이메일 내용 수정 중 오류가 발생했습니다.');
+        },
+      },
+    );
   };
 
-  if (isPending) {
+  if (isPending || isMailPending) {
     return <div>Loading...</div>;
   }
 
@@ -106,23 +171,40 @@ export default function DashboardEmailPage() {
     >
       <S.DashboardEmailPage>
         <S.TopContainer>
-          <S.Title>리마인드 메일 발송</S.Title>
+          <S.Title>행사 사전 안내 메일 발송</S.Title>
           <S.ButtonContainer>
             <Button
-              label={isSaving ? '저장 중...' : '저장하기'}
-              onClick={handleSaveButtonClick}
-              disabled={!isModified || isSaving}
+              label={
+                isPostMailLoading || isPutMailLoading
+                  ? '저장 중...'
+                  : '저장하기'
+              }
+              disabled={isPostMailLoading || isPutMailLoading}
               style={{
-                backgroundColor: isModified ? '#007bff' : '#ccc',
-                cursor: isModified ? 'pointer' : 'not-allowed',
+                backgroundColor:
+                  isPostMailLoading || isPutMailLoading ? '#ccc' : '#007bff',
+                cursor:
+                  isPostMailLoading || isPutMailLoading
+                    ? 'not-allowed'
+                    : 'pointer',
               }}
+              onClick={handleSaveButtonClick}
             />
           </S.ButtonContainer>
         </S.TopContainer>
 
         <S.ContentContainer>
           <S.Content>
-            <S.ContentTitle>행사 안내 메일 발송</S.ContentTitle>
+            <S.ContentTitleCheckBoxWrapper>
+              <S.ContentTitle>발송 여부</S.ContentTitle>
+              <label className="toggle-switch">
+                <input
+                  type="checkbox"
+                  checked={isSendEnabled}
+                  onChange={(e) => setIsSendEnabled(e.target.checked)}
+                />
+              </label>
+            </S.ContentTitleCheckBoxWrapper>
             <S.ContentDesc>
               <em>행사 시작 24시간 전</em>에 참석자들에게 발송 될&nbsp;
               <em>행사 안내 메일 내용</em>을 수정해 주세요.
@@ -131,37 +213,47 @@ export default function DashboardEmailPage() {
               의 메일이 발송됩니다.
             </S.ContentDesc>
           </S.Content>
-          <S.Content>
-            <S.ContentTitle>행사 안내 메일 링크</S.ContentTitle>
-            <Input
-              placeholder="행사 안내 링크를 입력해 주세요."
-              // value={emailTitle}
-              // onChange={handleTitleChange}
-            />
-          </S.Content>
-          <S.Content>
-            <S.ContentTitle>메일 제목</S.ContentTitle>
-            <Input
-              placeholder="행사 안내 메일 제목을 작성해 주세요."
-              value={emailTitle}
-              onChange={handleTitleChange}
-            />
-          </S.Content>
 
-          <S.Content>
-            <S.ContentTitle>메일 내용</S.ContentTitle>
+          {/* 조건부 렌더링: isSendEnabled가 true인 경우에만 내용 표시 */}
+          {isSendEnabled && (
+            <>
+              <S.Content>
+                <S.ContentTitle>행사 안내 링크</S.ContentTitle>
+                <Input
+                  placeholder="행사 안내 링크를 입력해 주세요."
+                  value={attachUrl}
+                  onChange={handleAttachUrlChange}
+                />
+              </S.Content>
+              {!isMailError && (
+                <>
+                  <S.Content>
+                    <S.ContentTitle>메일 제목</S.ContentTitle>
+                    <Input
+                      placeholder="행사 안내 메일 제목을 작성해 주세요."
+                      value={emailTitle}
+                      onChange={handleTitleChange}
+                    />
+                  </S.Content>
 
-            {isLoading ? (
-              <p>로딩 중...</p>
-            ) : (
-              <Textarea
-                placeholder="행사 안내 메일 내용을 작성해 주세요."
-                value={emailContent}
-                onChange={handleTextareaChange}
-                height="300px"
-              />
-            )}
-          </S.Content>
+                  <S.Content>
+                    <S.ContentTitle>메일 내용</S.ContentTitle>
+
+                    {isLoading ? (
+                      <p>로딩 중...</p>
+                    ) : (
+                      <Textarea
+                        placeholder="행사 안내 메일 내용을 작성해 주세요."
+                        value={emailContent}
+                        onChange={handleTextareaChange}
+                        height="300px"
+                      />
+                    )}
+                  </S.Content>
+                </>
+              )}
+            </>
+          )}
         </S.ContentContainer>
       </S.DashboardEmailPage>
     </PageLayout>

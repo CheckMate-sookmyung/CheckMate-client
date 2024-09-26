@@ -19,12 +19,14 @@ import {
 } from '@/apis';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import AttendeeSearch from './AttendeeSearch';
+import UpdateAttendeeModal from './UpdateAttendeeModal';
 
 export default function DashboardAttendeePage() {
   const [eventTitle, setEventTitle] = useState('');
   const [eventTarget, setEventTarget] = useState('INTERNAL');
   const [activeTab, setActiveTab] = useState(1);
   const [editMode, setEditMode] = useState(false);
+  const [deleteMode, setDeleteMode] = useState(false);
   const [attendees, setAttendees] = useState([]);
   const [filteredAttendees, setFilteredAttendees] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -34,6 +36,14 @@ export default function DashboardAttendeePage() {
     direction: 'asc',
   });
   const [sessionAttendees, setSessionAttendees] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newAttendee, setNewAttendee] = useState({
+    name: '',
+    major: '',
+    studentNumber: '',
+    phoneNumber: '',
+  });
+  const [selectedAttendees, setSelectedAttendees] = useState([]);
   const eventId = useRecoilValue(eventIDState);
 
   const queryClient = useQueryClient();
@@ -56,12 +66,6 @@ export default function DashboardAttendeePage() {
     queryFn: () => getAttendanceList(eventId),
   });
 
-  useEffect(() => {
-    if (attendanceList) {
-      console.log('Attendance List:', attendanceList);
-    }
-  }, [attendanceList]);
-
   const {
     mutate: updateAttendanceListMutate,
     isPending: isUpdateAttendanceListPending,
@@ -76,6 +80,83 @@ export default function DashboardAttendeePage() {
       alert('출석 정보 업데이트에 실패했습니다.');
     },
   });
+
+  const handleModalToggle = () => {
+    setIsModalOpen((prev) => !prev);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewAttendee((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleAddAttendee = async () => {
+    try {
+      const response = await axiosInstance.put(
+        `/api/v1/events/attendee/${eventId}`,
+        {
+          attendees: [
+            {
+              name: newAttendee.name,
+              major: newAttendee.major,
+              studentNumber:
+                eventTarget === 'INTERNAL' ? newAttendee.studentNumber : '',
+              phoneNumber: newAttendee.phoneNumber,
+            },
+          ],
+        },
+      );
+
+      if (response.status === 200) {
+        alert('참석자가 성공적으로 추가되었습니다.');
+        setIsModalOpen(false);
+        setNewAttendee({
+          name: '',
+          major: '',
+          studentNumber: '',
+          phoneNumber: '',
+        });
+        queryClient.invalidateQueries(['getAttendanceList', eventId]);
+      } else {
+        alert('참석자 추가에 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('참석자 추가 중 오류 발생:', error);
+      alert('참석자 추가 중 오류가 발생했습니다. 다시 시도해 주세요.');
+    }
+  };
+
+  // 삭제 모드 토글 핸들러
+  const handleDeleteModeToggle = () => {
+    if (deleteMode) {
+      const isConfirmed = window.confirm('선택한 참석자들을 삭제하시겠습니까?');
+      if (isConfirmed) {
+        alert('선택된 참석자들이 삭제되었습니다.');
+      }
+    }
+
+    setDeleteMode((prevDeleteMode) => !prevDeleteMode);
+  };
+
+  // 선택된 참석자를 관리하기 위한 상태 업데이트 로직
+  const handleSelectAttendee = (idOrIds, isSelected) => {
+    if (Array.isArray(idOrIds)) {
+      if (isSelected) {
+        setSelectedAttendees(idOrIds);
+      } else {
+        setSelectedAttendees([]);
+      }
+    } else {
+      setSelectedAttendees((prevSelected) =>
+        isSelected
+          ? [...prevSelected, idOrIds]
+          : prevSelected.filter((attendeeId) => attendeeId !== idOrIds),
+      );
+    }
+  };
 
   useEffect(() => {
     if (!eventDetail) {
@@ -127,7 +208,6 @@ export default function DashboardAttendeePage() {
     }
   }, [eventDetail]);
 
-  // 참석자 정보 가져오기
   useEffect(() => {
     if (attendanceList) {
       const parsedSessions = attendanceList.map((session, index) => {
@@ -195,16 +275,6 @@ export default function DashboardAttendeePage() {
     }));
   };
 
-  const handleSendEmail = async () => {
-    const isConfirmed = window.confirm(
-      '출석 명단을 이메일로 전송하시겠습니까?\n확인 버튼을 누르면 즉시 전송됩니다.',
-    );
-
-    if (isConfirmed) {
-      return;
-    }
-  };
-
   // 참석 여부 수정
   const handleAttendanceChange = (attendeeId, value) => {
     const updatedAttendees = attendees.map((attendee) =>
@@ -234,23 +304,45 @@ export default function DashboardAttendeePage() {
     setEditMode((prevEditMode) => !prevEditMode);
   };
 
-  // 다운로드
-  const handleDownload = async () => {
+  //  출석 명단 메일로 전송
+  const handleSendEmailButtonClick = async () => {
+    const isConfirmed = window.confirm(
+      '출석 명단을 이메일로 전송하시겠습니까?\n확인 버튼을 누르면 즉시 전송됩니다.',
+    );
+
+    if (!isConfirmed) {
+      return;
+    }
+
     try {
-      const response = await axiosInstance.get(
-        `/api/v1/attendancelist/${eventId}`,
-        { responseType: 'blob' },
+      const response = await axiosInstance.post(
+        `/api/v1/attendancelist/sending/${eventId}`,
       );
 
-      const contentType = response.headers['content-type'];
-      const blob = new Blob([response.data], { type: contentType });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', `${eventTitle}_참석자명단.pdf`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      if (response.status === 200) {
+        alert('출석 명단이 이메일로 성공적으로 전송되었습니다.');
+      } else {
+        throw new Error('출석 명단 전송에 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('출석 명단 전송 중 오류 발생:', error);
+      alert('출석 명단 전송에 실패했습니다. 다시 시도해 주세요.');
+    }
+  };
+
+  // 참석 명단 즉시 다운로드
+  const handleDownloadButtonClick = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `/api/v1/attendancelist/download/${eventId}`,
+      );
+
+      const fileUrl = response.data.attendanceListFileUrl;
+      if (fileUrl) {
+        window.open(fileUrl, '_blank');
+      } else {
+        throw new Error('파일 URL이 존재하지 않습니다.');
+      }
     } catch (error) {
       console.error('출석 명단 다운로드 중 오류 발생:', error);
       alert('출석 명단 다운로드에 실패했습니다. 다시 시도해 주세요.');
@@ -281,7 +373,7 @@ export default function DashboardAttendeePage() {
               <S.Title>참석자 관리</S.Title>
               <S.ButtonContainer>
                 <SlimButton
-                  onClick={handleSendEmail}
+                  onClick={handleSendEmailButtonClick}
                   label={
                     <>
                       <FaRegEnvelope /> 출석 명단 메일로 전송
@@ -289,10 +381,10 @@ export default function DashboardAttendeePage() {
                   }
                 />
                 <SlimButton
-                  onClick={handleDownload}
+                  onClick={handleDownloadButtonClick}
                   label={
                     <>
-                      <FaPaperclip /> 출석 명단 다운로드
+                      <FaPaperclip /> 출석 명단 즉시 다운
                     </>
                   }
                 />
@@ -317,14 +409,24 @@ export default function DashboardAttendeePage() {
                   />
                 ))}
               </S.TabContainer>
-              <S.EditMode
-                type="button"
-                disabled={isUpdateAttendanceListPending}
-                active={editMode}
-                onClick={handleEditModeToggle}
-              >
-                {editMode ? '저장하기' : '출석 여부 수정하기'}
-              </S.EditMode>
+              <S.ButtonGroup>
+                <S.EditMode
+                  type="button"
+                  active={deleteMode}
+                  onClick={handleDeleteModeToggle}
+                >
+                  {deleteMode ? '저장하기' : '참석자 삭제'}
+                </S.EditMode>
+                <S.EditMode onClick={handleModalToggle}>참석자 추가</S.EditMode>
+                <S.EditMode
+                  type="button"
+                  disabled={isUpdateAttendanceListPending}
+                  active={editMode}
+                  onClick={handleEditModeToggle}
+                >
+                  {editMode ? '저장하기' : '출석 여부 수정'}
+                </S.EditMode>
+              </S.ButtonGroup>
             </S.TabEditWrapper>
 
             <S.SearchRateContainer>
@@ -347,14 +449,28 @@ export default function DashboardAttendeePage() {
             <AttendeeTable
               attendees={filteredAttendees}
               editMode={editMode}
+              deleteMode={deleteMode}
               sortData={sortData}
               handleAttendanceChange={handleAttendanceChange}
+              handleSelectAttendee={handleSelectAttendee}
               sortConfig={sortConfig}
               showStudentInfo={eventTarget === 'INTERNAL'}
             />
           </>
         )}
       </S.DashboardAttendee>
+
+      {/* 참석자 추가/삭제 모달 */}
+      {isModalOpen && (
+        <UpdateAttendeeModal
+          isOpen={isModalOpen}
+          onClose={handleModalToggle}
+          onAdd={handleAddAttendee}
+          newAttendee={newAttendee}
+          onInputChange={handleInputChange}
+          eventTarget={eventTarget}
+        />
+      )}
     </PageLayout>
   );
 }
