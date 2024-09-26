@@ -21,10 +21,12 @@ import {
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import AttendeeSearch from './AttendeeSearch';
 import UpdateAttendeeModal from './UpdateAttendeeModal';
+import LogAnalyzeButton from './LogAnalyzeButton';
 
 export default function DashboardAttendeePage() {
   const [eventTitle, setEventTitle] = useState('');
   const [eventTarget, setEventTarget] = useState('INTERNAL');
+  const [eventType, setEventType] = useState('OFFLINE');
   const [activeTab, setActiveTab] = useState(1);
   const [editMode, setEditMode] = useState(false);
   const [deleteMode, setDeleteMode] = useState(false);
@@ -187,6 +189,7 @@ export default function DashboardAttendeePage() {
 
     setEventTitle(eventDetail.eventTitle);
     setEventTarget(eventDetail.eventTarget);
+    setEventType(eventDetail.eventType);
 
     const parsedSessions = eventDetail.eventSchedules.map((schedule, index) => {
       const attendanceList = schedule.attendanceListResponseDtos || [];
@@ -401,6 +404,9 @@ export default function DashboardAttendeePage() {
             <S.TopContainer>
               <S.Title>참석자 관리</S.Title>
               <S.ButtonContainer>
+                {eventType == 'ONLINE' && (
+                  <LogAnalyzeButton eventScheduleId={activeEventScheduleId} />
+                )}
                 <SlimButton
                   onClick={handleSendEmailButtonClick}
                   label={
