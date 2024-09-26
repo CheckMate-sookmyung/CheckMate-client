@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PageLayout } from '@/Layout';
 import * as S from './DashboardSurveyPage.style';
 import { Sidebar, Button, TopNavigation, Input } from '@/components';
@@ -85,6 +85,14 @@ export default function DashboardSurveyPage() {
       },
     );
   };
+
+  useEffect(() => {
+    if (mail === undefined) {
+      return;
+    }
+
+    setSurveyUrl(mail.attachUrl);
+  }, [mail]);
 
   if (isPending) {
     return <div>Loading...</div>;

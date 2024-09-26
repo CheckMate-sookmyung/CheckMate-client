@@ -16,7 +16,7 @@ export default function DashboardEmailPage() {
   const [emailContent, setEmailContent] = useState('');
   const [attachUrl, setAttachUrl] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const [isSendEnabled, setIsSendEnabled] = useState(true);
+  // const [isSendEnabled, setIsSendEnabled] = useState(true);
 
   // 이벤트 상세 정보 가져오기
   const {
@@ -67,14 +67,11 @@ export default function DashboardEmailPage() {
   useEffect(() => {
     const getEmailContent = async () => {
       try {
-        const response = await axiosInstance.get(
-          `/api/v1/mail/send/${eventId}`,
-          {
-            params: {
-              mailType: 'REMIND',
-            },
+        const response = await axiosInstance.get(`/api/v1/mail/${eventId}`, {
+          params: {
+            mailType: 'REMIND',
           },
-        );
+        });
         if (response.status === 200) {
           setEmailContent(response.data.mailContent);
           setEmailTitle(response.data.mailTitle);
@@ -98,13 +95,13 @@ export default function DashboardEmailPage() {
     const initialAttachUrl = eventDetail?.attachUrl || '';
 
     const isContentModified =
-      isSendEnabled !== eventDetail?.isSendEnabled ||
+      // isSendEnabled !== eventDetail?.isSendEnabled ||
       emailTitle !== initialEmailTitle ||
       emailContent !== initialEmailContent ||
       attachUrl !== initialAttachUrl;
 
     setIsModified(isContentModified);
-  }, [isSendEnabled, emailTitle, emailContent, attachUrl, eventDetail]);
+  }, [emailTitle, emailContent, attachUrl, eventDetail]);
 
   const handleTitleChange = (e) => {
     setEmailTitle(e.target.value);
@@ -197,13 +194,6 @@ export default function DashboardEmailPage() {
           <S.Content>
             <S.ContentTitleCheckBoxWrapper>
               <S.ContentTitle>발송 여부</S.ContentTitle>
-              <label className="toggle-switch">
-                <input
-                  type="checkbox"
-                  checked={isSendEnabled}
-                  onChange={(e) => setIsSendEnabled(e.target.checked)}
-                />
-              </label>
             </S.ContentTitleCheckBoxWrapper>
             <S.ContentDesc>
               <em>행사 시작 24시간 전</em>에 참석자들에게 발송 될&nbsp;
@@ -214,44 +204,39 @@ export default function DashboardEmailPage() {
             </S.ContentDesc>
           </S.Content>
 
-          {/* 조건부 렌더링: isSendEnabled가 true인 경우에만 내용 표시 */}
-          {isSendEnabled && (
+          <S.Content>
+            <S.ContentTitle>행사 안내 링크</S.ContentTitle>
+            <Input
+              placeholder="행사 안내 링크를 입력해 주세요."
+              value={attachUrl}
+              onChange={handleAttachUrlChange}
+            />
+          </S.Content>
+          {!isMailError && (
             <>
               <S.Content>
-                <S.ContentTitle>행사 안내 링크</S.ContentTitle>
+                <S.ContentTitle>메일 제목</S.ContentTitle>
                 <Input
-                  placeholder="행사 안내 링크를 입력해 주세요."
-                  value={attachUrl}
-                  onChange={handleAttachUrlChange}
+                  placeholder="행사 안내 메일 제목을 작성해 주세요."
+                  value={emailTitle}
+                  onChange={handleTitleChange}
                 />
               </S.Content>
-              {!isMailError && (
-                <>
-                  <S.Content>
-                    <S.ContentTitle>메일 제목</S.ContentTitle>
-                    <Input
-                      placeholder="행사 안내 메일 제목을 작성해 주세요."
-                      value={emailTitle}
-                      onChange={handleTitleChange}
-                    />
-                  </S.Content>
 
-                  <S.Content>
-                    <S.ContentTitle>메일 내용</S.ContentTitle>
+              <S.Content>
+                <S.ContentTitle>메일 내용</S.ContentTitle>
 
-                    {isLoading ? (
-                      <p>로딩 중...</p>
-                    ) : (
-                      <Textarea
-                        placeholder="행사 안내 메일 내용을 작성해 주세요."
-                        value={emailContent}
-                        onChange={handleTextareaChange}
-                        height="300px"
-                      />
-                    )}
-                  </S.Content>
-                </>
-              )}
+                {isLoading ? (
+                  <p>로딩 중...</p>
+                ) : (
+                  <Textarea
+                    placeholder="행사 안내 메일 내용을 작성해 주세요."
+                    value={emailContent}
+                    onChange={handleTextareaChange}
+                    height="300px"
+                  />
+                )}
+              </S.Content>
             </>
           )}
         </S.ContentContainer>
