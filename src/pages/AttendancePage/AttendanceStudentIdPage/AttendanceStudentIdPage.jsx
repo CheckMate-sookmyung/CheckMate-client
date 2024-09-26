@@ -110,6 +110,7 @@ const AttendanceStudentIdPage = () => {
     }
   };
 
+  // 특정 참석자를 선택했을 때 서명 페이지로 이동
   const handleAttendeeSelect = (attendee) => {
     const parsedStudent = {
       studentName: attendee.attendeeName,
@@ -202,27 +203,29 @@ const AttendanceStudentIdPage = () => {
 
         {/* 모달 */}
         {isModalOpen && (
-          <S.ModalContainer>
-            <S.ModalTitle>출석체크할 사람을 선택해주세요.</S.ModalTitle>
-            <S.AttendeeList>
-              {attendees.map((attendee, index) => (
-                <S.AttendeeItem
-                  key={index}
-                  onClick={() => handleAttendeeSelect(attendee)}
-                >
-                  <S.AttendeeName>{attendee.attendeeName}</S.AttendeeName>
-                  <S.AttendeeInfo>
-                    {attendee.attendeeAffiliation}
-                  </S.AttendeeInfo>
-                </S.AttendeeItem>
-              ))}
-            </S.AttendeeList>
-            <S.ButtonContainer>
-              <S.CloseButton onClick={() => setIsModalOpen(false)}>
-                이전으로
-              </S.CloseButton>
-            </S.ButtonContainer>
-          </S.ModalContainer>
+          <S.ModalOverlay>
+            <S.ModalContainer>
+              <S.ModalTitle>출석체크할 사람을 선택해주세요.</S.ModalTitle>
+              <S.AttendeeList>
+                {attendees.map((attendee, index) => (
+                  <S.AttendeeItem
+                    key={index}
+                    onClick={() => handleAttendeeSelect(attendee)}
+                  >
+                    <S.AttendeeName>{attendee.attendeeName}</S.AttendeeName>
+                    <S.AttendeeInfo>
+                      {attendee.attendeeAffiliation}
+                    </S.AttendeeInfo>
+                  </S.AttendeeItem>
+                ))}
+              </S.AttendeeList>
+              <S.ButtonContainer>
+                <S.CloseButton onClick={() => setIsModalOpen(false)}>
+                  이전으로
+                </S.CloseButton>
+              </S.ButtonContainer>
+            </S.ModalContainer>
+          </S.ModalOverlay>
         )}
       </S.ContentContainer>
     </S.AttendanceStudentIdPage>

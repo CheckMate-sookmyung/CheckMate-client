@@ -157,6 +157,16 @@ export const GoToSignBtn = styled.div`
 `;
 
 // 모달
+export const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+`;
+
 export const ModalContainer = styled.div`
   position: fixed;
   top: 50%;
@@ -191,7 +201,7 @@ export const ModalTitle = styled.h2`
   margin-bottom: 34px;
   font-size: 32px;
   font-weight: 600;
-  color: var(--blue-0, #2f7cef);
+  color: #323232;
   line-height: 1.2;
   word-break: keep-all;
   text-align: center;
