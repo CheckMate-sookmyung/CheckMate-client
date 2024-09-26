@@ -162,8 +162,16 @@ export const ModalInputWrapper = styled.div`
 `;
 
 export const FileUploadWrapper = styled.div`
-  margin-top: 10px;
-  width: 100%;
+  width: auto;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  & > Button {
+    white-space: nowrap;
+  }
 `;
 
 export const FileLabel = styled.label`
@@ -176,6 +184,7 @@ export const FileLabel = styled.label`
   color: ${(props) => (props.disabled ? '#a0a0a0' : '#000')};
   text-align: center;
   width: 100%;
+  height: 28px;
   box-sizing: border-box;
 
   &:hover {
