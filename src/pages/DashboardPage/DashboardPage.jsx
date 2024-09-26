@@ -258,6 +258,23 @@ export default function DashboardPage() {
 
               <S.ContentBox>
                 <S.ContentTitleWrapper>
+                  <S.ContentTitle>평균 참석 인원</S.ContentTitle>
+                </S.ContentTitleWrapper>
+                <S.ContentInfoWrapper>
+                  <S.EventTypeWrapper>
+                    {parsedEvents.totalSessions}회 진행 후 집계된 인원이에요
+                  </S.EventTypeWrapper>
+                  <S.EventDateWrapper>
+                    <S.ProgressNumber>
+                      <em>{eventDetail.averageAttendees}</em>
+                      {` / ${eventDetail.totalAttendees}`}
+                    </S.ProgressNumber>
+                  </S.EventDateWrapper>
+                </S.ContentInfoWrapper>
+              </S.ContentBox>
+
+              {/* <S.ContentBox>
+                <S.ContentTitleWrapper>
                   <S.ContactTextWrapper>
                     <S.ContentTitle>담당자</S.ContentTitle>
                     <S.ContactDescription>
@@ -364,7 +381,7 @@ export default function DashboardPage() {
                     </>
                   )}
                 </S.ContentInfoWrapper>
-              </S.ContentBox>
+              </S.ContentBox> */}
             </S.OverviewContainer>
 
             {/* 행사 커버 이미지 */}
@@ -382,7 +399,7 @@ export default function DashboardPage() {
 
           {/* 평균 참석 인원, 행사 진행 회차 */}
           <S.ProgressContainer>
-            <S.ProgressBox>
+            {/* <S.ProgressBox>
               <S.ProgressText>
                 <S.ProgressTitle>평균 참석 인원</S.ProgressTitle>
                 <S.ProgressDescription>
@@ -393,16 +410,16 @@ export default function DashboardPage() {
                 <em>{eventDetail.averageAttendees}</em>
                 {` / ${eventDetail.totalAttendees}`}
               </S.ProgressNumber>
-            </S.ProgressBox>
+            </S.ProgressBox> */}
 
-            <S.ProgressBox>
+            {/* <S.ProgressBox>
               <S.ProgressText>
                 <S.ProgressTitle>행사 진행 회차</S.ProgressTitle>
               </S.ProgressText>
               <S.ProgressNumber>
                 <em>{completedSessions}</em> / {parsedEvents.totalSessions}
               </S.ProgressNumber>
-            </S.ProgressBox>
+            </S.ProgressBox> */}
           </S.ProgressContainer>
         </S.DashboardPage>
       )}
