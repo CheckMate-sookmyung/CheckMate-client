@@ -6,7 +6,7 @@ import {
 } from 'react-icons/fa6';
 import { Dropdown } from '@/components';
 import { format } from 'date-fns';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const AttendeeTable = ({
   attendees,
@@ -17,6 +17,7 @@ const AttendeeTable = ({
   handleSelectAttendee,
   sortConfig,
   showStudentInfo,
+  onSelectedAttendeesChange,
 }) => {
   const [selectedAttendees, setSelectedAttendees] = useState([]);
 
@@ -46,6 +47,10 @@ const AttendeeTable = ({
       handleSelectAttendee(id, false);
     }
   };
+
+  useEffect(() => {
+    onSelectedAttendeesChange(selectedAttendees);
+  }, [selectedAttendees]);
 
   const SortIcon = ({ columnKey }) => {
     if (sortConfig.key !== columnKey) return null;

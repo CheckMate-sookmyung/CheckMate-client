@@ -21,7 +21,7 @@ export const getMail = async (mailId, params) => {
 };
 
 export const getSendMail = async (eventId, params) => {
-  const { data } = await axiosInstance.get(`/api/v1/mail/send/${eventId}`, {
+  const { data } = await axiosInstance.get(`/api/v1/mail/${eventId}`, {
     params,
   });
 

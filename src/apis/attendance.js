@@ -14,3 +14,31 @@ export const updateAttendanceList = async (eventId, body) => {
 
   return data;
 };
+
+export const postAttendance = async (eventId, eventScheduleId, body) => {
+  const { data } = await axiosInstance.post(
+    `/api/v1/attendance/manage/${eventId}/${eventScheduleId}`,
+    body,
+  );
+
+  return data;
+};
+
+export const deleteAttendance = async (
+  eventId,
+  eventScheduleId,
+  attendeeIdList,
+) => {
+  const { data } = await axiosInstance.delete(
+    `/api/v1/attendance/manage/${eventId}/${eventScheduleId}`,
+    {
+      params: {
+        attendeeIds: attendeeIdList
+          .map(({ attendeeId }) => attendeeId)
+          .join(','),
+      },
+    },
+  );
+
+  return data;
+};

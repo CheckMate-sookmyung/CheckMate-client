@@ -1,24 +1,79 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Modal, Input, Button } from '@/components';
 import * as S from './DashboardAttendeePage.style';
+import { postAttendance } from '@/apis';
+import { useMutation } from '@tanstack/react-query';
 
-export default function AttendeeModal({
+export default function UpdateAttendeeModal({
   isOpen,
-  onClose,
-  onAdd,
-  newAttendee,
-  onInputChange,
+  eventId,
+  eventScheduleId,
   eventTarget,
+  onSuccess,
+  onError,
+  onClose,
 }) {
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [attendeeName, setAttendeeName] = useState('');
+  const [attendeeStudentNumber, setAttendeeStudentNumber] = useState(null);
+  const [attendeeAffiliation, setAttendeeAffiliation] = useState('');
+  const [attendeePhoneNumber, setAttendeePhoneNumber] = useState('');
+  const [attendeeEmail, setAttendeeEmail] = useState('');
 
-  if (!isOpen) return null;
+  const { mutate: postAttendanceMutate, isLoading: isPostAttendanceLoading } =
+    useMutation({
+      mutationKey: ['postAttendance'],
+      mutationFn: (body) => postAttendance(eventId, eventScheduleId, body),
+      onSuccess: () => {
+        alert('추가 성공');
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setSelectedFile(file);
-    onInputChange({ target: { name: 'attachment', value: file } });
+        if (onSuccess !== undefined) {
+          onSuccess();
+        }
+      },
+      onError: () => {
+        alert('추가 실패');
+
+        if (onError !== undefined) {
+          onError();
+        }
+      },
+    });
+
+  const handleAttendeeNameInputChange = (e) => {
+    setAttendeeName(e.target.value);
   };
+
+  const handleAttendeeStudentNumberInputChange = (e) => {
+    setAttendeeStudentNumber(e.target.value);
+  };
+
+  const handleAttendeeAffiliationInputChange = (e) => {
+    setAttendeeAffiliation(e.target.value);
+  };
+
+  const handleAttendeePhoneNumberInputChange = (e) => {
+    setAttendeePhoneNumber(e.target.value);
+  };
+
+  const handleAttendeeEmailInputChange = (e) => {
+    setAttendeeEmail(e.target.value);
+  };
+
+  const handleAddButtonClick = () => {
+    postAttendanceMutate([
+      {
+        attendeeName,
+        attendeeStudentNumber,
+        attendeeAffiliation,
+        attendeePhoneNumber,
+        attendeeEmail,
+      },
+    ]);
+  };
+
+  if (!isOpen) {
+    return null;
+  }
 
   return (
     <Modal onClose={onClose}>
@@ -27,47 +82,36 @@ export default function AttendeeModal({
         <Input
           name="name"
           placeholder="이름"
-          value={newAttendee.name}
-          onChange={onInputChange}
+          value={attendeeName}
+          onChange={handleAttendeeNameInputChange}
         />
         <Input
           name="major"
           placeholder="소속"
-          value={newAttendee.major}
-          onChange={onInputChange}
+          value={attendeeAffiliation}
+          onChange={handleAttendeeAffiliationInputChange}
         />
         {/* INTERNAL 행사인 경우에만 표시 */}
         {eventTarget === 'INTERNAL' && (
           <Input
             name="studentNumber"
             placeholder="학번"
-            value={newAttendee.studentNumber}
-            onChange={onInputChange}
+            value={attendeeStudentNumber}
+            onChange={handleAttendeeStudentNumberInputChange}
           />
         )}
         <Input
           name="phoneNumber"
           placeholder="휴대폰 번호 ex) 010-1234-5678"
-          value={newAttendee.phoneNumber}
-          onChange={onInputChange}
+          value={attendeePhoneNumber}
+          onChange={handleAttendeePhoneNumberInputChange}
         />
-
-        {/* ONLINE인 행사인 경우에만 표시 */}
-        {eventTarget === 'ONLINE' && (
-          <S.FileUploadWrapper>
-            <S.FileLabel htmlFor="file-upload">
-              {selectedFile ? selectedFile.name : '파일 선택'}
-            </S.FileLabel>
-            <input
-              id="file-upload"
-              type="file"
-              name="attachment"
-              accept=".pdf,.doc,.docx,.png,.jpg"
-              onChange={handleFileChange}
-              style={{ display: 'none' }}
-            />
-          </S.FileUploadWrapper>
-        )}
+        <Input
+          name="email"
+          placeholder="이메일 ex) checkmate@gmail.com"
+          value={attendeeEmail}
+          onChange={handleAttendeeEmailInputChange}
+        />
       </S.ModalInputWrapper>
       <S.ModalButtonWrapper>
         <Button
@@ -76,7 +120,11 @@ export default function AttendeeModal({
           textColor="#000"
           label="닫기"
         />
-        <Button onClick={onAdd} label="추가하기" />
+        <Button
+          disabled={isPostAttendanceLoading}
+          onClick={handleAddButtonClick}
+          label="추가하기"
+        />
       </S.ModalButtonWrapper>
     </Modal>
   );
