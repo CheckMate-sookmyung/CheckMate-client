@@ -16,14 +16,17 @@ import {
   getAttendanceList,
   getEventDetail,
   updateAttendanceList,
+  deleteAttendance,
 } from '@/apis';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import AttendeeSearch from './AttendeeSearch';
 import UpdateAttendeeModal from './UpdateAttendeeModal';
+import LogAnalyzeButton from './LogAnalyzeButton';
 
 export default function DashboardAttendeePage() {
   const [eventTitle, setEventTitle] = useState('');
   const [eventTarget, setEventTarget] = useState('INTERNAL');
+  const [eventType, setEventType] = useState('OFFLINE');
   const [activeTab, setActiveTab] = useState(1);
   const [editMode, setEditMode] = useState(false);
   const [deleteMode, setDeleteMode] = useState(false);
@@ -31,6 +34,7 @@ export default function DashboardAttendeePage() {
   const [filteredAttendees, setFilteredAttendees] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [sessions, setSessions] = useState([]);
+  const [activeEventScheduleId, setActiveEventScheduleId] = useState();
   const [sortConfig, setSortConfig] = useState({
     key: 'name',
     direction: 'asc',
@@ -61,6 +65,7 @@ export default function DashboardAttendeePage() {
     data: attendanceList,
     isPending: isAttendanceListPending,
     isError: isAttendanceListError,
+    refetch: refetchAttendanceList,
   } = useQuery({
     queryKey: ['getAttendanceList', eventId],
     queryFn: () => getAttendanceList(eventId),
@@ -81,8 +86,23 @@ export default function DashboardAttendeePage() {
     },
   });
 
+  const { mutate: deleteAttendanceMutate } = useMutation({
+    mutationKey: ['deleteAttendance', eventId, activeEventScheduleId],
+    mutationFn: (attendeeIdList) =>
+      deleteAttendance(eventId, activeEventScheduleId, attendeeIdList),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['getAttendanceList', eventId]);
+      alert('선택된 참석자들이 삭제되었습니다.');
+    },
+  });
+
   const handleModalToggle = () => {
     setIsModalOpen((prev) => !prev);
+  };
+
+  const handleUpdateAttendeeModalSuccess = () => {
+    queryClient.invalidateQueries(['getAttendanceList', eventId]);
+    setIsModalOpen(false);
   };
 
   const handleInputChange = (e) => {
@@ -134,7 +154,11 @@ export default function DashboardAttendeePage() {
     if (deleteMode) {
       const isConfirmed = window.confirm('선택한 참석자들을 삭제하시겠습니까?');
       if (isConfirmed) {
-        alert('선택된 참석자들이 삭제되었습니다.');
+        deleteAttendanceMutate(
+          selectedAttendees.map((id) => ({
+            attendeeId: id,
+          })),
+        );
       }
     }
 
@@ -165,10 +189,12 @@ export default function DashboardAttendeePage() {
 
     setEventTitle(eventDetail.eventTitle);
     setEventTarget(eventDetail.eventTarget);
+    setEventType(eventDetail.eventType);
 
     const parsedSessions = eventDetail.eventSchedules.map((schedule, index) => {
       const attendanceList = schedule.attendanceListResponseDtos || [];
       return {
+        eventScheduleId: schedule.eventScheduleId,
         tab: index + 1,
         date: `${schedule.eventDate.substring(5, 7)}/${schedule.eventDate.substring(8, 10)}`,
         attendanceList: attendanceList.sort((a, b) =>
@@ -195,6 +221,7 @@ export default function DashboardAttendeePage() {
       }));
     });
 
+    setActiveEventScheduleId(eventDetail.eventSchedules[0].eventScheduleId);
     setSessionAttendees(attendeesData);
 
     if (parsedSessions.length > 0) {
@@ -209,11 +236,12 @@ export default function DashboardAttendeePage() {
   }, [eventDetail]);
 
   useEffect(() => {
-    if (attendanceList) {
+    if (attendanceList && eventDetail) {
       const parsedSessions = attendanceList.map((session, index) => {
         const attendanceListResponseDtos =
           session.attendanceListResponseDtos || [];
         return {
+          eventScheduleId: eventDetail.eventSchedules[index].eventScheduleId,
           tab: index + 1,
           date: `${session.eventDate.substring(5, 7)}/${session.eventDate.substring(8, 10)}`,
           attendanceList: attendanceListResponseDtos.sort((a, b) =>
@@ -293,15 +321,19 @@ export default function DashboardAttendeePage() {
 
   const handleEditModeToggle = async () => {
     if (editMode) {
-      updateAttendanceListMutate({
-        attendanceList: attendees.map(({ id, attendance }) => ({
-          studentInfoId: id,
+      updateAttendanceListMutate(
+        attendees.map(({ id, attendance }) => ({
+          attendeeId: id,
           attendance: attendance,
         })),
-      });
+      );
     }
 
     setEditMode((prevEditMode) => !prevEditMode);
+  };
+
+  const handleAttendeeTableSelectedAttendeesChange = (selectedAttendees) => {
+    setSelectedAttendees(selectedAttendees);
   };
 
   //  출석 명단 메일로 전송
@@ -372,6 +404,9 @@ export default function DashboardAttendeePage() {
             <S.TopContainer>
               <S.Title>참석자 관리</S.Title>
               <S.ButtonContainer>
+                {eventType == 'ONLINE' && (
+                  <LogAnalyzeButton eventScheduleId={activeEventScheduleId} />
+                )}
                 <SlimButton
                   onClick={handleSendEmailButtonClick}
                   label={
@@ -405,6 +440,7 @@ export default function DashboardAttendeePage() {
                       ].sort((a, b) => a.name.localeCompare(b.name));
                       setAttendees(sortedAttendees);
                       setFilteredAttendees(sortedAttendees);
+                      setActiveEventScheduleId(session.eventScheduleId);
                     }}
                   />
                 ))}
@@ -415,7 +451,7 @@ export default function DashboardAttendeePage() {
                   active={deleteMode}
                   onClick={handleDeleteModeToggle}
                 >
-                  {deleteMode ? '저장하기' : '참석자 삭제'}
+                  {deleteMode ? '삭제하기' : '참석자 삭제'}
                 </S.EditMode>
                 <S.EditMode onClick={handleModalToggle}>참석자 추가</S.EditMode>
                 <S.EditMode
@@ -424,7 +460,7 @@ export default function DashboardAttendeePage() {
                   active={editMode}
                   onClick={handleEditModeToggle}
                 >
-                  {editMode ? '저장하기' : '출석 여부 수정'}
+                  {editMode ? '수정하기' : '출석 여부 수정'}
                 </S.EditMode>
               </S.ButtonGroup>
             </S.TabEditWrapper>
@@ -447,6 +483,8 @@ export default function DashboardAttendeePage() {
             </S.SearchRateContainer>
 
             <AttendeeTable
+              eventId={eventId}
+              eventScheduleId={activeEventScheduleId}
               attendees={filteredAttendees}
               editMode={editMode}
               deleteMode={deleteMode}
@@ -455,20 +493,23 @@ export default function DashboardAttendeePage() {
               handleSelectAttendee={handleSelectAttendee}
               sortConfig={sortConfig}
               showStudentInfo={eventTarget === 'INTERNAL'}
+              onSelectedAttendeesChange={
+                handleAttendeeTableSelectedAttendeesChange
+              }
             />
           </>
         )}
       </S.DashboardAttendee>
 
-      {/* 참석자 추가/삭제 모달 */}
+      {/* 참석자 추가 모달 */}
       {isModalOpen && (
         <UpdateAttendeeModal
           isOpen={isModalOpen}
-          onClose={handleModalToggle}
-          onAdd={handleAddAttendee}
-          newAttendee={newAttendee}
-          onInputChange={handleInputChange}
+          eventId={eventId}
+          eventScheduleId={activeEventScheduleId}
           eventTarget={eventTarget}
+          onSuccess={handleUpdateAttendeeModalSuccess}
+          onClose={handleModalToggle}
         />
       )}
     </PageLayout>

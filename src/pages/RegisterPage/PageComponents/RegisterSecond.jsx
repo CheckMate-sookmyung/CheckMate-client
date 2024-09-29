@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 import { FaPaperclip } from 'react-icons/fa6';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
@@ -47,6 +47,7 @@ const RegisterSecond = () => {
     useRecoilState(minCompletionTimes);
   const [eventSchedules, setEventSchedules] = useRecoilState(eventScheduleList);
   const [attendanceTimeForOnline, setAttendanceTimeForOnline] = useState(0);
+  const [url, setUrl] = useState('');
 
   const navigate = useNavigate();
   const resetAllStates = useResetAllStates();
@@ -72,14 +73,17 @@ const RegisterSecond = () => {
     setAttendanceTimeForOnline(value);
   };
 
+  useEffect(() => {
+    const newUrl =
+      eventTarget === 'INTERNAL'
+        ? 'https://checkmate-service-bucket.s3.ap-northeast-2.amazonaws.com/template+(student).xlsx'
+        : 'https://checkmate-service-bucket.s3.ap-northeast-2.amazonaws.com/template+(%EC%99%B8%EB%B6%80%EC%9A%A9)+.xlsx';
+    setUrl(newUrl);
+  }, [eventTarget]);
+
   const handleDownload = async (e) => {
     e.preventDefault();
     try {
-      const url =
-        eventTarget === 'INTERNAL'
-          ? 'https://checkmate-service-bucket.s3.ap-northeast-2.amazonaws.com/template+(student).xlsx'
-          : 'https://checkmate-service-bucket.s3.ap-northeast-2.amazonaws.com/template+(%EC%99%B8%EB%B6%80%EC%9A%A9)+.xlsx';
-
       const response = await fetch(url);
 
       if (!response.ok) throw new Error('네트워크 응답에 문제가 있습니다.');
